@@ -1,0 +1,80 @@
+#loginback {
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background: linear-gradient(130deg, #ad6eca, #3b91d8); */
+    /*background-image: url('../../img/login.jpg');*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    transition: filter 500ms, background-color 500ms, opacity 1500ms ease-in-out;
+    position: absolute;
+    opacity: 0;
+    z-index: 101;
+}
+
+#login {
+    cursor: pointer;
+    padding: 4px 50px 4px 50px;
+    border: 2px solid #aaa;
+    background-color: #eeeeee80;
+    backdrop-filter: blur(10px) brightness(2);
+    color: #121212;
+    transition: background-color 300ms, transform cubic-bezier(0.14, 1.02, 0.17, 0.03) 300ms;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+#login:hover {
+    background-color: #fafafa50;
+}
+
+#login:active {
+    transform: scale(0.9);
+}
+
+#login-after {
+    color: #fefefe;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin: 6px 0px 6px 0px;
+}
+
+#loginback>div.user {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    background-image: url("../img/user.svg");
+    background-size: 65% 65%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+    background-color: #ddd;
+    transition: filter 500ms;
+    margin-top: -35px;
+}
+
+#loginback>div.name {
+    color: #fefefe;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 15px;
+    transition: color 500ms;
+}
+
+#loginback.close,
+#loginback.close>div.user {
+    filter: brightness(0);
+}
+
+#loginback.close>div.name,
+#loginback.close #login-after {
+    color: #000 !important;
+}
+
+#loginback.close {
+    background-color: black;
+}

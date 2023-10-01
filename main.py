@@ -305,6 +305,17 @@ async def upload_image(query: Request, hh: dict = Depends(auth)):
     return result
 
 
+@router.get("/md/html/{file_id}", summary="md 导出成 html")
+async def md2html(file_id: str, hh: dict = Depends(auth)):
+    try:
+        result = await views.md_to_html(file_id, hh)
+        headers = {'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        return StreamResponse(result['data'], media_type='text/html', headers=headers)
+    except:
+        logger.error(traceback.format_exc())
+        return Result(code=1, msg="HTML生成失败，请重试")
+
+
 app.include_router(router)
 if __name__ == "__main__":
     import uvicorn

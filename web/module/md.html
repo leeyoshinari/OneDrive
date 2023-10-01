@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>MyCloud</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <link rel="stylesheet" href="editor.md/css/style.css" />
+    <link rel="stylesheet" href="editor.md/css/editormd.css" />
+    <script src="../js/jq.min.js"></script>
+    <div id="layout">
+        <input type="text" id="file_id" name="" value="0" style="display:none;"/>
+        <div id="editormd" style="overflow-y: scroll;"><textarea style="display:none;"></textarea></div>
+    </div>
+</body>
+<script src="editor.md/js/editormd.js"></script>
+<script type="text/javascript">
+    let params = window.location.href.split('&');
+    let servers = params[0].split('=')[1];
+    let file_id = params[1].split('=')[1];
+    $.ajax({
+        type: "GET",
+        url: servers + '/content/get/' + file_id,
+        success: function (data) {
+            if (data['code'] === 0) {
+                window.parent.document.querySelectorAll('.window.markdown>.titbar>p')[0].innerText = data['msg'];
+                $('#layout>#editormd>textarea')[0].value = data['data'];
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    });
+    let testEditor = editormd("editormd", {
+        width  : "100%",
+        height : "80%",
+        path   : '../module/editor.md/lib/',
+        toolbar_autofixed: true,
+        codeFold: true,
+        overflow: 'scroll',
+        searchReplace: true,
+        emoji: true,
+        sequenceDiagram: true,
+        taskList: true,
+        tocm: true,
+        // tex: true,
+        flowChart: true,
+        htmlDecode: "style,script,iframe",
+        saveHTMLToTextarea: true,
+        imageUpload: true,
+        imageFormats: ["jpg", "jpeg", "png", "bmp", "gif"],
+    });
+    document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
+    $('#file_id')[0].value = $('#layout>#editormd>textarea')[0].innerText.length;
+</script>
+</html>

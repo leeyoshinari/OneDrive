@@ -1,14 +1,13 @@
-// const server = '123';
-const default_icon = 'img/files/none.ico';
+const default_icon = 'img/files/none.png';
 const icons = {
-    'jpg': 'img/files/picture.png',
+    'jpg': 'img/files/picture.png', 'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png',
-    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.ico',
+    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png',
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
-    'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png',
-    'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.svg',
-    'py': 'img/python.svg'
+    'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
+    'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
+    'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png'
 };
 
 document.querySelectorAll(`list.focs`).forEach(li => {
@@ -84,13 +83,6 @@ let cms = {
     'desktop.icon': [
         function (arg) {
             return ['<i class="bi bi-folder2-open"></i> 打开', 'openapp(`' + arg[0] + '`)']
-        },
-        function (arg) {
-            if (arg[1] >= 0) {
-                return ['<i class="bi bi-trash3"></i> 删除', 'desktopItem.splice(' + (arg[1] - 1) + ', 1);saveDesktop();addMenu();'];
-            } else {
-                return 'null';
-            }
         }
     ],
     'explorer.folder': [
@@ -579,7 +571,6 @@ let apps = {
                             <span style="width: 10%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
                             <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}');">查看分享链接</a></span></div></div>`;
                             })
-                            // <a class="a item act file" id="share${item['id']}" onclick="apps.explorer.open_share('${item['id']}');" ondblclick="" ontouchend="">
                             $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = ht;
                         }
                     } else {
@@ -595,6 +586,9 @@ let apps = {
             switch (format) {
                 case 'txt':
                     edit_text_file(file_id);
+                    break;
+                case 'md':
+                    open_md(file_id);
                     break;
                 default:
                     apps.explorer.download(file_id);
@@ -893,6 +887,11 @@ let apps = {
             }, 200);
         }
     },
+    markdown: {
+        init: () => {
+            return null;
+        }
+    },
     pythonEditor: {
         editor: null,
         init: () => {
@@ -1146,18 +1145,11 @@ function maxwin(name, trigger = true) {
         $('.window.' + name).removeClass('right');
         $('.window.' + name).removeClass('max');
         $('.window.' + name + '>.titbar>div>.wbtg.max').html('<i class="bi bi-app"></i>');
-        if (trigger) {
-            setTimeout(() => { $('.window.' + name).addClass('notrans'); }, 20);
-        }
-        else if (!trigger) {
-            $('.window.' + name).addClass('notrans');
-        }
+        $('.window.' + name).addClass('notrans');
         if ($('.window.' + name).attr('data-pos-x') !== 'null' && $('.window.' + name).attr('data-pos-y') !== 'null') {
-            // $('.window.' + name).attr(`style`, `left:${$('.window.' + name).attr('data-pos-x')};top:${$('.window.' + name).attr('data-pos-y')}`);
             $('.window.' + name).css('left', `${$('.window.' + name).attr('data-pos-x')}`);
             $('.window.' + name).css('top', `${$('.window.' + name).attr('data-pos-y')}`);
         }
-        // }
     } else {
         if (trigger) {
             $('.window.' + name).attr('data-pos-x', `${$('.window.' + name).css('left')}`);
@@ -1183,14 +1175,12 @@ function minwin(name) {
     if ($('.window.' + name).hasClass('min')) {
         $('.window.' + name).addClass('show-begin');
         focwin(name);
-        setTimeout(() => {
-            $('#taskbar>.' + name).removeClass('min');
-            $('.window.' + name).removeClass('min');
-            if ($('.window.' + name).hasClass('min-max')) {
-                $('.window.' + name).addClass('max');
-            }
-            $('.window.' + name).removeClass('min-max');
-        }, 0);
+        $('#taskbar>.' + name).removeClass('min');
+        $('.window.' + name).removeClass('min');
+        if ($('.window.' + name).hasClass('min-max')) {
+            $('.window.' + name).addClass('max');
+        }
+        $('.window.' + name).removeClass('min-max');
         setTimeout(() => {
             if (!$('.window.' + name).hasClass('max')) {
                 $('.window.' + name).addClass('notrans');
@@ -1420,19 +1410,9 @@ if (isDarkTheme.matches) { //是深色
     $('.dock.theme').toggleClass('dk');
     $(':root').toggleClass('dark');
     $('.window.whiteboard>.titbar>p').text('Blackboard');
-    localStorage.setItem('theme', 'dark');
 } else { // 不是深色
     $('.window.whiteboard>.titbar>p').text('Whiteboard');
-    localStorage.setItem('theme', 'light');
 }
-let desktopItem = [];
-function saveDesktop() {
-    localStorage.setItem('desktop', /*$('#desktop')[0].innerHTML*/JSON.stringify(desktopItem));
-    localStorage.setItem('topmost', JSON.stringify(topmost));
-    localStorage.setItem('sys_setting', JSON.stringify(sys_setting));
-    localStorage.setItem('root_class', $(':root').attr('class'));
-}
-
 // 拖拽窗口
 const page = document.getElementsByTagName('html')[0];
 const titbars = document.querySelectorAll('.window>.titbar');
@@ -1609,12 +1589,6 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
     setTimeout(() => {
         $('#loadback').css('display', 'none');
     }, 100);
-    //getdata
-    if (localStorage.getItem('theme') === 'dark') $(':root').addClass('dark');
-    if (localStorage.getItem('color1')) {
-        $(':root').css('--theme-1', localStorage.getItem('color1'));
-        $(':root').css('--theme-2', localStorage.getItem('color2'));
-    }
     document.querySelectorAll('.window').forEach(w => {
         let qw = $(w), wc = w.classList[1];
         // window: onmousedown="focwin('explorer')" ontouchstart="focwin('explorer')"
@@ -2104,6 +2078,7 @@ function modify_pwd() {
 }
 
 let txt_interval = null;
+let md_interval = null;
 function edit_text_file(file_id) {
     $.ajax({
         type: 'GET',
@@ -2113,14 +2088,15 @@ function edit_text_file(file_id) {
                 openapp('notepad');
                 $('.window.notepad>.titbar>p')[0].innerText = data['msg'];
                 $('#win-notepad>.text-box')[0].innerText = data['data'];
-                $('#win-notepad>.text-box')[0].id = file_id;
                 $('#win-notepad>a')[0].download = data['msg'].replace('txt', 'html');
-                let text_length = data['data'].length;
+                $('.window.notepad>.titbar>div>.wbtg.red').attr("onclick", `close_text_editor('${file_id}');hidewin('notepad');`);
+                $('#notepad-length')[0].value = data['data'].length;
                 txt_interval = window.setInterval(() => {
                     let text_data = $('#win-notepad>.text-box')[0].innerText;
-                    if (text_data.length !== text_length) {
+                    let text_length = $('#notepad-length')[0].value;
+                    if (text_data.length !== parseInt(text_length)) {
                         save_text_file(file_id, text_data);
-                        text_length = text_data.length;
+                        $('#notepad-length')[0].value = text_data.length;
                     }
                 }, 10000);
             } else {
@@ -2130,16 +2106,20 @@ function edit_text_file(file_id) {
     })
 }
 
-function close_text_editor() {
+function close_text_editor(file_id) {
     clearInterval(txt_interval);
-    save_text_file($('#win-notepad>.text-box')[0].id, $('#win-notepad>.text-box')[0].innerText);
+    let text_data = $('#win-notepad>.text-box')[0].innerText;
+    let text_length = $('#notepad-length')[0].value;
+    if (text_data.length !== parseInt(text_length)) {
+        save_text_file(file_id, text_data);
+    }
     $('#win-notepad>.text-box')[0].innerText='';
 }
 
 function save_text_file(file_id, data) {
     let post_data = {
         id: file_id,
-        data: data
+        data: btoa(encodeURIComponent(data))
     }
     $.ajax({
         type: 'POST',
@@ -2152,4 +2132,38 @@ function save_text_file(file_id, data) {
             }
         }
     })
+}
+
+let resizeMD = new ResizeObserver(event => {
+    document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").style.height = event[0].contentRect.height - 17 + 'px';
+})
+function open_md(file_id) {
+    openapp('markdown');
+    document.getElementsByClassName("markdown")[0].style.display = 'block';
+    // document.getElementById("iframe_id").style.height = $('.markdown')[0].clientHeight - $('.markdown>.titbar')[0].clientHeight + 'px';
+    document.getElementById("iframe_id").src = 'module/md.html?server=' + server + '&id=' + file_id;
+    $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `close_md_editor('${file_id}');hidewin('markdown');`);
+    md_interval = window.setInterval(() => {
+        let text_data = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+        let text_length = document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value;
+        if (text_data.length !== parseInt(text_length)) {
+            save_text_file(file_id, text_data);
+            document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value = text_data.length;
+        }
+    }, 10000);
+    setTimeout(() => {
+        resizeMD.observe(document.getElementById("iframe_id"));
+    }, 2000);
+}
+
+function close_md_editor(file_id) {
+    clearInterval(md_interval);
+    resizeMD.disconnect();
+    let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+    let content_len = document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value;
+    if (parseInt(content_len) !== content.length) {
+        save_text_file(file_id, content);
+    }
+    document.getElementById("iframe_id").src = 'about:blank';
+    document.getElementsByClassName("markdown")[0].style.display = 'none';
 }

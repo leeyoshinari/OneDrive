@@ -170,7 +170,7 @@ class DownloadFile(BaseModel):
 
 
 # 文件保存模型
-class saveFile(BaseModel):
+class SaveFile(BaseModel):
     id: str
     data: str
 

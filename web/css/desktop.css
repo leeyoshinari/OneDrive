@@ -14,7 +14,7 @@
     --hover-b: #1111110f;
     --bggrey: #ddd;
     --fill: #d3d3d370;
-    --bgul: url('bg.svg');
+    /*--bgul: url('bg.svg');*/
     --mm: #ffffffc0;
     --cm: #fafafabb;
     --bar: #efefef37;
@@ -42,7 +42,7 @@
     --hover-b: #eeeeee0f;
     --bggrey: #444;
     --fill: #54545470;
-    --bgul: url('bg-dark.svg');
+    /*--bgul: url('bg-dark.svg');*/
     --mm: #ffffff50;
     --cm: #252525bb;
     --bar: #7272722a;
@@ -353,7 +353,7 @@ list:not(.new)>a:active,
 
 .dock.date {
     width: 100px;
-    padding: 0px 5px;
+    padding: 0 5px;
     display: block;
     text-align: center;
     overflow: hidden;
@@ -555,41 +555,6 @@ list:not(.new)>a:active,
 	left: 37%;
 	width: 26%;
 	height: 20px;
-}
-
-.tj-obj {
-    width: 50%;
-    height: 55px;
-    border-radius: 10px;
-    transition: 80ms;
-    padding: 0 3px;
-    display: flex;
-    padding: 10px 3px 10px 10px;
-    overflow: hidden;
-}
-
-.tj-obj>img {
-    height: 35px;
-    width: 35px;
-    transition: 200ms;
-}
-
-.tj-obj>div>*:first-child {
-    margin: 3px 0 2px 5px;
-    font-size: 15px;
-    line-height: 13px;
-    white-space: nowrap;
-}
-
-.tj-obj>div>*:last-child {
-    font-size: 10px;
-    line-height: 13px;
-    margin-left: 6px;
-    color: #7f7f7f;
-}
-
-.tj-obj:hover {
-    background-color: var(--hover);
 }
 
 #datebox {
@@ -1168,7 +1133,7 @@ list>span.focs.cl {
     top: calc(95%) !important;
     left: 15% !important;
     transform: scale(0.3) !important;
-    transition: cubic-bezier(0.9, 0, 0.1, 1) 200ms, top 200ms 100ms, backdrop-filter background-color 0s;
+    transition: cubic-bezier(0.9, 0, 0.1, 1) 200ms, top 200ms 100ms, backdrop-filter;/* background-color 0s;*/
 }
 
 .window.show-begin {
@@ -1178,7 +1143,7 @@ list>span.focs.cl {
 
 .window.show {
     transform: none;
-    height: 80%;
+    height: 70%;
     width: 70%;
     opacity: 1;
     display: flex;
@@ -1355,3 +1320,33 @@ list>span.focs.cl {
     text-shadow: 0 0 5px #fff, 0 0 5px #fff;
 }
 
+.markdown {
+	display: none;
+	/*border:2px solid #000;*/
+	/*margin-top: 3%;*/
+	/*margin-left: 5%;*/
+	/*width: 90%;*/
+	/*max-height: 88%;*/
+    opacity: 1;
+	background-color: white;
+	position: relative;
+	/*z-index: 999;*/
+}
+#iframe_id {
+	border: none;
+	height: 100%;
+	width: 100%;
+}
+.iframe_div #close_iframe {
+	margin-right: 1%;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.iframe_div #close_iframe:hover,
+.iframe_div #close_iframe:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

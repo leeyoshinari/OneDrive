@@ -189,7 +189,7 @@
 							<a class="check" onclick="apps.explorer.reset();"><span style="background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/thispc.svg">此电脑</a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/rb.ico">回收站</a>
+								<img src="img/explorer/rb.png">回收站</a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/share.png">我的分享</a>
 							<a onclick="openapp('calc');"><img src="img/calc.svg">计算器</a>
@@ -203,18 +203,18 @@
 				<div class="main">
 					<div class="tool micaalt">
 						<a class="a b act asd" title="新建文本文件"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file');"><img src="img/explorer/new_file.ico"></a>
+							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file');"><img src="img/explorer/new_file.png"></a>
 						<a class="a b act asd" title="新建文件夹"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.ico"></a>
-						<a class="a b act asd" title="重命名" onclick="rename_selected();"><img src="img/explorer/rename.ico"></a>
-						<a class="a b act asd" title="移动文件/文件夹" onclick="move_files();"><img src="img/explorer/move.ico"></a>
+							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png"></a>
+						<a class="a b act asd" title="重命名" onclick="rename_selected();"><img src="img/explorer/rename.png"></a>
+						<a class="a b act asd" title="移动文件/文件夹" onclick="move_files();"><img src="img/explorer/move.png"></a>
 						<a class="a b act asd" title="上传本地文件" onclick="upload_file();"><img src="img/explorer/upload.png"></a>
-						<a class="a b act asd" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();"><img src="img/explorer/export.ico"></a>
-						<a class="a b act asd" title="分享文件" onclick="shownotice('share');"><img src="img/explorer/share.ico"></a>
-						<a class="a b act dsa" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;"><img src="img/explorer/recovery.ico"></a>
-						<a class="a b act asd" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);"><img src="img/explorer/delete.ico"></a>
-						<a class="a b act dsa" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;"><img src="img/explorer/delete.ico"></a>
-						<a class="a b act dsa" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;"><img src="img/explorer/clear_rb.ico"></a>
+						<a class="a b act asd" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();"><img src="img/explorer/export.png"></a>
+						<a class="a b act asd" title="分享文件" onclick="shownotice('share');"><img src="img/explorer/share_file.png"></a>
+						<a class="a b act dsa" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;"><img src="img/explorer/recovery.png"></a>
+						<a class="a b act asd" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);"><img src="img/explorer/delete.png"></a>
+						<a class="a b act dsa" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;"><img src="img/explorer/delete.png"></a>
+						<a class="a b act dsa" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;"><img src="img/explorer/clear_rb.png"></a>
 					</div>
 					<div class="content" onclick="" oncontextmenu="return showcm(event,'explorer.content',null);">
 						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;">
@@ -314,8 +314,9 @@
 		<div class="titbar">
 			<img src="img/notepad.svg" class="icon">
 			<p>记事本</p>
+			<input type="text" id="notepad-length" value="" name="" style="display: none;">
 			<div>
-				<a class="a wbtg red" onclick="close_text_editor();hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg red" onclick="hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('notepad')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('notepad')"><i class="bi bi-dash-lg"></i></a>
 			</div>
@@ -447,15 +448,24 @@
 			</div>
 		</div>
 	</div>
+	<div class="window markdown">
+		<div class="resize-bar"></div>
+		<div class="titbar">
+			<img src="img/markdown.svg" class="icon"><p></p>
+			<div>
+				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('markdown');"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/markdown.svg" class="icon"></div>
+		<div class="content"><iframe id="iframe_id" src=""></iframe></div>
+	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
 	<script src="js/calculator_kernel.js" async></script>
 	<script src="js/big.min.js" async></script>
 	<script src="module/python/pyodide.js" async></script>
-<!--	<script src="https://cdn.staticfile.org/ace/1.23.0/ace.min.js"></script>-->
-<!--	<script src="https://cdn.staticfile.org/ace/1.23.0/ext-language_tools.min.js"></script>-->
-<!--	<script src="https://cdn.staticfile.org/ace/1.23.0/ext-error_marker.min.js"></script>-->
-<!--	<script src='https://cdns.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js'></script>-->
 </body>
 </html>

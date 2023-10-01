@@ -87,7 +87,7 @@ async def create_user(query: models.CreateUser):
                     os.mkdir(user_path)
         logger.info(Msg.MsgCreateUserSuccess.format(user.username))
         result.msg = Msg.MsgCreateUserSuccess.format(user.username)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgCreateUserFailure.format(query.username)
@@ -107,7 +107,7 @@ async def modify_pwd(query: models.CreateUser, hh: dict = Depends(auth)):
         await user.save()
         logger.info(f"{Msg.MsgModifyPwdSuccess.format(user.username)}, IP: {hh['ip']}")
         result.msg = Msg.MsgModifyPwdSuccess.format(user.username)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgModifyPwdFailure.format(query.username)
@@ -142,7 +142,7 @@ async def login(query: models.UserBase, response: Response):
             logger.error(f'{Msg.MsgLoginFailure}')
             result.code = 1
             result.msg = Msg.MsgLoginFailure
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgLoginFailure
@@ -168,21 +168,21 @@ async def get_disk_usage(hh: dict = Depends(auth)):
         result.data = data
         result.total = len(result.data)
         logger.info(f"查询磁盘信息成功, 用户: {hh['u']}, IP: {hh['ip']}")
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = "查询磁盘信息失败"
     return result
 
 
-@router.get('/folder/get/{id}', summary="查询当前目录下所有的文件夹")
-async def get_folder_name(id: str, hh: dict = Depends(auth)):
-    result = await views.get_folders_by_id(id, hh)
+@router.get('/folder/get/{file_id}', summary="查询当前目录下所有的文件夹")
+async def get_folder_name(file_id: str, hh: dict = Depends(auth)):
+    result = await views.get_folders_by_id(file_id, hh)
     return result
 
 
-@router.get("/file/get/{id}", summary="查询当前目录下所有文件夹和文件")
-async def query_files(id: str, q: str = "", sort_field: str = 'update_time', sort_type: str = 'desc',
+@router.get("/file/get/{file_id}", summary="查询当前目录下所有文件夹和文件")
+async def query_files(file_id: str, q: str = "", sort_field: str = 'update_time', sort_type: str = 'desc',
                       page: int = 1, page_size: int = 20, hh: dict = Depends(auth)):
     query = models.SearchItems()
     query.q = q
@@ -190,7 +190,7 @@ async def query_files(id: str, q: str = "", sort_field: str = 'update_time', sor
     query.sort_type = sort_type
     query.page = page
     query.page_size = page_size
-    result = await views.get_all_files(id, query, hh)
+    result = await views.get_all_files(file_id, query, hh)
     return result
 
 
@@ -212,25 +212,25 @@ async def rename_file(query: models.FilesBase, hh: dict = Depends(auth)):
     return result
 
 
-@router.get("/content/get/{id}", summary="获取文本文件的内容")
-async def get_file(id: str, hh: dict = Depends(auth)):
-    result = await views.get_file_by_id(id, hh)
+@router.get("/content/get/{file_id}", summary="获取文本文件的内容")
+async def get_file(file_id: str, hh: dict = Depends(auth)):
+    result = await views.get_file_by_id(file_id, hh)
     return result
 
 
 @router.post("/file/save", summary="保存txt文件")
-async def save_file(query: models.saveFile, hh: dict = Depends(auth)):
+async def save_file(query: models.SaveFile, hh: dict = Depends(auth)):
     result = await views.save_txt_file(query, hh)
     return result
 
 
-@router.get("/file/download/{id}", summary="下载文件")
-async def download_file(id: str, hh: dict = Depends(auth)):
+@router.get("/file/download/{file_id}", summary="下载文件")
+async def download_file(file_id: str, hh: dict = Depends(auth)):
     try:
-        result = await views.download_file(id, hh)
+        result = await views.download_file(file_id, hh)
         headers = {'Content-Disposition': f'inline;filename="{result["name"]}"'}
         return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg="文件下载失败，请重试")
 
@@ -243,7 +243,7 @@ async def zip_file(query: models.DownloadFile, hh: dict = Depends(auth)):
         if query.file_type == 'folder' and len(query.ids) > 1:
             return Result(code=1, msg="暂时只支持一个文件夹导出")
         return await views.zip_file(query, hh)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg="文件导出失败，请重试")
 
@@ -260,17 +260,17 @@ async def get_share_list(hh: dict = Depends(auth)):
     return result
 
 
-@router.get("/share/get/{id}", summary="打开文件分享链接")
-async def get_share_file(id: int, request: Request):
+@router.get("/share/get/{file_id}", summary="打开文件分享链接")
+async def get_share_file(file_id: int, request: Request):
     try:
         hh = {'ip': request.headers.get('x-real-ip', '')}
-        result = await views.open_share_file(id, hh)
+        result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
             headers = {'Content-Disposition': f'inline;filename="{result["name"]}"', 'Cache-Control': 'no-store'}
             return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
         else:
             return HTMLResponse(status_code=404, content=settings.HTML404)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         return HTMLResponse(content=settings.HTML404)
 

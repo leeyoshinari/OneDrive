@@ -5,12 +5,12 @@
 import os
 import time
 import json
-# import base64
+import base64
 import shutil
 import zipfile
 import traceback
 from typing import Any
-# from io import BytesIO
+from urllib.parse import unquote
 from tortoise import transactions
 from tortoise.expressions import Q
 from tortoise.exceptions import DoesNotExist
@@ -516,13 +516,13 @@ async def upload_image(query, hh: dict) -> Result:
     return result
 
 
-async def save_txt_file(query: models.saveFile, hh: dict) -> Result:
+async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
     result = Result()
     try:
         file = await models.Files.get(id=query.id).select_related('parent')
         folder_path = await file.parent.get_all_path()
         with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
-            f.write(query.data)
+            f.write(unquote(base64.b64decode(query.data).decode('utf-8')))
         file.size = os.path.getsize(os.path.join(folder_path, file.name))
         await file.save()
         result.msg = Msg.MsgSaveSuccess
@@ -532,58 +532,3 @@ async def save_txt_file(query: models.saveFile, hh: dict) -> Result:
         result.code = 1
         result.msg = Msg.MsgSaveFailure
     return result
-
-
-"""
-def md_view(request):
-    if request.method == 'GET':
-        try:
-            file_id = request.GET.get('id')
-            file = Files.objects.get(id=file_id)
-            path = file.path.split('/')
-            res = storage.download_bytes(path[0], path[-1])
-            logger.info(f'Get md file success, file id is {file_id}')
-            return render(request, 'editorMD.html', context={'content': res.data.decode(), 'name': file.name, 'file_id': file_id})
-        except Exception as err:
-            logger.error(f'Get md file failure: {err}')
-            logger.error(traceback.format_exc())
-            return render(request, '404.html')
-
-
-def get_md_file_id(request):
-    if request.method == 'GET':
-        try:
-            file_id = request.GET.get('id')
-            file = Files.objects.get(id=file_id)
-            path = file.path.split('/')
-            data = storage.download_bytes(path[0], path[-1])
-            logger.error(f'Get md file success, file id is {file_id}, {Msg.MsgGetFileSuccess}')
-            return result(msg=Msg.MsgGetFileSuccess, data={'data': data.data.decode(), 'name': file.name})
-        except Exception as err:
-            logger.error(f'Get file failure: {err}')
-            logger.error(traceback.format_exc())
-            return result(code=1, msg=Msg.MsgGetFileFailure)
-
-def edit_md(request):
-    if request.method == 'POST':
-        try:
-            file_id = request.POST.get('file_id')
-            content = request.POST.get('base64')
-            file = Files.objects.get(id=file_id)
-            path = file.path.split('/')
-            data = base64.b64decode(content)
-            res = storage.upload_file_bytes(path[0], path[-1], BytesIO(data), len(data))
-            if res:
-                file.md5 = res.etag
-                file.size = len(data)
-                file.update_time = time.strftime('%Y-%m-%d %H:%M:%S')
-                file.save()
-                logger.info(f'Save md file success, {Msg.MsgSaveSuccess}')
-                return result(msg=Msg.MsgSaveSuccess)
-            else:
-                logger.error(f'Save md file failure, {Msg.MsgSaveFailure}')
-                return result(code=1, msg=Msg.MsgSaveFailure)
-        except Exception as err:
-            logger.error(f'Edit md file failure: {err}')
-            logger.error(traceback.format_exc())
-            return result(code=1, msg=Msg.MsgSaveFailure)"""

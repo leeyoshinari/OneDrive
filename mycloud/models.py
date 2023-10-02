@@ -60,7 +60,7 @@ class Files(Model):
 
 # 文件分享数据库模型
 class Shares(Model):
-    id = fields.IntField(pk=True, description='主键')
+    id = fields.IntField(pk=True, generated=True, description='主键')
     file_id = fields.CharField(max_length=16, description='文件ID')
     name = fields.CharField(max_length=50, description='文件名')
     path = fields.CharField(max_length=256, description='文件路径')

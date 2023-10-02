@@ -7,12 +7,20 @@ function get_status() {
         url: server + '/status',
         success: function (data) {
             if (data['code'] === 0) {
+                $('#loginback').css('opacity', '0');
+                $('#loginback').css('display', 'none');
                 document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/back.jpg")';
             } else {
                 $('#loginback').css('opacity', '1');
                 $('#loginback').css('display', 'flex');
 				document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
             }
+        },
+        error: function (xhr, status, msg) {
+            console.error(msg);
+            $('#loginback').css('opacity', '1');
+            $('#loginback').css('display', 'flex');
+            document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
         }
     })
 }

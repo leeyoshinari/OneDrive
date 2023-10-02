@@ -55,26 +55,26 @@ async def get_status(request: Request):
     return Result()
 
 
-@router.post("/user/create", summary="创建用户")
-async def create_user(query: models.CreateUser):
+@router.get("/user/test/createUser", summary="创建用户")
+async def create_user(username: str, password: str, password1: str):
     result = Result()
     try:
-        if not query.username.isalnum():
+        if not username.isalnum():
             result.code = 1
             result.msg = '用户名只能包含英文字母和数字'
             return result
-        if query.password != query.password1:
+        if password != password1:
             result.code = 1
             result.msg = "两个密码不一样，请重复输入"
             return result
-        user = await models.User.filter(username=query.username.strip())
+        user = await models.User.filter(username=username.strip())
         if user:
             result.code = 1
-            result.msg = Msg.MsgExistUserError.format(query.username)
+            result.msg = Msg.MsgExistUserError.format(username)
             return result
         async with transactions.in_transaction():
-            query.password = str_md5(query.password)
-            user = await models.User.create(**query.dict())
+            password = str_md5(password)
+            user = await models.User.create(username=username, password=password)
             for k, v in root_path.items():
                 folder = await models.Catalog.filter(id=k)
                 if not folder:
@@ -96,7 +96,7 @@ async def create_user(query: models.CreateUser):
     except:
         logger.error(traceback.format_exc())
         result.code = 1
-        result.msg = Msg.MsgCreateUserFailure.format(query.username)
+        result.msg = Msg.MsgCreateUserFailure.format(username)
     return result
 
 

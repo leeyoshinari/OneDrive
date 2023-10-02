@@ -147,8 +147,7 @@ logs/
 sqlite3.db
 sqlite3.db-shm
 sqlite3.db-wal
-back.jpg
-
+string/
 # Pyre type checker
 .pyre/
 

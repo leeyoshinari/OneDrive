@@ -55,7 +55,7 @@ location /OneDrive {
     index  index.html;
 }
 ```
-（2）后端请求：配置文件里的 IP 和 端口
+（2）后端请求：`proxy_pass`是配置文件里的 IP 和 端口
 ```shell script
 location /mycloud {
      proxy_pass  http://127.0.0.1:15200;
@@ -65,6 +65,8 @@ location /mycloud {
 }
 ```
 通常nginx会限制请求体大小，需要增加配置`client_max_body_size 4096M;`，还有其他超时时间的配置，可自行上网查找资料修改；
+
+nginx安装非常简单，请去[nginx 官方网站](http://nginx.org/en/download.html)下载对应的nginx安装包安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`即可。
 
 9、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口）
 ![]()

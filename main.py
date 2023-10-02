@@ -85,6 +85,12 @@ async def create_user(query: models.CreateUser):
                 user_path = os.path.join(v, user.username)
                 if not os.path.exists(user_path):
                     os.mkdir(user_path)
+            back_path = os.path.join(settings.path, 'web/img/pictures', user.username)
+            if not os.path.exists(back_path):
+                os.mkdir(back_path)
+            source_file = os.path.join(settings.path, 'web/img/pictures/undefined/back.jpg')
+            target_file = os.path.join(back_path, 'back.jpg')
+            shutil.copy(source_file, target_file)
         logger.info(Msg.MsgCreateUserSuccess.format(user.username))
         result.msg = Msg.MsgCreateUserSuccess.format(user.username)
     except:

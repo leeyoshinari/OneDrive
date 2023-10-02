@@ -18,7 +18,7 @@ function get_status() {
                 $('#loginback').css('display', 'flex');
                 $('#dock-box').css('display', 'none');
                 $('#desktop').css('display', 'none');
-				document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
+                document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
             }
         },
         error: function (xhr, status, msg) {
@@ -56,6 +56,8 @@ function login_sys(evn) {
                 $('#loginback').addClass('close');
                 $('#loginback').css('opacity', '0');
                 $('#loginback').css('display', 'none');
+                $('#dock-box').css('display', 'flex');
+                $('#desktop').css('display', 'flex');
                 window.clearInterval(qwq);
                 this.onclick = null;
                 document.body.style.backgroundImage='url("img/pictures/' + $('#username')[0].value + '/back.jpg")';

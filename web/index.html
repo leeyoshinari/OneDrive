@@ -24,15 +24,6 @@
 </head>
 <body>
 	<div id="loginback">
-		<script>
-			if (document.cookie.length > 57) {
-				get_status();
-			} else {
-				$('#loginback').css('opacity', '1');
-				$('#loginback').css('display', 'flex');
-				document.getElementById('loginback').style.backgroundImage='url("img/pictures/undefined/back.jpg")';
-			}
-		</script>
 		<div class="user"></div>
 		<div class="name">账 号: <input id="username" type="text" autocomplete="off" placeholder="请输入账号"></div>
 		<div class="name">密 码: <input id="password" type="password" autocomplete="off" placeholder="请输入密码"></div>
@@ -83,6 +74,15 @@
 		<span class="choose"></span>
 		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0px;left:0px;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
 	</div>
+	<script>
+		if (document.cookie.length > 57) {
+			get_status();
+		} else {
+			$('#loginback').css('opacity', '1');
+			$('#loginback').css('display', 'flex');
+			document.getElementById('loginback').style.backgroundImage='url("img/pictures/undefined/back.jpg")';
+		}
+	</script>
 	<div id="cm" tabindex="-1"><input class="foc"><list></list></div>
 	<!--div id="dp"><list></list></div-->
 	<div id="descp"></div>

@@ -2,14 +2,17 @@
 # -*- coding: utf-8 -*-
 # Author: leeyoshinari
 
-import markdown
+from markdown import markdown
 
 
 extensions = [
+    'markdown.extensions.fenced_code',
+    'markdown.extensions.codehilite',
     'markdown.extensions.extra',
-    'markdown.extensions.codehilite'
+    'markdown.extensions.tables',
+    'markdown.extensions.toc',
 ]
 
 
 def md2html(s: str):
-    return markdown.markdown(s, extensions=extensions)
+    return markdown(s, extensions=extensions)

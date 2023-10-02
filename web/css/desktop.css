@@ -1350,3 +1350,8 @@ list>span.focs.cl {
     text-decoration: none;
     cursor: pointer;
 }
+
+.my_video {
+    height: 100%;
+    width: 100%;
+}

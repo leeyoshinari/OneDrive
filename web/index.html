@@ -162,7 +162,7 @@
 	<div class="window explorer tabs">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/explorer.svg" class="icon">
+			<img src="img/explorer.svg" class="icon"><p style="display: none;">文件资源管理器</p>
 			<div class="tabs"></div>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('explorer')"><i class="bi bi-x-lg"></i></a>
@@ -451,15 +451,43 @@
 	<div class="window markdown">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/markdown.svg" class="icon"><p></p>
+			<img src="img/files/markdown.png" class="icon"><p></p>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('markdown');"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/markdown.svg" class="icon"></div>
+		<div class="loadback"><img src="img/files/markdown.png" class="icon"></div>
 		<div class="content"><iframe id="iframe_id" src=""></iframe></div>
+	</div>
+	<div class="window video">
+		<div class="resize-bar"></div>
+		<div class="titbar">
+			<img src="img/files/video.png" class="icon">
+			<p>视频</p>
+			<div>
+				<a class="a wbtg red" onclick="hidewin('video');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('video')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('video')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/video.png" class="icon"></div>
+		<div class="content" id="win-video"></div>
+	</div>
+	<div class="window picture">
+		<div class="resize-bar"></div>
+		<div class="titbar">
+			<img src="img/files/picture.png" class="icon">
+			<p>图片</p>
+			<div>
+				<a class="a wbtg red" onclick="hidewin('picture');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('picture')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('picture')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/picture.png" class="icon"></div>
+		<div class="content" id="win-image"></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="js/tab.js"></script>

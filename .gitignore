@@ -143,7 +143,11 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+logs/
 sqlite3.db
+sqlite3.db-shm
+sqlite3.db-wal
+back.jpg
 
 # Pyre type checker
 .pyre/

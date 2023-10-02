@@ -535,7 +535,7 @@ let apps = {
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['format']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')">
                             <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -582,7 +582,9 @@ let apps = {
         open_share: (share_id) => {
             window.open(server + '/share/get/' + share_id);
         },
-        open_file: (file_id, format) => {
+        open_file: (file_id,filename) => {
+            let filenames = filename.split('.');
+            let format = filenames[filenames.length - 1];
             switch (format) {
                 case 'txt':
                     edit_text_file(file_id);
@@ -590,6 +592,15 @@ let apps = {
                 case 'md':
                     open_md(file_id);
                     break;
+                case 'mp4':
+                    apps.explorer.open_video(file_id, filename);
+                    break;
+                case 'jpg':
+                case 'png':
+                case 'bmp':
+                case 'gif':
+                    apps.explorer.open_picture(file_id, filename);
+                    break
                 default:
                     apps.explorer.download(file_id);
                     break;
@@ -663,7 +674,7 @@ let apps = {
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['format']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
                             <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -820,6 +831,16 @@ let apps = {
                 }
             }
         },
+        open_video: (file_id, filename) => {
+            openapp('video');
+            $('.window.video>.titbar>p')[0].innerText = filename;
+            $('#win-video')[0].innerHTML = '<link href="module/video/video-js.min.css" rel="stylesheet"><script src="module/video/video.min.js"></script><video class="my_video" controls autoPlay preload="metadata" data-setup="{}"><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+        },
+        open_picture: (file_id, filename) => {
+            openapp('picture');
+            $('.window.picture>.titbar>p')[0].innerText = filename;
+            $('#win-image')[0].innerHTML = '<img class="my_video" style="object-fit: contain;" src="' + server + '/file/download/' + file_id + '" alt="">';
+        },
         history: [],
         historypt: [],
         initHistory: (tab) => {
@@ -888,6 +909,16 @@ let apps = {
         }
     },
     markdown: {
+        init: () => {
+            return null;
+        }
+    },
+    video: {
+        init: () => {
+            return null;
+        }
+    },
+    picture: {
         init: () => {
             return null;
         }
@@ -1051,6 +1082,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
+let png_img = ['video', 'picture', 'markdown']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -1059,10 +1091,14 @@ function openapp(name) {
         focwin(name);
         return;
     }
+    let source_src = `img/${name}.svg`;
+    if (png_img.indexOf(name) > -1) {
+        source_src = `img/files/${name}.png`;
+    }
     $('.window.' + name).addClass('load');
     showwin(name);
     $('#taskbar').attr('count', Number($('#taskbar').attr('count')) + 1);
-    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>p`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="img/${name}.svg"></a>`);
+    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>p`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="${source_src}"></a>`);
     if ($('#taskbar').attr('count') === '1') {
         $('#taskbar').css('display', 'flex');
     }

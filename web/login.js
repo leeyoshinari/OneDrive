@@ -4,15 +4,20 @@ const server = '/mycloud';
 function get_status() {
     $.ajax({
         type: 'GET',
+        async: false,
         url: server + '/status',
         success: function (data) {
             if (data['code'] === 0) {
                 $('#loginback').css('opacity', '0');
                 $('#loginback').css('display', 'none');
+                $('#dock-box').css('display', 'flex');
+                $('#desktop').css('display', 'flex');
                 document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/back.jpg")';
             } else {
                 $('#loginback').css('opacity', '1');
                 $('#loginback').css('display', 'flex');
+                $('#dock-box').css('display', 'none');
+                $('#desktop').css('display', 'none');
 				document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
             }
         },
@@ -20,6 +25,8 @@ function get_status() {
             console.error(msg);
             $('#loginback').css('opacity', '1');
             $('#loginback').css('display', 'flex');
+            $('#dock-box').css('display', 'none');
+            $('#desktop').css('display', 'none');
             document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
         }
     })

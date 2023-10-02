@@ -29,7 +29,7 @@ register_tortoise(app=app, config=settings.TORTOISE_ORM)
 
 
 # 校验用户是否登陆，返回用户名
-def auth(request: Request) -> dict[str, str]:
+def auth(request: Request) -> dict:
     username = request.cookies.get("u", 's')
     token = request.cookies.get("token", None)
     if not username or username not in TOKENs or token != TOKENs[username]:

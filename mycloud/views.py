@@ -9,7 +9,6 @@ import base64
 import shutil
 import zipfile
 import traceback
-from typing import Any
 from io import StringIO
 from urllib.parse import unquote
 from tortoise import transactions
@@ -411,7 +410,7 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
     return result
 
 
-async def download_file(file_id: str, hh: dict) -> dict[str, str]:
+async def download_file(file_id: str, hh: dict) -> dict:
     file = await models.Files.get(id=file_id).select_related('parent')
     parent_path = await file.parent.get_all_path()
     result = {'path': os.path.join(parent_path, file.name), 'name': file.name, 'format': file.format}
@@ -480,7 +479,7 @@ async def get_share_file(hh: dict) -> Result:
     return result
 
 
-async def open_share_file(share_id: int, hh: dict) -> dict[str, Any]:
+async def open_share_file(share_id: int, hh: dict) -> dict:
     try:
         share = await models.Shares.get(id=share_id)
         if share.times < share.total_times:
@@ -536,7 +535,7 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
     return result
 
 
-async def md_to_html(file_id: str, hh: dict):
+async def md_to_html(file_id: str, hh: dict) -> dict:
     try:
         file = await models.Files.get(id=file_id).select_related('parent')
         folder_path = await file.parent.get_all_path()

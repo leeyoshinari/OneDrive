@@ -178,7 +178,7 @@ list:not(.new)>a:active,
     position: fixed;
     bottom: 10px;
     height: 40px;
-    display: flex;
+    display: none;
     width: 100%;
     z-index: 92;
     padding: 0 5px;
@@ -649,7 +649,7 @@ list:not(.new)>a:active,
     width: 100%;
     height: calc(100% - 50px);
     z-index: 0;
-    display: flex;
+    display: none;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: flex-start;

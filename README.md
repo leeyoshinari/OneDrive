@@ -71,8 +71,8 @@ location /mycloud {
 如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。
 
 9、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第8步中的前端配置的名字）
-![]()
-![]()
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/home.jpg)
 
 10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 

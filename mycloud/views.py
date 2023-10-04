@@ -9,18 +9,14 @@ import base64
 import shutil
 import zipfile
 import traceback
-from io import StringIO
 from urllib.parse import unquote
 from tortoise import transactions
 from tortoise.expressions import Q
 from tortoise.exceptions import DoesNotExist
-
-import settings
 from . import models
 from settings import get_config, path
 from common.results import Result
 from common.messages import Msg
-from common.markdown import md2html
 from common.logging import logger
 from common.myException import FileExist
 from common.calc import calc_md5, calc_file_md5

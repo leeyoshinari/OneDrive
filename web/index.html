@@ -64,15 +64,13 @@
 	</div>
 	<div id="desktop">
 		<div ondblclick="openapp('explorer');" ontouchstart="openapp('explorer');" win12_title="显示连接到此计算机的驱动器和硬件" oncontextmenu="return showcm(event,'desktop.icon',['explorer',-1]);" appname="explorer">
-			<img src="img/explorer/thispc.svg">
-			<p>此电脑</p>
+			<img src="img/explorer/thispc.svg" alt=""><p>此电脑</p>
 		</div>
 		<div class="b" ondblclick="openapp('setting');" ontouchstart="openapp('setting');" win12_title="系统设置" oncontextmenu="return showcm(event,'desktop.icon',['setting',-1]);" appname="setting">
-			<img src="img/setting.svg">
-			<p>设置</p>
+			<img src="img/setting.svg" alt=""><p>设置</p>
 		</div>
 		<span class="choose"></span>
-		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0px;left:0px;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
+		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0;left:0;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
 	</div>
 	<script>
 		if (document.cookie.length > 57) {
@@ -91,15 +89,14 @@
 	<div class="window setting">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/setting.svg" class="icon">
-			<p>设置</p>
+			<img src="img/setting.svg" class="icon" alt=""><p>设置</p>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('setting')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('setting')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('setting')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/setting.svg" class="icon"></div>
+		<div class="loadback"><img src="img/setting.svg" class="icon" alt=""></div>
 		<div class="content" id="win-setting">
 			<div class="menu">
 				<a class="a user">
@@ -107,8 +104,8 @@
 					<div><p></p></div>
 				</a>
 				<list class="focs">
-					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png">账户</a>
-					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png">个性化</a>
+					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt="">账户</a>
+					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt="">个性化</a>
 				</list>
 			</div>
 			<div class="page">
@@ -162,7 +159,7 @@
 	<div class="window explorer tabs">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/explorer.svg" class="icon"><p style="display: none;">文件资源管理器</p>
+			<img src="img/explorer.svg" class="icon" alt=""><p style="display: none;">文件资源管理器</p>
 			<div class="tabs"></div>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('explorer')"><i class="bi bi-x-lg"></i></a>
@@ -170,7 +167,7 @@
 				<a class="a wbtg" onclick="minwin('explorer')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/explorer.svg" class="icon"></div>
+		<div class="loadback"><img src="img/explorer.svg" class="icon" alt=""></div>
 		<div class="content" id="win-explorer">
 			<div class="path">
 				<a class="a btn btn-icon back"><i class="bi bi-arrow-left"></i></a>
@@ -184,37 +181,36 @@
 			<div class="page">
 				<div class="menu">
 					<div class="card pinned">
-						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png"> 快速访问</p>
+						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png" alt=""> 快速访问</p>
 						<list>
 							<a class="check" onclick="apps.explorer.reset();"><span style="background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/thispc.svg">此电脑</a>
+								<img src="img/explorer/thispc.svg" alt="">此电脑</a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/rb.png">回收站</a>
+								<img src="img/explorer/rb.png" alt="">回收站</a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/share.png">我的分享</a>
-							<a onclick="openapp('calc');"><img src="img/calc.svg">计算器</a>
-							<!--a onclick="openapp('notepad');"><img src="icon/notepad.svg">记事本</a-->
-							<a onclick="openapp('python');"><img src="img/python.svg">Python</a>
-							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg">Whiteboard</a>
-							<a onclick="openapp('setting');"><img src="img/setting.svg">设置</a>
+								<img src="img/explorer/share.png" alt="">我的分享</a>
+							<a onclick="openapp('calc');"><img src="img/calc.svg" alt="">计算器</a>
+							<a onclick="openapp('python');"><img src="img/python.svg" alt="">Python</a>
+							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg" alt="">Whiteboard</a>
+							<a onclick="openapp('setting');"><img src="img/setting.svg" alt="">设置</a>
 						</list>
 					</div>
 				</div>
 				<div class="main">
 					<div class="tool micaalt">
 						<a class="a b act asd" title="新建文本文件"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file');"><img src="img/explorer/new_file.png"></a>
+							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file');"><img src="img/explorer/new_file.png" alt=""></a>
 						<a class="a b act asd" title="新建文件夹"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png"></a>
-						<a class="a b act asd" title="重命名" onclick="rename_selected();"><img src="img/explorer/rename.png"></a>
-						<a class="a b act asd" title="移动文件/文件夹" onclick="move_files();"><img src="img/explorer/move.png"></a>
-						<a class="a b act asd" title="上传本地文件" onclick="upload_file();"><img src="img/explorer/upload.png"></a>
-						<a class="a b act asd" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();"><img src="img/explorer/export.png"></a>
-						<a class="a b act asd" title="分享文件" onclick="shownotice('share');"><img src="img/explorer/share_file.png"></a>
-						<a class="a b act dsa" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;"><img src="img/explorer/recovery.png"></a>
-						<a class="a b act asd" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);"><img src="img/explorer/delete.png"></a>
-						<a class="a b act dsa" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;"><img src="img/explorer/delete.png"></a>
-						<a class="a b act dsa" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;"><img src="img/explorer/clear_rb.png"></a>
+							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png" alt=""></a>
+						<a class="a b act asd" title="重命名" onclick="rename_selected();"><img src="img/explorer/rename.png" alt=""></a>
+						<a class="a b act asd" title="移动文件/文件夹" onclick="move_files();"><img src="img/explorer/move.png" alt=""></a>
+						<a class="a b act asd" title="上传本地文件" onclick="upload_file();"><img src="img/explorer/upload.png" alt=""></a>
+						<a class="a b act asd" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();"><img src="img/explorer/export.png" alt=""></a>
+						<a class="a b act asd" title="分享文件" onclick="shownotice('share');"><img src="img/explorer/share_file.png" alt=""></a>
+						<a class="a b act dsa" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;"><img src="img/explorer/recovery.png" alt=""></a>
+						<a class="a b act asd" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);"><img src="img/explorer/delete.png" alt=""></a>
+						<a class="a b act dsa" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;"><img src="img/explorer/delete.png" alt=""></a>
+						<a class="a b act dsa" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;"><img src="img/explorer/clear_rb.png" alt=""></a>
 					</div>
 					<div class="content" onclick="" oncontextmenu="return showcm(event,'explorer.content',null);">
 						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;">
@@ -241,14 +237,14 @@
 	<div class="modal_cover"><div class="modal_gif"></div><progress id="progressBar" value="0" max="100"></progress></div>
 	<div class="window calc">
 		<div class="titbar">
-			<img src="img/calc.svg" class="icon"><p>计算器</p>
+			<img src="img/calc.svg" class="icon" alt=""><p>计算器</p>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('calc')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" style="pointer-events: none;color: #777;"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('calc')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/calc.svg" class="icon"></div>
+		<div class="loadback"><img src="img/calc.svg" class="icon" alt=""></div>
 		<div class="content" id="win-calc">
 			<div class="container"><input id="calc-input" readonly="true" value="0" onkeydown="
 				switch (event.key) {
@@ -312,8 +308,7 @@
 	<div class="window notepad">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/notepad.svg" class="icon">
-			<p>记事本</p>
+			<img src="img/notepad.svg" class="icon" alt=""><p>记事本</p>
 			<input type="text" id="notepad-length" value="" name="" style="display: none;">
 			<div>
 				<a class="a wbtg red" onclick="hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
@@ -321,7 +316,7 @@
 				<a class="a wbtg" onclick="minwin('notepad')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/notepad.svg" class="icon"></div>
+		<div class="loadback"><img src="img/notepad.svg" class="icon" alt=""></div>
 		<div class="content" id="win-notepad">
 			<div class="tool">
 				<a class="a" onclick="save_text_file($('#win-notepad>.text-box')[0].id, $('#win-notepad>.text-box')[0].innerText);">保存</a>
@@ -334,15 +329,13 @@
 	</div>
 	<div class="window python terminal-apps">
 		<div class="resize-bar"></div>
-		<div class="titbar">
-			<img src="img/python.svg" class="icon"><p>Python 3.10.2</p>
-			<div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><p>Python 3.10.2</p><div>
 				<a class="a wbtg red" onclick="hidewin('python')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('python')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('python')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/python.svg" class="icon"></div>
+		<div class="loadback"><img src="img/python.svg" class="icon" alt=""></div>
 		<div class="content" id="win-python" onmouseup="$('#win-python input').focus();" ontouchend="$('#win-python input').focus();">
             <pre>
 				Python 3.10.2  [MSC v.1912 64 bit (AMD64)] :: Anaconda, Inc. on win32
@@ -354,10 +347,7 @@
 	</div>
 	<div class="window whiteboard">
 		<div class="resize-bar"></div>
-		<div class="titbar">
-			<img src="img/whiteboard.svg" class="icon">
-			<p>Whiteboard</p>
-			<div>
+		<div class="titbar"><img src="img/whiteboard.svg" class="icon" alt=""><p>Whiteboard</p><div>
 				<a class="a wbtg red" onclick="hidewin('whiteboard')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('whiteboard')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('whiteboard')"><i class="bi bi-dash-lg"></i></a>
@@ -365,7 +355,7 @@
 			</div>
 		</div>
 		<div class="loadback">
-			<img src="img/whiteboard.svg" class="icon">
+			<img src="img/whiteboard.svg" class="icon" alt="">
 		</div>
 		<div class="content" id="win-whiteboard">
 			<a class="download" href="" download="Picture.png"></a>
@@ -373,7 +363,7 @@
 			<div class="toolbar">
 				<div class="tools">
 					<div class="pen1 active" onclick="apps.whiteboard.changePen.call(this)" data-color="red">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -384,7 +374,7 @@
 						</svg>
 					</div>
 					<div class="pen2" onclick="apps.whiteboard.changePen.call(this)" data-color="orange">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -395,7 +385,7 @@
 						</svg>
 					</div>
 					<div class="pen3" onclick="apps.whiteboard.changePen.call(this)" data-color="yellow">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -406,7 +396,7 @@
 						</svg>
 					</div>
 					<div class="pen4" onclick="apps.whiteboard.changePen.call(this)" data-color="green">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -417,7 +407,7 @@
 						</svg>
 					</div>
 					<div class="pen5" onclick="apps.whiteboard.changePen.call(this)" data-color="blue">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -428,7 +418,7 @@
 						</svg>
 					</div>
 					<div class="pen6" onclick="apps.whiteboard.changePen.call(this)" data-color="purple">
-						<svg xmlns="https://www.w3.org/2000/svg" width="76" height="75" viewBox="0 0 760 950"
+						<svg xmlns="" width="76" height="75" viewBox="0 0 760 950"
 							color="#e92a2a">
 							<path
 								d="M120 881c0-155 96-575 144-630 7-9 25-48 40-88 31-82 50-104 71-82 14 15 81 162 120 264 51 136 105 412 105 542v63h-30c-30 0-30-1-30-55v-55H180v55c0 54 0 55-30 55h-30v-69zm343-98l107-6v-44c0-84-95-447-122-464-15-10-148-12-172-3-27 10-114 328-123 452l-6 72h105c58 0 153-3 211-7zm-89-588c-4-8-10-15-15-15s-9 7-9 15 7 15 15 15c9 0 12-6 9-15z"
@@ -439,10 +429,10 @@
 						</svg>
 					</div>
 					<div class="eraser" onclick="apps.whiteboard.changePen.call(this)" data-color="eraser">
-						<img src="img/whiteboard/marker.png" height="70">
+						<img src="img/whiteboard/marker.png" height="70" alt="">
 					</div>
 					<div class="delete" onclick="apps.whiteboard.delete()">
-						<img src="img/whiteboard/delete.png" height="60">
+						<img src="img/whiteboard/delete.png" height="60" alt="">
 					</div>
 				</div>
 			</div>
@@ -450,43 +440,36 @@
 	</div>
 	<div class="window markdown">
 		<div class="resize-bar"></div>
-		<div class="titbar">
-			<img src="img/files/markdown.png" class="icon"><p></p>
+		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><p></p><a onclick="md2html();">md2html</a>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('markdown');"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/markdown.png" class="icon"></div>
+		<div class="loadback"><img src="img/files/markdown.png" class="icon" alt=""></div>
 		<div class="content"><iframe id="iframe_id" src=""></iframe></div>
 	</div>
 	<div class="window video">
 		<div class="resize-bar"></div>
-		<div class="titbar">
-			<img src="img/files/video.png" class="icon">
-			<p>视频</p>
-			<div>
+		<div class="titbar"><img src="img/files/video.png" class="icon" alt=""><p>视频</p><div>
 				<a class="a wbtg red" onclick="hidewin('video');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('video')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('video')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/video.png" class="icon"></div>
+		<div class="loadback"><img src="img/files/video.png" class="icon" alt=""></div>
 		<div class="content" id="win-video"></div>
 	</div>
 	<div class="window picture">
 		<div class="resize-bar"></div>
-		<div class="titbar">
-			<img src="img/files/picture.png" class="icon">
-			<p>图片</p>
-			<div>
+		<div class="titbar"><img src="img/files/picture.png" class="icon" alt=""><p>图片</p><div>
 				<a class="a wbtg red" onclick="hidewin('picture');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('picture')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('picture')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/picture.png" class="icon"></div>
+		<div class="loadback"><img src="img/files/picture.png" class="icon" alt=""></div>
 		<div class="content" id="win-image"></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>

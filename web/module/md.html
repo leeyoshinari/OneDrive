@@ -15,41 +15,42 @@
 </body>
 <script src="editor.md/js/editormd.js"></script>
 <script type="text/javascript">
-    let params = window.location.href.split('&');
-    let servers = params[0].split('=')[1];
-    let file_id = params[1].split('=')[1];
-    $.ajax({
-        type: "GET",
-        url: servers + '/content/get/' + file_id,
-        success: function (data) {
-            if (data['code'] === 0) {
-                window.parent.document.querySelectorAll('.window.markdown>.titbar>p')[0].innerText = data['msg'];
-                $('#layout>#editormd>textarea')[0].value = data['data'];
-            } else {
-                $.Toast(data['msg'], 'error');
-            }
-        }
-    });
-    let testEditor = editormd("editormd", {
-        width  : "100%",
-        height : "80%",
-        path   : '../module/editor.md/lib/',
-        toolbar_autofixed: true,
-        codeFold: true,
-        overflow: 'scroll',
-        searchReplace: true,
-        emoji: true,
-        sequenceDiagram: true,
-        taskList: true,
-        tocm: true,
-        // tex: true,
-        flowChart: true,
-        htmlDecode: "style,script,iframe",
-        saveHTMLToTextarea: true,
-        imageUpload: true,
-        imageFormats: ["jpg", "jpeg", "png", "bmp", "gif"],
-    });
-    document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
-    $('#file_id')[0].value = $('#layout>#editormd>textarea')[0].innerText.length;
+	let params = window.location.href.split('&');
+	let servers = params[0].split('=')[1];
+	let file_id = params[1].split('=')[1];
+	$.ajax({
+		type: "GET",
+		url: servers + '/content/get/' + file_id,
+		success: function (data) {
+			if (data['code'] === 0) {
+				window.parent.document.querySelectorAll('.window.markdown>.titbar>p')[0].innerText = data['msg'];
+				$('#layout>#editormd>textarea')[0].value = data['data'];
+				document.getElementById("file_id").value = data['data'].length;
+			} else {
+				$.Toast(data['msg'], 'error');
+			}
+		}
+	});
+	let testEditor = editormd("editormd", {
+		width  : "100%",
+		height : "80%",
+		path   : '../module/editor.md/lib/',
+		toolbar_autofixed: true,
+		codeFold: true,
+		overflow: 'scroll',
+		searchReplace: true,
+		emoji: true,
+		sequenceDiagram: true,
+		taskList: true,
+		tocm: true,
+		// tex: true,
+		flowChart: true,
+		htmlDecode: "style,script,iframe",
+		saveHTMLToTextarea: true,
+		imageUpload: true,
+		imageFormats: ["jpg", "jpeg", "png", "bmp", "gif"],
+	});
+	document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
+	$('#file_id')[0].value = $('#layout>#editormd>textarea')[0].innerText.length;
 </script>
 </html>

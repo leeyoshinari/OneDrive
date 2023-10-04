@@ -1058,18 +1058,18 @@ $('#s-m-r>.row1>.tool>.date').text(date);
 $('.dock.date>.date').text(`${da.getFullYear()}/${(da.getMonth() + 1).toString().padStart(2, '0')}/${da.getDate().toString().padStart(2, '0')}`);
 $('#datebox>.tit>.date').text(date);
 function loadtime() {
-    let d = new Date();
-    let time = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`
+    let ddd = new Date();
+    let time = `${ddd.getHours().toString().padStart(2, '0')}:${ddd.getMinutes().toString().padStart(2, '0')}:${ddd.getSeconds().toString().padStart(2, '0')}`
     $('#s-m-r>.row1>.tool>.time').text(time);
     $('.dock.date>.time').text(time);
     $('#datebox>.tit>.time').text(time);
 }
 loadtime();
 setTimeout('loadtime();setInterval(loadtime, 1000);', 1000 - da.getMilliseconds());//修复时间不精准的问题。以前的误差：0-999毫秒；现在：几乎没有
-let d = new Date();
+let ddd = new Date();
 let today = new Date().getDate();
-let start = 7 - ((d.getDate() - d.getDay()) % 7) + 1;
-let daysum = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+let start = 7 - ((ddd.getDate() - ddd.getDay()) % 7) + 1;
+let daysum = new Date(ddd.getFullYear(), ddd.getMonth() + 1, 0).getDate();
 for (let i = 1; i < start; i++) {
     $('#datebox>.cont>.body')[0].innerHTML += '<span></span>';
 }
@@ -2175,21 +2175,41 @@ let resizeMD = new ResizeObserver(event => {
 })
 function open_md(file_id) {
     openapp('markdown');
+    let iframe_id = document.getElementById("iframe_id");
     document.getElementsByClassName("markdown")[0].style.display = 'block';
-    // document.getElementById("iframe_id").style.height = $('.markdown')[0].clientHeight - $('.markdown>.titbar')[0].clientHeight + 'px';
-    document.getElementById("iframe_id").src = 'module/md.html?server=' + server + '&id=' + file_id;
+    iframe_id.src = 'module/md.html?server=' + server + '&id=' + file_id;
     $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `close_md_editor('${file_id}');hidewin('markdown');`);
     md_interval = window.setInterval(() => {
-        let text_data = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-        let text_length = document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value;
+        let text_data = iframe_id.contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+        let text_length = iframe_id.contentWindow.document.getElementById("file_id").value;
         if (text_data.length !== parseInt(text_length)) {
             save_text_file(file_id, text_data);
-            document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value = text_data.length;
+            iframe_id.contentWindow.document.getElementById("file_id").value = text_data.length;
         }
     }, 10000);
     setTimeout(() => {
         resizeMD.observe(document.getElementById("iframe_id"));
     }, 2000);
+    let markdown_js = ["markdown-it.min.js",
+        "markdownItAnchor.umd.js",
+        "markdownItTocDoneRight.umd.js",
+        "markdown-it-multimd-table.min.js",
+        "markdown-it-container.min.js",
+        "markdown-it-deflist.min.js",
+        "markdown-it-ins.min.js",
+        "markdown-it-mark.min.js",
+        "markdown-it-sub.min.js",
+        "markdown-it-sup.min.js",
+        "markdown-it-footnote.min.js",
+        "markdown-it-emoji.min.js",
+        "markdown-it-emoji-bare.min.js",
+        "markdown-it-emoji-light.min.js",
+        "markdown-it-task-list-plus.min.js"];
+    markdown_js.forEach(item => {
+        let script = document.createElement('script');
+        script.setAttribute('src', 'module/markdown/' + item);
+        iframe_id.appendChild(script);
+    })
 }
 
 function close_md_editor(file_id) {
@@ -2202,4 +2222,24 @@ function close_md_editor(file_id) {
     }
     document.getElementById("iframe_id").src = 'about:blank';
     document.getElementsByClassName("markdown")[0].style.display = 'none';
+}
+
+function md2html() {
+    let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+    let md = window.markdownit({html: true, linkify: true, typographer: true});
+    md.use(window.markdownItAnchor)
+        .use(window.markdownItTocDoneRight)
+        .use(window.markdownitContainer)
+        .use(window.markdownitDeflist)
+        .use(window.markdownitEmoji)
+        .use(window.markdownitFootnote)
+        .use(window.markdownitIns)
+        .use(window.markdownitMark)
+        .use(window.markdownitSub)
+        .use(window.markdownitSup)
+        .use(window.markdownitMultimdTable, {multiline: false, rowspan: false, headerless: false, multibody: true, autolabel: true});
+    let html = md.render("${toc}\n" + content);
+    localStorage.setItem('md2html', html);
+    localStorage.setItem('filename', $('.window.markdown>.titbar>p')[0].innerText.replace('.md', '.html'));
+    window.open('module/markdown/md2html.html');
 }

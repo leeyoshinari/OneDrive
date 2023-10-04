@@ -2,11 +2,11 @@
 本项目是一个个人版的网盘，具备了网盘应有的基本功能，所有数据存在自己的磁盘里；和内网穿透搭配使用效果更佳。
 
 ## 功能
-- 文件夹的新建、删除、重命名、移动、导出<br>
-- 文件上传、下载、新建、删除、移动、重命名、分享<br>
-- txt文档在线预览和编辑功能<br>
-- 不同用户的数据完全隔离<br>
-- 可任意挂载多个磁盘<br>
+- 文件夹的新建、删除、重命名、移动、导出
+- 文件上传、下载、新建、删除、移动、重命名、分享
+- txt文档在线预览和编辑功能
+- 不同用户的数据完全隔离
+- 可任意挂载多个磁盘
 
 ## 技术选型
 - 后端框架：FastApi<br>
@@ -44,7 +44,7 @@ sh startup.sh
 ```
 
 7、创建账号；
-为了避免被其他人恶意创建账号，页面未放开创建账号的入口；为了方便使用，特意改成直接在浏览器地址栏中输入url创建用户。可在`main.py`文件中的第58行修改成你专属的url路径。<br>
+为了避免被其他人恶意创建账号，页面未放开创建账号的入口；为了方便使用，特意改成直接在浏览器地址栏中输入url创建用户。可在`main.py`文件中的第58行修改成你专属的url路径。
 ```shell script
 http://IP:Port/配置文件中的prefix/user/test/createUser?username=用户名&password=密码&password1=再次确认密码`
 ```
@@ -68,15 +68,16 @@ location /mycloud {
 ```
 通常nginx会限制请求体大小，需要增加配置`client_max_body_size 4096M;`，还有其他超时时间的配置，可自行上网查找资料修改；
 
-nginx安装非常简单，请去[nginx 官方网站](http://nginx.org/en/download.html)下载对应的nginx安装包安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`即可。
+如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。
 
 9、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第8步中的前端配置的名字）
+![]()
 ![]()
 
 10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 
 ## 其他
-1、支持 Linux、Windows、MacOS 等系统； 
+1、支持 Linux、Windows、MacOS 等多个平台； 
 
 2、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；
 

@@ -14,6 +14,8 @@ from urllib.parse import unquote
 from tortoise import transactions
 from tortoise.expressions import Q
 from tortoise.exceptions import DoesNotExist
+
+import settings
 from . import models
 from settings import get_config, path
 from common.results import Result
@@ -533,16 +535,3 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
         result.code = 1
         result.msg = Msg.MsgSaveFailure
     return result
-
-
-async def md_to_html(file_id: str, hh: dict) -> dict:
-    try:
-        file = await models.Files.get(id=file_id).select_related('parent')
-        folder_path = await file.parent.get_all_path()
-        with open(os.path.join(folder_path, file.name), 'r', encoding='utf-8') as f:
-            html = StringIO(md2html(f.read()))
-        logger.info(f"{file.name}转HTML成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
-        return {"name": file.name, "data": html}
-    except:
-        logger.error(traceback.format_exc())
-        raise

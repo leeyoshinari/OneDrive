@@ -4,14 +4,14 @@
 ## 功能
 - 文件夹的新建、删除、重命名、移动、导出
 - 文件上传、下载、新建、删除、移动、重命名、分享
-- txt文档在线预览和编辑功能
+- txt和markdown文档的在线预览和编辑功能
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
 
 ## 技术选型
 - 后端框架：FastApi<br>
-- 数据库：MySQL<br>
-- 前端：原生 html + js + css (使用的是[这个项目](https://github.com/tjy-gitnub/win12))<br>
+- 数据库：SQLite3 or MySQL<br>
+- 前端：原生 html + js + css (使基于[这个项目](https://github.com/tjy-gitnub/win12)修改的)<br>
 
 ## 实现方案
 文件和文件夹的层级结构维护在数据库中，这样在页面查询列表时，只需要查询数据库就可以了，速度会快很多；同时数据库中的文件和文件夹的层级结构也全部真实的映射到磁盘里，所见即所得，便于以后这个系统不用了也保留完整有序的文件，而不是乱序的。
@@ -77,7 +77,7 @@ location /mycloud {
 10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 
 ## 其他
-1、支持 Linux、Windows、MacOS 等多个平台； 
+1、支持 Linux、Windows、MacOS 等多个平台，建议在 Linux 系统部署； 
 
 2、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；
 

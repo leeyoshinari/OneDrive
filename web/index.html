@@ -12,11 +12,6 @@
 	<link rel="stylesheet" href="module/toast/toast.style.css">
 	<link rel="stylesheet" href="css/bootstrap-icons.css">
 	<link rel="stylesheet" href="css/explorer.css">
-	<link rel="stylesheet" href="css/notepad.css">
-	<link rel="stylesheet" href="css/setting.css">
-	<link rel="stylesheet" href="css/terminal.css">
-	<link rel="stylesheet" href="css/calc.css">
-	<link rel="stylesheet" href="css/whiteboard.css">
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
 	<base target="_blank">
@@ -440,7 +435,7 @@
 	</div>
 	<div class="window markdown">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><p></p><a onclick="md2html();">md2html</a>
+		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><p></p><a onclick="md2html();">导出成HTML</a>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
@@ -450,10 +445,10 @@
 		<div class="loadback"><img src="img/files/markdown.png" class="icon" alt=""></div>
 		<div class="content"><iframe id="iframe_id" src=""></iframe></div>
 	</div>
-	<div class="window video">
+	<div class="window video" style="width: auto;">
 		<div class="resize-bar"></div>
 		<div class="titbar"><img src="img/files/video.png" class="icon" alt=""><p>视频</p><div>
-				<a class="a wbtg red" onclick="hidewin('video');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg red" onclick="close_video();hidewin('video');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('video')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('video')"><i class="bi bi-dash-lg"></i></a>
 			</div>
@@ -475,8 +470,6 @@
 	<script src="module/toast/toast.script.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
-	<script src="js/calculator_kernel.js" async></script>
-	<script src="js/big.min.js" async></script>
 	<script src="module/python/pyodide.js" async></script>
 </body>
 </html>

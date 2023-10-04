@@ -1,6 +1,7 @@
 const default_icon = 'img/files/none.png';
 const icons = {
-    'jpg': 'img/files/picture.png', 'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
+    'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png',
+    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png',
@@ -300,6 +301,12 @@ function closenotice() {
 let apps = {
     setting: {
         init: () => {
+            if ($('.window.setting>link').length < 1) {
+                let css_link = document.createElement('link');
+                css_link.setAttribute('rel', 'stylesheet');
+                css_link.setAttribute('href', 'css/setting.css');
+                $('.window.setting')[0].appendChild(css_link);
+            }
             $('#win-setting>.menu>list>a.user')[0].click();
         },
         page: (name) => {
@@ -319,6 +326,12 @@ let apps = {
         windowResizeObserver: null,
         color: 'red',
         init: () => {
+            if ($('.window.whiteboard>link').length < 1) {
+                let css_link = document.createElement('link');
+                css_link.setAttribute('rel', 'stylesheet');
+                css_link.setAttribute('href', 'css/whiteboard.css');
+                $('.window.whiteboard')[0].appendChild(css_link);
+            }
             apps.whiteboard.ctx.lineJoin = 'round';
             apps.whiteboard.ctx.lineCap = 'round';
             apps.whiteboard.changeColor(apps.whiteboard.color);
@@ -417,7 +430,7 @@ let apps = {
             apps.explorer.tabs = [];
             apps.explorer.len = 0;
             apps.explorer.newtab();
-            // apps.explorer.reset();
+            apps.explorer.reset();
             apps.explorer.is_use = 0;//千万不要删除它，它依托bug运行
             apps.explorer.is_use2 = 0;//千万不要删除它，它依托bug运行
             apps.explorer.clipboard = null;
@@ -430,9 +443,10 @@ let apps = {
         tabs: [],
         now: null,
         len: 0,
-        newtab: (path = '') => {
+        newtab: (path = '', path_id = '') => {
             m_tab.newtab('explorer', '');
             apps.explorer.tabs[apps.explorer.tabs.length - 1][2] = path;
+            apps.explorer.tabs[apps.explorer.tabs.length - 1][3] = path_id;
             apps.explorer.initHistory(apps.explorer.tabs[apps.explorer.tabs.length - 1][0]);
             apps.explorer.checkHistory(apps.explorer.tabs[apps.explorer.tabs.length - 1][0]);
             m_tab.tab('explorer', apps.explorer.tabs.length - 1);
@@ -443,7 +457,7 @@ let apps = {
         tab: (c, load = true) => {
             if (load) {
                 if (!apps.explorer.tabs[c][2].length) apps.explorer.reset();
-                else apps.explorer.goto(apps.explorer.tabs[c][2]);
+                else apps.explorer.goto(apps.explorer.tabs[c][2], apps.explorer.tabs[c][3]);
             }
             apps.explorer.checkHistory(apps.explorer.tabs[c][0]);
         },
@@ -452,8 +466,7 @@ let apps = {
             #win-explorer>.page>.main>.content>.view>.class>img{width: 20px;height: 20px;margin-top: 3px;margin-right: 5px;filter:brightness(0.9);}
             #win-explorer>.page>.main>.content>.view>.group{display: flex;flex-wrap: wrap;padding: 10px 20px;}
             #win-explorer>.page>.main>.content>.view>.group>.item{width: 280px;margin: 5px;height:80px;
-    box-shadow: 0 1px 2px var(--s3d);
-                background: radial-gradient(circle, var(--card),var(--card));border-radius: 10px;display: flex;}
+                box-shadow: 0 1px 2px var(--s3d); background: radial-gradient(circle, var(--card),var(--card));border-radius: 10px;display: flex;}
             #win-explorer>.page>.main>.content>.view>.group>.item:hover{background-color: var(--hover);}
             #win-explorer>.page>.main>.content>.view>.group>.item:active{transform: scale(0.97);}
             #win-explorer>.page>.main>.content>.view>.group>.item>img{width: 55px;height: 55px;margin-top: 18px;margin-left: 10px;}
@@ -477,15 +490,16 @@ let apps = {
             $('#win-explorer>.path>.back')[0].classList.remove('disabled');
             $('#win-explorer>.path>.back').attr('onclick', 'apps.explorer.reset()');
             $('#win-explorer>.path>.tit')[0].innerHTML = '<div class="icon" style="background-image: url(\'img/explorer/thispc.svg\')"></div><div class="path"><div class="text" onclick="apps.explorer.reset()">此电脑</div><div class="arrow">&gt;</div></div>';
-            m_tab.rename('explorer', '<img src="img/explorer/thispc.svg"> 此电脑');
+            m_tab.rename('explorer', '<img src="img/explorer/thispc.svg" alt=""> 此电脑');
             apps.explorer.tabs[apps.explorer.now][2] = '';
+            apps.explorer.tabs[apps.explorer.now][3] = '';
             document.getElementById("all_files").checked = false;
             document.querySelector('#win-explorer>.page>.main>.tool').style.display = 'none'
             if (clear) {
                 apps.explorer.delHistory(apps.explorer.tabs[apps.explorer.now][0]);
                 apps.explorer.pushHistory(apps.explorer.tabs[apps.explorer.now][0], '此电脑');
             }
-            let disk_group = '<a class="a item act" ondblclick="" ontouchend="" oncontextmenu=""><img src="img/explorer/diskwin.svg"><div><p class="name">本地磁盘 (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB 可用, 共 521 MB</p></div></a>';
+            let disk_group = '<a class="a item act" ondblclick="" ontouchend="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">本地磁盘 (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB 可用, 共 521 MB</p></div></a>';
             $.get(server + '/disk/get').then(res => {
                 res.data.forEach(c => {
                     disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')"oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">本地磁盘 (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + ' 可用, 共 ' + c['total'] + '</p></div></a>';
@@ -504,7 +518,7 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
             $('#win-explorer>.path>.search')[0].style.display = 'none';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
-            apps.explorer.tabs[apps.explorer.now][2] = '';
+            m_tab.rename('explorer', '<img src="img/explorer/rb.png" alt=""> 回收站');
             document.getElementById("all_files").checked = false;
             let sort_field = 'update_time';
             let sort_type = 'desc';
@@ -535,7 +549,7 @@ let apps = {
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')">
                             <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -553,6 +567,7 @@ let apps = {
             $('#win-explorer>.page>.main')[0].style.display = 'none';
             $('#win-explorer>.page>.main-share')[0].style.display = 'flex';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
+            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> 我的分享');
             $.ajax({
                 type: 'GET',
                 url: server + '/share/list',
@@ -654,6 +669,7 @@ let apps = {
                 tmp = queryAllFiles(pathlid[pathlid.length - 1], "", sort_field, sort_type);
             }
             apps.explorer.tabs[apps.explorer.now][2] = path;
+            apps.explorer.tabs[apps.explorer.now][3] = path_id;
             for(let i=0; i<pathl.length; i++) {
                 pathqwq += pathl[i];
                 pathqwqid += pathlid[i];
@@ -674,7 +690,7 @@ let apps = {
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
                             <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -834,7 +850,8 @@ let apps = {
         open_video: (file_id, filename) => {
             openapp('video');
             $('.window.video>.titbar>p')[0].innerText = filename;
-            $('#win-video')[0].innerHTML = '<link href="module/video/video-js.min.css" rel="stylesheet"><script src="module/video/video.min.js"></script><video class="my_video" controls autoPlay preload="metadata" data-setup="{}"><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            $('#win-video')[0].innerHTML = '<video class="my_video" controls autoPlay preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            $('.window.video')[0].style.width = 'auto';
         },
         open_picture: (file_id, filename) => {
             openapp('picture');
@@ -875,7 +892,7 @@ let apps = {
             if (apps.explorer.historyIsEmpty(tab)) {
                 $('#win-explorer>.path>.back').addClass('disabled');
             }
-            else if (!apps.explorer.historyIsEmpty(tab)) {
+            else {
                 $('#win-explorer>.path>.back').removeClass('disabled');
             }
             if (apps.explorer.historyIsFull(tab)) {
@@ -897,11 +914,31 @@ let apps = {
     calc: {
         init: () => {
             document.getElementById('calc-input').innerHTML = "0";
+            if ($('.window.calc>link').length < 1) {
+                let css_link = document.createElement('link');
+                css_link.setAttribute('rel', 'stylesheet');
+                css_link.setAttribute('href', 'css/calc.css');
+                $('.window.calc')[0].appendChild(css_link);
+            }
+            if ($('.window.calc>script').length < 1) {
+                let script = document.createElement('script');
+                script.setAttribute('src', 'js/calculator_kernel.js');
+                $('.window.calc')[0].appendChild(script);
+                script = document.createElement('script');
+                script.setAttribute('src', 'js/big.min.js');
+                $('.window.calc')[0].appendChild(script);
+            }
         }
     },
     notepad: {
         init: () => {
             $('#win-notepad>.text-box').addClass('down');
+            if ($('.window.notepad>link').length < 1) {
+                let css_link = document.createElement('link');
+                css_link.setAttribute('rel', 'stylesheet');
+                css_link.setAttribute('href', 'css/notepad.css');
+                $('.window.notepad')[0].appendChild(css_link);
+            }
             setTimeout(() => {
                 $('#win-notepad>.text-box').val('');
                 $('#win-notepad>.text-box').removeClass('down')
@@ -923,55 +960,23 @@ let apps = {
             return null;
         }
     },
-    pythonEditor: {
-        editor: null,
-        init: () => {
-            return null;
-        },
-        run: () => {
-            let result;
-            let output = document.getElementById("output");
-            try {
-                if (apps.python.pyodide) {
-                    let code = apps.pythonEditor.editor.getValue();
-                    apps.python.pyodide.runPython('sys.stdout = io.StringIO()');
-                    apps.python.pyodide.runPython(code);
-                    result = apps.python.pyodide.runPython('sys.stdout.getvalue()');
-                }
-            }
-            catch (e) {
-                result = e.message;
-            }
-            output.innerHTML = result;
-        },
-        load: () => {
-            if (!apps.python.loaded) {
-                apps.python.loaded = true;
-                apps.python.load();
-            }
-            ace.require("ace/ext/language_tools");
-            apps.pythonEditor.editor = ace.edit("win-python-ace-editor");
-            apps.pythonEditor.editor.session.setMode("ace/mode/python");
-            apps.pythonEditor.editor.setTheme("ace/theme/vibrant_ink");
-            apps.pythonEditor.editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: true,
-                showPrintMargin: false,
-                enableLiveAutocompletion: true
-            });
-        }
-    },
     python: {
         codeCache: '',
         prompt: '>>> ',
         indent: false,
         load: () => {
+            if ($('.window.python>link').length < 1) {
+                let css_link = document.createElement('link');
+                css_link.setAttribute('rel', 'stylesheet');
+                css_link.setAttribute('href', 'css/terminal.css');
+                $('.window.python')[0].appendChild(css_link);
+            }
             (async function () {
                 apps.python.pyodide = await loadPyodide();
                 apps.python.pyodide.runPython(`
-import sys
-import io
-`);
+                import sys
+                import io
+                `);
             })();
         },
         init: () => {
@@ -2113,6 +2118,8 @@ function modify_pwd() {
     })
 }
 
+function close_video() {$('.my_video').attr('src', '');}
+
 let txt_interval = null;
 let md_interval = null;
 function edit_text_file(file_id) {
@@ -2181,10 +2188,10 @@ function open_md(file_id) {
     $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `close_md_editor('${file_id}');hidewin('markdown');`);
     md_interval = window.setInterval(() => {
         let text_data = iframe_id.contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-        let text_length = iframe_id.contentWindow.document.getElementById("file_id").value;
+        let text_length = iframe_id.contentWindow.document.getElementById("content_length").value;
         if (text_data.length !== parseInt(text_length)) {
             save_text_file(file_id, text_data);
-            iframe_id.contentWindow.document.getElementById("file_id").value = text_data.length;
+            iframe_id.contentWindow.document.getElementById("content_length").value = text_data.length;
         }
     }, 10000);
     setTimeout(() => {
@@ -2205,18 +2212,20 @@ function open_md(file_id) {
         "markdown-it-emoji-bare.min.js",
         "markdown-it-emoji-light.min.js",
         "markdown-it-task-list-plus.min.js"];
-    markdown_js.forEach(item => {
-        let script = document.createElement('script');
-        script.setAttribute('src', 'module/markdown/' + item);
-        iframe_id.appendChild(script);
-    })
+    setTimeout(() => {
+        markdown_js.forEach(item => {
+            let script = document.createElement('script');
+            script.setAttribute('src', 'module/markdown/' + item);
+            iframe_id.appendChild(script);
+        })
+    }, 2000);
 }
 
 function close_md_editor(file_id) {
     clearInterval(md_interval);
     resizeMD.disconnect();
     let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-    let content_len = document.getElementById("iframe_id").contentWindow.document.getElementById("file_id").value;
+    let content_len = document.getElementById("iframe_id").contentWindow.document.getElementById("content_length").value;
     if (parseInt(content_len) !== content.length) {
         save_text_file(file_id, content);
     }

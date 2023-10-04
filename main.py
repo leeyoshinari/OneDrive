@@ -234,7 +234,8 @@ async def save_file(query: models.SaveFile, hh: dict = Depends(auth)):
 async def download_file(file_id: str, hh: dict = Depends(auth)):
     try:
         result = await views.download_file(file_id, hh)
-        headers = {'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
+                   'Content-Disposition': f'inline;filename="{result["name"]}"'}
         return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
     except:
         logger.error(traceback.format_exc())

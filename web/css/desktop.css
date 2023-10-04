@@ -1196,7 +1196,14 @@ list>span.focs.cl {
 .window>.titbar>p {
     font-size: 15px;
     margin-top: 9px;
+    flex-grow: 2;
+}
+
+.window>.titbar>a {
+    font-size: 15px;
+    margin-top: 9px;
     flex-grow: 1;
+    cursor: pointer;
 }
 
 .window>.titbar>.icon {

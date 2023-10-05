@@ -1197,6 +1197,9 @@ list>span.focs.cl {
     font-size: 15px;
     margin-top: 9px;
     flex-grow: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .window>.titbar>a {

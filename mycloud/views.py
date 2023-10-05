@@ -23,15 +23,13 @@ from common.calc import calc_md5, calc_file_md5
 
 
 root_path = json.loads(get_config("rootPath"))
-formats = {'image': ['jpg', 'jpeg', 'bmp', 'png'], 'video': ['mp4', 'avi'], 'document': ['txt', 'md', 'doc', 'docx',
-           'xls', 'xlsx', 'ppt', 'pptx', 'pdf'], 'music': ['mp3']}
 
 
 async def create_file(folder_id: str, hh: dict) -> Result:
     result = Result()
     try:
         if len(folder_id) == 1:
-            folder_id = hh['u'] + folder_id
+            folder_id = folder_id + hh['u']
         folder = await models.Catalog.get(id=folder_id)
         folder_path = await folder.get_all_path()
         async with transactions.in_transaction():
@@ -62,7 +60,7 @@ async def get_all_files(parent_id: str, query: models.SearchItems, hh: dict) -> 
     result = Result()
     try:
         if len(parent_id) == 1:
-            parent_id = hh['u'] + parent_id
+            parent_id = parent_id + hh['u']
         if len(parent_id) <= 3:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon
@@ -78,7 +76,7 @@ async def get_all_files(parent_id: str, query: models.SearchItems, hh: dict) -> 
             folders = await models.Catalog.filter(Q(parent_id=parent_id) & Q(is_delete=0)).order_by(order_type)
             files = await models.Files.filter(Q(parent_id=parent_id) & Q(is_delete=0)).order_by(order_type)
 
-        folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders]
+        folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789'))]
         file_list = [models.FileList.from_orm_format(f).dict() for f in files]
         logger.info(f"{Msg.MsgGetFileSuccess}, 文件夹ID: {parent_id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = folder_list + file_list
@@ -94,7 +92,7 @@ async def create_folder(parent_id: str, hh: dict) -> Result:
     result = Result()
     try:
         if len(parent_id) == 1:
-            parent_id = hh['u'] + parent_id
+            parent_id = parent_id + hh['u']
         if len(parent_id) <= 3:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon
@@ -244,13 +242,13 @@ async def get_folders_by_id(folder_id: str, hh: dict) -> Result:
     result = Result()
     try:
         if len(folder_id) == 1:
-            folder_id = hh['u'] + folder_id
+            folder_id = folder_id + hh['u']
         if len(folder_id) <= 3:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon
             return result
         folders = await models.Catalog.filter(parent_id=folder_id)
-        folder_list = [models.CatalogGetInfo.from_orm(f) for f in folders]
+        folder_list = [models.CatalogGetInfo.from_orm(f) for f in folders if f.id.startswith(tuple('123456789'))]
         folder = await models.Catalog.get(id=folder_id)
         folder_path = await folder.get_all_path()
         for k, v in root_path.items():
@@ -273,13 +271,13 @@ async def move_to_folder(query: models.CatalogMoveTo, hh: dict) -> Result:
     result = Result()
     try:
         if len(query.parent_id) == 1:
-            query.parent_id = hh['u'] + query.parent_id
+            query.parent_id = query.parent_id + hh['u']
         if len(query.parent_id) <= 3:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon
             return result
         if len(query.to_id) == 1:
-            query.to_id = hh['u'] + query.to_id
+            query.to_id = query.to_id + hh['u']
         if len(query.to_id) <= 3:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon
@@ -317,7 +315,7 @@ async def upload_file(query, hh: dict) -> Result:
     parent_id = query['parent_id']
     file_name = query['file'].filename
     if len(parent_id) == 1:
-        parent_id = hh['u'] + parent_id
+        parent_id = parent_id + hh['u']
     if len(parent_id) <= 3:
         result.code = 1
         result.data = file_name

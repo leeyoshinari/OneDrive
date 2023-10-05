@@ -42,7 +42,6 @@ $('input,textarea,*[contenteditable=true]').on('contextmenu', (e) => {
 let nomax = { 'calc': 0 /* 其实，计算器是可以最大化的...*/};
 let nomin = {};
 let topmost = [];
-let sys_setting = [1, 1, 1, 0, 0, 1];
 let cms = {
     'titbar': [
         function (arg) {
@@ -476,7 +475,7 @@ let apps = {
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.bar>.content{height: 100%;background-image: linear-gradient(90deg, var(--theme-1), var(--theme-2));
                 border-radius: 10px;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color: #959595;font-size: 14px;}</style>
-            <p class="class"><img src="img/explorer/disk.svg"> 设备和驱动器</p><div class="group"></div>`;
+            <p class="class"><img src="img/explorer/disk.svg" alt=""> 设备和驱动器</p><div class="group"></div>`;
             $('#win-explorer>.page>.menu>.card>list>a')[0].className ='check';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
@@ -544,17 +543,37 @@ let apps = {
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'flex';
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" ontouchend="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg"><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
+                document.querySelectorAll('.a.item.files').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
+                document.querySelectorAll('.a.item.file').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
             }
         },
         share_list: () => {
@@ -582,7 +601,7 @@ let apps = {
                             data['data'].forEach(item => {
                                 let f_src = icons[item['format']] || default_icon;
                                 ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: pointer;" onclick="apps.explorer.open_share('${item['id']}');"><img style="float: left;" src="${f_src}">${item['name']}</span>
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: pointer;" onclick="apps.explorer.open_share('${item['id']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
                             <span style="width: 10%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
                             <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}');">查看分享链接</a></span></div></div>`;
                             })
@@ -658,15 +677,15 @@ let apps = {
                 item.style.display='none';
             })
             if (path_id === 'C') {
-                m_tab.rename('explorer', '<img src="img/explorer/diskwin.svg" style="margin-top:2.5px">' + pathl[pathl.length - 1]);
+                m_tab.rename('explorer', '<img src="img/explorer/diskwin.svg" style="margin-top:2.5px" alt="">' + pathl[pathl.length - 1]);
                 return;
             }
             else if (pathlid[pathlid.length - 1].length === 1) {
-                m_tab.rename('explorer', '<img src="img/explorer/disk.svg">' + pathl[pathl.length - 1]);
+                m_tab.rename('explorer', '<img src="img/explorer/disk.svg" alt="">' + pathl[pathl.length - 1]);
                 tmp = queryAllFiles(pathlid[pathlid.length - 1], "", sort_field, sort_type);
             }
             else {
-                m_tab.rename('explorer', '<img src="img/explorer/folder.svg">' + pathl[pathl.length - 1]);
+                m_tab.rename('explorer', '<img src="img/explorer/folder.svg" alt="">' + pathl[pathl.length - 1]);
                 tmp = queryAllFiles(pathlid[pathlid.length - 1], "", sort_field, sort_type);
             }
             apps.explorer.tabs[apps.explorer.now][2] = path;
@@ -686,17 +705,37 @@ let apps = {
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'flex';
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${path}/${tmp[i]['name']}', '${path_id}/${tmp[i]['id']}')" ontouchend="apps.explorer.goto('${path}/${tmp[i]['name']}', '${path_id}/${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${path_id}/${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg"><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${path}/${tmp[i]['name']}', '${path_id}/${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${path_id}/${tmp[i]['id']}');return stop(event);">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" ontouchend="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
+                document.querySelectorAll('.a.item.files').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
+                document.querySelectorAll('.a.item.file').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
             }
             if (pathl.length === 1) {
                 $('#win-explorer>.path>.goback').attr('onclick', 'apps.explorer.reset()');
@@ -869,9 +908,9 @@ let apps = {
             apps.explorer.history[tab].push(u);
             apps.explorer.historypt[tab]++;
         },
-        topHistory: (tab) => {
-            return apps.explorer.history[tab][apps.explorer.historypt[tab]];
-        },
+        // topHistory: (tab) => {
+        //     return apps.explorer.history[tab][apps.explorer.historypt[tab]];
+        // },
         popHistory: (tab) => {
             apps.explorer.historypt[tab]--;
             return apps.explorer.history[tab][apps.explorer.historypt[tab]];
@@ -907,10 +946,10 @@ let apps = {
             apps.explorer.goto(apps.explorer.popHistory(tab), false);
             apps.explorer.checkHistory(tab);
         },
-        front: (tab) => {
-            apps.explorer.goto(apps.explorer.incHistory(tab), false);
-            apps.explorer.checkHistory(tab);
-        }
+        // front: (tab) => {
+        //     apps.explorer.goto(apps.explorer.incHistory(tab), false);
+        //     apps.explorer.checkHistory(tab);
+        // }
     },
     calc: {
         init: () => {
@@ -1717,7 +1756,7 @@ function delete_file(ids, file_type, is_delete= 1, delete_type = 0) {
 function rename_selected() {
     let ids = getSelectedIds();
     if (ids.folder.length + ids.file.length === 1) {
-        let file_id = "";
+        let file_id = '';
         if (ids.folder.length > 0) {
             file_id = ids.folder[0];
         } else {
@@ -1778,17 +1817,37 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'flex';
                 for (let i = 0; i < tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" ontouchend="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg"><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${tmp[i]['id']}');return stop(event);">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.download('${tmp[i]['id']}')" ontouchend="apps.explorer.download('${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.file','${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${tmp[i]['id']}');return stop(event);">
+                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
+                document.querySelectorAll('.a.item.files').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
+                document.querySelectorAll('.a.item.file').forEach(item => {
+                    item.addEventListener('touchstart', function (e) {
+                        if (e.touches.length > 0) {
+                            item.removeEventListener('touchstart', e.callee);
+                            item.addEventListener('click', function (e) {
+                                item.ondblclick(e);
+                            })
+                        }
+                    }, false);
+                })
             }
         } else {
             $.Toast("请输入搜索内容 ~", "error");
@@ -1805,7 +1864,7 @@ function move_files() {
     }
     $.get(server + '/disk/get').then(res => {
         res.data.forEach(c => {
-            root_disk = root_disk + `<ul class="domtree"><li onclick="get_folders('move${c['disk']}')"><img src="img/explorer/disk.svg">${c['disk']}:</li><ul id="move${c['disk']}"></ul></ul>`;
+            root_disk = root_disk + `<ul class="domtree"><li onclick="get_folders('move${c['disk']}')"><img src="img/explorer/disk.svg" alt="">${c['disk']}:</li><ul id="move${c['disk']}"></ul></ul>`;
         });
         $('#notice>.cnt').html(`
                 <p class="tit">移动到</p>
@@ -1854,7 +1913,6 @@ function move_to(from_ids, parent_id, to_id, folder_type) {
                 closenotice();
             } else {
                 $.Toast(data['msg'], 'error');
-                return;
             }
         }
     })
@@ -1874,7 +1932,7 @@ function get_folders(folder_id) {
             if (data['code'] === 0) {
                 let s = '';
                 data['data']['folder'].forEach(item => {
-                    s = s + `<li onclick="get_folders('move${item['id']}')"><img src="img/explorer/folder.svg">${item['name']}</li><ul id="move${item['id']}"></ul>`;
+                    s = s + `<li onclick="get_folders('move${item['id']}')"><img src="img/explorer/folder.svg" alt="">${item['name']}</li><ul id="move${item['id']}"></ul>`;
                 })
                 document.getElementById(folder_id).innerHTML = s;
                 let folder_name = document.getElementById('folder_name');
@@ -1882,30 +1940,29 @@ function get_folders(folder_id) {
                 folder_name.name = folder_id;
             } else {
                 $.Toast(data['msg'], 'error');
-                return;
             }
         }
     })
 }
 
-document.getElementById("all_files").addEventListener("click", function (event) {
+document.getElementById("all_files").addEventListener("click", function () {
     let items = document.querySelectorAll('#win-explorer>.page>.main>.content>.view>.row');
     for (let i=0; i<items.length; i++) {
         items[i].getElementsByTagName('input')[0].checked = this.checked;
     }
 })
 
-document.getElementById("id-sort").addEventListener("click", function (event) {
+document.getElementById("id-sort").addEventListener("click", function () {
     change_asc_desc(this);
     apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
 })
 
-document.getElementById("name-sort").addEventListener("click", function (event) {
+document.getElementById("name-sort").addEventListener("click", function () {
     change_asc_desc(this);
     apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
 })
 
-document.getElementById("update_time-sort").addEventListener("click", function (event) {
+document.getElementById("update_time-sort").addEventListener("click", function () {
     change_asc_desc(this);
     apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
 })
@@ -1964,7 +2021,6 @@ function export_file(ids, file_type) {
                 apps.explorer.download(data['data']);
             } else {
                 $.Toast(data['msg'], 'error');
-                return;
             }
         }
     })

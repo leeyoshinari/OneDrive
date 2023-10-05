@@ -1,6 +1,6 @@
 const default_icon = 'img/files/none.png';
 const icons = {
-    'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png',
+    'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
     'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png',
@@ -611,6 +611,7 @@ let apps = {
                     apps.explorer.open_video(file_id, filename);
                     break;
                 case 'jpg':
+                case 'jpeg':
                 case 'png':
                 case 'bmp':
                 case 'gif':

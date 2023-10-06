@@ -30,6 +30,10 @@ async def create_file(folder_id: str, hh: dict) -> Result:
     try:
         if len(folder_id) == 1:
             folder_id = folder_id + hh['u']
+        if len(folder_id) <= 3:
+            result.code = 1
+            result.msg = Msg.MsgAccessPermissionNon
+            return result
         folder = await models.Catalog.get(id=folder_id)
         folder_path = await folder.get_all_path()
         async with transactions.in_transaction():

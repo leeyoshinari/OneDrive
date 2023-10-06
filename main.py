@@ -79,9 +79,9 @@ async def create_user(username: str, password: str, password1: str):
                 folder = await models.Catalog.filter(id=k)
                 if not folder:
                     await models.Catalog.create(id=k, parent=None, name=v)
-                folder = await models.Catalog.filter(id=f"{user.username}{k}")
+                folder = await models.Catalog.filter(id=f"{k}{user.username}")
                 if not folder:
-                    await models.Catalog.create(id=f"{user.username}{k}", name=user.username, parent_id=k)
+                    await models.Catalog.create(id=f"{k}{user.username}", name=user.username, parent_id=k)
                 user_path = os.path.join(v, user.username)
                 if not os.path.exists(user_path):
                     os.mkdir(user_path)
@@ -130,9 +130,9 @@ async def login(query: models.UserBase, response: Response):
                 folder = await models.Catalog.filter(id=k)
                 if not folder:
                     await models.Catalog.create(id=k, parent=None, name=v)
-                folder = await models.Catalog.filter(id=f"{user.username}{k}")
+                folder = await models.Catalog.filter(id=f"{k}{user.username}")
                 if not folder:
-                    await models.Catalog.create(id=f"{user.username}{k}", name=user.username, parent_id=k)
+                    await models.Catalog.create(id=f"{k}{user.username}", name=user.username, parent_id=k)
                 user_path = os.path.join(v, user.username)
                 if not os.path.exists(user_path):
                     os.mkdir(user_path)

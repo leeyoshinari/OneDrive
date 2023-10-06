@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="module/toast/toast.style.css">
 	<link rel="stylesheet" href="css/bootstrap-icons.css">
 	<link rel="stylesheet" href="css/explorer.css">
+	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
 	<base target="_blank">
@@ -465,9 +466,21 @@
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/picture.png" class="icon" alt=""></div>
-		<div class="content" id="win-image"></div>
+		<div class="content" id="win-image"><img class="my_video" style="object-fit: contain;" src="" alt=""></div>
+	</div>
+	<div class="window xmind">
+		<div class="resize-bar"></div>
+		<div class="titbar"><img src="img/files/picture.png" class="icon" alt=""><p>xmind</p><div>
+				<a class="a wbtg red" onclick="hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('xmind')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('xmind')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/picture.png" class="icon" alt=""></div>
+		<div class="content" id="win-xmind"></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
+	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
 	<script src="module/python/pyodide.js" async></script>

@@ -889,14 +889,17 @@ let apps = {
         },
         open_video: (file_id, filename) => {
             openapp('video');
+            $('.window.video')[0].style.width = 'auto';
             $('.window.video>.titbar>p')[0].innerText = filename;
             $('#win-video')[0].innerHTML = '<video class="my_video" controls autoPlay preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
-            $('.window.video')[0].style.width = 'auto';
         },
         open_picture: (file_id, filename) => {
             openapp('picture');
+            $('.window.picture')[0].style.width='auto';
             $('.window.picture>.titbar>p')[0].innerText = filename;
-            $('#win-image')[0].innerHTML = '<img class="my_video" style="object-fit: contain;" src="' + server + '/file/download/' + file_id + '" alt="">';
+            $('#win-image>.my_video')[0].src = server + '/file/download/' + file_id;
+            console.log($('.window.picture')[0].clientWidth);
+            let viewer = new Viewer(document.querySelectorAll('#win-image>.my_video')[0], {viewed() {},});
         },
         history: [],
         historypt: [],
@@ -1143,7 +1146,7 @@ function openapp(name) {
     $('.window.' + name).addClass('load');
     showwin(name);
     $('#taskbar').attr('count', Number($('#taskbar').attr('count')) + 1);
-    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>p`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="${source_src}"></a>`);
+    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>p`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="${source_src}" alt=""></a>`);
     if ($('#taskbar').attr('count') === '1') {
         $('#taskbar').css('display', 'flex');
     }
@@ -1172,7 +1175,7 @@ function showwin(name) {
     $('.window.' + name).addClass('show-begin');
     setTimeout(() => { $('.window.' + name).addClass('show'); }, 0);
     setTimeout(() => { $('.window.' + name).addClass('notrans'); }, 20);
-    $('.window.' + name).attr('style', `top: 10%;left: 15%;`);
+    $('.window.' + name).attr('style', `top:10%;left:15%;`);
     $('#taskbar>.' + wo[0]).removeClass('foc');
     $('.window.' + wo[0]).removeClass('foc');
     wo.splice(0, 0, name);

@@ -486,6 +486,7 @@ let apps = {
             $('#win-explorer>.page>.main-share')[0].style.display = 'none';
             $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'none';
             $('#win-explorer>.path>.search')[0].style.display = 'flex';
+            $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.remove('disabled');
             $('#win-explorer>.path>.back').attr('onclick', 'apps.explorer.reset()');
             $('#win-explorer>.path>.tit')[0].innerHTML = '<div class="icon" style="background-image: url(\'img/explorer/thispc.svg\')"></div><div class="path"><div class="text" onclick="apps.explorer.reset()">此电脑</div><div class="arrow">&gt;</div></div>';
@@ -516,6 +517,7 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[2].className ='';
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
             $('#win-explorer>.path>.search')[0].style.display = 'none';
+            $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
             m_tab.rename('explorer', '<img src="img/explorer/rb.png" alt=""> 回收站');
             document.getElementById("all_files").checked = false;
@@ -544,12 +546,12 @@ let apps = {
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                            <span style="width: 40%;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
@@ -583,6 +585,8 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[0].className = '';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='none';
+            $('#win-explorer>.path>.search')[0].style.display = 'none';
+            $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.page>.main')[0].style.display = 'none';
             $('#win-explorer>.page>.main-share')[0].style.display = 'flex';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
@@ -601,9 +605,9 @@ let apps = {
                             data['data'].forEach(item => {
                                 let f_src = icons[item['format']] || default_icon;
                                 ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: pointer;" onclick="apps.explorer.open_share('${item['id']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
+                            <span style="width: 40%;" onclick="apps.explorer.open_share('${item['id']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
                             <span style="width: 10%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
-                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}');">查看分享链接</a></span></div></div>`;
+                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}', false);">查看分享链接</a></span></div></div>`;
                             })
                             $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = ht;
                         }
@@ -613,8 +617,12 @@ let apps = {
                 }
             })
         },
-        open_share: (share_id) => {
-            window.open(server + '/share/get/' + share_id);
+        open_share: (share_id, is_open=true) => {
+            if (is_open) {
+                window.open(server + '/share/get/' + share_id);
+            } else {
+                alert('http://' + window.location.href.split('/')[2] + server + '/share/get/' + share_id);
+            }
         },
         open_file: (file_id,filename) => {
             let filenames = filename.split('.');
@@ -642,8 +650,8 @@ let apps = {
             }
         },
         select: (id) => {
-            let element = document.getElementById('check' + id);
-            element.checked = !element.checked;
+            // let element = document.getElementById('check' + id);
+            // element.checked = !element.checked;
             apps.explorer.is_use += 1;
         },
         goto: (path, path_id, clear = true) => {
@@ -706,12 +714,12 @@ let apps = {
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${path}/${tmp[i]['name']}', '${path_id}/${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${path_id}/${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                            <span style="width: 40%;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
@@ -894,11 +902,11 @@ let apps = {
             $('#win-video')[0].innerHTML = '<video class="my_video" controls autoPlay preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
         },
         open_picture: (file_id, filename) => {
+            $('#win-image>.my_video')[0].src = '';
             openapp('picture');
             $('.window.picture')[0].style.width='auto';
             $('.window.picture>.titbar>p')[0].innerText = filename;
             $('#win-image>.my_video')[0].src = server + '/file/download/' + file_id;
-            console.log($('.window.picture')[0].clientWidth);
             let viewer = new Viewer(document.querySelectorAll('#win-image>.my_video')[0], {viewed() {},});
         },
         history: [],
@@ -1821,12 +1829,12 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                 for (let i = 0; i < tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
+                            <span style="width: 40%;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
                 }
@@ -2191,6 +2199,7 @@ function edit_text_file(file_id) {
                 openapp('notepad');
                 $('.window.notepad>.titbar>p')[0].innerText = data['msg'];
                 $('#win-notepad>.text-box')[0].innerText = data['data'];
+                $('#win-notepad>.text-box')[0].id = file_id;
                 $('#win-notepad>a')[0].download = data['msg'].replace('txt', 'html');
                 $('.window.notepad>.titbar>div>.wbtg.red').attr("onclick", `close_text_editor('${file_id}');hidewin('notepad');`);
                 $('#notepad-length')[0].value = data['data'].length;

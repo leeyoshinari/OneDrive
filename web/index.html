@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="css/bootstrap-icons.css">
 	<link rel="stylesheet" href="css/explorer.css">
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
+<!--	<link rel="stylesheet" href="module/xmind/jsmind.css">-->
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
 	<base target="_blank">
@@ -315,7 +316,6 @@
 		<div class="loadback"><img src="img/notepad.svg" class="icon" alt=""></div>
 		<div class="content" id="win-notepad">
 			<div class="tool">
-				<a class="a" onclick="save_text_file($('#win-notepad>.text-box')[0].id, $('#win-notepad>.text-box')[0].innerText);">保存</a>
 				<a class="a" onclick="$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));$('#win-notepad>.save')[0].click();">下载</a>
 				<a class="a" onclick="document.execCommand('undo');">撤销</a>
 			</div>
@@ -483,6 +483,7 @@
 	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
+<!--	<script src="module/xmind/jsmind.js" async></script>-->
 	<script src="module/python/pyodide.js" async></script>
 </body>
 </html>

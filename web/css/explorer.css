@@ -21,7 +21,8 @@
 }
 
 #win-explorer>.page>.menu {
-    min-width: 250px;
+    min-width: 139px;
+    width: 16%;
     height: 100%;
     overflow-y: auto;
     margin-right: 6px;
@@ -310,7 +311,7 @@
 }
 
 .content>.view>.row>.item {
-    width: 98%;
+    width: 97%;
     padding: 2px 5px;
     border-radius: 5px;
     display: flex;
@@ -324,6 +325,12 @@
 .content>.view>.row>.item:active {
     transform: scale(0.99);
     transform-origin: bottom;
+}
+
+.content>.view>.row>.item>span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .content>.view>.row>.item>span>img {

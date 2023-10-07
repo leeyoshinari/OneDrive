@@ -621,7 +621,14 @@ let apps = {
             if (is_open) {
                 window.open(server + '/share/get/' + share_id);
             } else {
-                alert('http://' + window.location.href.split('/')[2] + server + '/share/get/' + share_id);
+                let url_t = 'http://' + window.location.href.split('/')[2] + server + '/share/get/' + share_id;
+                let textarea = document.createElement('textarea');
+                textarea.value = url_t;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert(url_t);
             }
         },
         open_file: (file_id,filename) => {

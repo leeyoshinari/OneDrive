@@ -1,8 +1,9 @@
 const default_icon = 'img/files/none.png';
 const icons = {
+    'video': 'img/files/video.png', 'picture': 'img/files/picture.png', 'markdown': 'img/files/markdown.png',
     'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
     'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
-    'mp4': 'img/files/video.png', 'avi': 'img/files/video.png',
+    'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png',
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
@@ -633,7 +634,7 @@ let apps = {
         },
         open_file: (file_id,filename) => {
             let filenames = filename.split('.');
-            let format = filenames[filenames.length - 1];
+            let format = filenames[filenames.length - 1].toLowerCase();
             switch (format) {
                 case 'txt':
                     edit_text_file(file_id);
@@ -651,6 +652,9 @@ let apps = {
                 case 'gif':
                     apps.explorer.open_picture(file_id, filename);
                     break
+                case 'xmind':
+                    open_xmind(file_id);
+                    break;
                 default:
                     apps.explorer.download(file_id);
                     break;
@@ -1013,6 +1017,11 @@ let apps = {
             return null;
         }
     },
+    xmind: {
+        init: () => {
+            return null;
+        }
+    },
     picture: {
         init: () => {
             return null;
@@ -1145,7 +1154,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let png_img = ['video', 'picture', 'markdown']
+let other_img = ['video', 'picture', 'markdown', 'xmind']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -1155,8 +1164,8 @@ function openapp(name) {
         return;
     }
     let source_src = `img/${name}.svg`;
-    if (png_img.indexOf(name) > -1) {
-        source_src = `img/files/${name}.png`;
+    if (other_img.indexOf(name) > -1) {
+        source_src = icons[name];
     }
     $('.window.' + name).addClass('load');
     showwin(name);
@@ -2327,4 +2336,30 @@ function md2html() {
     localStorage.setItem('md2html', html);
     localStorage.setItem('filename', $('.window.markdown>.titbar>p')[0].innerText.replace('.md', '.html'));
     window.open('module/markdown/md2html.html');
+}
+
+function open_xmind(file_id) {
+    $.ajax({
+        type: 'GET',
+        url: server + '/content/get/' + file_id,
+        success: function (data) {
+            if (data['code'] === 0) {
+                openapp('xmind');
+                $('.window.xmind>.titbar>p')[0].innerText = data['msg'];
+                let options = {
+                    container: 'win-xmind',
+                    editable: true,
+                };
+                let jm = new jsMind(options);
+                jm.show(data['data']);
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    })
+}
+
+
+function close_xmind() {
+    $('#win-xmind')[0].innerHTML = '';
 }

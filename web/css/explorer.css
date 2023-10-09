@@ -334,13 +334,13 @@
 }
 
 .content>.view>.row>.item>span>img {
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     margin-right: 5px;
 }
 
 .content>.view>.row>.item.file>span>img {
-    width: 25px;
+    width: 22px;
     height: 22px;
     margin-left: 2px;
     margin-right: 7px;

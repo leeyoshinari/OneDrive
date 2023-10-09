@@ -224,7 +224,7 @@ async def get_file(file_id: str, hh: dict = Depends(auth)):
     return result
 
 
-@router.post("/file/save", summary="保存txt文件")
+@router.post("/file/save", summary="保存文本文件")
 async def save_file(query: models.SaveFile, hh: dict = Depends(auth)):
     result = await views.save_txt_file(query, hh)
     return result

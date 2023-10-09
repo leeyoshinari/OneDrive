@@ -20,6 +20,7 @@ from common.messages import Msg
 from common.logging import logger
 from common.myException import FileExist
 from common.calc import calc_md5, calc_file_md5
+from common.xmind import read_xmind
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -399,8 +400,14 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
     try:
         file = await models.Files.get(id=file_id).select_related('parent')
         parent_path = await file.parent.get_all_path()
-        with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
-            result.data = f.read()
+        if file.format == 'xmind':
+            xmind = read_xmind(os.path.join(parent_path, file.name))
+            xmind['meta'].update({'name': file.name})
+            xmind['meta'].update({'author': hh['u']})
+            result.data = xmind
+        else:
+            with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
+                result.data = f.read()
         result.msg = file.name
         logger.info(f"{file.name} 查询文件信息成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
     except Exception:

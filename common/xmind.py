@@ -2,23 +2,90 @@
 # -*- coding: utf-8 -*-
 # Author: leeyoshinari
 
+import json
 from zipfile import ZipFile
 import xmindparser
+import xmltodict
 
 
-def read_xmind(file_path):
+def write_xmind(file_path):
     xmind_json = xmindparser.xmind_to_dict(file_path)
     print(xmind_json)
 
 
-def read_xmind_bytes(file_path):
-    # with open(file_path, 'rb') as f:
-    #     data = f.read()
-    with ZipFile(file_path) as xmind:
-        for f in xmind.namelist():
-            print(xmind.open(f).read())
+def read_xmind(file_path):
+    with ZipFile(file_path) as z:
+        if 'content.json' in z.namelist():
+            return format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
+        else:
+            result = format_x_reader(xmltodict.parse(z.open('/content.xml').read().decode('utf-8')))
+            return result
 
 
-if __name__ == "__main__":
-    # read_xmind("2024.xmind")
-    read_xmind_bytes("2024.xmind")
+def format_x_reader(data):
+    xmind = {'meta': {}, 'format': 'node_tree', 'data': {}}
+    res = {}
+    for k, v in data['xmap-content']['sheet']['topic'].items():
+        if k == '@id':
+            res.update({'id': v})
+        if k == 'title':
+            res.update({'topic': v})
+        if k == 'children':
+            res.update({'children': x_reader_children(v['topics']['topic'])})
+    xmind['data'] = res
+    return xmind
+
+
+def format_zen_reader(data: list):
+    xmind = {'meta': {}, 'format': 'node_tree', 'data': {}}
+    res = {}
+    for k, v in data[0]['rootTopic'].items():
+        if k == 'id':
+            res.update({'id': v})
+        if k == 'title':
+            res.update({'topic': v})
+        if k == 'children':
+            res.update({'children': zen_reader_children(v['attached'])})
+    xmind['data'] = res
+    return xmind
+
+
+def zen_reader_children(data: list):
+    result = []
+    for item in data:
+        res = {}
+        for k, v in item.items():
+            if k == 'id':
+                res.update({'id': v})
+            if k == 'title':
+                res.update({'topic': v})
+            if k == 'children':
+                res.update({'children': zen_reader_children(v['attached'])})
+        result.append(res)
+    return result
+
+
+def x_reader_children(data):
+    result = []
+    if isinstance(data, list):
+        for item in data:
+            res = {}
+            for k, v in item.items():
+                if k == '@id':
+                    res.update({'id': v})
+                if k == 'title':
+                    res.update({'topic': v})
+                if k == 'children' and 'topics' in v and 'topic' in v['topics']:
+                    res.update({'children': x_reader_children(v['topics']['topic'])})
+            result.append(res)
+    else:
+        res = {}
+        for k, v in data.items():
+            if k == '@id':
+                res.update({'id': v})
+            if k == 'title':
+                res.update({'topic': v})
+            if k == 'children' and 'topics' in v and 'topic' in v['topics']:
+                res.update({'children': x_reader_children(v['topics']['topic'])})
+        result.append(res)
+    return result

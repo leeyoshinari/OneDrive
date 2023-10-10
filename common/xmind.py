@@ -4,13 +4,12 @@
 
 import json
 from zipfile import ZipFile
-import xmindparser
-import xmltodict
+# import xmind
+from common import xmltodict
 
 
 def write_xmind(file_path):
-    xmind_json = xmindparser.xmind_to_dict(file_path)
-    print(xmind_json)
+    pass
 
 
 def read_xmind(file_path):
@@ -18,12 +17,12 @@ def read_xmind(file_path):
         if 'content.json' in z.namelist():
             return format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
         else:
-            result = format_x_reader(xmltodict.parse(z.open('/content.xml').read().decode('utf-8')))
+            result = format_x_reader(xmltodict.parse(z.open('content.xml').read().decode('utf-8')))
             return result
 
 
 def format_x_reader(data):
-    xmind = {'meta': {}, 'format': 'node_tree', 'data': {}}
+    mind = {'meta': {}, 'format': 'node_tree', 'data': {}}
     res = {}
     for k, v in data['xmap-content']['sheet']['topic'].items():
         if k == '@id':
@@ -32,12 +31,12 @@ def format_x_reader(data):
             res.update({'topic': v})
         if k == 'children':
             res.update({'children': x_reader_children(v['topics']['topic'])})
-    xmind['data'] = res
-    return xmind
+    mind['data'] = res
+    return mind
 
 
 def format_zen_reader(data: list):
-    xmind = {'meta': {}, 'format': 'node_tree', 'data': {}}
+    mind = {'meta': {}, 'format': 'node_tree', 'data': {}}
     res = {}
     for k, v in data[0]['rootTopic'].items():
         if k == 'id':
@@ -46,8 +45,8 @@ def format_zen_reader(data: list):
             res.update({'topic': v})
         if k == 'children':
             res.update({'children': zen_reader_children(v['attached'])})
-    xmind['data'] = res
-    return xmind
+    mind['data'] = res
+    return mind
 
 
 def zen_reader_children(data: list):
@@ -74,7 +73,12 @@ def x_reader_children(data):
                 if k == '@id':
                     res.update({'id': v})
                 if k == 'title':
-                    res.update({'topic': v})
+                    if isinstance(v, str):
+                        res.update({'topic': v})
+                    elif isinstance(v, dict):
+                        res.update({'topic': v['#text']})
+                    else:
+                        res.update({'topic': str(v)})
                 if k == 'children' and 'topics' in v and 'topic' in v['topics']:
                     res.update({'children': x_reader_children(v['topics']['topic'])})
             result.append(res)
@@ -84,7 +88,12 @@ def x_reader_children(data):
             if k == '@id':
                 res.update({'id': v})
             if k == 'title':
-                res.update({'topic': v})
+                if isinstance(v, str):
+                    res.update({'topic': v})
+                elif isinstance(v, dict):
+                    res.update({'topic': v['#text']})
+                else:
+                    res.update({'topic': str(v)})
             if k == 'children' and 'topics' in v and 'topic' in v['topics']:
                 res.update({'children': x_reader_children(v['topics']['topic'])})
         result.append(res)

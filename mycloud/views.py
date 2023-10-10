@@ -20,7 +20,7 @@ from common.messages import Msg
 from common.logging import logger
 from common.myException import FileExist
 from common.calc import calc_md5, calc_file_md5
-from common.xmind import read_xmind
+from common.xmind import read_xmind, write_xmind
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -410,6 +410,10 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
                 result.data = f.read()
         result.msg = file.name
         logger.info(f"{file.name} 查询文件信息成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
+    except KeyError:
+        result.code = 1
+        result.msg = Msg.MsgFileTypeError.format(file.format)
+        logger.error(traceback.format_exc())
     except Exception:
         result.code = 1
         result.msg = Msg.MsgGetFileFailure

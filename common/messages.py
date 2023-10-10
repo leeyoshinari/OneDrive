@@ -14,6 +14,7 @@ class Msg(object):
     MsgModifyPwdFailure = '{} 密码修改失败'
     MsgGetFileSuccess = '查询成功'
     MsgGetFileFailure = '查询失败'
+    MsgFileTypeError = '不是标准的 {} 文件格式'
     MsgOperateSuccess = '操作成功'
     MsgOperateFailure = '操作失败'
     MsgSaveSuccess = '保存成功'

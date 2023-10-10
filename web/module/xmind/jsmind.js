@@ -318,7 +318,7 @@
 
     const default_options = {
         container: '', // id of the container
-        editable: false, // you can change it in your options
+        editable: true, // you can change it in your options
         theme: null,
         mode: 'full', // full or side
         support_html: true,
@@ -331,12 +331,12 @@
             line_width: 2,
             line_color: '#555',
             line_style: 'curved', // straight or curved
-            draggable: false, // drag the mind map with your mouse, when it's larger that the container
+            draggable: true, // drag the mind map with your mouse, when it's larger that the container
             hide_scrollbars_when_draggable: false, // hide container scrollbars, when mind map is larger than container and draggable option is true.
-            node_overflow: 'hidden', // hidden or wrap
+            node_overflow: 'wrap', // hidden or wrap
             zoom: {
-                min: 0.5,
-                max: 2.1,
+                min: 0.1,
+                max: 10,
                 step: 0.1,
             },
         },
@@ -356,7 +356,7 @@
             enable: true,
             handles: {},
             mapping: {
-                addchild: [45, 4096 + 13], // Insert, Ctrl+Enter
+                addchild: [45, 9], // Insert, Tab
                 addbrother: 13, // Enter
                 editnode: 113, // F2
                 delnode: 46, // Delete

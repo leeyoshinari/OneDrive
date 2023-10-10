@@ -88,8 +88,8 @@ jmnode:hover {
     color: #333;
 }
 jmnode.selected {
-    background-color: #11f;
-    color: #fff;
+    background-color: #fff0;
+    /*color: #fff;*/
     box-shadow: 2px 2px 8px #000;
 }
 jmnode.root {

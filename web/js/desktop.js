@@ -430,7 +430,7 @@ let apps = {
             apps.explorer.tabs = [];
             apps.explorer.len = 0;
             apps.explorer.newtab();
-            apps.explorer.reset();
+            // apps.explorer.reset();
             apps.explorer.is_use = 0;//千万不要删除它，它依托bug运行
             apps.explorer.is_use2 = 0;//千万不要删除它，它依托bug运行
             apps.explorer.clipboard = null;
@@ -2207,6 +2207,7 @@ function close_video() {$('.my_video').attr('src', '');}
 let txt_interval = null;
 let md_interval = null;
 function edit_text_file(file_id) {
+    clearInterval(txt_interval);
     $.ajax({
         type: 'GET',
         url: server + '/content/get/' + file_id,
@@ -2266,6 +2267,7 @@ let resizeMD = new ResizeObserver(event => {
     document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").style.height = event[0].contentRect.height - 17 + 'px';
 })
 function open_md(file_id) {
+    clearInterval(md_interval);
     openapp('markdown');
     let iframe_id = document.getElementById("iframe_id");
     document.getElementsByClassName("markdown")[0].style.display = 'block';
@@ -2348,7 +2350,6 @@ function open_xmind(file_id) {
                 $('.window.xmind>.titbar>p')[0].innerText = data['msg'];
                 let options = {
                     container: 'win-xmind',
-                    editable: true,
                 };
                 let jm = new jsMind(options);
                 jm.show(data['data']);

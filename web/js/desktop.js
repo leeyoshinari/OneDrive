@@ -833,6 +833,23 @@ let apps = {
                 }
             });
         },
+        copy: (file_id) => {
+            show_modal_cover();
+            $.ajax({
+                type: 'GET',
+                url: server + '/file/copy/' + file_id,
+                success: function (data) {
+                    if (data['code'] === 0) {
+                        $.Toast(data['msg'], 'success');
+                        apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
+                        close_modal_cover();
+                    } else {
+                        $.Toast(data['msg'], 'error');
+                        close_modal_cover();
+                    }
+                }
+            })
+        },
         del: (path) => {
             let pathl = path.split('/');
             let name = pathl[pathl.length - 1];
@@ -1795,6 +1812,23 @@ function rename_selected() {
     }
 }
 
+function copy_selected() {
+    let ids = getSelectedIds();
+    if (ids.folder.length > 0) {
+        $.Toast("只能分享文件，不能分享文件夹 ~", "error");
+        return;
+    }
+    if (ids.file.length === 0) {
+        $.Toast("请选择要分享的文件 ~", "error");
+        return;
+    }
+    if (ids.file.length > 1) {
+        $.Toast("一次只能分享一个文件 ~", "error");
+        return;
+    }
+    apps.explorer.copy(ids.file[0]);
+}
+
 function delete_selected(del_type = 1, is_delete= 1, delete_type = 0) {
     if (delete_type === 1 || delete_type === 3) {
         show_modal_cover();
@@ -1805,6 +1839,7 @@ function delete_selected(del_type = 1, is_delete= 1, delete_type = 0) {
     }
     if (ids.folder.length + ids.file.length === 0) {
         $.Toast("请选择文件或文件夹 ~", "error");
+        close_modal_cover();
         return;
     }
     if (ids.folder.length > 0) {
@@ -2208,12 +2243,12 @@ let txt_interval = null;
 let md_interval = null;
 function edit_text_file(file_id) {
     clearInterval(txt_interval);
+    openapp('notepad');
     $.ajax({
         type: 'GET',
         url: server + '/content/get/' + file_id,
         success: function (data) {
             if (data['code'] === 0) {
-                openapp('notepad');
                 $('.window.notepad>.titbar>p')[0].innerText = data['msg'];
                 $('#win-notepad>.text-box')[0].innerText = data['data'];
                 $('#win-notepad>.text-box')[0].id = file_id;
@@ -2341,12 +2376,12 @@ function md2html() {
 }
 
 function open_xmind(file_id) {
+    openapp('xmind');
     $.ajax({
         type: 'GET',
         url: server + '/content/get/' + file_id,
         success: function (data) {
             if (data['code'] === 0) {
-                openapp('xmind');
                 $('.window.xmind>.titbar>p')[0].innerText = data['msg'];
                 let options = {
                     container: 'win-xmind',

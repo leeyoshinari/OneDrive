@@ -32,6 +32,8 @@ class Msg(object):
     MsgRenameFailure = '{} 重命名失败'
     MsgDeleteSuccess = '{} 删除成功'
     MsgDeleteFailure = '{} 删除失败'
+    MsgCopySuccess = '{} 复制成功'
+    MsgCopyFailure = '{} 复制失败'
     MsgRestoreSuccess = '{} 还原成功'
     MsgRestoreFailure = '{} 还原失败'
     MsgNotFoundFileError = '本地不存在 {}'

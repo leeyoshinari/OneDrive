@@ -149,6 +149,7 @@ sqlite3.db-shm
 sqlite3.db-wal
 string/
 highlight/
+tmp/
 # Pyre type checker
 .pyre/
 

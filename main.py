@@ -230,6 +230,12 @@ async def save_file(query: models.SaveFile, hh: dict = Depends(auth)):
     return result
 
 
+@router.get("/file/copy/{file_id}", summary="复制文件")
+async def copy_file(file_id: str, hh: dict = Depends(auth)):
+    result = await views.copy_file(file_id, hh)
+    return result
+
+
 @router.get("/file/download/{file_id}", summary="下载文件")
 async def download_file(file_id: str, hh: dict = Depends(auth)):
     try:

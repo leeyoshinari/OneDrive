@@ -18,7 +18,6 @@ from settings import get_config, path
 from common.results import Result
 from common.messages import Msg
 from common.logging import logger
-from common.myException import FileExist
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, write_xmind
 
@@ -39,17 +38,17 @@ async def create_file(folder_id: str, hh: dict) -> Result:
         folder_path = await folder.get_all_path()
         async with transactions.in_transaction():
             file_id = str(int(time.time() * 10000))
-            files = await models.Files.create(id=file_id, name='新建文本文件.txt', format='txt', parent_id=folder_id, size=0, md5=0)
+            files = await models.Files.create(id=file_id, name='新建文本文件.txt', format='txt', parent_id=folder_id, size=0, md5='0')
             file_path = os.path.join(folder_path, '新建文本文件.txt')
             if os.path.exists(file_path):
-                raise FileExist("文件已存在")
+                raise FileExistsError
             else:
                 f = open(file_path, 'w', encoding='utf-8')
                 f.close()
         logger.info(f"{files.name} 新建成功, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = files.id
         result.msg = f"{files.name} 新建成功"
-    except FileExist:
+    except FileExistsError:
         result.code = 1
         result.msg = "文件已存在"
     except Exception:
@@ -106,13 +105,13 @@ async def create_folder(parent_id: str, hh: dict) -> Result:
             folder = await models.Catalog.create(id=str(int(time.time() * 10000)), name='新建文件夹', parent_id=parent_id)
             folder_path = await folder.get_all_path()
             if os.path.exists(folder_path):
-                raise FileExist("文件夹已存在")
+                raise FileExistsError
             else:
                 os.mkdir(folder_path)
         result.data = folder.id
         result.msg = Msg.MsgCreateSuccess.format(folder.name)
         logger.info(f"{Msg.MsgCreateSuccess.format(folder.name)}, 文件夹ID: {folder.id}, 用户: {hh['u']}, IP: {hh['ip']}")
-    except FileExist:
+    except FileExistsError:
         result.code = 1
         result.msg = "文件夹已存在"
     except Exception:
@@ -132,13 +131,13 @@ async def rename_folder(query: models.FilesBase, hh: dict) -> Result:
             await folder.save()
             new_path = os.path.join(os.path.dirname(folder_path), query.name)
             if os.path.exists(new_path):
-                raise FileExist('文件夹已存在')
+                raise FileExistsError
             else:
                 os.rename(folder_path, new_path)
         logger.info(f"{Msg.MsgRenameSuccess.format(query.name)}, 文件夹ID: {folder.id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = query.id
         result.msg = Msg.MsgRenameSuccess.format(query.name)
-    except FileExist:
+    except FileExistsError:
         result.code = 1
         result.msg = "文件夹重名，请重写输入 ~"
     except Exception:
@@ -163,19 +162,45 @@ async def rename_file(query: models.FilesBase, hh: dict) -> Result:
                 file.name = f"{query.name}.{file.format}"
             await file.save()
             if os.path.exists(os.path.join(folder_path, file.name)):
-                raise FileExist('文件已存在')
+                raise FileExistsError
             else:
                 os.rename(os.path.join(folder_path, origin_name), os.path.join(folder_path, file.name))
         logger.info(f"{Msg.MsgRenameSuccess.format(file.name)}, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = query.id
         result.msg = Msg.MsgRenameSuccess.format(file.name)
-    except FileExist:
+    except FileExistsError:
         result.code = 1
         result.msg = "文件重名，请重写输入 ~"
     except Exception:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgRenameFailure.format(query.name)
+    return result
+
+
+async def copy_file(file_id: str, hh: dict) -> Result:
+    result = Result()
+    try:
+        file = await models.Files.get(id=file_id).select_related('parent')
+        folder_path = await file.parent.get_all_path()
+        file_name_list = file.name.split('.')
+        file_name = f"{file.name.replace(f'.{file_name_list[-1]}', '')} - 副本.{file_name_list[-1]}"
+        async with transactions.in_transaction():
+            new_file = await models.Files.create(id=str(int(time.time() * 10000)), name=file_name, format=file.format,
+                                                 parent_id=file.parent_id, size=file.size, md5='0')
+            if os.path.exists(os.path.join(folder_path, file_name)):
+                raise FileExistsError
+            shutil.copy2(os.path.join(folder_path, file.name), os.path.join(folder_path, file_name))
+        logger.info(f"{Msg.MsgCopySuccess.format(file.name)}, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
+        result.data = new_file.id
+        result.msg = Msg.MsgCopySuccess.format(file.name)
+    except FileExistsError:
+        result.code = 1
+        result.msg = "文件副本已经存在 ~"
+    except:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = Msg.MsgCopyFailure.format('')
     return result
 
 
@@ -210,7 +235,7 @@ async def delete_file(query: models.IsDelete, hh: dict) -> Result:
                         logger.error(traceback.format_exc())
                         result.code = 1
                         result.msg = Msg.MsgNotFoundFileError.format(folder.name)
-                        break
+                        return result
             if query.file_type == 'file':
                 files = await models.Files.filter(id__in=query.ids).select_related('parent')
                 for file in files:
@@ -224,7 +249,7 @@ async def delete_file(query: models.IsDelete, hh: dict) -> Result:
                         logger.error(traceback.format_exc())
                         result.code = 1
                         result.msg = Msg.MsgNotFoundFileError.format(file.name)
-                        break
+                        return result
 
         if query.delete_type == 3:      # 删除分享的文件
             _ = await models.Shares.filter(id__in=query.ids).delete()
@@ -401,7 +426,8 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         file = await models.Files.get(id=file_id).select_related('parent')
         parent_path = await file.parent.get_all_path()
         if file.format == 'xmind':
-            xmind = read_xmind(os.path.join(parent_path, file.name))
+            # xmind = write_xmind(os.path.join(parent_path, file.name))
+            xmind = read_xmind(file.id, os.path.join(parent_path, file.name))
             xmind['meta'].update({'name': file.name})
             xmind['meta'].update({'author': hh['u']})
             result.data = xmind

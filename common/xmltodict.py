@@ -22,8 +22,8 @@ class _DictSAXHandler(object):
                  item_depth=0,
                  item_callback=lambda *args: True,
                  xml_attribs=True,
-                 attr_prefix='@',
-                 cdata_key='#text',
+                 attr_prefix='',
+                 cdata_key='text',
                  force_cdata=False,
                  cdata_separator='',
                  postprocessor=None,
@@ -32,7 +32,7 @@ class _DictSAXHandler(object):
                  namespace_separator=':',
                  namespaces=None,
                  force_list=None,
-                 comment_key='#comment'):
+                 comment_key='comment'):
         self.path = []
         self.stack = []
         self.data = []
@@ -237,7 +237,7 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
     return handler.item
 
 
-def _process_namespace(name, namespaces, ns_sep=':', attr_prefix='@'):
+def _process_namespace(name, namespaces, ns_sep=':', attr_prefix=''):
     if not namespaces:
         return name
     try:
@@ -253,8 +253,8 @@ def _process_namespace(name, namespaces, ns_sep=':', attr_prefix='@'):
 
 
 def _emit(key, value, content_handler,
-          attr_prefix='@',
-          cdata_key='#text',
+          attr_prefix='',
+          cdata_key='text',
           depth=0,
           preprocessor=None,
           pretty=False,

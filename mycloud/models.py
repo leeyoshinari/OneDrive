@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Author: leeyoshinari
 
-from typing import Optional, List
+from typing import Optional, List, Any
 from tortoise import fields
 from tortoise.models import Model
 from pydantic import BaseModel
@@ -172,7 +172,7 @@ class DownloadFile(BaseModel):
 # 文件保存模型
 class SaveFile(BaseModel):
     id: str
-    data: str
+    data: Any
 
 
 # 文件删除模型

@@ -557,12 +557,16 @@ async def upload_image(query, hh: dict) -> Result:
 async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
     result = Result()
     try:
-        file = await models.Files.get(id=query.id).select_related('parent')
-        folder_path = await file.parent.get_all_path()
-        with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
-            f.write(unquote(base64.b64decode(query.data).decode('utf-8')))
-        file.size = os.path.getsize(os.path.join(folder_path, file.name))
-        await file.save()
+        async with transactions.in_transaction():
+            file = await models.Files.get(id=query.id).select_related('parent')
+            folder_path = await file.parent.get_all_path()
+            if file.format == 'xmind':
+                write_xmind(file.id, os.path.join(folder_path, file.name), query.data)
+            else:
+                with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
+                    f.write(unquote(base64.b64decode(query.data).decode('utf-8')))
+            file.size = os.path.getsize(os.path.join(folder_path, file.name))
+            await file.save()
         result.msg = Msg.MsgSaveSuccess
         logger.info(f"{file.name}保存成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
     except Exception:

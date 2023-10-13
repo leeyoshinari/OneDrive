@@ -79,7 +79,7 @@
 		}
 	</script>
 	<div id="cm" tabindex="-1"><input class="foc"><list></list></div>
-	<!--div id="dp"><list></list></div-->
+	<div id="dp"><list></list></div>
 	<div id="descp"></div>
 	<!--p id="translater" style="display: none;"></p-->
 	<div id="notice-back"><div id="notice"><div class="cnt"></div><div class="btns"></div></div></div>
@@ -472,13 +472,19 @@
 	<div class="window xmind">
 		<div class="resize-bar"></div>
 		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><p>xmind</p><div>
-				<a class="a wbtg red" onclick="close_xmind();hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg red" onclick="save_xmind();hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('xmind')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('xmind')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
-		<div class="content" id="win-xmind"></div>
+		<div class="content" id="win-xmind">
+			<div class="tool">
+				<a class="a" onmouseover="showdp(this,'xmind.file',null)" onmouseleave="hidedp()">文件</a>
+				<a class="a" onmouseover="showdp(this,'xmind.edit',null)" onmouseleave="hidedp()">编辑</a>
+				<a class="a" onmouseover="showdp(this,'xmind.view',null)" onmouseleave="hidedp()">格式</a>
+			</div>
+		</div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>

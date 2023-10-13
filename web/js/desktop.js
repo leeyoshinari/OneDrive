@@ -43,6 +43,10 @@ $('input,textarea,*[contenteditable=true]').on('contextmenu', (e) => {
 let nomax = { 'calc': 0 /* 其实，计算器是可以最大化的...*/};
 let nomin = {};
 let topmost = [];
+let startClientX = 0;
+let startClientY = 0;
+let endClientX = 0;
+let endClientY = 0;
 let cms = {
     'titbar': [
         function (arg) {
@@ -221,6 +225,93 @@ $('#cm>.foc').blur(() => {
         $(x).removeClass('show-begin');
     }, 200);
 });
+
+let dps = {
+    'xmind.file': [
+        ['<i class="bi bi-file-earmark-plus"></i> 保存', `hidedp(true);$('#win-notepad>.text-box').addClass('down');
+        setTimeout(()=>{$('#win-notepad>.text-box').val('');$('#win-notepad>.text-box').removeClass('down')},200);`],
+        ['<i class="bi bi-box-arrow-right"></i> 另存为', `hidedp(true);$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));
+        $('#win-notepad>.save')[0].click();`],
+    ],
+    'xmind.edit': [
+        ['<i class="bi bi-files"></i> 插入子节点 <info>Insert, Tab</info>', 'document.execCommand(\'copy\')'],
+        ['<i class="bi bi-clipboard"></i> 插入同级节点 <info>Enter</info>', `document.execCommand(\'paste\')`],
+        ['<i class="bi bi-scissors"></i> 剪切 <info>Ctrl+X</info>', 'document.execCommand(\'cut\')'],
+        '<hr>',
+        ['<i class="bi bi-arrow-return-left"></i> 撤销 <info>Ctrl+Z</info>', 'document.execCommand(\'undo\')'],
+        ['<i class="bi bi-arrow-clockwise"></i> 重做 <info>Ctrl+Y</info>', 'document.execCommand(\'redo\')'],
+    ],
+    'xmind.view': [
+        ['<i class="bi bi-type"></i> 插入正常字块', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<p>T</p>\''],
+        ['<i class="bi bi-type-h1"></i> 插入主标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h1>H1</h1>\''],
+        ['<i class="bi bi-type-h2"></i> 插入次标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h2>H2</h2>\''],
+        ['<i class="bi bi-type-h3"></i> 插入副标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h3>H3</h3>\''],
+        ['<i class="bi bi-type-underline"></i> 插入下划线', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<u>U</u>\''],
+        ['<i class="bi bi-type-strikethrough"></i> 插入删除线', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<s>S</s>\''],
+        ['<i class="bi bi-type-italic"></i> 插入斜体字', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<i>I</i>\''],
+        ['<i class="bi bi-type-bold"></i> 插入加粗字', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<b>B</b>\''],
+    ]
+}
+
+let dpt = null, isOnDp = false;
+$('#dp')[0].onmouseover = () => { isOnDp = true };
+$('#dp')[0].onmouseleave = () => { isOnDp = false; hidedp() };
+function showdp(e, cl, arg) {
+    if ($('#dp').hasClass('show-begin')) {
+        $('#dp').removeClass('show');
+        setTimeout(() => {
+            $('#dp').removeClass('show-begin');
+        }, 200);
+        if (e !== dpt) {
+            setTimeout(() => {
+                showdp(e, cl, arg);
+            }, 400);
+        }
+        return;
+    }
+    // dpt = e;
+    let off = $(e).offset();
+    $('#dp').css('left', off.left);
+    $('#dp').css('top', off.top + e.offsetHeight);
+    let h = '';
+    dps[cl].forEach(item => {
+        if (typeof (item) == 'function') {
+            ret = item(arg);
+            if (ret === 'null') {
+                return true;
+            }
+            h += `<a class="a" onclick="${ret[1]}">${ret[0]}</a>\n`;
+        } else if (typeof (item) == 'string') {
+            h += item + '\n';
+        } else {
+            h += `<a class="a" onclick="${item[1]}">${item[0]}</a>\n`;
+        }
+    })
+    $('#dp>list')[0].innerHTML = h;
+    $('#dp').addClass('show-begin');
+    setTimeout(() => {
+        $('#dp').addClass('show');
+    }, 0);
+    setTimeout(() => {
+        if (off.top + e.offsetHeight + $('#dp')[0].offsetHeight > $('html')[0].offsetHeight) {
+            $('#dp').css('top', off.top - $('#dp')[0].offsetHeight);
+        }
+        if (off.left + $('#dp')[0].offsetWidth > $('html')[0].offsetWidth) {
+            $('#dp').css('left', $('html')[0].offsetWidth - $('#dp')[0].offsetWidth - 5);
+        }
+    }, 200);
+}
+function hidedp(force = false) {
+    setTimeout(() => {
+        if (isOnDp && !force) {
+            return;
+        }
+        $('#dp').removeClass('show');
+        setTimeout(() => {
+            $('#dp').removeClass('show-begin');
+        }, 200);
+    }, 100);
+}
 
 // 悬停提示
 document.querySelectorAll('*[win12_title]:not(.notip)').forEach(a => {
@@ -500,10 +591,10 @@ let apps = {
                 apps.explorer.delHistory(apps.explorer.tabs[apps.explorer.now][0]);
                 apps.explorer.pushHistory(apps.explorer.tabs[apps.explorer.now][0], '此电脑');
             }
-            let disk_group = '<a class="a item act" ondblclick="" ontouchend="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">本地磁盘 (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB 可用, 共 521 MB</p></div></a>';
+            let disk_group = '<a class="a item act" ondblclick="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">本地磁盘 (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB 可用, 共 521 MB</p></div></a>';
             $.get(server + '/disk/get').then(res => {
                 res.data.forEach(c => {
-                    disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')"oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">本地磁盘 (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + ' 可用, 共 ' + c['total'] + '</p></div></a>';
+                    disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">本地磁盘 (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + ' 可用, 共 ' + c['total'] + '</p></div></a>';
                 });
                 document.getElementsByClassName('group')[0].innerHTML = disk_group;
             });
@@ -557,23 +648,20 @@ let apps = {
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
-                document.querySelectorAll('.a.item.files').forEach(item => {
+                document.querySelectorAll('.a.item').forEach(item => {
                     item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
-                        }
+                        startClientX = e.touches[0].clientX;
+                        startClientY = e.touches[0].clientY;
+                        endClientX = startClientX;
+                        endClientY = startClientY;
                     }, false);
-                })
-                document.querySelectorAll('.a.item.file').forEach(item => {
-                    item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
+                    item.addEventListener('touchmove', function (e) {
+                        endClientX = e.touches[0].clientX;
+                        endClientY = e.touches[0].clientY;
+                    }, false);
+                    item.addEventListener('touchend', function (e) {
+                        if (Math.abs(endClientX - startClientX) < 2 || Math.abs(endClientY - startClientY) < 2) {
+                            item.ondblclick(e);
                         }
                     }, false);
                 })
@@ -735,23 +823,20 @@ let apps = {
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
-                document.querySelectorAll('.a.item.files').forEach(item => {
+                document.querySelectorAll('.a.item').forEach(item => {
                     item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
-                        }
+                        startClientX = e.touches[0].clientX;
+                        startClientY = e.touches[0].clientY;
+                        endClientX = startClientX;
+                        endClientY = startClientY;
                     }, false);
-                })
-                document.querySelectorAll('.a.item.file').forEach(item => {
-                    item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
+                    item.addEventListener('touchmove', function (e) {
+                        endClientX = e.touches[0].clientX;
+                        endClientY = e.touches[0].clientY;
+                    }, false);
+                    item.addEventListener('touchend', function (e) {
+                        if (Math.abs(endClientX - startClientX) < 2 || Math.abs(endClientY - startClientY) < 2) {
+                            item.ondblclick(e);
                         }
                     }, false);
                 })
@@ -1890,23 +1975,20 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                     }
                 }
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = ht;
-                document.querySelectorAll('.a.item.files').forEach(item => {
+                document.querySelectorAll('.a.item').forEach(item => {
                     item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
-                        }
+                        startClientX = e.touches[0].clientX;
+                        startClientY = e.touches[0].clientY;
+                        endClientX = startClientX;
+                        endClientY = startClientY;
                     }, false);
-                })
-                document.querySelectorAll('.a.item.file').forEach(item => {
-                    item.addEventListener('touchstart', function (e) {
-                        if (e.touches.length > 0) {
-                            item.removeEventListener('touchstart', e.callee);
-                            item.addEventListener('click', function (e) {
-                                item.ondblclick(e);
-                            })
+                    item.addEventListener('touchmove', function (e) {
+                        endClientX = e.touches[0].clientX;
+                        endClientY = e.touches[0].clientY;
+                    }, false);
+                    item.addEventListener('touchend', function (e) {
+                        if (Math.abs(endClientX - startClientX) < 2 || Math.abs(endClientY - startClientY) < 2) {
+                            item.ondblclick(e);
                         }
                     }, false);
                 })
@@ -2280,10 +2362,12 @@ function close_text_editor(file_id) {
     $('#win-notepad>.text-box')[0].innerText='';
 }
 
-function save_text_file(file_id, data) {
-    let post_data = {
-        id: file_id,
-        data: btoa(encodeURIComponent(data))
+function save_text_file(file_id, data, is_code=true) {
+    let post_data = { id: file_id };
+    if (is_code) {
+        post_data.data = btoa(encodeURIComponent(data));
+    } else {
+        post_data.data = data;
     }
     $.ajax({
         type: 'POST',
@@ -2388,6 +2472,7 @@ function open_xmind(file_id) {
                 };
                 let jm = new jsMind(options);
                 jm.show(data['data']);
+                $('.jsmind-inner.jmnode-overflow-wrap')[0].id = file_id;
             } else {
                 $.Toast(data['msg'], 'error');
             }
@@ -2395,7 +2480,9 @@ function open_xmind(file_id) {
     })
 }
 
-
-function close_xmind() {
-    $('#win-xmind')[0].innerHTML = '';
+function save_xmind() {
+    let jm = jsMind.current;
+    let file_id = $('.jsmind-inner.jmnode-overflow-wrap')[0].id;
+    save_text_file(file_id, jm.get_data('node_tree').data, false);
+    $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
 }

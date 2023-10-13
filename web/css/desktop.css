@@ -850,6 +850,58 @@ input.foc {
     background-color: var(--hover-b);
 }
 
+#dp {
+    display: none;
+    position: absolute;
+    box-shadow: 3px 3px 6px 1px var(--sd);
+    z-index: 101;
+    border-radius: 10px;
+    border: 1.5px solid #6f6f6f30;
+    background: var(--cm);
+    backdrop-filter: blur(20px) saturate(2);
+    min-width: 200px;
+    overflow: hidden;
+    transition: max-height 200ms ease-in-out;
+    padding: 4px;
+    max-height: 0;
+}
+
+#dp.show-begin {
+    display: block;
+    transition: max-height 200ms ease-in-out;
+}
+
+#dp.show {
+    max-height: 100%;
+}
+
+#dp>list>a {
+    padding: 4.5px 10px;
+    margin: 0;
+    transition: 80ms;
+    border-radius: 7px;
+    font-size: 14px;
+    display: flex;
+    line-height: 19px;
+}
+
+#dp>list>a>info {
+    float: right;
+    text-align: end;
+    color: #888;
+    flex-grow: 1;
+}
+
+#dp>list>a>.bi {
+    font-size: 19px;
+    margin-right: 4px;
+    display: block;
+}
+
+#dp>list>*:not(hr):hover {
+    background-color: var(--hover-b);
+}
+
 #descp {
     position: fixed;
     background: var(--cm);

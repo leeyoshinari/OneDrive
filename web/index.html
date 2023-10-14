@@ -195,8 +195,14 @@
 				</div>
 				<div class="main">
 					<div class="tool micaalt">
-						<a class="a b act asd" title="新建文本文件"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file');"><img src="img/explorer/new_file.png" alt=""></a>
+						<a class="act asd dropdown-container" title="新建文本文件">
+							<span style="margin-top: 2px; margin-right: 6px;">新建文件</span>
+							<ul class="dropdown-list">
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');">新建txt文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','md');">新建md文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
+							</ul>
+						</a>
 						<a class="a b act asd" title="新建文件夹"
 							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png" alt=""></a>
 						<a class="a b act asd" title="重命名" onclick="rename_selected();"><img src="img/explorer/rename.png" alt=""></a>
@@ -472,7 +478,7 @@
 	<div class="window xmind">
 		<div class="resize-bar"></div>
 		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><p>xmind</p><div>
-				<a class="a wbtg red" onclick="save_xmind();hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg red" onclick="save_xmind(true);hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('xmind')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('xmind')"><i class="bi bi-dash-lg"></i></a>
 			</div>
@@ -482,7 +488,9 @@
 			<div class="tool">
 				<a class="a" onmouseover="showdp(this,'xmind.file',null)" onmouseleave="hidedp()">文件</a>
 				<a class="a" onmouseover="showdp(this,'xmind.edit',null)" onmouseleave="hidedp()">编辑</a>
-				<a class="a" onmouseover="showdp(this,'xmind.view',null)" onmouseleave="hidedp()">格式</a>
+				<a class="a" onmouseover="showdp(this,'xmind.font',null)" onmouseleave="hidedp()">字体</a>
+				<a class="a" onmouseover="showdp(this,'xmind.bgcolor',null)" onmouseleave="hidedp()">背景色</a>
+				<a class="a" onmouseover="showdp(this,'xmind.fontcolor',null)" onmouseleave="hidedp()">字体颜色</a>
 			</div>
 		</div>
 	</div>

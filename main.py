@@ -200,12 +200,12 @@ async def query_files(file_id: str, q: str = "", sort_field: str = 'update_time'
     return result
 
 
-@router.post('/create', summary="新建文件夹 或 txt文件")
+@router.post('/create', summary="新建文件夹 或 文件")
 async def create_folder(query: models.CatalogBase, hh: dict = Depends(auth)):
     if query.type == 'folder':
         result = await views.create_folder(query.id, hh)
     else:
-        result = await views.create_file(query.id, hh)
+        result = await views.create_file(query.id, query.file_type, hh)
     return result
 
 

@@ -19,13 +19,13 @@ from common.results import Result
 from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
-from common.xmind import read_xmind, write_xmind
+from common.xmind import read_xmind, write_xmind, create_xmind
 
 
 root_path = json.loads(get_config("rootPath"))
 
 
-async def create_file(folder_id: str, hh: dict) -> Result:
+async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
     result = Result()
     try:
         if len(folder_id) == 1:
@@ -38,13 +38,22 @@ async def create_file(folder_id: str, hh: dict) -> Result:
         folder_path = await folder.get_all_path()
         async with transactions.in_transaction():
             file_id = str(int(time.time() * 10000))
-            files = await models.Files.create(id=file_id, name='新建文本文件.txt', format='txt', parent_id=folder_id, size=0, md5='0')
-            file_path = os.path.join(folder_path, '新建文本文件.txt')
+            if file_type == 'md':
+                file_name = '新建markdown文档.md'
+            elif file_type == 'xmind':
+                file_name = '新建脑图文件.xmind'
+            else:
+                file_name = '新建文本文件.txt'
+            files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
+            file_path = os.path.join(folder_path, file_name)
             if os.path.exists(file_path):
                 raise FileExistsError
             else:
-                f = open(file_path, 'w', encoding='utf-8')
-                f.close()
+                if file_type == 'xmind':
+                    create_xmind(files.id, file_path)
+                else:
+                    f = open(file_path, 'w', encoding='utf-8')
+                    f.close()
         logger.info(f"{files.name} 新建成功, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = files.id
         result.msg = f"{files.name} 新建成功"
@@ -53,9 +62,9 @@ async def create_file(folder_id: str, hh: dict) -> Result:
         result.msg = "文件已存在"
     except Exception:
         logger.error(traceback.format_exc())
-        logger.error(f"新建文本文档.txt 新建失败, 用户: {hh['u']}, IP: {hh['ip']}")
+        logger.error(f"新建{file_type}文件失败, 用户: {hh['u']}, IP: {hh['ip']}")
         result.code = 1
-        result.msg = '新建文本文档.txt 新建失败'
+        result.msg = f'新建{file_type}文件失败'
     return result
 
 
@@ -569,6 +578,10 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
             await file.save()
         result.msg = Msg.MsgSaveSuccess
         logger.info(f"{file.name}保存成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
+    except FileNotFoundError as msg:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = msg.args[0]
     except Exception:
         logger.error(traceback.format_exc())
         result.code = 1

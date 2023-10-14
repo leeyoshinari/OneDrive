@@ -228,28 +228,69 @@ $('#cm>.foc').blur(() => {
 
 let dps = {
     'xmind.file': [
-        ['<i class="bi bi-file-earmark-plus"></i> 保存', `hidedp(true);$('#win-notepad>.text-box').addClass('down');
-        setTimeout(()=>{$('#win-notepad>.text-box').val('');$('#win-notepad>.text-box').removeClass('down')},200);`],
-        ['<i class="bi bi-box-arrow-right"></i> 另存为', `hidedp(true);$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));
-        $('#win-notepad>.save')[0].click();`],
+        ['<i class="bi"></i> 保存', `save_xmind();`],
+        ['<i class="bi"></i> 下载', `apps.explorer.download($('.jsmind-inner.jmnode-overflow-wrap')[0].id);`],
     ],
     'xmind.edit': [
-        ['<i class="bi bi-files"></i> 插入子节点 <info>Insert, Tab</info>', 'document.execCommand(\'copy\')'],
-        ['<i class="bi bi-clipboard"></i> 插入同级节点 <info>Enter</info>', `document.execCommand(\'paste\')`],
-        ['<i class="bi bi-scissors"></i> 剪切 <info>Ctrl+X</info>', 'document.execCommand(\'cut\')'],
-        '<hr>',
-        ['<i class="bi bi-arrow-return-left"></i> 撤销 <info>Ctrl+Z</info>', 'document.execCommand(\'undo\')'],
-        ['<i class="bi bi-arrow-clockwise"></i> 重做 <info>Ctrl+Y</info>', 'document.execCommand(\'redo\')'],
+        ['<i class="bi"></i> 插入子节点 <info>Insert, Tab</info>', `add_node();`],
+        ['<i class="bi"></i> 插入同级节点 <info>Enter</info>', `add_node(true);`],
+        // ['<i class="bi"></i> 剪切 <info>Ctrl+X</info>', 'document.execCommand(\'cut\')'],
+        // '<hr>',
+        // ['<i class="bi"></i> 撤销 <info>Ctrl+Z</info>', 'document.execCommand(\'undo\')'],
+        // ['<i class="bi"></i> 重做 <info>Ctrl+Y</info>', 'document.execCommand(\'redo\')'],
     ],
-    'xmind.view': [
-        ['<i class="bi bi-type"></i> 插入正常字块', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<p>T</p>\''],
-        ['<i class="bi bi-type-h1"></i> 插入主标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h1>H1</h1>\''],
-        ['<i class="bi bi-type-h2"></i> 插入次标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h2>H2</h2>\''],
-        ['<i class="bi bi-type-h3"></i> 插入副标题', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<h3>H3</h3>\''],
-        ['<i class="bi bi-type-underline"></i> 插入下划线', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<u>U</u>\''],
-        ['<i class="bi bi-type-strikethrough"></i> 插入删除线', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<s>S</s>\''],
-        ['<i class="bi bi-type-italic"></i> 插入斜体字', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<i>I</i>\''],
-        ['<i class="bi bi-type-bold"></i> 插入加粗字', 'hidedp(true);$(\'#win-notepad>.text-box\')[0].innerHTML+=\'<b>B</b>\''],
+    'xmind.bgcolor': [
+        ['<i class="bi"></i> 红色', `set_node_bg_color('red');`],
+        ['<i class="bi"></i> 粉红', `set_node_bg_color('#F08080');`],
+        ['<i class="bi"></i> 浅粉', `set_node_bg_color('#FFDAB9');`],
+        ['<i class="bi"></i> 橙色', `set_node_bg_color('orange');`],
+        ['<i class="bi"></i> 黄色', `set_node_bg_color('yellow');`],
+        ['<i class="bi"></i> 浅黄', `set_node_bg_color('#FFFFE0');`],
+        ['<i class="bi"></i> 绿色', `set_node_bg_color('green');`],
+        ['<i class="bi"></i> 浅绿', `set_node_bg_color('#98F898');`],
+        ['<i class="bi"></i> 蓝色', `set_node_bg_color('blue');`],
+        ['<i class="bi"></i> 浅蓝', `set_node_bg_color('#00BFFF');`],
+        ['<i class="bi"></i> 青色', `set_node_bg_color('#00FFFF');`],
+        ['<i class="bi"></i> 紫色', `set_node_bg_color('#800080');`],
+        ['<i class="bi"></i> 紫罗兰', `set_node_bg_color('#EE82EE');`],
+        ['<i class="bi"></i> 白色', `set_node_bg_color('white');`],
+        ['<i class="bi"></i> 黑色', `set_node_bg_color('black');`],
+        ['<i class="bi"></i> 灰色', `set_node_bg_color('#808080');`],
+        ['<i class="bi"></i> 浅灰', `set_node_bg_color('#D3D3D3');`],
+    ],
+    'xmind.fontcolor': [
+        ['<i class="bi"></i> 红色', `set_node_font_color('red');`],
+        ['<i class="bi"></i> 粉红', `set_node_font_color('#F08080');`],
+        ['<i class="bi"></i> 浅粉', `set_node_font_color('#FFDAB9');`],
+        ['<i class="bi"></i> 橙色', `set_node_font_color('orange');`],
+        ['<i class="bi"></i> 黄色', `set_node_font_color('yellow');`],
+        ['<i class="bi"></i> 浅黄', `set_node_font_color('#FFFFE0');`],
+        ['<i class="bi"></i> 绿色', `set_node_font_color('green');`],
+        ['<i class="bi"></i> 浅绿', `set_node_font_color('#98F898');`],
+        ['<i class="bi"></i> 蓝色', `set_node_font_color('blue');`],
+        ['<i class="bi"></i> 浅蓝', `set_node_font_color('#00BFFF');`],
+        ['<i class="bi"></i> 青色', `set_node_font_color('#00FFFF');`],
+        ['<i class="bi"></i> 紫色', `set_node_font_color('#800080');`],
+        ['<i class="bi"></i> 紫罗兰', `set_node_font_color('#EE82EE');`],
+        ['<i class="bi"></i> 白色', `set_node_font_color('white');`],
+        ['<i class="bi"></i> 黑色', `set_node_font_color('black');`],
+        ['<i class="bi"></i> 灰色', `set_node_font_color('#808080');`],
+        ['<i class="bi"></i> 浅灰', `set_node_font_color('#D3D3D3');`],
+    ],
+    'xmind.font': [
+        ['<i class="bi"></i> 12', `set_font_size(12, '');`],
+        ['<i class="bi"></i> 14', `set_font_size(14, '');`],
+        ['<i class="bi"></i> 16', `set_font_size(16, '');`],
+        ['<i class="bi"></i> 18', `set_font_size(18, '');`],
+        ['<i class="bi"></i> 20', `set_font_size(20, '');`],
+        ['<i class="bi"></i> 22', `set_font_size(22, '');`],
+        ['<i class="bi"></i> 24', `set_font_size(24, '');`],
+        ['<i class="bi"></i> 26', `set_font_size(26, '');`],
+        ['<i class="bi"></i> 28', `set_font_size(28, '');`],
+        ['<i class="bi"></i> 30', `set_font_size(30, '');`],
+        '<hr>',
+        ['<i class="bi"></i> Normal', `set_font_size('', 'normal');`],
+        ['<i class="bi"></i> Bold', `set_font_size('', 'bold');`],
     ]
 }
 
@@ -850,11 +891,12 @@ let apps = {
             }
             // $('#win-explorer>.path>.tit')[0].innerHTML = path;
         },
-        add: (path_id, type = "file", command = "", icon = "") => {
+        add: (path_id, type = "file", file_type="txt") => {
             let paths = path_id.split('/');
             let post_data = {
                 id: paths[paths.length - 1],
-                type: type
+                type: type,
+                file_type: file_type
             }
             $.ajax({
                 type: 'POST',
@@ -2473,6 +2515,7 @@ function open_xmind(file_id) {
                 let jm = new jsMind(options);
                 jm.show(data['data']);
                 $('.jsmind-inner.jmnode-overflow-wrap')[0].id = file_id;
+                $('.jsmind-inner.jmnode-overflow-wrap')[0].style.height = '93%';
             } else {
                 $.Toast(data['msg'], 'error');
             }
@@ -2480,9 +2523,61 @@ function open_xmind(file_id) {
     })
 }
 
-function save_xmind() {
+function save_xmind(is_close=false) {
     let jm = jsMind.current;
     let file_id = $('.jsmind-inner.jmnode-overflow-wrap')[0].id;
     save_text_file(file_id, jm.get_data('node_tree').data, false);
-    $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
+    if (is_close) {
+        $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
+    }
+}
+
+function set_node_bg_color(color) {
+    let jm = jsMind.current;
+    let jm_node = jm.get_selected_node();
+    if (jm_node) {
+        jm.set_node_color(jm_node.id, color);
+    } else {
+        $.Toast("请先选择节点 ~", "warning");
+    }
+}
+
+function set_node_font_color(color) {
+    let jm = jsMind.current;
+    let jm_node = jm.get_selected_node();
+    if (jm_node) {
+        jm.set_node_color(jm_node.id, '', color);
+    } else {
+        $.Toast("请先选择节点 ~", "warning");
+    }
+}
+
+function add_node(parent=false) {
+    let jm = jsMind.current;
+    let jm_node = jm.get_selected_node();
+    if (jm_node) {
+        let node_id = jm_node.id;
+        if (parent) {
+            node_id = jm_node.parent.id;
+        }
+        jm.add_node(node_id, new Date().getTime().toString(), 'New');
+    } else {
+        $.Toast("请先选择节点 ~", "warning");
+    }
+}
+
+function set_font_size(size, weight) {
+    let jm = jsMind.current;
+    let jm_node = jm.get_selected_node();
+    if (jm_node) {
+        if (!size) {
+            size = jm_node.data['font-size'];
+        }
+        if (!weight) {
+            weight = jm_node.data['font-weight'];
+        }
+        jm.set_node_font_style(jm_node.id, size, weight);
+    } else {
+        $.Toast("请先选择节点 ~", "warning");
+    }
 }

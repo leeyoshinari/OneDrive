@@ -15,6 +15,18 @@ xmind_files_list = ['content.xml', 'meta.xml',
                     'content.json', 'manifest.json', 'metadata.json']
 
 
+def create_xmind(file_id, file_path):
+    tmp_path = os.path.join('tmp', file_id)
+    if not os.path.exists(tmp_path):
+        os.mkdir(tmp_path)
+    content_path = os.path.join(tmp_path, 'content.json')
+    content = [{"rootTopic": {"id": str(int(time.time()*1000)), "title": "新建脑图", "class": "topic"}}]
+    with codecs.open(content_path, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(content))
+    with ZipFile(file_path, "w") as z:
+        z.write(content_path, 'content.json')
+
+
 def write_xmind(file_id, file_path, data):
     with ZipFile(file_path, 'r') as z:
         is_zen = 'content.json' in z.namelist()
@@ -43,7 +55,7 @@ def write_xmind(file_id, file_path, data):
     with ZipFile(file_path, "w") as z:
         for file in file_name:
             z.write(os.path.join(tmp_path, file), file)
-    shutil.rmtree(tmp_path)
+    # shutil.rmtree(tmp_path)
 
 
 def read_xmind(file_id, file_path):
@@ -86,6 +98,8 @@ def format_zen_reader(data: list):
             res.update({'id': v})
         if k == 'title':
             res.update({'topic': v})
+        if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+            res.update({k: v})
         if k == 'children':
             res.update({'children': zen_reader_children(v['attached'])})
     mind['data'] = res
@@ -101,6 +115,8 @@ def zen_reader_children(data: list):
                 res.update({'id': v})
             if k == 'title':
                 res.update({'topic': v})
+            if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+                res.update({k: v})
             if k == 'children':
                 res.update({'children': zen_reader_children(v['attached'])})
         result.append(res)
@@ -172,6 +188,8 @@ def format_zen_writer(data):
             res.update({'id': v})
         if k == 'topic':
             res.update({'title': v})
+        if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+            res.update({k: v})
         if k == 'children':
             res.update({'children': {'attached': zen_writer_children(v)}})
     return res
@@ -186,6 +204,8 @@ def zen_writer_children(data: list):
                 res.update({'id': v})
             if k == 'topic':
                 res.update({'title': v})
+            if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+                res.update({k: v})
             if k == 'children':
                 res.update({'children': {'attached': zen_writer_children(v)}})
         result.append(res)

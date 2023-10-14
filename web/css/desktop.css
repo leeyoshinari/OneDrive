@@ -78,8 +78,7 @@
     backdrop-filter: blur(30px);
 }
 
-body,
-p {
+body,p {
     transition: 100ms;
 }
 
@@ -106,6 +105,7 @@ body {
     color: var(--text);
     text-decoration: none !important;
     cursor: pointer;
+    padding-left: 1%;
 }
 
 .jump {
@@ -446,6 +446,37 @@ list:not(.new)>a:active,
 .dock-btn:hover,
 .dock-btn.show {
     filter: brightness(1.2);
+}
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-list {
+    display: none;
+    padding-left: 2px;
+    margin-top: 22px;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-list li {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-list li:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-container:hover .dropdown-list {
+    display: block;
 }
 
 .window>.resize-bar {

@@ -97,6 +97,7 @@ class SearchItems(BaseModel):
 class CatalogBase(BaseModel):
     id: str
     type: str
+    file_type: str
 
 
 # 文件、文件夹移动模型

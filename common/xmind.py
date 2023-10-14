@@ -3,7 +3,9 @@
 # Author: leeyoshinari
 
 import os
+import time
 import json
+import shutil
 import codecs
 from zipfile import ZipFile
 from common import xmltodict
@@ -27,12 +29,21 @@ def write_xmind(file_id, file_path, data):
         else:
             raise FileNotFoundError("请重新打开文件...")
     else:
-        format_x_writer(data)
+        content_path = os.path.join(tmp_path, 'content.xml')
+        if os.path.exists(content_path):
+            with open(content_path, 'r', encoding='utf-8') as f:
+                content = xmltodict.parse(f.read())
+            content['xmap-content']['sheet']['topic'] = data
+            with codecs.open(content_path, 'w', encoding='utf-8') as f:
+                f.write(format_x_writer(content))
+        else:
+            raise FileNotFoundError("请重新打开文件...")
 
     file_name = os.listdir(tmp_path)
     with ZipFile(file_path, "w") as z:
         for file in file_name:
             z.write(os.path.join(tmp_path, file), file)
+    shutil.rmtree(tmp_path)
 
 
 def read_xmind(file_id, file_path):
@@ -49,7 +60,7 @@ def read_xmind(file_id, file_path):
         if 'content.json' in z.namelist():
             result = format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
         else:
-            result = format_x_reader(xmltodict.parse(z.open('content.xml').read().decode('utf-8')))
+            result = format_x_reader(xmltodict.parse(z.open('/content.xml').read().decode('utf-8')))
         return result
 
 
@@ -133,7 +144,25 @@ def x_reader_children(data):
 
 
 def format_x_writer(data):
-    pass
+    res = ''
+    for k, v in data.items():
+        s = ''
+        sheet = ''
+        for k1, v1 in v.items():
+            if isinstance(v1, str):
+                s += f'{k1}="{v1}" '
+            if isinstance(v1, dict):
+                sheet = f'<sheet id="{v1["id"]}" timestamp="{v1["timestamp"]}"><title>{v1["title"]}</title>{format_x_children(v1["topic"])}</sheet>'
+        res = f'<?xml version="1.0" encoding="UTF-8" standalone="no"?><{k} {s}>{sheet}</{k}>'
+    return res
+
+
+def format_x_children(data: list):
+    res = ''
+    for item in data:
+        res += (f'<topic id="{item["id"]}" timestamp="{int(time.time() * 1000)}"><title>{item["title"]}</title><children>'
+             f'<topics type="attached">{format_x_children(item.get("children", []))}</topics></children></topic>')
+    return res
 
 
 def format_zen_writer(data):
@@ -154,7 +183,7 @@ def zen_writer_children(data: list):
         res = {}
         for k, v in item.items():
             if k == 'id':
-                res.update({'id', v})
+                res.update({'id': v})
             if k == 'topic':
                 res.update({'title': v})
             if k == 'children':

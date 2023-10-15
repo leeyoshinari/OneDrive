@@ -458,7 +458,7 @@ list:not(.new)>a:active,
     padding-left: 2px;
     margin-top: 22px;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #ffffffdb;
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
@@ -1276,13 +1276,19 @@ list>span.focs.cl {
     overflow: hidden;
 }
 
-.window>.titbar>p {
+.window>.titbar>span {
     font-size: 15px;
     margin-top: 9px;
     flex-grow: 2;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.window>.titbar>span>.save-status {
+    font-size: 10px;
+    margin-left: 20px;
+    color: #808080;
 }
 
 .window>.titbar>a {

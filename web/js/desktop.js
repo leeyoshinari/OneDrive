@@ -1881,6 +1881,15 @@ function close_modal_cover() {
     $('.modal_cover>#progressBar')[0].style.display = 'none';
 }
 
+function get_current_time(is_year=false) {
+    let curr_date = new Date();
+    let curr_t = curr_date.getHours() + ":" + curr_date.getMinutes() + ":" + curr_date.getSeconds();
+    if (is_year) {
+        curr_t = curr_date.getFullYear() + "-" + curr_date.getMonth() + "-" + curr_date.getDay() + " " + curr_t;
+    }
+    return curr_t;
+}
+
 function getSelectedIds(is_all = false) {
     let ids = {folder: [], file: []};
     let items = document.querySelectorAll('#win-explorer>.page>.main>.content>.view>.row');
@@ -2365,6 +2374,7 @@ function close_video() {$('.my_video').attr('src', '');}
 
 let txt_interval = null;
 let md_interval = null;
+let xmind_interval = null;
 function edit_text_file(file_id) {
     clearInterval(txt_interval);
     openapp('notepad');
@@ -2373,7 +2383,7 @@ function edit_text_file(file_id) {
         url: server + '/content/get/' + file_id,
         success: function (data) {
             if (data['code'] === 0) {
-                $('.window.notepad>.titbar>p')[0].innerText = data['msg'];
+                $('.window.notepad>.titbar>span>.title')[0].innerText = data['msg'];
                 $('#win-notepad>.text-box')[0].innerText = data['data'];
                 $('#win-notepad>.text-box')[0].id = file_id;
                 $('#win-notepad>a')[0].download = data['msg'].replace('txt', 'html');
@@ -2383,8 +2393,10 @@ function edit_text_file(file_id) {
                     let text_data = $('#win-notepad>.text-box')[0].innerText;
                     let text_length = $('#notepad-length')[0].value;
                     if (text_data.length !== parseInt(text_length)) {
+                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = "正在保存...";
                         save_text_file(file_id, text_data);
                         $('#notepad-length')[0].value = text_data.length;
+                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
                     }
                 }, 10000);
             } else {
@@ -2396,11 +2408,13 @@ function edit_text_file(file_id) {
 
 function close_text_editor(file_id) {
     clearInterval(txt_interval);
+    $('.window.notepad>.titbar>span>.save-status')[0].innerText = "正在保存...";
     let text_data = $('#win-notepad>.text-box')[0].innerText;
     let text_length = $('#notepad-length')[0].value;
     if (text_data.length !== parseInt(text_length)) {
         save_text_file(file_id, text_data);
     }
+    $('.window.notepad>.titbar>span>.save-status')[0].innerText = "";
     $('#win-notepad>.text-box')[0].innerText='';
 }
 
@@ -2438,8 +2452,10 @@ function open_md(file_id) {
         let text_data = iframe_id.contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
         let text_length = iframe_id.contentWindow.document.getElementById("content_length").value;
         if (text_data.length !== parseInt(text_length)) {
+            $('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
             save_text_file(file_id, text_data);
             iframe_id.contentWindow.document.getElementById("content_length").value = text_data.length;
+            $('.window.markdown>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
         }
     }, 10000);
     setTimeout(() => {
@@ -2471,12 +2487,14 @@ function open_md(file_id) {
 
 function close_md_editor(file_id) {
     clearInterval(md_interval);
+    $('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
     resizeMD.disconnect();
     let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
     let content_len = document.getElementById("iframe_id").contentWindow.document.getElementById("content_length").value;
     if (parseInt(content_len) !== content.length) {
         save_text_file(file_id, content);
     }
+    $('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
     document.getElementById("iframe_id").src = 'about:blank';
     document.getElementsByClassName("markdown")[0].style.display = 'none';
 }
@@ -2502,13 +2520,14 @@ function md2html() {
 }
 
 function open_xmind(file_id) {
+    clearInterval(xmind_interval);
     openapp('xmind');
     $.ajax({
         type: 'GET',
         url: server + '/content/get/' + file_id,
         success: function (data) {
             if (data['code'] === 0) {
-                $('.window.xmind>.titbar>p')[0].innerText = data['msg'];
+                $('.window.xmind>.titbar>span>.title')[0].innerText = data['msg'];
                 let options = {
                     container: 'win-xmind',
                 };
@@ -2516,6 +2535,16 @@ function open_xmind(file_id) {
                 jm.show(data['data']);
                 $('.jsmind-inner.jmnode-overflow-wrap')[0].id = file_id;
                 $('.jsmind-inner.jmnode-overflow-wrap')[0].style.height = '93%';
+                setTimeout(() => {
+                    $('#win-xmind>.tool')[0].value = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+                }, 3000);
+                xmind_interval = window.setInterval(() => {
+                    let origin_len = $('#win-xmind>.tool')[0].value;
+                    let current_len = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+                    if (parseInt(origin_len) !== current_len) {
+                        save_xmind();
+                    }
+                }, 10000);
             } else {
                 $.Toast(data['msg'], 'error');
             }
@@ -2524,11 +2553,21 @@ function open_xmind(file_id) {
 }
 
 function save_xmind(is_close=false) {
-    let jm = jsMind.current;
-    let file_id = $('.jsmind-inner.jmnode-overflow-wrap')[0].id;
-    save_text_file(file_id, jm.get_data('node_tree').data, false);
-    if (is_close) {
-        $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
+    if (is_close) {clearInterval(xmind_interval);}
+    let origin_len = $('#win-xmind>.tool')[0].value;
+    let current_len = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+    if (parseInt(origin_len) !== current_len) {
+        $('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
+        let jm = jsMind.current;
+        let file_id = $('.jsmind-inner.jmnode-overflow-wrap')[0].id;
+        save_text_file(file_id, jm.get_data('node_tree').data, false);
+        if (is_close) {
+            $('.window.xmind>.titbar>span>.save-status')[0].innerText = "";
+            $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
+        } else {
+            $('.window.xmind>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
+            $('#win-xmind>.tool')[0].value = current_len;
+        }
     }
 }
 

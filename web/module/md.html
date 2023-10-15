@@ -24,7 +24,7 @@
 		url: servers + '/content/get/' + file_id,
 		success: function (data) {
 			if (data['code'] === 0) {
-				window.parent.document.querySelectorAll('.window.markdown>.titbar>p')[0].innerText = data['msg'];
+				window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText = data['msg'];
 				$('#layout>#editormd>textarea')[0].value = data['data'];
 				document.getElementById("content_length").value = data['data'].length;
 			} else {

@@ -312,7 +312,7 @@
 	<div class="window notepad">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/notepad.svg" class="icon" alt=""><p>记事本</p>
+			<img src="img/notepad.svg" class="icon" alt=""><span><span class="title">记事本</span><span class="save-status"></span></span>
 			<input type="text" id="notepad-length" value="" name="" style="display: none;">
 			<div>
 				<a class="a wbtg red" onclick="hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
@@ -443,7 +443,7 @@
 	</div>
 	<div class="window markdown">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><p></p><a onclick="md2html();">导出成HTML</a>
+		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><span><span class="title">MarkDown</span><span class="save-status"></span></span><a onclick="md2html();">导出成HTML</a>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
@@ -477,7 +477,7 @@
 	</div>
 	<div class="window xmind">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><p>xmind</p><div>
+		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><span><span class="title">xmind</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="save_xmind(true);hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('xmind')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('xmind')"><i class="bi bi-dash-lg"></i></a>
@@ -498,7 +498,8 @@
 	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
-	<script src="module/xmind/jsmind.js" async></script>
+	<script src="module/xmind/jsmind.js"></script>
+	<script src="module/xmind/jsmind.draggable-node.js"></script>
 	<script src="module/python/pyodide.js" async></script>
 </body>
 </html>

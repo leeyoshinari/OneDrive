@@ -5,7 +5,6 @@
 import os
 import time
 import json
-import shutil
 import codecs
 from zipfile import ZipFile
 from common import xmltodict
@@ -16,6 +15,8 @@ xmind_files_list = ['content.xml', 'meta.xml',
 
 
 def create_xmind(file_id, file_path):
+    if not os.path.exists('tmp'):
+        os.mkdir('tmp')
     tmp_path = os.path.join('tmp', file_id)
     if not os.path.exists(tmp_path):
         os.mkdir(tmp_path)
@@ -55,7 +56,6 @@ def write_xmind(file_id, file_path, data):
     with ZipFile(file_path, "w") as z:
         for file in file_name:
             z.write(os.path.join(tmp_path, file), file)
-    # shutil.rmtree(tmp_path)
 
 
 def read_xmind(file_id, file_path):

@@ -468,9 +468,9 @@ let apps = {
             apps.whiteboard.ctx.lineCap = 'round';
             apps.whiteboard.changeColor(apps.whiteboard.color);
             if ($(':root').hasClass('dark')) {
-                $('.window.whiteboard>.titbar>p').text('Blackboard');
+                $('.window.whiteboard>.titbar>span>.title').text('Blackboard');
             } else {
-                $('.window.whiteboard>.titbar>p').text('Whiteboard');
+                $('.window.whiteboard>.titbar>span>.title').text('Whiteboard');
             }
         },
         changeColor: (color) => {
@@ -1053,14 +1053,14 @@ let apps = {
         open_video: (file_id, filename) => {
             openapp('video');
             $('.window.video')[0].style.width = 'auto';
-            $('.window.video>.titbar>p')[0].innerText = filename;
+            $('.window.video>.titbar>span>.title')[0].innerText = filename;
             $('#win-video')[0].innerHTML = '<video class="my_video" controls autoPlay preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
         },
         open_picture: (file_id, filename) => {
             $('#win-image>.my_video')[0].src = '';
             openapp('picture');
             $('.window.picture')[0].style.width='auto';
-            $('.window.picture>.titbar>p')[0].innerText = filename;
+            $('.window.picture>.titbar>span>.title')[0].innerText = filename;
             $('#win-image>.my_video')[0].src = server + '/file/download/' + file_id;
             let viewer = new Viewer(document.querySelectorAll('#win-image>.my_video')[0], {viewed() {},});
         },
@@ -1314,7 +1314,7 @@ function openapp(name) {
     $('.window.' + name).addClass('load');
     showwin(name);
     $('#taskbar').attr('count', Number($('#taskbar').attr('count')) + 1);
-    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>p`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="${source_src}" alt=""></a>`);
+    $('#taskbar').append(`<a class="${name}" onclick="taskbarclick(\'${name}\')" win12_title="${$(`.window.${name}>.titbar>span>.title`).text()}" onmouseenter="showdescp(event)" onmouseleave="hidedescp(event)"><img src="${source_src}" alt=""></a>`);
     if ($('#taskbar').attr('count') === '1') {
         $('#taskbar').css('display', 'flex');
     }
@@ -1651,9 +1651,9 @@ function toggletheme() {
     $('.dock.theme').toggleClass('dk');
     $(':root').toggleClass('dark');
     if ($(':root').hasClass('dark')) {
-        $('.window.whiteboard>.titbar>p').text('Blackboard');
+        $('.window.whiteboard>.titbar>span>.title').text('Blackboard');
     } else {
-        $('.window.whiteboard>.titbar>p').text('Whiteboard');
+        $('.window.whiteboard>.titbar>span>.title').text('Whiteboard');
     }
 }
 
@@ -1661,9 +1661,9 @@ const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
 if (isDarkTheme.matches) { //是深色
     $('.dock.theme').toggleClass('dk');
     $(':root').toggleClass('dark');
-    $('.window.whiteboard>.titbar>p').text('Blackboard');
+    $('.window.whiteboard>.titbar>span>.title').text('Blackboard');
 } else { // 不是深色
-    $('.window.whiteboard>.titbar>p').text('Whiteboard');
+    $('.window.whiteboard>.titbar>span>.title').text('Whiteboard');
 }
 // 拖拽窗口
 const page = document.getElementsByTagName('html')[0];
@@ -2515,7 +2515,7 @@ function md2html() {
         .use(window.markdownitMultimdTable, {multiline: false, rowspan: false, headerless: false, multibody: true, autolabel: true});
     let html = md.render("${toc}\n" + content);
     localStorage.setItem('md2html', html);
-    localStorage.setItem('filename', $('.window.markdown>.titbar>p')[0].innerText.replace('.md', '.html'));
+    localStorage.setItem('filename', $('.window.markdown>.titbar>span>.title')[0].innerText.replace('.md', '.html'));
     window.open('module/markdown/md2html.html');
 }
 

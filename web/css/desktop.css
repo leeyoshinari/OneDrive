@@ -1409,27 +1409,20 @@ list>span.focs.cl {
 }
 
 /* 一些奇怪的东西 */
-
-.window.whiteboard>.titbar>p {
+.window.whiteboard>.titbar>span>.title {
     color: #000 !important;
     ;
 }
 
-:root.dark .window.whiteboard>.titbar>p {
+:root.dark .window.whiteboard>.titbar>span>.title {
     text-shadow: 0 0 5px #fff, 0 0 5px #fff;
 }
 
 .markdown {
 	display: none;
-	/*border:2px solid #000;*/
-	/*margin-top: 3%;*/
-	/*margin-left: 5%;*/
-	/*width: 90%;*/
-	/*max-height: 88%;*/
     opacity: 1;
 	background-color: white;
 	position: relative;
-	/*z-index: 999;*/
 }
 #iframe_id {
 	border: none;

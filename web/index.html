@@ -86,7 +86,7 @@
 	<div class="window setting">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/setting.svg" class="icon" alt=""><p>设置</p>
+			<img src="img/setting.svg" class="icon" alt=""><span><span class="title">设置</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('setting')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('setting')"><i class="bi bi-app"></i></a>
@@ -156,7 +156,7 @@
 	<div class="window explorer tabs">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/explorer.svg" class="icon" alt=""><p style="display: none;">文件资源管理器</p>
+			<img src="img/explorer.svg" class="icon" alt=""><span style="display: none;"><span class="title">文件资源管理器</span><span class="save-status"></span></span>
 			<div class="tabs"></div>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('explorer')"><i class="bi bi-x-lg"></i></a>
@@ -195,7 +195,7 @@
 				</div>
 				<div class="main">
 					<div class="tool micaalt">
-						<a class="act asd dropdown-container" title="新建文本文件">
+						<a class="act asd dropdown-container">
 							<span style="margin-top: 2px; margin-right: 6px;">新建文件</span>
 							<ul class="dropdown-list">
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');">新建txt文件</li>
@@ -241,7 +241,7 @@
 	<div class="modal_cover"><div class="modal_gif"></div><progress id="progressBar" value="0" max="100"></progress></div>
 	<div class="window calc">
 		<div class="titbar">
-			<img src="img/calc.svg" class="icon" alt=""><p>计算器</p>
+			<img src="img/calc.svg" class="icon" alt=""><span><span class="title">计算器</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('calc')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" style="pointer-events: none;color: #777;"><i class="bi bi-app"></i></a>
@@ -332,7 +332,7 @@
 	</div>
 	<div class="window python terminal-apps">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><p>Python 3.10.2</p><div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python 3.10.2</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('python')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('python')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('python')"><i class="bi bi-dash-lg"></i></a>
@@ -350,7 +350,7 @@
 	</div>
 	<div class="window whiteboard">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/whiteboard.svg" class="icon" alt=""><p>Whiteboard</p><div>
+		<div class="titbar"><img src="img/whiteboard.svg" class="icon" alt=""><span><span class="title">Whiteboard</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('whiteboard')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('whiteboard')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('whiteboard')"><i class="bi bi-dash-lg"></i></a>
@@ -443,11 +443,12 @@
 	</div>
 	<div class="window markdown">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><span><span class="title">MarkDown</span><span class="save-status"></span></span><a onclick="md2html();">导出成HTML</a>
+		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><span><span class="title">MarkDown</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('markdown');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('markdown');"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg" onclick="md2html();" title="导出成HTML"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/markdown.png" class="icon" alt=""></div>
@@ -455,7 +456,7 @@
 	</div>
 	<div class="window video" style="width: auto;">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/video.png" class="icon" alt=""><p>视频</p><div>
+		<div class="titbar"><img src="img/files/video.png" class="icon" alt=""><span><span class="title">视频</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="close_video();hidewin('video');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('video')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('video')"><i class="bi bi-dash-lg"></i></a>
@@ -466,7 +467,7 @@
 	</div>
 	<div class="window picture">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/picture.png" class="icon" alt=""><p>图片</p><div>
+		<div class="titbar"><img src="img/files/picture.png" class="icon" alt=""><span><span class="title">图片</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('picture');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('picture')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('picture')"><i class="bi bi-dash-lg"></i></a>

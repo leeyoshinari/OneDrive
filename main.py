@@ -18,6 +18,7 @@ from common.calc import str_md5, beauty_size
 from common.results import Result
 from common.logging import logger
 from common.messages import Msg
+import common.scheduler
 import settings
 
 

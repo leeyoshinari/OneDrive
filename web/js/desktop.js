@@ -47,6 +47,7 @@ let startClientX = 0;
 let startClientY = 0;
 let endClientX = 0;
 let endClientY = 0;
+let jm = null;
 let cms = {
     'titbar': [
         function (arg) {
@@ -229,7 +230,7 @@ $('#cm>.foc').blur(() => {
 let dps = {
     'xmind.file': [
         ['<i class="bi"></i> 保存', `save_xmind();`],
-        ['<i class="bi"></i> 下载', `apps.explorer.download($('.jsmind-inner.jmnode-overflow-wrap')[0].id);`],
+        ['<i class="bi"></i> 下载', `apps.explorer.download($('#win-xmind>.jsmind-inner')[0].id);`],
     ],
     'xmind.edit': [
         ['<i class="bi"></i> 插入子节点 <info>Insert, Tab</info>', `add_node();`],
@@ -601,13 +602,14 @@ let apps = {
                 box-shadow: 0 1px 2px var(--s3d); background: radial-gradient(circle, var(--card),var(--card));border-radius: 10px;display: flex;}
             #win-explorer>.page>.main>.content>.view>.group>.item:hover{background-color: var(--hover);}
             #win-explorer>.page>.main>.content>.view>.group>.item:active{transform: scale(0.97);}
-            #win-explorer>.page>.main>.content>.view>.group>.item>img{width: 55px;height: 55px;margin-top: 18px;margin-left: 10px;}
+            #win-explorer>.page>.main>.content>.view>.group>.item>img{width:55px;height:55px;margin-top:18px;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div{flex-grow: 1;padding: 5px 5px 0 0;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.bar{width: calc(100% - 10px);height: 8px;border-radius: 10px;
                 background-color: var(--hover-b);margin: 5px 5px;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.bar>.content{height: 100%;background-image: linear-gradient(90deg, var(--theme-1), var(--theme-2));
                 border-radius: 10px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color: #959595;font-size: 14px;}</style>
+            #win-explorer>.page>.main>.content>.view>.group>.item>div>.name{margin-left:5px;}
+            #win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color:#959595;font-size:14px;margin-left:5px;}</style>
             <p class="class"><img src="img/explorer/disk.svg" alt=""> 设备和驱动器</p><div class="group"></div>`;
             $('#win-explorer>.page>.menu>.card>list>a')[0].className ='check';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='flex';
@@ -2531,16 +2533,20 @@ function open_xmind(file_id) {
                 let options = {
                     container: 'win-xmind',
                 };
-                let jm = new jsMind(options);
+                if (jm) {
+                    jm = jsMind.current;
+                } else {
+                    jm = new jsMind(options);
+                }
                 jm.show(data['data']);
-                $('.jsmind-inner.jmnode-overflow-wrap')[0].id = file_id;
-                $('.jsmind-inner.jmnode-overflow-wrap')[0].style.height = '93%';
+                $('#win-xmind>.jsmind-inner')[0].id = file_id;
+                $('#win-xmind>.jsmind-inner')[0].style.height = '93%';
                 setTimeout(() => {
-                    $('#win-xmind>.tool')[0].value = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+                    $('#win-xmind>.tool')[0].value = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
                 }, 3000);
                 xmind_interval = window.setInterval(() => {
                     let origin_len = $('#win-xmind>.tool')[0].value;
-                    let current_len = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+                    let current_len = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
                     if (parseInt(origin_len) !== current_len) {
                         save_xmind();
                     }
@@ -2555,15 +2561,14 @@ function open_xmind(file_id) {
 function save_xmind(is_close=false) {
     if (is_close) {clearInterval(xmind_interval);}
     let origin_len = $('#win-xmind>.tool')[0].value;
-    let current_len = $('.jsmind-inner.jmnode-overflow-wrap')[0].innerHTML.length;
+    let current_len = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
     if (parseInt(origin_len) !== current_len) {
         $('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
         let jm = jsMind.current;
-        let file_id = $('.jsmind-inner.jmnode-overflow-wrap')[0].id;
+        let file_id = $('#win-xmind>.jsmind-inner')[0].id;
         save_text_file(file_id, jm.get_data('node_tree').data, false);
         if (is_close) {
             $('.window.xmind>.titbar>span>.save-status')[0].innerText = "";
-            $('#win-xmind')[0].removeChild($('#win-xmind>.jsmind-inner.jmnode-overflow-wrap')[0]);
         } else {
             $('.window.xmind>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
             $('#win-xmind>.tool')[0].value = current_len;

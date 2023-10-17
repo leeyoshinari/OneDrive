@@ -72,7 +72,7 @@ def read_xmind(file_id, file_path):
         if 'content.json' in z.namelist():
             result = format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
         else:
-            result = format_x_reader(xmltodict.parse(z.open('/content.xml').read().decode('utf-8')))
+            result = format_x_reader(xmltodict.parse(z.open('content.xml').read().decode('utf-8')))
         return result
 
 
@@ -168,7 +168,14 @@ def format_x_writer(data):
             if isinstance(v1, str):
                 s += f'{k1}="{v1}" '
             if isinstance(v1, dict):
-                sheet = f'<sheet id="{v1["id"]}" timestamp="{v1["timestamp"]}"><title>{v1["title"]}</title>{format_x_children(v1["topic"])}</sheet>'
+                ss = ''
+                topic = ''
+                for k2, v2 in v1.items():
+                    if isinstance(v2, str) and k2 != 'title':
+                        ss += f'{k2}="{v2}" '
+                    if isinstance(v2, dict):
+                        topic = f'<topic class="topic" id="{v2["id"]}" timestamp="{int(time.time() * 1000)}"><title>{v2["topic"]}</title><children><topics type="attached">{format_x_children(v2.get("children", []))}</topics></children></topic>'
+                sheet = f'<sheet {ss}><title>{v1["title"]}</title>{topic}</sheet>'
         res = f'<?xml version="1.0" encoding="UTF-8" standalone="no"?><{k} {s}>{sheet}</{k}>'
     return res
 
@@ -176,8 +183,10 @@ def format_x_writer(data):
 def format_x_children(data: list):
     res = ''
     for item in data:
-        res += (f'<topic id="{item["id"]}" timestamp="{int(time.time() * 1000)}"><title>{item["title"]}</title><children>'
-             f'<topics type="attached">{format_x_children(item.get("children", []))}</topics></children></topic>')
+        if 'children' in item:
+            res += f'<topic id="{item["id"]}" timestamp="{int(time.time() * 1000)}"><title>{item["topic"]}</title><children><topics type="attached">{format_x_children(item.get("children", []))}</topics></children></topic>'
+        else:
+            res += f'<topic id="{item["id"]}" timestamp="{int(time.time() * 1000)}"><title>{item["topic"]}</title></topic>'
     return res
 
 

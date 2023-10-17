@@ -97,3 +97,10 @@ location /mycloud {
 6、支持标准的 `xmind` 文件（xmind8 和 xmind zen(xmind 2020)），不支持其他软件和网站保存的 `xmind` 文件，例如垃圾的百度脑图编辑工具导出的`xmind`文件就是非标准的格式；
 
 7、`xmind` 文件预览和编辑功能肯定不能和专用的软件相比，无法兼容样式、批注、评论等；通过本项目新建的`xmind`文件是`xmind zen(xmind 2020)`格式，支持设置颜色、样式等保存和查看；
+
+## 鸣谢
+鸣谢以下项目
+- [win12](https://github.com/tjy-gitnub/win12)
+- [viewerjs](https://github.com/fengyuanchen/viewerjs)
+- [jsmind](https://github.com/hizzgdev/jsmind)
+- [markdown-it](https://github.com/markdown-it/markdown-it)

@@ -435,7 +435,6 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         file = await models.Files.get(id=file_id).select_related('parent')
         parent_path = await file.parent.get_all_path()
         if file.format == 'xmind':
-            # xmind = write_xmind(os.path.join(parent_path, file.name))
             xmind = read_xmind(file.id, os.path.join(parent_path, file.name))
             xmind['meta'].update({'name': file.name})
             xmind['meta'].update({'author': hh['u']})
@@ -531,7 +530,7 @@ async def open_share_file(share_id: int, hh: dict) -> dict:
         if share.times < share.total_times:
             share.times = share.times + 1
             await share.save()
-            result = {'type': 0, 'path': share.path, 'name': share.name, 'format': share.format}
+            result = {'type': 0, 'path': share.path, 'name': share.name, 'format': share.format, 'file_id': share.file_id}
             logger.info(f"{Msg.MsgShareOpen.format(share.name)}, ID: {share.id}, IP: {hh['ip']}")
         else:
             logger.warning(f"分享链接打开次数太多, 文件: {share.name}, Id: {share.id}, IP: {hh['ip']}")

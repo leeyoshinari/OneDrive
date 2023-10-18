@@ -737,9 +737,9 @@ let apps = {
                             data['data'].forEach(item => {
                                 let f_src = icons[item['format']] || default_icon;
                                 ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
-                            <span style="width: 40%;" onclick="apps.explorer.open_share('${item['id']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
+                            <span style="width: 40%;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
                             <span style="width: 10%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
-                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}', false);">查看分享链接</a></span></div></div>`;
+                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}',false);">查看分享链接</a></span></div></div>`;
                             })
                             $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = ht;
                         }
@@ -749,11 +749,20 @@ let apps = {
                 }
             })
         },
-        open_share: (share_id, is_open=true) => {
+        open_share: (share_id, share_format, is_open=true) => {
+            let share_url = '';
+            switch (share_format) {
+                case 'md':
+                    share_url = '/' + window.location.href.split('/')[3] + '/module/md.html?server=' + server + '&id=' + share_id;
+                    break;
+                default:
+                    share_url = server + '/share/get/' + share_id;
+                    break;
+            }
             if (is_open) {
-                window.open(server + '/share/get/' + share_id);
+                window.open(share_url);
             } else {
-                let url_t = 'http://' + window.location.href.split('/')[2] + server + '/share/get/' + share_id;
+                let url_t = 'http://' + window.location.href.split('/')[2] + share_url;
                 let textarea = document.createElement('textarea');
                 textarea.value = url_t;
                 document.body.appendChild(textarea);
@@ -2375,7 +2384,6 @@ function modify_pwd() {
 function close_video() {$('.my_video').attr('src', '');}
 
 let txt_interval = null;
-let md_interval = null;
 let xmind_interval = null;
 function edit_text_file(file_id) {
     clearInterval(txt_interval);
@@ -2440,65 +2448,12 @@ function save_text_file(file_id, data, is_code=true) {
     })
 }
 
-let resizeMD = new ResizeObserver(event => {
-    document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").style.height = event[0].contentRect.height - 17 + 'px';
-})
 function open_md(file_id) {
-    clearInterval(md_interval);
     openapp('markdown');
-    let iframe_id = document.getElementById("iframe_id");
     document.getElementsByClassName("markdown")[0].style.display = 'block';
-    iframe_id.src = 'module/md.html?server=' + server + '&id=' + file_id;
-    $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `close_md_editor('${file_id}');hidewin('markdown');`);
-    md_interval = window.setInterval(() => {
-        let text_data = iframe_id.contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-        let text_length = iframe_id.contentWindow.document.getElementById("content_length").value;
-        if (text_data.length !== parseInt(text_length)) {
-            $('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
-            save_text_file(file_id, text_data);
-            iframe_id.contentWindow.document.getElementById("content_length").value = text_data.length;
-            $('.window.markdown>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
-        }
-    }, 10000);
-    setTimeout(() => {
-        resizeMD.observe(document.getElementById("iframe_id"));
-    }, 2000);
-    let markdown_js = ["markdown-it.min.js",
-        "markdownItAnchor.umd.js",
-        "markdownItTocDoneRight.umd.js",
-        "markdown-it-multimd-table.min.js",
-        "markdown-it-container.min.js",
-        "markdown-it-deflist.min.js",
-        "markdown-it-ins.min.js",
-        "markdown-it-mark.min.js",
-        "markdown-it-sub.min.js",
-        "markdown-it-sup.min.js",
-        "markdown-it-footnote.min.js",
-        "markdown-it-emoji.min.js",
-        "markdown-it-emoji-bare.min.js",
-        "markdown-it-emoji-light.min.js",
-        "markdown-it-task-list-plus.min.js"];
-    setTimeout(() => {
-        markdown_js.forEach(item => {
-            let script = document.createElement('script');
-            script.setAttribute('src', 'module/markdown/' + item);
-            iframe_id.appendChild(script);
-        })
-    }, 2000);
-}
-
-function close_md_editor(file_id) {
-    clearInterval(md_interval);
-    $('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
-    resizeMD.disconnect();
-    let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-    let content_len = document.getElementById("iframe_id").contentWindow.document.getElementById("content_length").value;
-    if (parseInt(content_len) !== content.length) {
-        save_text_file(file_id, content);
-    }
-    $('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
-    document.getElementById("iframe_id").src = 'about:blank';
-    document.getElementsByClassName("markdown")[0].style.display = 'none';
+    document.getElementById("iframe_id").src = 'module/md.html?server=' + server + '&id=' + file_id;
+    $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_id").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
+    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `document.getElementById("iframe_id").contentWindow.md2html();`);
 }
 
 function md2html() {

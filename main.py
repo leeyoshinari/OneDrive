@@ -280,8 +280,15 @@ async def get_share_file(file_id: int, request: Request):
         hh = {'ip': request.headers.get('x-real-ip', '')}
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
-            headers = {'Content-Disposition': f'inline;filename="{result["name"]}"', 'Cache-Control': 'no-store'}
-            return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+            if result["format"] == 'md':
+                res = Result()
+                with open(result['path'], 'r', encoding='utf-8') as f:
+                    res.data = f.read()
+                res.msg = result['name']
+                return res
+            else:
+                headers = {'Content-Disposition': f'inline;filename="{result["name"]}"', 'Cache-Control': 'no-store'}
+                return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
         else:
             return HTMLResponse(status_code=404, content=settings.HTML404)
     except:

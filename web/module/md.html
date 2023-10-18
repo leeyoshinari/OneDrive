@@ -18,17 +18,23 @@
 	let params = window.location.href.split('&');
 	let servers = params[0].split('=')[1];
 	let file_id = params[1].split('=')[1];
+    let is_share = file_id.length > 10;
+    let url = servers + '/content/get/' + file_id;
+    if (!is_share) {
+        url = servers + '/share/get/' + file_id;
+    }
 	$.ajax({
 		type: "GET",
         async: false,
-		url: servers + '/content/get/' + file_id,
+		url: url,
 		success: function (data) {
 			if (data['code'] === 0) {
-				window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText = data['msg'];
+                if (is_share) {
+                    window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText = data['msg'];
+                }
+                document.title = data['msg'];
 				$('#layout>#editormd>textarea')[0].value = data['data'];
 				document.getElementById("content_length").value = data['data'].length;
-			} else {
-				$.Toast(data['msg'], 'error');
 			}
 		}
 	});
@@ -51,6 +57,86 @@
 		imageUpload: true,
 		imageFormats: ["jpg", "jpeg", "png", "bmp", "gif"],
 	});
-	document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
+    if (is_share) {
+        document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
+        let resizeMD = new ResizeObserver(event => {
+            document.getElementById("editormd").style.height = event[0].contentRect.height - 17 + 'px';
+        })
+        setTimeout(() => {
+            resizeMD.observe(window.parent.document.getElementById("iframe_id"));
+        }, 2000);
+        let md_interval = window.setInterval(() => {
+            let text_data = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+            let text_length = document.getElementById("content_length").value;
+            if (text_data.length !== parseInt(text_length)) {
+                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.save_text_file(file_id, text_data);
+                document.getElementById("content_length").value = text_data.length;
+                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+            }
+        }, 10000);
+        let markdown_js = ["markdown-it.min.js",
+            "markdownItAnchor.umd.js",
+            "markdownItTocDoneRight.umd.js",
+            "markdown-it-multimd-table.min.js",
+            "markdown-it-container.min.js",
+            "markdown-it-deflist.min.js",
+            "markdown-it-ins.min.js",
+            "markdown-it-mark.min.js",
+            "markdown-it-sub.min.js",
+            "markdown-it-sup.min.js",
+            "markdown-it-footnote.min.js",
+            "markdown-it-emoji.min.js",
+            "markdown-it-emoji-bare.min.js",
+            "markdown-it-emoji-light.min.js",
+            "markdown-it-task-list-plus.min.js"];
+        setTimeout(() => {
+            markdown_js.forEach(item => {
+                let script = document.createElement('script');
+                script.setAttribute('src', 'markdown/' + item);
+                document.body.appendChild(script);
+            })
+        }, 3000);
+
+        function close_md_editor(file_id) {
+            clearInterval(md_interval);
+            window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            resizeMD.disconnect();
+            let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+            let content_len = document.getElementById("content_length").value;
+            if (parseInt(content_len) !== content.length) {
+                window.parent.save_text_file(file_id, content);
+            }
+            window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
+            window.parent.document.getElementsByClassName("markdown")[0].style.display = 'none';
+            window.parent.document.getElementById("iframe_id").src = 'about:blank';
+        }
+
+        function md2html() {
+            let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
+            let md = window.markdownit({html: true, linkify: true, typographer: true});
+            md.use(window.markdownItAnchor)
+                .use(window.markdownItTocDoneRight)
+                .use(window.markdownitContainer)
+                .use(window.markdownitDeflist)
+                .use(window.markdownitEmoji)
+                .use(window.markdownitFootnote)
+                .use(window.markdownitIns)
+                .use(window.markdownitMark)
+                .use(window.markdownitSub)
+                .use(window.markdownitSup)
+                .use(window.markdownitMultimdTable, {
+                    multiline: false,
+                    rowspan: false,
+                    headerless: false,
+                    multibody: true,
+                    autolabel: true
+                });
+            let html = md.render("${toc}\n" + content);
+            localStorage.setItem('md2html', html);
+            localStorage.setItem('filename', window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText.replace('.md', '.html'));
+            window.open('module/markdown/md2html.html');
+        }
+    }
 </script>
 </html>

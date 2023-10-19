@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="css/bootstrap-icons.css">
 	<link rel="stylesheet" href="css/explorer.css">
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
-	<link rel="stylesheet" href="module/xmind/jsmind.css">
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
 	<base target="_blank">
@@ -452,7 +451,7 @@
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/markdown.png" class="icon" alt=""></div>
-		<div class="content"><iframe id="iframe_id" src=""></iframe></div>
+		<div class="content"><iframe id="iframe_markdown" src=""></iframe></div>
 	</div>
 	<div class="window video" style="width: auto;">
 		<div class="resize-bar"></div>
@@ -485,22 +484,12 @@
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
-		<div class="content" id="win-xmind">
-			<div class="tool">
-				<a class="a" onmouseover="showdp(this,'xmind.file',null)" onmouseleave="hidedp()">文件</a>
-				<a class="a" onmouseover="showdp(this,'xmind.edit',null)" onmouseleave="hidedp()">编辑</a>
-				<a class="a" onmouseover="showdp(this,'xmind.font',null)" onmouseleave="hidedp()">字体</a>
-				<a class="a" onmouseover="showdp(this,'xmind.bgcolor',null)" onmouseleave="hidedp()">背景色</a>
-				<a class="a" onmouseover="showdp(this,'xmind.fontcolor',null)" onmouseleave="hidedp()">字体颜色</a>
-			</div>
-		</div>
+		<div class="content" id="win-xmind"><iframe id="iframe_xmind" src=""></iframe></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
-	<script src="module/xmind/jsmind.js"></script>
-	<script src="module/xmind/jsmind.draggable-node.js"></script>
 	<script src="module/python/pyodide.js" async></script>
 </body>
 </html>

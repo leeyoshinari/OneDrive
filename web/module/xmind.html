@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>在线xmind</title>
+    <script type="text/javascript" src="../js/jq.min.js"></script>
+    <link rel="stylesheet" href="xmind/mind.css" />
+    <script>
+        let title = "xmind";
+        var version = "0";
+        var mindData = '';
+        let params = window.location.href.split('&');
+        let servers = params[0].split('=')[1];
+        let file_id = params[1].split('=')[1];
+        let is_share = file_id.length > 10;
+        let get_url = servers + '/content/get/' + file_id;
+        if (!is_share) {
+            get_url = servers + '/share/get/' + file_id;
+        }
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: get_url,
+            success: function (data) {
+                if (data['code'] === 0) {
+                    if (is_share) {
+                        window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.title')[0].innerText = data['msg'];
+                    }
+                    document.title = data['msg'];
+                    title = data['msg'];
+                    mindData = JSON.stringify(data['data']);
+                }
+            }
+        });
+    </script>
+</head>
+<body ng-app="kityminderDemo" ng-controller="MainController">
+    <kityminder-editor on-init="initEditor(editor, minder)"></kityminder-editor>
+    <script src="xmind/mind.js"></script>
+</body>
+</html>

@@ -1424,23 +1424,10 @@ list>span.focs.cl {
 	background-color: white;
 	position: relative;
 }
-#iframe_id {
+iframe {
 	border: none;
 	height: 100%;
 	width: 100%;
-}
-.iframe_div #close_iframe {
-	margin-right: 1%;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.iframe_div #close_iframe:hover,
-.iframe_div #close_iframe:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .my_video {

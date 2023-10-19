@@ -755,6 +755,9 @@ let apps = {
                 case 'md':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/md.html?server=' + server + '&id=' + share_id;
                     break;
+                case 'xmind':
+                    share_url = '/' + window.location.href.split('/')[3] + '/module/xmind.html?server=' + server + '&id=' + share_id;
+                    break;
                 default:
                     share_url = server + '/share/get/' + share_id;
                     break;
@@ -2451,67 +2454,54 @@ function save_text_file(file_id, data, is_code=true) {
 function open_md(file_id) {
     openapp('markdown');
     document.getElementsByClassName("markdown")[0].style.display = 'block';
-    document.getElementById("iframe_id").src = 'module/md.html?server=' + server + '&id=' + file_id;
-    $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_id").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
-    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `document.getElementById("iframe_id").contentWindow.md2html();`);
-}
-
-function md2html() {
-    let content = document.getElementById("iframe_id").contentWindow.document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-    let md = window.markdownit({html: true, linkify: true, typographer: true});
-    md.use(window.markdownItAnchor)
-        .use(window.markdownItTocDoneRight)
-        .use(window.markdownitContainer)
-        .use(window.markdownitDeflist)
-        .use(window.markdownitEmoji)
-        .use(window.markdownitFootnote)
-        .use(window.markdownitIns)
-        .use(window.markdownitMark)
-        .use(window.markdownitSub)
-        .use(window.markdownitSup)
-        .use(window.markdownitMultimdTable, {multiline: false, rowspan: false, headerless: false, multibody: true, autolabel: true});
-    let html = md.render("${toc}\n" + content);
-    localStorage.setItem('md2html', html);
-    localStorage.setItem('filename', $('.window.markdown>.titbar>span>.title')[0].innerText.replace('.md', '.html'));
-    window.open('module/markdown/md2html.html');
+    document.getElementById("iframe_markdown").src = 'module/md.html?server=' + server + '&id=' + file_id;
+    $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
+    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.md2html();`);
 }
 
 function open_xmind(file_id) {
-    clearInterval(xmind_interval);
     openapp('xmind');
-    $.ajax({
-        type: 'GET',
-        url: server + '/content/get/' + file_id,
-        success: function (data) {
-            if (data['code'] === 0) {
-                $('.window.xmind>.titbar>span>.title')[0].innerText = data['msg'];
-                let options = {
-                    container: 'win-xmind',
-                };
-                if (jm) {
-                    jm = jsMind.current;
-                } else {
-                    jm = new jsMind(options);
-                }
-                jm.show(data['data']);
-                $('#win-xmind>.jsmind-inner')[0].id = file_id;
-                $('#win-xmind>.jsmind-inner')[0].style.height = '93%';
-                setTimeout(() => {
-                    $('#win-xmind>.tool')[0].value = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
-                }, 3000);
-                xmind_interval = window.setInterval(() => {
-                    let origin_len = $('#win-xmind>.tool')[0].value;
-                    let current_len = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
-                    if (parseInt(origin_len) !== current_len) {
-                        save_xmind();
-                    }
-                }, 10000);
-            } else {
-                $.Toast(data['msg'], 'error');
-            }
-        }
-    })
+    document.getElementsByClassName("xmind")[0].style.display = 'block';
+    document.getElementById("iframe_xmind").src = 'module/xmind.html?server=' + server + '&id=' + file_id;
+    $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_xmind").contentWindow.close_md_editor('${file_id}');hidewin('xmind');`);
 }
+
+// function open_xmind(file_id) {
+//     clearInterval(xmind_interval);
+//     openapp('xmind');
+//     $.ajax({
+//         type: 'GET',
+//         url: server + '/content/get/' + file_id,
+//         success: function (data) {
+//             if (data['code'] === 0) {
+//                 $('.window.xmind>.titbar>span>.title')[0].innerText = data['msg'];
+//                 let options = {
+//                     container: 'win-xmind',
+//                 };
+//                 if (jm) {
+//                     jm = jsMind.current;
+//                 } else {
+//                     jm = new jsMind(options);
+//                 }
+//                 jm.show(data['data']);
+//                 $('#win-xmind>.jsmind-inner')[0].id = file_id;
+//                 $('#win-xmind>.jsmind-inner')[0].style.height = '93%';
+//                 setTimeout(() => {
+//                     $('#win-xmind>.tool')[0].value = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
+//                 }, 3000);
+//                 xmind_interval = window.setInterval(() => {
+//                     let origin_len = $('#win-xmind>.tool')[0].value;
+//                     let current_len = $('#win-xmind>.jsmind-inner')[0].innerHTML.length;
+//                     if (parseInt(origin_len) !== current_len) {
+//                         save_xmind();
+//                     }
+//                 }, 10000);
+//             } else {
+//                 $.Toast(data['msg'], 'error');
+//             }
+//         }
+//     })
+// }
 
 function save_xmind(is_close=false) {
     if (is_close) {clearInterval(xmind_interval);}

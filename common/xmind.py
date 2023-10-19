@@ -36,7 +36,7 @@ def write_xmind(file_id, file_path, data):
         content_path = os.path.join(tmp_path, 'content.json')
         if os.path.exists(content_path):
             content = json.load(open(content_path, 'r', encoding='utf-8'))
-            content[0]['rootTopic'] = format_zen_writer(data)
+            content[0]['rootTopic'] = format_zen_writer(data['root'])
             with codecs.open(content_path, 'w', encoding='utf-8') as f:
                 f.write(json.dumps(content))
         else:
@@ -46,7 +46,7 @@ def write_xmind(file_id, file_path, data):
         if os.path.exists(content_path):
             with open(content_path, 'r', encoding='utf-8') as f:
                 content = xmltodict.parse(f.read())
-            content['xmap-content']['sheet']['topic'] = data
+            content['xmap-content']['sheet']['topic'] = data['root']
             with codecs.open(content_path, 'w', encoding='utf-8') as f:
                 f.write(format_x_writer(content))
         else:
@@ -78,12 +78,12 @@ def read_xmind(file_id, file_path):
 
 def format_x_reader(data):
     mind = {'meta': {'version': '2.0'}, 'format': 'node_tree', 'data': {}}
-    res = {}
+    res = {'data': {}, 'children': []}
     for k, v in data['xmap-content']['sheet']['topic'].items():
         if k == 'id':
-            res.update({'id': v})
+            res['data'].update({'id': v})
         if k == 'title':
-            res.update({'topic': v})
+            res['data'].update({'text': v})
         if k == 'children':
             res.update({'children': x_reader_children(v['topics']['topic'])})
     mind['data'] = res
@@ -91,32 +91,32 @@ def format_x_reader(data):
 
 
 def format_zen_reader(data: list):
-    mind = {'meta': {'version': '2.0'}, 'format': 'node_tree', 'data': {}}
-    res = {}
+    mind = {"template": "right", "theme": "fresh-blue", "version": "0", "root": {}}
+    res = {'data': {}, 'children': []}
     for k, v in data[0]['rootTopic'].items():
         if k == 'id':
-            res.update({'id': v})
+            res['data'].update({'id': v})
         if k == 'title':
-            res.update({'topic': v})
-        if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
-            res.update({k: v})
+            res['data'].update({'text': v})
+        if k in ['background', 'color', 'font-size', 'font-weight', 'font-style']:
+            res['data'].update({k: v})
         if k == 'children':
             res.update({'children': zen_reader_children(v['attached'])})
-    mind['data'] = res
+    mind['root'] = res
     return mind
 
 
 def zen_reader_children(data: list):
     result = []
     for item in data:
-        res = {}
+        res = {'data': {}, 'children': []}
         for k, v in item.items():
             if k == 'id':
-                res.update({'id': v})
+                res['data'].update({'id': v})
             if k == 'title':
-                res.update({'topic': v})
-            if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
-                res.update({k: v})
+                res['data'].update({'text': v})
+            if k in ['background', 'color', 'font-size', 'font-weight', 'font-style']:
+                res['data'].update({k: v})
             if k == 'children':
                 res.update({'children': zen_reader_children(v['attached'])})
         result.append(res)
@@ -127,32 +127,32 @@ def x_reader_children(data):
     result = []
     if isinstance(data, list):
         for item in data:
-            res = {}
+            res = {'data': {}, 'children': []}
             for k, v in item.items():
                 if k == 'id':
-                    res.update({'id': v})
+                    res['data'].update({'id': v})
                 if k == 'title':
                     if isinstance(v, str):
-                        res.update({'topic': v})
+                        res['data'].update({'text': v})
                     elif isinstance(v, dict):
-                        res.update({'topic': v['text']})
+                        res['data'].update({'text': v['text']})
                     else:
-                        res.update({'topic': str(v)})
+                        res['data'].update({'text': str(v)})
                 if k == 'children' and 'topics' in v and 'topic' in v['topics']:
                     res.update({'children': x_reader_children(v['topics']['topic'])})
             result.append(res)
     else:
-        res = {}
+        res = {'data': {}, 'children': []}
         for k, v in data.items():
             if k == 'id':
-                res.update({'id': v})
+                res['data'].update({'id': v})
             if k == 'title':
                 if isinstance(v, str):
-                    res.update({'topic': v})
+                    res['data'].update({'text': v})
                 elif isinstance(v, dict):
-                    res.update({'topic': v['text']})
+                    res['data'].update({'text': v['text']})
                 else:
-                    res.update({'topic': str(v)})
+                    res['data'].update({'text': str(v)})
             if k == 'children' and 'topics' in v and 'topic' in v['topics']:
                 res.update({'children': x_reader_children(v['topics']['topic'])})
         result.append(res)
@@ -192,15 +192,14 @@ def format_x_children(data: list):
 
 def format_zen_writer(data):
     res = {'class': 'topic'}
-    for k, v in data.items():
+    for k, v in data['data'].items():
         if k == 'id':
             res.update({'id': v})
-        if k == 'topic':
+        if k == 'text':
             res.update({'title': v})
-        if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+        if k in ['background', 'color', 'font-size', 'font-weight', 'font-style']:
             res.update({k: v})
-        if k == 'children':
-            res.update({'children': {'attached': zen_writer_children(v)}})
+    res.update({'children': {'attached': zen_writer_children(data['children'])}})
     return res
 
 
@@ -208,15 +207,14 @@ def zen_writer_children(data: list):
     result = []
     for item in data:
         res = {}
-        for k, v in item.items():
+        for k, v in item['data'].items():
             if k == 'id':
                 res.update({'id': v})
-            if k == 'topic':
+            if k == 'text':
                 res.update({'title': v})
-            if k in ['background-color', 'foreground-color', 'font-size', 'font-weight']:
+            if k in ['background', 'color', 'font-size', 'font-weight', 'font-style']:
                 res.update({k: v})
-            if k == 'children':
-                res.update({'children': {'attached': zen_writer_children(v)}})
+        res.update({'children': {'attached': zen_writer_children(item['children'])}})
         result.append(res)
     return result
 

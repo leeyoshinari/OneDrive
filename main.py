@@ -18,6 +18,7 @@ from common.calc import str_md5, beauty_size
 from common.results import Result
 from common.logging import logger
 from common.messages import Msg
+from common.xmind import read_xmind
 import common.scheduler
 import settings
 
@@ -284,6 +285,12 @@ async def get_share_file(file_id: int, request: Request):
                 res = Result()
                 with open(result['path'], 'r', encoding='utf-8') as f:
                     res.data = f.read()
+                res.msg = result['name']
+                return res
+            if result["format"] == 'xmind':
+                res = Result()
+                xmind = read_xmind(result['file_id'], result['path'])
+                res.data = xmind
                 res.msg = result['name']
                 return res
             else:

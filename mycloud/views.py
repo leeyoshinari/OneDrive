@@ -436,8 +436,6 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         parent_path = await file.parent.get_all_path()
         if file.format == 'xmind':
             xmind = read_xmind(file.id, os.path.join(parent_path, file.name))
-            xmind['meta'].update({'name': file.name})
-            xmind['meta'].update({'author': hh['u']})
             result.data = xmind
         else:
             with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:

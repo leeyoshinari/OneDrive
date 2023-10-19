@@ -58,12 +58,12 @@
 		imageFormats: ["jpg", "jpeg", "png", "bmp", "gif"],
 	});
     if (is_share) {
-        document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_id").clientHeight - 17 + 'px';
+        document.getElementById("editormd").style.height = window.parent.document.getElementById("iframe_markdown").clientHeight - 17 + 'px';
         let resizeMD = new ResizeObserver(event => {
             document.getElementById("editormd").style.height = event[0].contentRect.height - 17 + 'px';
         })
         setTimeout(() => {
-            resizeMD.observe(window.parent.document.getElementById("iframe_id"));
+            resizeMD.observe(window.parent.document.getElementById("iframe_markdown"));
         }, 2000);
         let md_interval = window.setInterval(() => {
             let text_data = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
@@ -109,7 +109,7 @@
             }
             window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
             window.parent.document.getElementsByClassName("markdown")[0].style.display = 'none';
-            window.parent.document.getElementById("iframe_id").src = 'about:blank';
+            window.parent.document.getElementById("iframe_markdown").src = 'about:blank';
         }
 
         function md2html() {

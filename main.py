@@ -333,6 +333,18 @@ async def upload_image(query: Request, hh: dict = Depends(auth)):
     return result
 
 
+@router.get("/export/{file_id}", summary="导出 xmind 文件")
+async def export_file(file_id: str, hh: dict = Depends(auth)):
+    try:
+        result = await views.export_special_file(file_id, hh)
+        headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
+                   'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+    except:
+        logger.error(traceback.format_exc())
+        return Result(code=1, msg="文件下载失败，请重试")
+
+
 app.include_router(router)
 if __name__ == "__main__":
     import uvicorn

@@ -19,7 +19,7 @@ from common.results import Result
 from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
-from common.xmind import read_xmind, write_xmind, create_xmind
+from common.xmind import read_xmind, write_xmind, create_xmind, generate_xmind8
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -583,4 +583,13 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgSaveFailure
+    return result
+
+
+async def export_special_file(file_id, hh: dict) -> dict:
+    file = await models.Files.get(id=file_id).select_related('parent')
+    parent_path = await file.parent.get_all_path()
+    generate_xmind8(file.id, file.name, os.path.join(parent_path, file.name))
+    result = {'path': os.path.join(parent_path, file.name), 'name': file.name, 'format': file.format}
+    logger.info(f"{file.name} 导出成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
     return result

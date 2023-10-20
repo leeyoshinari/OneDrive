@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="xmind/mind.css" />
     <script>
         let title = "xmind";
-        var version = "0";
-        var mindData = '';
+        let version = "0";
+        let mindData = '';
         let params = window.location.href.split('&');
         let servers = params[0].split('=')[1];
         let file_id = params[1].split('=')[1];
@@ -27,7 +27,6 @@
                         window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.title')[0].innerText = data['msg'];
                     }
                     document.title = data['msg'];
-                    title = data['msg'];
                     mindData = JSON.stringify(data['data']);
                 }
             }

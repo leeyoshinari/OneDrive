@@ -41239,11 +41239,10 @@ var Cookie = {
 angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainController", function($scope) {
     $scope.initEditor = function(editor, minder) {
         function save() {
-            // if (!is_share) {return;}
+            if (!is_share) {return;}
             var value = minder.exportData("json").fulfillValue
               , newJson = JSON.parse(value)
-              , oldJson = JSON.parse(mindData)
-              , postData = null;
+              , oldJson = JSON.parse(mindData);
             if (noDelete(newJson, oldJson)) {
                 var f = diff(newJson, oldJson);
                 if (Object.keys(f).length > 0 && oldJson && oldJson.root && oldJson.root.data && (f.root && f.root.data ? f.root.data.id = oldJson.root.data.id : f.root ? f.root.data = {
@@ -41253,12 +41252,10 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                         id: oldJson.root.data.id
                     }
                 }),
-                0 == Object.keys(f).length)
+                0 === Object.keys(f).length)
                     return;
-                // postData = JSON.stringify(f)
             }
-            $("#info").html("保存中..."),
-            $("#info").show(),
+            window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存..."
             $.ajax({
                 url: servers + '/file/save',
                 type: "POST",
@@ -41267,19 +41264,17 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                 data: JSON.stringify({
                     id: file_id,
                     version: version,
-                    data: newJson
+                    data: value
                 }),
                 success: function(result) {
-                    0 === result.code ? ($("#info").html("保存成功"),
-                    setTimeout(function() {
-                        $("#info").hide()
-                    }, 1e3),
+                    0 === result.code ? (
+                    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存",
                     parseInt(result.code) > parseInt(version) + 1 ? (alert("此文件已经产生更新版本"),
                     location.reload()) : (version = result.code,
-                    mindData = value)) : $("#info").html("保存失败! " + result.msg)
+                    mindData = value)) : window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "保存失败! " + result.msg
                 },
                 error: function(e) {
-                    $("#info").html("保存失败，请检查网络并重试")
+                    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "保存失败，请检查网络并重试..."
                 }
             })
         }
@@ -41294,9 +41289,9 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                 if (source.length > 0) {
                     if (!source[0].data || !source[0].data.id) {
                         var allSame = !0;
-                        if (source.length == base.length)
+                        if (source.length === base.length)
                             for (var i = 0; i < source.length; i++)
-                                source[i] != base[i] && (allSame = !1);
+                                source[i] !== base[i] && (allSame = !1);
                         else
                             allSame = !1;
                         return allSame ? [] : source
@@ -41359,14 +41354,10 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
         }()
     }
 });
-function close_md_editor(file_id) {
-    // window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
-    let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-    let content_len = document.getElementById("content_length").value;
-    if (parseInt(content_len) !== content.length) {
-        window.parent.save_text_file(file_id, content);
-    }
-    // window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
+function close_xmind_editor(file_id) {
+    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
+    window.parent.save_text_file(file_id, minder.exportData("json").fulfillValue, false);
+    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "";
     window.parent.document.getElementsByClassName("xmind")[0].style.display = 'none';
     window.parent.document.getElementById("iframe_xmind").src = 'about:blank';
 }

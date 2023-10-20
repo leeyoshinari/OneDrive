@@ -27,8 +27,8 @@
 	</div>
 	<div id="datebox">
 		<div class="tit">
-			<p class="time">12:29:19</p>
-			<p class="date">星期一, 2022年09月22日</p>
+			<p class="time">15:20:21</p>
+			<p class="date">星期二, 2023年10月24日</p>
 			<hr>
 		</div>
 		<div class="cont">
@@ -478,13 +478,25 @@
 	<div class="window xmind">
 		<div class="resize-bar"></div>
 		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><span><span class="title">xmind</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="save_xmind(true);hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg red" onclick="hidewin('xmind');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('xmind')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('xmind')"><i class="bi bi-dash-lg"></i></a>
+                <a class="a wbtg export" title="导出成 xmind8"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
 		<div class="content" id="win-xmind"><iframe id="iframe_xmind" src=""></iframe></div>
+	</div>
+	<div class="window excel">
+		<div class="resize-bar"></div>
+		<div class="titbar"><img src="img/files/xmind.ico" class="icon" alt=""><span><span class="title">xmind</span><span class="save-status"></span></span><div>
+				<a class="a wbtg red" onclick="hidewin('excel');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('excel')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('excel')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
+		<div class="content" id="win-excel"><iframe id="iframe_excel" src=""></iframe></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>

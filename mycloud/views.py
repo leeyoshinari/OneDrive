@@ -20,6 +20,7 @@ from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, write_xmind, create_xmind, generate_xmind8
+from common.sheet import read_sheet, create_sheet
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -42,6 +43,8 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = '新建markdown文档.md'
             elif file_type == 'xmind':
                 file_name = '新建脑图文件.xmind'
+            elif file_type == 'sheet':
+                file_name = '新建sheet工作表.sheet'
             else:
                 file_name = '新建文本文件.txt'
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
@@ -50,7 +53,9 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 raise FileExistsError
             else:
                 if file_type == 'xmind':
-                    create_xmind(files.id, file_path)
+                    create_xmind(file_path)
+                elif file_type == 'sheet':
+                    create_sheet(file_path)
                 else:
                     f = open(file_path, 'w', encoding='utf-8')
                     f.close()
@@ -435,8 +440,12 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         file = await models.Files.get(id=file_id).select_related('parent')
         parent_path = await file.parent.get_all_path()
         if file.format == 'xmind':
-            xmind = read_xmind(file.id, os.path.join(parent_path, file.name))
+            xmind = read_xmind(os.path.join(parent_path, file.name))
             result.data = xmind
+        elif file.format == 'sheet':
+            excel = read_sheet(os.path.join(parent_path, file.name))
+            # result.data = json.dumps(excel, ensure_ascii=False)
+            result.data = excel
         else:
             with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
                 result.data = f.read()
@@ -567,7 +576,7 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
             file = await models.Files.get(id=query.id).select_related('parent')
             folder_path = await file.parent.get_all_path()
             if file.format == 'xmind':
-                write_xmind(file.id, os.path.join(folder_path, file.name), query.data)
+                write_xmind(os.path.join(folder_path, file.name), query.data)
             else:
                 with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
                     f.write(unquote(base64.b64decode(query.data).decode('utf-8')))

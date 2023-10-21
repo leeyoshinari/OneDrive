@@ -41241,20 +41241,9 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
         function save() {
             if (!is_share) {return;}
             var value = minder.exportData("json").fulfillValue
-              , newJson = JSON.parse(value)
-              , oldJson = JSON.parse(mindData);
-            if (noDelete(newJson, oldJson)) {
-                var f = diff(newJson, oldJson);
-                if (Object.keys(f).length > 0 && oldJson && oldJson.root && oldJson.root.data && (f.root && f.root.data ? f.root.data.id = oldJson.root.data.id : f.root ? f.root.data = {
-                    id: oldJson.root.data.id
-                } : f.root = {
-                    data: {
-                        id: oldJson.root.data.id
-                    }
-                }),
-                0 === Object.keys(f).length)
-                    return;
-            }
+              , new_md5 = md5(value)
+              , old_md5 = md5(mindData);
+            if (new_md5 === old_md5) {return;}
             window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存..."
             $.ajax({
                 url: servers + '/file/save',
@@ -41267,6 +41256,7 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                     data: value
                 }),
                 success: function(result) {
+                    localStorage.setItem('xmind_md5', new_md5);
                     0 === result.code ? (
                     window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存",
                     parseInt(result.code) > parseInt(version) + 1 ? (alert("此文件已经产生更新版本"),
@@ -41332,15 +41322,6 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                 }
             return dif
         }
-        function noDelete(source, base) {
-            for (var key in base) {
-                if (void 0 === source[key])
-                    return !1;
-                if ("object" == typeof base[key] && !noDelete(source[key], base[key]))
-                    return !1
-            }
-            return !0
-        }
         function autoSave() {
             oldValue !== minder.exportData("json").fulfillValue && save(),
             timeoutInt && clearTimeout(timeoutInt),
@@ -41349,7 +41330,7 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
         window.editor = editor,
         window.minder = minder,
         function() {
-            mindData && editor.minder.importData("json", mindData),
+            mindData && editor.minder.importData("json", mindData),localStorage.setItem('xmind_md5', md5(mindData)),
             timeoutInt = setTimeout(autoSave, 15e3)
         }()
     }
@@ -41360,7 +41341,10 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
 });
 function close_xmind_editor(file_id) {
     window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
-    window.parent.save_text_file(file_id, minder.exportData("json").fulfillValue, false);
+    let xmind_data = minder.exportData("json").fulfillValue;
+    if (md5(xmind_data) !== localStorage.getItem('xmind_md5')) {
+        window.parent.save_text_file(file_id, xmind_data, false);
+    }
     window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "";
     window.parent.document.getElementsByClassName("xmind")[0].style.display = 'none';
     window.parent.document.getElementById("iframe_xmind").src = 'about:blank';

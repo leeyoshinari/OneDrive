@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="editor.md/css/style.css" />
     <link rel="stylesheet" href="editor.md/css/editormd.css" />
     <script src="../js/jq.min.js"></script>
+    <script src="../js/md5.min.js"></script>
     <div id="layout">
         <input type="text" id="content_length" name="" value="0" style="display:none;"/>
         <div id="editormd" style="overflow-y: scroll;"><textarea style="display:none;"></textarea></div>
@@ -34,7 +35,7 @@
                 }
                 document.title = data['msg'];
 				$('#layout>#editormd>textarea')[0].value = data['data'];
-				document.getElementById("content_length").value = data['data'].length;
+				document.getElementById("content_length").value = md5(data['data']);
 			}
 		}
 	});
@@ -67,11 +68,12 @@
         }, 2000);
         let md_interval = window.setInterval(() => {
             let text_data = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-            let text_length = document.getElementById("content_length").value;
-            if (text_data.length !== parseInt(text_length)) {
+            let old_md5 = document.getElementById("content_length").value;
+            let new_md5 = md5(text_data);
+            if (new_md5 !== old_md5) {
                 window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
                 window.parent.save_text_file(file_id, text_data);
-                document.getElementById("content_length").value = text_data.length;
+                document.getElementById("content_length").value = new_md5;
                 window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
             }
         }, 10000);
@@ -103,8 +105,8 @@
             window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
             resizeMD.disconnect();
             let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-            let content_len = document.getElementById("content_length").value;
-            if (parseInt(content_len) !== content.length) {
+            let old_md5 = document.getElementById("content_length").value;
+            if (old_md5 !== md5(content)) {
                 window.parent.save_text_file(file_id, content);
             }
             window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
@@ -137,6 +139,8 @@
             localStorage.setItem('filename', window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText.replace('.md', '.html'));
             window.open('module/markdown/md2html.html');
         }
+    } else {
+        document.getElementById("editormd").style.height = window.innerHeight + 'px';
     }
 </script>
 </html>

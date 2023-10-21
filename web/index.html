@@ -199,6 +199,7 @@
 							<ul class="dropdown-list">
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');">新建txt文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','md');">新建md文件</li>
+<!--								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>-->
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
 							</ul>
 						</a>
@@ -317,14 +318,11 @@
 				<a class="a wbtg red" onclick="hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('notepad')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('notepad')"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg export" title="转成 HTML 并下载" onclick="$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));$('#win-notepad>.save')[0].click();"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/notepad.svg" class="icon" alt=""></div>
 		<div class="content" id="win-notepad">
-			<div class="tool">
-				<a class="a" onclick="$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));$('#win-notepad>.save')[0].click();">下载</a>
-				<a class="a" onclick="document.execCommand('undo');">撤销</a>
-			</div>
 			<div class="text-box" contenteditable="true" spellcheck="false"><p></p></div>
 			<a href="" download="未命名.html" style="opacity: 0;" class="save">另存为</a>
 		</div>
@@ -486,16 +484,17 @@
 		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
 		<div class="content" id="win-xmind"><iframe id="iframe_xmind" src=""></iframe></div>
 	</div>
-	<div class="window excel">
+	<div class="window sheet">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/excel.png" class="icon" alt=""><span><span class="title">xmind</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="hidewin('excel');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('excel')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('excel')"><i class="bi bi-dash-lg"></i></a>
+		<div class="titbar"><img src="img/files/excel.png" class="icon" alt=""><span><span class="title">sheet</span><span class="save-status"></span></span><div>
+				<a class="a wbtg red" onclick="hidewin('sheet');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('sheet')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('sheet')"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg export" title="导出为Excel文件（.xlsx）"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/excel.png" class="icon" alt=""></div>
-		<div class="content" id="win-excel"><iframe id="iframe_excel" src=""></iframe></div>
+		<div class="content" id="win-sheet"><iframe id="iframe_sheet" src=""></iframe></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>

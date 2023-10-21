@@ -4,7 +4,7 @@ const icons = {
     'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
     'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
-    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'excel': 'img/files/excel.png',
+    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png',
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
     'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
@@ -47,7 +47,6 @@ let startClientX = 0;
 let startClientY = 0;
 let endClientX = 0;
 let endClientY = 0;
-let jm = null;
 let cms = {
     'titbar': [
         function (arg) {
@@ -231,67 +230,6 @@ let dps = {
     'xmind.file': [
         ['<i class="bi"></i> 保存', `save_xmind();`],
         ['<i class="bi"></i> 下载', `apps.explorer.download($('#win-xmind>.jsmind-inner')[0].id);`],
-    ],
-    'xmind.edit': [
-        ['<i class="bi"></i> 插入子节点 <info>Insert, Tab</info>', `add_node();`],
-        ['<i class="bi"></i> 插入同级节点 <info>Enter</info>', `add_node(true);`],
-        // ['<i class="bi"></i> 剪切 <info>Ctrl+X</info>', 'document.execCommand(\'cut\')'],
-        // '<hr>',
-        // ['<i class="bi"></i> 撤销 <info>Ctrl+Z</info>', 'document.execCommand(\'undo\')'],
-        // ['<i class="bi"></i> 重做 <info>Ctrl+Y</info>', 'document.execCommand(\'redo\')'],
-    ],
-    'xmind.bgcolor': [
-        ['<i class="bi"></i> 红色', `set_node_bg_color('red');`],
-        ['<i class="bi"></i> 粉红', `set_node_bg_color('#F08080');`],
-        ['<i class="bi"></i> 浅粉', `set_node_bg_color('#FFDAB9');`],
-        ['<i class="bi"></i> 橙色', `set_node_bg_color('orange');`],
-        ['<i class="bi"></i> 黄色', `set_node_bg_color('yellow');`],
-        ['<i class="bi"></i> 浅黄', `set_node_bg_color('#FFFFE0');`],
-        ['<i class="bi"></i> 绿色', `set_node_bg_color('green');`],
-        ['<i class="bi"></i> 浅绿', `set_node_bg_color('#98F898');`],
-        ['<i class="bi"></i> 蓝色', `set_node_bg_color('blue');`],
-        ['<i class="bi"></i> 浅蓝', `set_node_bg_color('#00BFFF');`],
-        ['<i class="bi"></i> 青色', `set_node_bg_color('#00FFFF');`],
-        ['<i class="bi"></i> 紫色', `set_node_bg_color('#800080');`],
-        ['<i class="bi"></i> 紫罗兰', `set_node_bg_color('#EE82EE');`],
-        ['<i class="bi"></i> 白色', `set_node_bg_color('white');`],
-        ['<i class="bi"></i> 黑色', `set_node_bg_color('black');`],
-        ['<i class="bi"></i> 灰色', `set_node_bg_color('#808080');`],
-        ['<i class="bi"></i> 浅灰', `set_node_bg_color('#D3D3D3');`],
-    ],
-    'xmind.fontcolor': [
-        ['<i class="bi"></i> 红色', `set_node_font_color('red');`],
-        ['<i class="bi"></i> 粉红', `set_node_font_color('#F08080');`],
-        ['<i class="bi"></i> 浅粉', `set_node_font_color('#FFDAB9');`],
-        ['<i class="bi"></i> 橙色', `set_node_font_color('orange');`],
-        ['<i class="bi"></i> 黄色', `set_node_font_color('yellow');`],
-        ['<i class="bi"></i> 浅黄', `set_node_font_color('#FFFFE0');`],
-        ['<i class="bi"></i> 绿色', `set_node_font_color('green');`],
-        ['<i class="bi"></i> 浅绿', `set_node_font_color('#98F898');`],
-        ['<i class="bi"></i> 蓝色', `set_node_font_color('blue');`],
-        ['<i class="bi"></i> 浅蓝', `set_node_font_color('#00BFFF');`],
-        ['<i class="bi"></i> 青色', `set_node_font_color('#00FFFF');`],
-        ['<i class="bi"></i> 紫色', `set_node_font_color('#800080');`],
-        ['<i class="bi"></i> 紫罗兰', `set_node_font_color('#EE82EE');`],
-        ['<i class="bi"></i> 白色', `set_node_font_color('white');`],
-        ['<i class="bi"></i> 黑色', `set_node_font_color('black');`],
-        ['<i class="bi"></i> 灰色', `set_node_font_color('#808080');`],
-        ['<i class="bi"></i> 浅灰', `set_node_font_color('#D3D3D3');`],
-    ],
-    'xmind.font': [
-        ['<i class="bi"></i> 12', `set_font_size(12, '');`],
-        ['<i class="bi"></i> 14', `set_font_size(14, '');`],
-        ['<i class="bi"></i> 16', `set_font_size(16, '');`],
-        ['<i class="bi"></i> 18', `set_font_size(18, '');`],
-        ['<i class="bi"></i> 20', `set_font_size(20, '');`],
-        ['<i class="bi"></i> 22', `set_font_size(22, '');`],
-        ['<i class="bi"></i> 24', `set_font_size(24, '');`],
-        ['<i class="bi"></i> 26', `set_font_size(26, '');`],
-        ['<i class="bi"></i> 28', `set_font_size(28, '');`],
-        ['<i class="bi"></i> 30', `set_font_size(30, '');`],
-        '<hr>',
-        ['<i class="bi"></i> Normal', `set_font_size('', 'normal');`],
-        ['<i class="bi"></i> Bold', `set_font_size('', 'bold');`],
     ]
 }
 
@@ -798,8 +736,8 @@ let apps = {
                 case 'xmind':
                     open_xmind(file_id);
                     break;
-                case 'xlsx':
-                    open_excel(file_id, filename);
+                case 'sheet':
+                    open_sheet(file_id);
                     break;
                 default:
                     apps.explorer.download(file_id);
@@ -1183,7 +1121,7 @@ let apps = {
             return null;
         }
     },
-    excel: {
+    sheet: {
         init: () => {
             return null;
         }
@@ -1320,7 +1258,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'picture', 'markdown', 'xmind', 'excel']
+let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2473,10 +2411,9 @@ function open_xmind(file_id) {
     $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_xmind").contentWindow.close_xmind_editor('${file_id}');hidewin('xmind');`);
 }
 
-function open_excel(file_id, file_name) {
-    openapp('excel');
-    document.getElementsByClassName("excel")[0].style.display = 'block';
-    window.parent.document.querySelectorAll('.window.excel>.titbar>span>.title')[0].innerText = file_name;
-    document.getElementById("iframe_excel").src = 'module/sheet.html?server=' + server + '&id=' + file_id;
-    $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `hidewin('excel');`);
+function open_sheet(file_id) {
+    openapp('sheet');
+    document.getElementsByClassName("sheet")[0].style.display = 'block';
+    document.getElementById("iframe_sheet").src = 'module/sheet.html?server=' + server + '&id=' + file_id;
+    $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
 }

@@ -7,7 +7,7 @@ import time
 import json
 import shutil
 import traceback
-from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException
+from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException, WebSocket
 from fastapi.responses import HTMLResponse
 from tortoise import transactions
 from tortoise.contrib.fastapi import register_tortoise
@@ -363,6 +363,13 @@ async def export_share_file(file_id: int, request: Request):
         logger.error(traceback.format_exc())
         return HTMLResponse(status_code=404, content=settings.HTML404)
 
+
+@router.websocket("/ws")
+async def realtime_save(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        print(data)
 
 app.include_router(router)
 if __name__ == "__main__":

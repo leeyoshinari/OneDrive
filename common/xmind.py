@@ -7,6 +7,7 @@ import time
 import json
 import random
 import codecs
+import zipfile
 from zipfile import ZipFile
 from common import xmltodict
 
@@ -18,59 +19,45 @@ x_content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-content
 progress = ['', 'start', 'oct', 'quarter', '3oct', 'half', '5oct', '3quar', '7oct', 'done']
 
 
-def create_xmind(file_id, file_path):
-    if not os.path.exists('tmp'):
-        os.mkdir('tmp')
-    tmp_path = os.path.join('tmp', file_id)
-    if not os.path.exists(tmp_path):
-        os.mkdir(tmp_path)
-    content_path = os.path.join(tmp_path, 'content.json')
+def create_xmind(file_path):
     content = {"template": "right", "theme": "fresh-blue", "version": "0", "root": {"data": {"id": str(int(time.time()*1000)), "text": "中心主题"}, "children": [{"data": {"id": str(int(time.time())), "text": "分支主题"}, "children": []}]}}
-    with codecs.open(content_path, 'w', encoding='utf-8') as f:
+    with codecs.open(file_path, 'w', encoding='utf-8') as f:
         f.write(json.dumps(content, ensure_ascii=False))
-    with ZipFile(file_path, "w") as z:
-        z.write(content_path, 'content.json')
 
 
-def read_xmind(file_id, file_path):
-    if not os.path.exists('tmp'):
-        os.mkdir('tmp')
-    tmp_path = os.path.join('tmp', file_id)
-    if not os.path.exists(tmp_path):
-        os.mkdir(tmp_path)
-    with ZipFile(file_path, 'r') as z:
-        with codecs.open(os.path.join(tmp_path, 'content.json'), 'w', encoding='utf-8') as f:
-            f.write('{}')
-        if len(z.namelist()) == 1 and 'content.json' in z.namelist():
-            result = json.loads(z.open('content.json').read().decode('utf-8'))
-        elif 'content.json' in z.namelist():
-            result = format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
-        else:
-            result = format_x_reader(xmltodict.parse(z.open('/content.xml').read().decode('utf-8')))
-        return result
+def read_xmind(file_path):
+    try:
+        with ZipFile(file_path, 'r') as z:
+            if 'content.json' in z.namelist():
+                result = format_zen_reader(json.loads(z.open('content.json').read().decode('utf-8')))
+            elif 'content.xml' in z.namelist():
+                result = format_x_reader(xmltodict.parse(z.open('content.xml').read().decode('utf-8')))
+            else:
+                result = None
+    except zipfile.BadZipfile:
+        result = None
+    if result:
+        with codecs.open(file_path, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(result, ensure_ascii=False))
+    result = json.load(open(file_path, 'r', encoding='utf-8'))
+    return result
 
 
-def write_xmind(file_id, file_path, data):
-    tmp_path = os.path.join('tmp', file_id)
-    if not os.path.exists(tmp_path):
-        raise FileNotFoundError("请重新打开文件...")
-
-    content_path = os.path.join(tmp_path, 'content.json')
-    with codecs.open(content_path, 'w', encoding='utf-8') as f:
+def write_xmind(file_path, data):
+    with codecs.open(file_path, 'w', encoding='utf-8') as f:
         f.write(data)
-    with ZipFile(file_path, "w") as z:
-        z.write(content_path, 'content.json')
 
 
 def generate_xmind8(file_id, file_name, file_path):
+    if not os.path.exists('tmp'):
+        os.mkdir('tmp')
     tmp_path = os.path.join('tmp', file_id)
     if not os.path.exists(tmp_path):
-        raise FileNotFoundError("请重新打开文件...")
+        os.mkdir(tmp_path)
 
     with open(os.path.join(tmp_path, 'styles.xml'), 'w', encoding='utf-8') as f:
         f.write('')
-    with ZipFile(file_path, 'r') as z:
-        content = json.loads(z.open('content.json').read().decode('utf-8'))
+    content = json.load(open(file_path, 'r', encoding='utf-8'))
     content = format_x_writer(content['root'], os.path.join(tmp_path, 'styles.xml'))
     with open(os.path.join(tmp_path, 'styles.xml'), 'r', encoding='utf-8') as f:
         styles = f.read()
@@ -83,9 +70,9 @@ def generate_xmind8(file_id, file_name, file_path):
     with codecs.open(os.path.join(tmp_path, 'meta.xml'), 'w', encoding='utf-8') as f:
         f.write(x_meta.format(time.strftime('%Y-%m-%d %H:%M:%S')))
     new_path = os.path.join(tmp_path, file_name)
-    file_name = os.listdir(tmp_path)
+    file_names = os.listdir(tmp_path)
     with ZipFile(new_path, "w") as z:
-        for file in file_name:
+        for file in file_names:
             if 'xmind' in file or 'json' in file: continue
             if 'manifest.xml' == file:
                 z.write(os.path.join(tmp_path, file), 'META-INF/' + file)

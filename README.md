@@ -83,6 +83,21 @@ location /mycloud {
 
 10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 
+## 在线编辑功能
+所有在线编辑功能：每隔10秒自动保存，标题栏文件名旁会展示自动保存的时间，点击关闭按钮也会自动保存。
+
+### txt 文件
+点击右上角的下载按钮，可以直接将当前文档转成 html，并下载。如需下载原 txt文件，可在文件资源管理器中选中文件并点击下载。
+
+### markdown 文档
+点击右上角的下载按钮，可以直接将当前文档转成 html，并在新标签页打开，如需下载这个 html，可在新打开的标签页右键下载。需要注意：这里使用的是第三方工具转的html，一些样式在转换时会丢失。如需保留所有的html样式，可在工具栏点击`全窗口预览HTML`即可。
+
+### xmind 脑图
+支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
+
+## 文件分享
+文件分享链接支持设置打开次数，超过次数会返回 Nginx 默认页面。其中：markdown 和 xmind 分享链接打开后页面虽然可以编辑，但数据不会保存，仅支持导出数据。
+
 ## 其他
 1、支持 Linux、Windows、MacOS 等多个平台，建议在 Linux 系统部署； 
 
@@ -92,15 +107,10 @@ location /mycloud {
 
 4、桌面的背景图片默认和登录页面的背景图片一样，如需修改，可在`设置->个性化->设置背景图片`中上传，上传成功后，清缓存刷新页面即可，注意：图片格式必须是`jpg`；
 
-5、`txt` 和 `markdown` 文档支持在线编辑，每隔10秒自动保存，点击关闭按钮也会自动保存，再也不用担心文件没有保存了；
-
-6、支持标准的 `xmind` 文件（xmind8 和 xmind zen(xmind 2020)），不支持其他软件和网站保存的 `xmind` 文件，例如垃圾的百度脑图编辑工具导出的`xmind`文件就是非标准的格式；
-
-7、`xmind` 文件预览和编辑功能肯定不能和专用的软件相比，无法兼容样式、批注、评论等；通过本项目新建的`xmind`文件是`xmind zen(xmind 2020)`格式，支持设置颜色、样式等保存和查看；
 
 ## 鸣谢
 鸣谢以下项目
 - [win12](https://github.com/tjy-gitnub/win12)
 - [viewerjs](https://github.com/fengyuanchen/viewerjs)
-- [jsmind](https://github.com/hizzgdev/jsmind)
+- [kityminder](https://github.com/fex-team/kityminder)
 - [markdown-it](https://github.com/markdown-it/markdown-it)

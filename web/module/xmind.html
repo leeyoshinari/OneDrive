@@ -14,8 +14,10 @@
         let file_id = params[1].split('=')[1];
         let is_share = file_id.length > 10;
         let get_url = servers + '/content/get/' + file_id;
+        let export_url = servers + '/export/' + file_id;
         if (!is_share) {
             get_url = servers + '/share/get/' + file_id;
+            export_url = servers + '/share/export/' + file_id;
         }
         $.ajax({
             type: "GET",

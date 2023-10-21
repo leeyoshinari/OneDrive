@@ -4,7 +4,7 @@ const icons = {
     'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
     'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
-    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png',
+    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'excel': 'img/files/excel.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png',
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
     'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
@@ -798,6 +798,9 @@ let apps = {
                 case 'xmind':
                     open_xmind(file_id);
                     break;
+                case 'xlsx':
+                    open_excel(file_id, filename);
+                    break;
                 default:
                     apps.explorer.download(file_id);
                     break;
@@ -1180,6 +1183,11 @@ let apps = {
             return null;
         }
     },
+    excel: {
+        init: () => {
+            return null;
+        }
+    },
     picture: {
         init: () => {
             return null;
@@ -1312,7 +1320,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'picture', 'markdown', 'xmind']
+let other_img = ['video', 'picture', 'markdown', 'xmind', 'excel']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2387,7 +2395,6 @@ function modify_pwd() {
 function close_video() {$('.my_video').attr('src', '');}
 
 let txt_interval = null;
-let xmind_interval = null;
 function edit_text_file(file_id) {
     clearInterval(txt_interval);
     openapp('notepad');
@@ -2466,3 +2473,10 @@ function open_xmind(file_id) {
     $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_xmind").contentWindow.close_xmind_editor('${file_id}');hidewin('xmind');`);
 }
 
+function open_excel(file_id, file_name) {
+    openapp('excel');
+    document.getElementsByClassName("excel")[0].style.display = 'block';
+    window.parent.document.querySelectorAll('.window.excel>.titbar>span>.title')[0].innerText = file_name;
+    document.getElementById("iframe_excel").src = 'module/sheet.html?server=' + server + '&id=' + file_id;
+    $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `hidewin('excel');`);
+}

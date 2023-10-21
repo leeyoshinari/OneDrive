@@ -41353,6 +41353,10 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
             timeoutInt = setTimeout(autoSave, 15e3)
         }()
     }
+    let div_node = document.createElement('div');
+    div_node.className='btn-group-vertical';
+    div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" title="导出为xmind8格式" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">导出为xmind8</span></button>`;
+    setTimeout(()=>{document.querySelectorAll('.tab-pane.ng-scope')[0].appendChild(div_node)}, 3000);
 });
 function close_xmind_editor(file_id) {
     window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";

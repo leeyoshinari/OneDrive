@@ -589,7 +589,7 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
 async def export_special_file(file_id, hh: dict) -> dict:
     file = await models.Files.get(id=file_id).select_related('parent')
     parent_path = await file.parent.get_all_path()
-    generate_xmind8(file.id, file.name, os.path.join(parent_path, file.name))
-    result = {'path': os.path.join(parent_path, file.name), 'name': file.name, 'format': file.format}
+    file_path = generate_xmind8(file.id, file.name, os.path.join(parent_path, file.name))
+    result = {'path': file_path, 'name': file.name, 'format': file.format}
     logger.info(f"{file.name} 导出成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
     return result

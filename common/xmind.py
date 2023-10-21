@@ -5,9 +5,17 @@
 import os
 import time
 import json
+import random
 import codecs
 from zipfile import ZipFile
 from common import xmltodict
+
+
+x_manifest = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><manifest xmlns="urn:xmind:xmap:xmlns:manifest:1.0" password-hint=""><file-entry full-path="content.xml" media-type="text/xml"/><file-entry full-path="META-INF/" media-type=""/><file-entry full-path="META-INF/manifest.xml" media-type="text/xml"/><file-entry full-path="meta.xml" media-type="text/xml"/><file-entry full-path="styles.xml" media-type="text/xml"/><file-entry full-path="Thumbnails/" media-type=""/><file-entry full-path="Thumbnails/thumbnail.png" media-type="image/png"/></manifest>'
+x_meta = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><meta xmlns="urn:xmind:xmap:xmlns:meta:2.0" version="2.0"><Author><Name></Name><Email/><Org/></Author><Create><Time>{}</Time></Create><Creator><Name>XMind</Name><Version>R3.7.9.201912052356</Version></Creator><Thumbnail><Origin><X>86</X><Y>141</Y></Origin><BackgroundColor>#FFFFFF</BackgroundColor></Thumbnail></meta>'
+x_style = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-styles xmlns="urn:xmind:xmap:xmlns:style:2.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:svg="http://www.w3.org/2000/svg" version="2.0"><styles>{}</styles></xmap-styles>'
+x_content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-content xmlns="urn:xmind:xmap: xmlns:content:2.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" modified-by="" timestamp="{}" version="2.0"><sheet id="06hlfldmnedbkgh3r9nsjsrjt1" modified-by="" theme="0u70s3gi0t57b7d6cpqnddcb8k" timestamp="{}"><title>画布 1</title>{}<sheet-settings><info-items><info-item mode="card" type="org.xmind.ui.infoItem.notes"/></info-items></sheet-settings></sheet></xmap-content>'
+progress = ['', 'start', 'oct', 'quarter', '3oct', 'half', '5oct', '3quar', '7oct', 'done']
 
 
 def create_xmind(file_id, file_path):
@@ -59,16 +67,31 @@ def generate_xmind8(file_id, file_name, file_path):
     if not os.path.exists(tmp_path):
         raise FileNotFoundError("请重新打开文件...")
 
+    with open(os.path.join(tmp_path, 'styles.xml'), 'w', encoding='utf-8') as f:
+        f.write('')
     with ZipFile(file_path, 'r') as z:
         content = json.loads(z.open('content.json').read().decode('utf-8'))
-        with codecs.open(os.path.join(tmp_path, 'content.json'), 'w', encoding='utf-8') as f:
-            f.write(z.open('content.json').read().decode('utf-8'))
+    content = format_x_writer(content['root'], os.path.join(tmp_path, 'styles.xml'))
+    with open(os.path.join(tmp_path, 'styles.xml'), 'r', encoding='utf-8') as f:
+        styles = f.read()
+    with codecs.open(os.path.join(tmp_path, 'styles.xml'), 'w', encoding='utf-8') as f:
+        f.write(x_style.format(styles))
+    with codecs.open(os.path.join(tmp_path, 'content.xml'), 'w', encoding='utf-8') as f:
+        f.write(x_content.format(int(time.time()*1000), int(time.time()*1000), content))
+    with codecs.open(os.path.join(tmp_path, 'manifest.xml'), 'w', encoding='utf-8') as f:
+        f.write(x_manifest)
+    with codecs.open(os.path.join(tmp_path, 'meta.xml'), 'w', encoding='utf-8') as f:
+        f.write(x_meta.format(time.strftime('%Y-%m-%d %H:%M:%S')))
     new_path = os.path.join(tmp_path, file_name)
     file_name = os.listdir(tmp_path)
     with ZipFile(new_path, "w") as z:
         for file in file_name:
-            if 'xmind' in file: continue
-            z.write(os.path.join(tmp_path, file), file)
+            if 'xmind' in file or 'json' in file: continue
+            if 'manifest.xml' == file:
+                z.write(os.path.join(tmp_path, file), 'META-INF/' + file)
+            else:
+                z.write(os.path.join(tmp_path, file), file)
+    return new_path
 
 
 def format_x_reader(data):
@@ -154,29 +177,75 @@ def x_reader_children(data):
     return result
 
 
-def format_x_writer(data):
-    res = ''
-    for k, v in data.items():
-        s = ''
-        sheet = ''
-        for k1, v1 in v.items():
-            if isinstance(v1, str):
-                s += f'{k1}="{v1}" '
-            if isinstance(v1, dict):
-                ss = ''
-                topic = ''
-                for k2, v2 in v1.items():
-                    if isinstance(v2, str) and k2 != 'title':
-                        ss += f'{k2}="{v2}" '
-                    if isinstance(v2, dict):
-                        topic = f'<topic class="topic" id="{v2["data"]["id"]}" timestamp="{int(time.time() * 1000)}"><title>{v2["data"]["text"]}</title><children><topics type="attached">{format_x_children(v2.get("children", []))}</topics></children></topic>'
-                sheet = f'<sheet {ss}><title>{v1["title"]}</title>{topic}</sheet>'
-        res = f'<?xml version="1.0" encoding="UTF-8" standalone="no"?><{k} {s}>{sheet}</{k}>'
-    return res
+def format_x_writer(data, style_path):
+    style_id = 's' + str(int(time.time() * 1000)) + str(random.randint(1, 99999))
+    ss = format_x_styles(style_id, data["data"])
+    style_property = ''
+    if len(ss) > 5:
+        with open(style_path, 'a', encoding='utf-8') as f:
+            f.write(ss)
+        style_property = f' style-id="{style_id}"'
+    topic = f'<topic id="{data["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{data["data"]["text"]}</title>{format_x_marker(data["data"])}{format_x_note(data["data"])}<children><topics type="attached">{format_x_children(data.get("children", []), style_path)}</topics></children></topic>'
+    return topic
 
 
-def format_x_children(data: list):
+def format_x_children(data: list, style_path: str):
     res = ''
     for item in data:
-        res += f'<topic id="{item["data"]["id"]}" timestamp="{int(time.time() * 1000)}"><title>{item["data"]["text"]}</title><children><topics type="attached">{format_x_children(item.get("children", []))}</topics></children></topic>'
+        style_id = 's' + str(int(time.time() * 1000)) + str(random.randint(1, 99999))
+        ss = format_x_styles(style_id, item["data"])
+        style_property = ''
+        if len(ss) > 5:
+            with open(style_path, 'a', encoding='utf-8') as f:
+                f.write(ss)
+            style_property = f'style-id="{style_id}"'
+        res += f'<topic id="{item["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{item["data"]["text"]}</title>{format_x_marker(item["data"])}{format_x_note(item["data"])}<children><topics type="attached">{format_x_children(item.get("children", []), style_path)}</topics></children></topic>'
     return res
+
+
+def format_x_styles(id: str, data: dict):
+    res = '<topic-properties'
+    if 'background' in data:
+        res += ' svg:fill="{}"'.format(data['background'])
+    if 'font-size' in data:
+        res += ' fo:font-size="{}pt"'.format(data['font-size'])
+    if 'color' in data:
+        res += ' fo:color="{}"'.format(data['color'])
+    if 'font-weight' in data:
+        res += ' fo:font-weight="{}"'.format(data['font-weight'])
+    if 'font-style' in data:
+        res += ' fo:font-style="{}"'.format(data['font-style'])
+    if 'font-family' in data:
+        res += ' fo:font-family="{}"'.format(data['font-family'])
+    if len(res) > 20:
+        res = '<style id="{}" name="" type="topic">{}/></style>'.format(id, res)
+        return res
+    else:
+        return ''
+
+
+def format_x_marker(data: dict):
+    res = ''
+    if 'priority' in data and data['priority']:
+        res += '<marker-ref marker-id="priority-{}"/>'.format(data['priority'])
+    if 'progress' in data and data['progress']:
+        res += '<marker-ref marker-id="task-{}"/>'.format(progress[data['progress']])
+    if len(res) > 5:
+        res = '<marker-refs>{}</marker-refs>'.format(res)
+        return res
+    else:
+        return ''
+
+
+def format_x_note(data: dict):
+    res = ''
+    if 'note' in data and data['note']:
+        notes = data['note'].split('\n')
+        for note in notes:
+            res += f'<xhtml:p>{note}</xhtml:p>'
+    if len(res) > 5:
+        res = f'<notes><plain>{data["note"]}</plain><html>{res}</html></notes>'
+        return res
+    else:
+        return ''
+

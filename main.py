@@ -18,7 +18,7 @@ from common.calc import str_md5, beauty_size
 from common.results import Result
 from common.logging import logger
 from common.messages import Msg
-from common.xmind import read_xmind
+from common.xmind import read_xmind, generate_xmind8
 import common.scheduler
 import settings
 
@@ -300,7 +300,7 @@ async def get_share_file(file_id: int, request: Request):
             return HTMLResponse(status_code=404, content=settings.HTML404)
     except:
         logger.error(traceback.format_exc())
-        return HTMLResponse(content=settings.HTML404)
+        return HTMLResponse(status_code=404, content=settings.HTML404)
 
 
 @router.post("/move", summary="移动文件/文件夹")
@@ -315,7 +315,7 @@ async def delete_file(query: models.IsDelete, hh: dict = Depends(auth)):
     return result
 
 
-@router.post("/file/import", summary="服务器本地文件直接导入")
+@router.post("/file/import", summary="服务器本地文件直接导入，无登录校验")
 async def import_file(query: models.ImportLocalFileByPath):
     result = await views.upload_file_by_path(query)
     return result
@@ -343,6 +343,25 @@ async def export_file(file_id: str, hh: dict = Depends(auth)):
     except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg="文件下载失败，请重试")
+
+
+@router.get("/share/export/{file_id}", summary="导出 xmind 文件")
+async def export_share_file(file_id: int, request: Request):
+    try:
+        hh = {'ip': request.headers.get('x-real-ip', '')}
+        result = await views.open_share_file(file_id, hh)
+        if result['type'] == 0:
+            if result["format"] == 'xmind':
+                file_path = generate_xmind8(result['file_id'], result['name'], result['path'])
+                result['path'] = file_path
+            headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
+                       'Content-Disposition': f'inline;filename="{result["name"]}"'}
+            return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+        else:
+            return HTMLResponse(status_code=404, content=settings.HTML404)
+    except:
+        logger.error(traceback.format_exc())
+        return HTMLResponse(status_code=404, content=settings.HTML404)
 
 
 app.include_router(router)

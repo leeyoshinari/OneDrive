@@ -19,6 +19,7 @@
 	let servers = params[0].split('=')[1];
 	let file_id = params[1].split('=')[1];
     let is_share = file_id.length > 10;
+    let old_md5 = '';
     let get_url = servers + '/content/get/' + file_id;
     if (!is_share) {
         get_url = servers + '/share/get/' + file_id;
@@ -38,17 +39,18 @@
                     container: 'luckysheet',
                     data: data['data']
                 });
+                old_md5 = md5(JSON.stringify(data['data']));
             }
         }
     });
     if (is_share) {
         let xlsx_interval = window.setInterval(() => {
-            let content = luckysheet.getluckysheetfile();
-            let new_md5 = md5(JSON.stringify(content).replaceAll(',null', '').replaceAll(',[null]', '').replaceAll('[null]', ''));
-            if (new_md5 !== document.getElementById("luckysheet").name) {
+            let content = JSON.stringify(luckysheet.getluckysheetfile()).replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
+            let new_md5 = md5(content);
+            if (new_md5 !== old_md5) {
                 window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = "正在保存...";
-                window.parent.save_text_file(file_id, content);
-                document.getElementById("luckysheet").name = new_md5;
+                window.parent.save_text_file(file_id, content, false);
+                old_md5 = new_md5;
                 window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
             }
         }, 10000);
@@ -56,10 +58,10 @@
         function close_sheet_editor(file_id) {
             clearInterval(xlsx_interval);
             window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = "正在保存...";
-            let content = luckysheet.getluckysheetfile();
-            let new_md5 = md5(JSON.stringify(content).replaceAll(',null', '').replaceAll(',[null]', '').replaceAll('[null]', ''));
-            if (new_md5 !== document.getElementById("luckysheet").name) {
-                window.parent.save_text_file(file_id, content);
+            let content = JSON.stringify(luckysheet.getluckysheetfile()).replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
+            let new_md5 = md5(content);
+            if (new_md5 !== old_md5) {
+                window.parent.save_text_file(file_id, content, false);
             }
             window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = "";
             // window.parent.document.getElementsByClassName("sheet")[0].style.display = 'none';

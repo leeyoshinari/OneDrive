@@ -20,7 +20,7 @@ from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, write_xmind, create_xmind, generate_xmind8
-from common.sheet import read_sheet, create_sheet
+from common.sheet import read_sheet, create_sheet, write_sheet
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -577,6 +577,8 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
             folder_path = await file.parent.get_all_path()
             if file.format == 'xmind':
                 write_xmind(os.path.join(folder_path, file.name), query.data)
+            elif file.format == 'sheet':
+                write_sheet(os.path.join(folder_path, file.name), query.data)
             else:
                 with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
                     f.write(unquote(base64.b64decode(query.data).decode('utf-8')))

@@ -289,7 +289,7 @@ async def get_share_file(file_id: int, request: Request):
                 return res
             if result["format"] == 'xmind':
                 res = Result()
-                xmind = read_xmind(result['file_id'], result['path'])
+                xmind = read_xmind(result['path'])
                 res.data = xmind
                 res.msg = result['name']
                 return res

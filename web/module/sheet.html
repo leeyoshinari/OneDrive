@@ -45,7 +45,7 @@
     });
     if (is_share) {
         let xlsx_interval = window.setInterval(() => {
-            let content = JSON.stringify(luckysheet.getluckysheetfile()).replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
+            let content = JSON.stringify(luckysheet.getluckysheetfile());//.replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
             let new_md5 = md5(content);
             if (new_md5 !== old_md5) {
                 window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = "正在保存...";
@@ -58,7 +58,7 @@
         function close_sheet_editor(file_id) {
             clearInterval(xlsx_interval);
             window.parent.document.querySelectorAll('.window.sheet>.titbar>span>.save-status')[0].innerText = "正在保存...";
-            let content = JSON.stringify(luckysheet.getluckysheetfile()).replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
+            let content = JSON.stringify(luckysheet.getluckysheetfile());//.replaceAll(',null', '').replaceAll(',[null]', '');//.replaceAll('[null]', '');
             let new_md5 = md5(content);
             if (new_md5 !== old_md5) {
                 window.parent.save_text_file(file_id, content, false);

@@ -696,6 +696,9 @@ let apps = {
                 case 'xmind':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/xmind.html?server=' + server + '&id=' + share_id;
                     break;
+                case 'sheet':
+                    share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id;
+                    break;
                 default:
                     share_url = server + '/share/get/' + share_id;
                     break;
@@ -1911,15 +1914,15 @@ function rename_selected() {
 function copy_selected() {
     let ids = getSelectedIds();
     if (ids.folder.length > 0) {
-        $.Toast("只能分享文件，不能分享文件夹 ~", "error");
+        $.Toast("只能复制文件，不能复制文件夹 ~", "error");
         return;
     }
     if (ids.file.length === 0) {
-        $.Toast("请选择要分享的文件 ~", "error");
+        $.Toast("请选择要复制的文件 ~", "error");
         return;
     }
     if (ids.file.length > 1) {
-        $.Toast("一次只能分享一个文件 ~", "error");
+        $.Toast("一次只能复制一个文件 ~", "error");
         return;
     }
     apps.explorer.copy(ids.file[0]);

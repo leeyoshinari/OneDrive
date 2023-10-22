@@ -6,13 +6,13 @@
 - 文件上传、下载、新建、删除、移动、重命名、分享
 - txt和markdown文档的在线预览和编辑功能
 - 支持 xmind 文件在线预览和编辑
+- 支持表格在线编辑
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
 
 ### ToDo
 - [ ] 支持chatGPT等大模型
 - [ ] 支持富文本在线编辑（类似word）
-- [ ] 支持表格在线编辑（类似excel）
 - [ ] 音乐播放器
 
 ## 技术选型
@@ -114,3 +114,4 @@ location /mycloud {
 - [viewerjs](https://github.com/fengyuanchen/viewerjs)
 - [kityminder](https://github.com/fex-team/kityminder)
 - [markdown-it](https://github.com/markdown-it/markdown-it)
+- [Luckysheet](https://github.com/dream-num/Luckysheet)

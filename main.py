@@ -7,7 +7,7 @@ import time
 import json
 import shutil
 import traceback
-from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException, WebSocket
+from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from tortoise import transactions
 from tortoise.contrib.fastapi import register_tortoise
@@ -19,6 +19,7 @@ from common.results import Result
 from common.logging import logger
 from common.messages import Msg
 from common.xmind import read_xmind, generate_xmind8
+from common.sheet import read_sheet
 import common.scheduler
 import settings
 
@@ -293,6 +294,12 @@ async def get_share_file(file_id: int, request: Request):
                 res.data = xmind
                 res.msg = result['name']
                 return res
+            if result["format"] == 'sheet':
+                res = Result()
+                sheet = read_sheet(result['path'])
+                res.data = sheet
+                res.msg = result['name']
+                return res
             else:
                 headers = {'Content-Disposition': f'inline;filename="{result["name"]}"', 'Cache-Control': 'no-store'}
                 return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
@@ -363,13 +370,6 @@ async def export_share_file(file_id: int, request: Request):
         logger.error(traceback.format_exc())
         return HTMLResponse(status_code=404, content=settings.HTML404)
 
-
-@router.websocket("/ws")
-async def realtime_save(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        print(data)
 
 app.include_router(router)
 if __name__ == "__main__":

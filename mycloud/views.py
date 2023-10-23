@@ -5,11 +5,9 @@
 import os
 import time
 import json
-import base64
 import shutil
 import zipfile
 import traceback
-from urllib.parse import unquote
 from tortoise import transactions
 from tortoise.expressions import Q
 from tortoise.exceptions import DoesNotExist
@@ -20,7 +18,7 @@ from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, write_xmind, create_xmind, generate_xmind8
-from common.sheet import read_sheet, create_sheet, write_sheet
+from common.sheet import read_sheet, create_sheet
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -45,6 +43,8 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = '新建脑图文件.xmind'
             elif file_type == 'sheet':
                 file_name = '新建sheet工作表.sheet'
+            elif file_type == 'document':
+                file_name = '新建doc文档.document'
             else:
                 file_name = '新建文本文件.txt'
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
@@ -575,13 +575,8 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
         async with transactions.in_transaction():
             file = await models.Files.get(id=query.id).select_related('parent')
             folder_path = await file.parent.get_all_path()
-            if file.format == 'xmind':
-                write_xmind(os.path.join(folder_path, file.name), query.data)
-            elif file.format == 'sheet':
-                write_sheet(os.path.join(folder_path, file.name), query.data)
-            else:
-                with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
-                    f.write(unquote(base64.b64decode(query.data).decode('utf-8')))
+            with open(os.path.join(folder_path, file.name), 'w', encoding='utf-8') as f:
+                f.write(query.data)
             file.size = os.path.getsize(os.path.join(folder_path, file.name))
             await file.save()
         result.msg = Msg.MsgSaveSuccess

@@ -13,8 +13,3 @@ def create_sheet(file_path):
 def read_sheet(file_path):
     content = json.load(open(file_path, 'r', encoding='utf-8'))
     return content
-
-
-def write_sheet(file_path, data):
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(data)

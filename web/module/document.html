@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor catalog</title>
+  <link href="document/normalize.min.css" rel="stylesheet">
+  <link href="document/style.css" rel="stylesheet">
+    <script src="../js/jq.min.js"></script>
+    <script src="../js/md5.min.js"></script>
+  <style>
+    #header-container {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    #header-container li {
+      color: #333;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    #header-container li:hover {
+      text-decoration: underline;
+    }
+
+    #header-container li[type="header1"] {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #header-container li[type="header2"] {
+      font-size: 16px;
+      padding-left: 15px;
+      font-weight: bold;
+    }
+
+    #header-container li[type="header3"] {
+      font-size: 14px;
+      padding-left: 30px;
+    }
+
+    #header-container li[type="header4"] {
+      font-size: 12px;
+      padding-left: 45px;
+    }
+
+    #header-container li[type="header5"] {
+      font-size: 12px;
+      padding-left: 60px;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <input type="text" id="content_length" name="" value="0" style="display:none;"/>
+        <div class="page-right" style="display: flex;">
+            <div style="border: 1px solid #ccc; flex: 1; width: calc(100vw - 370px);">
+                <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
+                <div id="editor-text-area" style="height: 600px"></div>
+            </div>
+            <div style="width: 200px; background-color: #ffffff;">
+                <ul id="header-container"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="document/index.js"></script>
+  <script>
+    let params = window.location.href.split('&');
+    let servers = params[0].split('=')[1];
+    let file_id = params[1].split('=')[1];
+    let is_share = file_id.length > 10;
+    let url = servers + '/content/get/' + file_id;
+    if (!is_share) {
+        url = servers + '/share/get/' + file_id;
+    }
+    let content = '';
+    let filename = '';
+	$.ajax({
+		type: "GET",
+        async: false,
+		url: url,
+		success: function (data) {
+			if (data['code'] === 0) {
+                if (is_share) {
+                    window.parent.document.querySelectorAll('.window.document>.titbar>span>.title')[0].innerText = data['msg'];
+                    document.getElementById("content_length").value = md5(data['data']);
+                }
+                document.title = data['msg'];
+                filename = data['msg'];
+                content = data['data'];
+			}
+		}
+	});
+    const E = window.wangEditor
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+    const headerContainer = document.getElementById('header-container')
+    headerContainer.addEventListener('mousedown', event => {
+      if (event.target.tagName !== 'LI') return
+      event.preventDefault()
+      const id = event.target.id
+      editor.scrollToElem(id)
+    })
+
+    window.editor = E.createEditor({
+      selector: '#editor-text-area',
+      html: content,
+      config: {
+        placeholder: '请在这里输入内容...',
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: filename,
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          const headers = editor.getElemsByTypePrefix('header')
+          headerContainer.innerHTML = headers.map(header => {
+            const text = E.SlateNode.string(header)
+            const { id, type } = header
+            return `<li id="${id}" type="${type}">${text}</li>`
+          }).join('')
+        }
+      }
+    })
+
+    window.toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {}
+    })
+
+    if (is_share) {
+        let editor_interval = window.setInterval(() => {
+            let text_data = editor.getHtml();
+            let old_md5 = document.getElementById("content_length").value;
+            let new_md5 = md5(text_data);
+            if (new_md5 !== old_md5) {
+                window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.save_text_file(file_id, text_data);
+                document.getElementById("content_length").value = new_md5;
+                window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+            }
+        }, 10000);
+
+        function close_document_editor(file_id) {
+            clearInterval(editor_interval);
+            window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            let content = editor.getHtml();
+            let old_md5 = document.getElementById("content_length").value;
+            if (old_md5 !== md5(content)) {
+                window.parent.save_text_file(file_id, content);
+            }
+            window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "";
+            window.parent.document.getElementById("iframe_document").src = 'about:blank';
+        }
+    }
+</script>
+</body>
+</html>

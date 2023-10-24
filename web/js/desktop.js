@@ -5,7 +5,7 @@ const icons = {
     'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
-    'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'document': 'img/files/word.png',
+    'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'docu': 'img/files/word.png',
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
     'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
     'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
@@ -699,7 +699,7 @@ let apps = {
                 case 'sheet':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id;
                     break;
-                case 'document':
+                case 'docu':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/document.html?server=' + server + '&id=' + share_id;
                     break;
                 default:
@@ -745,8 +745,8 @@ let apps = {
                 case 'sheet':
                     open_sheet(file_id);
                     break;
-                case 'document':
-                    open_document(file_id);
+                case 'docu':
+                    open_document(file_id, filename);
                     break;
                 default:
                     apps.explorer.download(file_id);
@@ -1135,7 +1135,7 @@ let apps = {
             return null;
         }
     },
-    document: {
+    docu: {
         init: () => {
             return null;
         }
@@ -1272,7 +1272,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet', 'document']
+let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet', 'docu']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2427,9 +2427,10 @@ function open_sheet(file_id) {
     $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
 }
 
-function open_document(file_id) {
-    openapp('document');
-    document.getElementsByClassName("document")[0].style.display = 'block';
-    document.getElementById("iframe_document").src = 'module/document.html?server=' + server + '&id=' + file_id;
-    $('.window.document>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_document").contentWindow.close_document_editor('${file_id}');hidewin('document');`);
+function open_document(file_id, file_name) {
+    openapp('docu');
+    document.getElementsByClassName("docu")[0].style.display = 'block';
+    document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id;
+    $('.window.docu>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_docu").contentWindow.close_document_editor('${file_id}');hidewin('docu');`);
+    $('#win-docu>a')[0].download = file_name.replace('docu', 'html');
 }

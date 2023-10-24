@@ -199,7 +199,7 @@
 							<ul class="dropdown-list">
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');">新建txt文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','md');">新建md文件</li>
-								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','document');">新建在线文档文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docu');">新建在线文档文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
 							</ul>
@@ -497,17 +497,18 @@
 		<div class="loadback"><img src="img/files/excel.png" class="icon" alt=""></div>
 		<div class="content" id="win-sheet"><iframe id="iframe_sheet" src=""></iframe></div>
 	</div>
-	<div class="window document">
+	<div class="window docu">
 		<div class="resize-bar"></div>
 		<div class="titbar"><img src="img/files/word.png" class="icon" alt=""><span><span class="title">document</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="hidewin('document');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('document')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('document')"><i class="bi bi-dash-lg"></i></a>
-				<!--a class="a wbtg export" title="导出为Excel文件（.xlsx）"><i class="bi bi-download"></i></a-->
+				<a class="a wbtg red" onclick="hidewin('docu');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('docu')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('docu')"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg export" title="转成 HTML 并下载" onclick="$('#win-docu>.save_doc').attr('href', window.URL.createObjectURL(new Blob([document.getElementById('iframe_docu').contentWindow.editor.getHtml()])));$('#win-docu>.save_doc')[0].click();"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
 		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
-		<div class="content" id="win-document"><iframe id="iframe_document" src=""></iframe></div>
+		<div class="content" id="win-docu"><iframe id="iframe_docu" src=""></iframe>
+		<a href="" download="未命名.html" style="opacity: 0;" class="save_doc">另存为</a></div>
 	</div>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>

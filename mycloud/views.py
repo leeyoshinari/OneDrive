@@ -444,7 +444,6 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
             result.data = xmind
         elif file.format == 'sheet':
             excel = read_sheet(os.path.join(parent_path, file.name))
-            # result.data = json.dumps(excel, ensure_ascii=False)
             result.data = excel
         else:
             with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:

@@ -300,6 +300,12 @@ async def get_share_file(file_id: int, request: Request):
                 res.data = sheet
                 res.msg = result['name']
                 return res
+            if result["format"] == 'docu':
+                res = Result()
+                with open(result['path'], 'r', encoding='utf-8') as f:
+                    res.data = f.read()
+                res.msg = result['name']
+                return res
             else:
                 headers = {'Content-Disposition': f'inline;filename="{result["name"]}"', 'Cache-Control': 'no-store'}
                 return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)

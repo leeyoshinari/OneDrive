@@ -20,6 +20,9 @@
       color: #333;
       margin: 10px 0;
       cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     #header-container li:hover {
@@ -58,11 +61,11 @@
     <div class="page-container">
         <input type="text" id="content_length" name="" value="0" style="display:none;"/>
         <div class="page-right" style="display: flex;">
-            <div style="border: 1px solid #ccc; flex: 1; width: calc(100vw - 370px);">
+            <div id="content-doc" style="border: 1px solid #ccc; flex: 1; width: calc(100vw - 370px);">
                 <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
-                <div id="editor-text-area" style="height: 600px"></div>
+                <div id="editor-text-area"></div>
             </div>
-            <div style="width: 200px; background-color: #ffffff;">
+            <div id="catalog" style="width: 20%; background-color: #ffffff; overflow-y: scroll;">
                 <ul id="header-container"></ul>
             </div>
         </div>
@@ -79,6 +82,7 @@
     }
     let content = '';
     let filename = '';
+    let old_md5 = '';
 	$.ajax({
 		type: "GET",
         async: false,
@@ -86,8 +90,8 @@
 		success: function (data) {
 			if (data['code'] === 0) {
                 if (is_share) {
-                    window.parent.document.querySelectorAll('.window.document>.titbar>span>.title')[0].innerText = data['msg'];
-                    document.getElementById("content_length").value = md5(data['data']);
+                    window.parent.document.querySelectorAll('.window.docu>.titbar>span>.title')[0].innerText = data['msg'];
+                    old_md5 = md5(data['data']);
                 }
                 document.title = data['msg'];
                 filename = data['msg'];
@@ -135,29 +139,45 @@
     })
 
     if (is_share) {
+        document.getElementById("content-doc").style.height = window.parent.document.getElementById("iframe_docu").clientHeight - 20 + 'px';
+        document.getElementById("catalog").style.height = window.parent.document.getElementById("iframe_docu").clientHeight - 20 + 'px';
+        // document.getElementById("editor-text-area").style.height = window.parent.document.getElementById("iframe_docu").contentRect.height - document.getElementById("editor-toolbar").clientHeight - 20 + 'px';
+        let resizeDoc = new ResizeObserver(event => {
+            document.getElementById("content-doc").style.height = event[0].contentRect.height - 20 + 'px';
+            document.getElementById("catalog").style.height = event[0].contentRect.height - 20 + 'px';
+            document.getElementById("editor-text-area").style.height = event[0].contentRect.height - document.getElementById("editor-toolbar").clientHeight - 20 + 'px';
+        })
+        setTimeout(() => {
+            resizeDoc.observe(window.parent.document.getElementById("iframe_docu"));
+        }, 200);
         let editor_interval = window.setInterval(() => {
             let text_data = editor.getHtml();
-            let old_md5 = document.getElementById("content_length").value;
             let new_md5 = md5(text_data);
             if (new_md5 !== old_md5) {
-                window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = "正在保存...";
                 window.parent.save_text_file(file_id, text_data);
-                document.getElementById("content_length").value = new_md5;
-                window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+                old_md5 = new_md5;
+                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
             }
         }, 10000);
 
         function close_document_editor(file_id) {
             clearInterval(editor_interval);
-            window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            resizeDoc.disconnect();
+            window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = "正在保存...";
             let content = editor.getHtml();
-            let old_md5 = document.getElementById("content_length").value;
             if (old_md5 !== md5(content)) {
                 window.parent.save_text_file(file_id, content);
             }
-            window.parent.document.querySelectorAll('.window.document>.titbar>span>.save-status')[0].innerText = "";
-            window.parent.document.getElementById("iframe_document").src = 'about:blank';
+            window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = "";
+            window.parent.document.getElementById("iframe_docu").src = 'about:blank';
         }
+    } else {
+        setTimeout(() => {
+            document.getElementById("content-doc").style.height = window.innerHeight - 20 + 'px';
+            document.getElementById("catalog").style.height = window.innerHeight - 20 + 'px';
+            document.getElementById("editor-text-area").style.height = window.innerHeight - document.getElementById("editor-toolbar").clientHeight - 20 + 'px';
+        }, 100);
     }
 </script>
 </body>

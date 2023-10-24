@@ -43,8 +43,8 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = '新建脑图文件.xmind'
             elif file_type == 'sheet':
                 file_name = '新建sheet工作表.sheet'
-            elif file_type == 'document':
-                file_name = '新建doc文档.document'
+            elif file_type == 'docu':
+                file_name = '新建doc文档.docu'
             else:
                 file_name = '新建文本文件.txt'
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')

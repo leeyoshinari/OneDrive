@@ -1,6 +1,4 @@
-// 后端服务器
 const server = '/mycloud';
-
 function get_status() {
     $.ajax({
         type: 'GET',

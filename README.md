@@ -7,18 +7,18 @@
 - txt和markdown文档的在线预览和编辑功能
 - 支持 xmind 文件在线预览和编辑
 - 支持表格在线编辑
+- 支持在线文档编辑
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
 
 ### ToDo
 - [ ] 支持chatGPT等大模型
-- [ ] 支持富文本在线编辑（类似word）
 - [ ] 音乐播放器
 
 ## 技术选型
 - 后端框架：FastApi<br>
 - 数据库：SQLite3 or MySQL<br>
-- 前端：原生 html + js + css (基于[这个项目](https://github.com/tjy-gitnub/win12)修改的)<br>
+- 前端：原生 html + js + css<br>
 
 ## 实现方案
 文件和文件夹的层级结构维护在数据库中，这样在页面查询列表时，只需要查询数据库就可以了，速度会快很多；同时数据库中的文件和文件夹的层级结构也全部真实的映射到磁盘里，所见即所得，便于以后这个系统不用了也保留完整有序的文件，而不是乱序的。
@@ -43,20 +43,18 @@ aerich init -t settings.TORTOISE_ORM
 aerich init-db
 ```
 
-5、修改`web/login.js`文件中的第二行，此处的值需要和配置文件`config.conf`中的`prefix`一样；
-
-6、启动服务；
+5、启动服务；
 ```shell script
 sh startup.sh
 ```
 
-7、创建账号；
+6、创建账号；
 为了避免被其他人恶意创建账号，页面未放开创建账号的入口；为了方便使用，特意改成直接在浏览器地址栏中输入url创建用户。可在`main.py`文件中的第58行修改成你专属的url路径。
 ```shell script
 http://IP:Port/配置文件中的prefix/user/test/createUser?username=用户名&password=密码&password1=再次确认密码`
 ```
 
-8、配置并启动 `nginx`，location相关配置如下：<br>
+7、配置并启动 `nginx`，location相关配置如下：<br>
 （1）前端配置：前端文件在 `web` 目录里, `/OneDrive`可任意修改成你喜欢的名字
 ```shell script
 location /OneDrive {
@@ -77,26 +75,32 @@ location /mycloud {
 
 如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。
 
-9、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第8步中的前端配置的名字）
+8、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第8步中的前端配置的名字）
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/home.jpg)
 
-10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
+9、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 
 ## 在线编辑功能
-所有在线编辑功能：每隔10秒自动保存，标题栏文件名旁会展示自动保存的时间，点击关闭按钮也会自动保存。
+所有在线编辑功能：每隔10秒自动保存，标题栏文件名旁会展示自动保存的时间，点击关闭按钮也会自动保存。其中`txt`、`markdown`和`文档`的在线编辑支持导出成`html`格式，用浏览器打开导出的`html`后，可通过浏览器自带的打印功能把文件转成`PDF`格式。
 
 ### txt 文件
 点击右上角的下载按钮，可以直接将当前文档转成 html，并下载。如需下载原 txt文件，可在文件资源管理器中选中文件并点击下载。
 
-### markdown 文档
+### markdown 文件
 点击右上角的下载按钮，可以直接将当前文档转成 html，并在新标签页打开，如需下载这个 html，可在新打开的标签页右键下载。需要注意：这里使用的是第三方工具转的html，一些样式在转换时会丢失。如需保留所有的html样式，可在工具栏点击`全窗口预览HTML`即可。
+
+### 表格
+由于表格功能太多，暂不支持导出功能，可用于在线存储一些数据。
+
+## 文档
+该文档左侧带有目录，支持目录定位页面到指定位置。可导出成 html 格式的文件，用浏览器打开 html 文件，调用浏览器自带的打印功能，调整打印页边距，可把文档转成页面布局合适的 PDF 文件。
 
 ### xmind 脑图
 支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
 
 ## 文件分享
-文件分享链接支持设置打开次数，超过次数会返回 Nginx 默认页面。其中：markdown 和 xmind 分享链接打开后页面虽然可以编辑，但数据不会保存，仅支持导出数据。
+文件分享链接支持设置打开次数，超过次数会返回 Nginx 默认页面。其中：markdown、表格、文档 和 xmind 分享链接打开后页面虽然可以编辑，但数据不会保存，仅支持导出数据。
 
 ## 其他
 1、支持 Linux、Windows、MacOS 等多个平台，建议在 Linux 系统部署； 
@@ -113,5 +117,7 @@ location /mycloud {
 - [win12](https://github.com/tjy-gitnub/win12)
 - [viewerjs](https://github.com/fengyuanchen/viewerjs)
 - [kityminder](https://github.com/fex-team/kityminder)
+- [editor.md](https://github.com/pandao/editor.md)
 - [markdown-it](https://github.com/markdown-it/markdown-it)
 - [Luckysheet](https://github.com/dream-num/Luckysheet)
+- [wangEditor](https://github.com/wangeditor-team/wangEditor)

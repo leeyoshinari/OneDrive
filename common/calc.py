@@ -37,3 +37,11 @@ def beauty_size(size):
         return f'{round(size, 2)} MB'
     else:
         return f'{round(size / 1024, 2)} GB'
+
+
+def modify_prefix(prefix='/mycloud'):
+    with open('web/login.js', 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    lines[0] = f"const server = '{prefix}';\n"
+    with open('web/login.js', 'w', encoding='utf-8') as f:
+        f.writelines(lines)

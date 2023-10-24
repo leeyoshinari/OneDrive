@@ -14,7 +14,7 @@ from tortoise.contrib.fastapi import register_tortoise
 from mycloud import models
 from mycloud import views
 from mycloud.responses import StreamResponse
-from common.calc import str_md5, beauty_size
+from common.calc import str_md5, beauty_size, modify_prefix
 from common.results import Result
 from common.logging import logger
 from common.messages import Msg
@@ -29,6 +29,7 @@ TOKENs = {}
 root_path = json.loads(settings.get_config("rootPath"))
 router = APIRouter(prefix=settings.get_config("prefix"))
 register_tortoise(app=app, config=settings.TORTOISE_ORM)
+modify_prefix(settings.get_config("prefix"))
 
 
 # 校验用户是否登陆，返回用户名

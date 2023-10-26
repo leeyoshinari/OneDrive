@@ -65,7 +65,7 @@
         })
         setTimeout(() => {
             resizeMD.observe(window.parent.document.getElementById("iframe_markdown"));
-        }, 2000);
+        }, 200);
         let md_interval = window.setInterval(() => {
             let text_data = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
             let old_md5 = document.getElementById("content_length").value;

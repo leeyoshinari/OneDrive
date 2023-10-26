@@ -24,7 +24,7 @@
     font-size: 15px;
     line-height: 1.25;
     color: var(--text);
-    height: calc(100% - 65px);
+    height: calc(100% - 20px);
     transition: 200ms;
 }
 

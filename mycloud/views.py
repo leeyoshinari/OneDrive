@@ -253,17 +253,14 @@ async def delete_file(query: models.IsDelete, hh: dict) -> Result:
             if query.file_type == 'file':
                 files = await models.Files.filter(id__in=query.ids).select_related('parent')
                 for file in files:
-                    try:
-                        async with transactions.in_transaction():
-                            file_path = await file.parent.get_all_path()
+                    async with transactions.in_transaction():
+                        file_path = await file.parent.get_all_path()
+                        try:
                             os.remove(os.path.join(file_path, file.name))
-                            await file.delete()
-                        logger.info(f"{Msg.MsgDeleteSuccess.format(file.name)}, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
-                    except FileNotFoundError:
-                        logger.error(traceback.format_exc())
-                        result.code = 1
-                        result.msg = Msg.MsgNotFoundFileError.format(file.name)
-                        return result
+                        except FileNotFoundError:
+                            logger.error(traceback.format_exc())
+                        await file.delete()
+                    logger.info(f"{Msg.MsgDeleteSuccess.format(file.name)}, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
 
         if query.delete_type == 3:      # 删除分享的文件
             _ = await models.Shares.filter(id__in=query.ids).delete()

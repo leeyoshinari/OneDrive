@@ -65,7 +65,7 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
     except FileExistsError:
         result.code = 1
         result.msg = "文件已存在"
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         logger.error(f"新建{file_type}文件失败, 用户: {hh['u']}, IP: {hh['ip']}")
         result.code = 1
@@ -99,7 +99,7 @@ async def get_all_files(parent_id: str, query: models.SearchItems, hh: dict) -> 
         logger.info(f"{Msg.MsgGetFileSuccess}, 文件夹ID: {parent_id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.data = folder_list + file_list
         result.total = len(result.data)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgGetFileFailure
@@ -128,7 +128,7 @@ async def create_folder(parent_id: str, hh: dict) -> Result:
     except FileExistsError:
         result.code = 1
         result.msg = "文件夹已存在"
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgCreateFailure.format("")
@@ -154,7 +154,7 @@ async def rename_folder(query: models.FilesBase, hh: dict) -> Result:
     except FileExistsError:
         result.code = 1
         result.msg = "文件夹重名，请重写输入 ~"
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgRenameFailure.format(query.name)
@@ -185,7 +185,7 @@ async def rename_file(query: models.FilesBase, hh: dict) -> Result:
     except FileExistsError:
         result.code = 1
         result.msg = "文件重名，请重写输入 ~"
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgRenameFailure.format(query.name)
@@ -269,7 +269,7 @@ async def delete_file(query: models.IsDelete, hh: dict) -> Result:
             result.msg = Msg.MsgRestoreSuccess.format("")
         else:
             result.msg = Msg.MsgDeleteSuccess.format("")
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         if query.delete_type == 0 and query.is_delete == 0:
@@ -301,7 +301,7 @@ async def get_folders_by_id(folder_id: str, hh: dict) -> Result:
         result.data = {'folder': folder_list, 'path': folder_path}
         result.total = len(result.data['folder'])
         result.msg = Msg.MsgGetFileSuccess
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgGetFileFailure
@@ -343,7 +343,7 @@ async def move_to_folder(query: models.CatalogMoveTo, hh: dict) -> Result:
                     shutil.move(os.path.join(from_path, file.name), to_path)
         logger.info(f"{Msg.MsgMoveSuccess}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.msg = Msg.MsgMoveSuccess
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgMoveFailure
@@ -385,7 +385,7 @@ async def upload_file(query, hh: dict) -> Result:
             logger.info(f"{Msg.MsgUploadSuccess.format(file_name)}, content_type: {query['file'].content_type} 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.msg = Msg.MsgUploadSuccess.format(file_name)
         result.data = file.name
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         logger.error(f"{Msg.MsgUploadFailure.format(file_name)}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.code = 1
@@ -414,7 +414,7 @@ async def upload_file_by_path(query: models.ImportLocalFileByPath) -> Result:
                                                              parent_id=to_folder.id, size=os.path.getsize(file_path), md5=md5)
                         shutil.move(file_path, to_path)
                         logger.info(Msg.MsgUploadSuccess.format(file_obj.name))
-                except Exception:
+                except:
                     logger.error(traceback.format_exc())
                     logger.error(Msg.MsgUploadFailure.format(file))
             else:
@@ -426,7 +426,7 @@ async def upload_file_by_path(query: models.ImportLocalFileByPath) -> Result:
                 await upload_file_by_path(query)
         logger.info(Msg.MsgUploadSuccess.format(query.path))
         return Result(msg=Msg.MsgUploadSuccess.format(query.path))
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg=Msg.MsgUploadFailure.format(query.path))
 
@@ -451,7 +451,7 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         result.code = 1
         result.msg = Msg.MsgFileTypeError.format(file.format)
         logger.error(traceback.format_exc())
-    except Exception:
+    except:
         result.code = 1
         result.msg = Msg.MsgGetFileFailure
         logger.error(traceback.format_exc())
@@ -505,7 +505,7 @@ async def share_file(query: models.ShareFile, hh: dict) -> Result:
                                            format=file.format, times=0, total_times=query.times)
         logger.info(f"{Msg.MsgShareSuccess.format(share.name)}, 分享id: {share.id}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.msg = Msg.MsgShareSuccess.format(share.name)
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgShareFailure.format(query.id)
@@ -520,7 +520,7 @@ async def get_share_file(hh: dict) -> Result:
         result.total = len(result.data)
         result.msg = Msg.MsgGetFileSuccess
         logger.info(f"{Msg.MsgGetFileSuccess}, 用户: {hh['u']}, IP: {hh['ip']}")
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgGetFileFailure
@@ -538,7 +538,7 @@ async def open_share_file(share_id: int, hh: dict) -> dict:
         else:
             logger.warning(f"分享链接打开次数太多, 文件: {share.name}, Id: {share.id}, IP: {hh['ip']}")
             result = {'type': 404}
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result = {'type': 404}
     return result
@@ -557,7 +557,7 @@ async def upload_image(query, hh: dict) -> Result:
             f.write(data.read())
         logger.info(f"{Msg.MsgUploadSuccess.format(query['file'].filename)}, content_type: {query['file'].content_type}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.msg = Msg.MsgUploadSuccess.format('图片')
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         logger.error(f"{Msg.MsgUploadFailure.format(query['file'].filename)}, 用户: {hh['u']}, IP: {hh['ip']}")
         result.code = 1
@@ -581,7 +581,7 @@ async def save_txt_file(query: models.SaveFile, hh: dict) -> Result:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = msg.args[0]
-    except Exception:
+    except:
         logger.error(traceback.format_exc())
         result.code = 1
         result.msg = Msg.MsgSaveFailure

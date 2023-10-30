@@ -140,7 +140,10 @@ def x_reader_children(data):
                     if isinstance(v, str):
                         res['data'].update({'text': v})
                     elif isinstance(v, dict):
-                        res['data'].update({'text': v['text']})
+                        if 'text' in v:
+                            res['data'].update({'text': v['text']})
+                        else:
+                            res['data'].update({'text': None})
                     else:
                         res['data'].update({'text': str(v)})
                 if k == 'children' and 'topics' in v and 'topic' in v['topics']:
@@ -155,7 +158,10 @@ def x_reader_children(data):
                 if isinstance(v, str):
                     res['data'].update({'text': v})
                 elif isinstance(v, dict):
-                    res['data'].update({'text': v['text']})
+                    if 'text' in v:
+                        res['data'].update({'text': v['text']})
+                    else:
+                        res['data'].update({'text': None})
                 else:
                     res['data'].update({'text': str(v)})
             if k == 'children' and 'topics' in v and 'topic' in v['topics']:
@@ -172,7 +178,7 @@ def format_x_writer(data, style_path):
         with open(style_path, 'a', encoding='utf-8') as f:
             f.write(ss)
         style_property = f' style-id="{style_id}"'
-    topic = f'<topic id="{data["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{data["data"]["text"]}</title>{format_x_marker(data["data"])}{format_x_note(data["data"])}<children><topics type="attached">{format_x_children(data.get("children", []), style_path)}</topics></children></topic>'
+    topic = f'<topic id="{data["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(data["data"]["text"])}</title>{format_x_marker(data["data"])}{format_x_note(data["data"])}<children><topics type="attached">{format_x_children(data.get("children", []), style_path)}</topics></children></topic>'
     return topic
 
 
@@ -185,9 +191,17 @@ def format_x_children(data: list, style_path: str):
         if len(ss) > 5:
             with open(style_path, 'a', encoding='utf-8') as f:
                 f.write(ss)
-            style_property = f'style-id="{style_id}"'
-        res += f'<topic id="{item["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{item["data"]["text"]}</title>{format_x_marker(item["data"])}{format_x_note(item["data"])}<children><topics type="attached">{format_x_children(item.get("children", []), style_path)}</topics></children></topic>'
+            style_property = f' style-id="{style_id}"'
+        res += f'<topic id="{item["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(item["data"]["text"])}</title>{format_x_marker(item["data"])}{format_x_note(item["data"])}<children><topics type="attached">{format_x_children(item.get("children", []), style_path)}</topics></children></topic>'
     return res
+
+
+def deal_xmind_title(text: str) -> str:
+    if '<' in text:
+        text = text.replace('<', '&lt;')
+    if '>' in text:
+        text = text.replace('>', '&gt;')
+    return text
 
 
 def format_x_styles(id: str, data: dict):

@@ -7,7 +7,7 @@
     <script src="video/video.min.js"></script>
 </head>
 <body>
- <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" muted autoplay preload loop >
+ <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered">
      <source src="" type="video/mp4" >
  </video>
 </body>
@@ -16,9 +16,43 @@
 	let servers = params[0].split('=')[1];
 	let file_id = params[1].split('=')[1];
     let is_share = file_id.length > 10;
-    let url = servers + '/content/get/' + file_id;
+    let url = servers + '/file/download/' + file_id;
     if (!is_share) {
         url = servers + '/share/get/' + file_id;
     }
+    let player = videojs('myVideo', {
+        controls: true,
+        preload: 'auto',
+        autoplay: true,
+        // fluid: true, // 自适应宽高
+        language: 'zh-CN',
+        muted: false,
+        inactivityTimeout: false,
+        controlBar: {
+            currentTimeDisplay: true,
+            timeDivider: true,
+            durationDisplay: true,
+            remainingTimeDisplay: false,
+            children: [
+                {name: 'playToggle'}, // 播放按钮
+                {name: 'currentTimeDisplay'}, // 当前已播放时间
+                {name: 'progressControl'}, // 播放进度条
+                {name: 'durationDisplay'}, // 总时间
+                {name: 'playbackRateMenuButton', 'playbackRates': [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5]},  // 倍数播放
+                {name: 'volumePanel', // 音量控制
+                    inline: false, // 不使用水平方式
+                },
+                {name: 'FullscreenToggle'} // 全屏
+            ]
+        }
+    });
+    player.src({type: 'video/mp4', src: url});
+    player.ready(function () {
+        let bufferedTimeRange = player.buffered();
+        let numberOfRange = bufferedTimeRange.length;
+        let firstRangeStart = bufferedTimeRange.start(0);
+        let  firstRangeEnd = bufferedTimeRange.end(0);
+        let firstRangeLength = firstRangeEnd - firstRangeStart;
+    })
 </script>
 </html>

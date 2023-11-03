@@ -16,6 +16,7 @@ x_manifest = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><manifest xm
 x_meta = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><meta xmlns="urn:xmind:xmap:xmlns:meta:2.0" version="2.0"><Author><Name></Name><Email/><Org/></Author><Create><Time>{}</Time></Create><Creator><Name>XMind</Name><Version>R3.7.9.201912052356</Version></Creator><Thumbnail><Origin><X>86</X><Y>141</Y></Origin><BackgroundColor>#FFFFFF</BackgroundColor></Thumbnail></meta>'
 x_style = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-styles xmlns="urn:xmind:xmap:xmlns:style:2.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:svg="http://www.w3.org/2000/svg" version="2.0"><styles>{}</styles></xmap-styles>'
 x_content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-content xmlns="urn:xmind:xmap: xmlns:content:2.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" modified-by="" timestamp="{}" version="2.0"><sheet id="06hlfldmnedbkgh3r9nsjsrjt1" modified-by="" theme="0u70s3gi0t57b7d6cpqnddcb8k" timestamp="{}"><title>画布 1</title>{}<sheet-settings><info-items><info-item mode="card" type="org.xmind.ui.infoItem.notes"/></info-items></sheet-settings></sheet></xmap-content>'
+x_extensions = '<extensions><extension provider="org.xmind.ui.map.unbalanced"><content><right-number>{}</right-number></content></extension></extensions>'
 progress = ['', 'start', 'oct', 'quarter', '3oct', 'half', '5oct', '3quar', '7oct', 'done']
 
 
@@ -58,7 +59,7 @@ def generate_xmind8(file_id, file_name, file_path):
     with open(os.path.join(tmp_path, 'styles.xml'), 'w', encoding='utf-8') as f:
         f.write('')
     content = json.load(open(file_path, 'r', encoding='utf-8'))
-    content = format_x_writer(content['root'], os.path.join(tmp_path, 'styles.xml'))
+    content = format_x_writer(content, os.path.join(tmp_path, 'styles.xml'))
     with open(os.path.join(tmp_path, 'styles.xml'), 'r', encoding='utf-8') as f:
         styles = f.read()
     with codecs.open(os.path.join(tmp_path, 'styles.xml'), 'w', encoding='utf-8') as f:
@@ -171,14 +172,20 @@ def x_reader_children(data):
 
 
 def format_x_writer(data, style_path):
+    template = data['template']
+    node_num = len(data['root'].get("children", []))
+    if template == 'default':
+        x_extension = x_extensions.format(int((node_num + 1) / 2))
+    else:
+        x_extension = x_extensions.format(node_num)
     style_id = 's' + str(int(time.time() * 1000)) + str(random.randint(1, 99999))
-    ss = format_x_styles(style_id, data["data"])
+    ss = format_x_styles(style_id, data['root']["data"])
     style_property = ''
     if len(ss) > 5:
         with open(style_path, 'a', encoding='utf-8') as f:
             f.write(ss)
         style_property = f' style-id="{style_id}"'
-    topic = f'<topic id="{data["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(data["data"]["text"])}</title>{format_x_marker(data["data"])}{format_x_note(data["data"])}<children><topics type="attached">{format_x_children(data.get("children", []), style_path)}</topics></children></topic>'
+    topic = f'<topic id="{data["root"]["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(data["root"]["data"]["text"])}</title>{format_x_marker(data["root"]["data"])}{format_x_note(data["root"]["data"])}<children><topics type="attached">{format_x_children(data["root"].get("children", []), style_path)}</topics></children>{x_extension}</topic>'
     return topic
 
 

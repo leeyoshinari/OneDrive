@@ -41,7 +41,7 @@ def auth(request: Request) -> dict:
     return {'u': username, 'ip': request.headers.get('x-real-ip', '')}
 
 
-def read_file(file_path):
+async def read_file(file_path):
     with open(file_path, 'rb') as f:
         while True:
             chunk = f.read(65536)

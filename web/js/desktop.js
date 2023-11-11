@@ -1018,7 +1018,16 @@ let apps = {
             openapp('video');
             $('.window.video')[0].style.width = 'auto';
             $('.window.video>.titbar>span>.title')[0].innerText = filename;
-            $('#win-video')[0].innerHTML = '<video class="my_video" controls autoPlay preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            document.getElementsByClassName('my_video')[0].addEventListener('loadedmetadata', function () {
+                this.currentTime = localStorage.getItem(file_id);
+            }, false);
+            document.getElementsByClassName('my_video')[0].addEventListener('timeupdate', function (){
+                if (this.currentTime > 0) {localStorage.setItem(file_id, this.currentTime);}
+            }, false);
+            document.getElementsByClassName('my_video')[0].addEventListener('ended', function () {
+                localStorage.removeItem(file_id);
+            }, false);
         },
         open_picture: (file_id, filename) => {
             $('#win-image>.my_video')[0].src = '';

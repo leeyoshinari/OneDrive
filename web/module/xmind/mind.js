@@ -41345,6 +41345,7 @@ function close_xmind_editor(file_id) {
     if (md5(xmind_data) !== localStorage.getItem('xmind_md5')) {
         window.parent.save_text_file(file_id, xmind_data, false);
     }
+    localStorage.removeItem('xmind_md5');
     window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "";
     window.parent.document.getElementsByClassName("xmind")[0].style.display = 'none';
     window.parent.document.getElementById("iframe_xmind").src = 'about:blank';

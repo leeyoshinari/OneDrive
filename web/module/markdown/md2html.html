@@ -12,8 +12,8 @@
 <script>
     document.getElementsByClassName('body-content')[0].innerHTML = localStorage.getItem('md2html');
     document.title = localStorage.getItem('filename');
-    localStorage.setItem('md2html', '');
-    localStorage.setItem('filename', '');
+    localStorage.removeItem('md2html');
+    localStorage.removeItem('filename');
     // document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function(heading){heading.classList.add('my-heading');});
 </script>
 </html>

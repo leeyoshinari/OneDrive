@@ -17,7 +17,7 @@ from common.results import Result
 from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
-from common.xmind import read_xmind, write_xmind, create_xmind, generate_xmind8
+from common.xmind import read_xmind, create_xmind, generate_xmind8
 from common.sheet import read_sheet, create_sheet
 
 

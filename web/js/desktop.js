@@ -2326,6 +2326,39 @@ function upload_back_img() {
     }
 }
 
+function play_local_video() {
+    let play_local_video = document.getElementById("play_local_video");
+    play_local_video.click();
+    play_local_video.onchange = function (event) {
+        let files = event.target.files;
+        if (files.length !== 1) {
+            return null;
+        }
+        openapp('video');
+        $('.window.video')[0].style.width = 'auto';
+        $('.window.video>.titbar>span>.title')[0].innerText = files[0].name;
+        $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+        let local_video = document.getElementsByClassName('my_video')[0];
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          local_video.src = e.target.result;
+          local_video.load();
+        };
+        reader.readAsDataURL(files[0]);
+        let name_md5 = md5(files[0].name);
+        local_video.addEventListener('loadedmetadata', function () {
+            this.currentTime = localStorage.getItem(name_md5);
+        }, false);
+        local_video.addEventListener('timeupdate', function (){
+            if (this.currentTime > 0) {localStorage.setItem(name_md5, this.currentTime);}
+        }, false);
+        local_video.addEventListener('ended', function () {
+            localStorage.removeItem(name_md5);
+        }, false);
+    }
+    play_local_video.value = '';
+}
+
 function modify_pwd() {
     let pwd1 = $('#setting-pwd1')[0].value;
     let pwd2 = $('#setting-pwd2')[0].value;

@@ -102,6 +102,7 @@
 				<list class="focs">
 					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt="">账户</a>
 					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt="">个性化</a>
+					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.png" alt="">视频</a>
 				</list>
 			</div>
 			<div class="page">
@@ -129,7 +130,7 @@
 					<p class="title">个性化</p>
 					<div class="setting-list" style="margin-top: 10px;">
 						<a class="dp app-color" onclick="$('.dp.app-color').toggleClass('show');">
-							<icon></icon>
+							<icon></icon>
 							<div>
 								<p>设置背景图片</p>
 								<p>设置桌面背景图片</p>
@@ -147,6 +148,15 @@
 							</div>
 							<div><p>切换主题</p><p>切换明/暗主题</p></div><i class="bi bi-chevron-right"></i>
 						</a>
+					</div>
+				</div>
+				<div class="cnt videos">
+					<p class="title">视频</p>
+					<div class="setting-list" style="margin-top: 10px;">
+						<a class="dp app-color" onclick="play_local_video();">
+							<icon></icon><div><p>播放本地视频</p><p></p></div><i class="bi bi-chevron-right"></i>
+						</a>
+						<input type="file" name="filename" id="play_local_video" accept="video/*" style="display: none">
 					</div>
 				</div>
 			</div>
@@ -514,6 +524,7 @@
 	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>
 	<script src="js/desktop.js"></script>
+	<script src="js/md5.min.js" async></script>
 	<script src="module/python/pyodide.js" async></script>
 </body>
 </html>

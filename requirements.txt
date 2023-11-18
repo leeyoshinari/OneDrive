@@ -3,5 +3,6 @@ aiomysql>=0.2.0
 fastapi>=0.103.1
 tortoise-orm>=0.19.3
 uvicorn>=0.23.2
+gunicorn>=21.0.0
 pydantic>=1.10.6
 APScheduler>=3.10.1

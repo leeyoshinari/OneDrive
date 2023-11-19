@@ -2339,12 +2339,8 @@ function play_local_video() {
         $('.window.video>.titbar>span>.title')[0].innerText = files[0].name;
         $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
         let local_video = document.getElementsByClassName('my_video')[0];
-        let reader = new FileReader();
-        reader.onload = function(e) {
-          local_video.src = e.target.result;
-          local_video.load();
-        };
-        reader.readAsDataURL(files[0]);
+        local_video.src = URL.createObjectURL(files[0]);
+        local_video.load();
         let name_md5 = md5(files[0].name);
         local_video.addEventListener('loadedmetadata', function () {
             this.currentTime = localStorage.getItem(name_md5);

@@ -205,6 +205,7 @@
     right: 5px;
 }
 
+.setting-list>a {cursor: pointer;}
 .setting-list>a.dp.show {
     /* border-bottom: none; */
     border-bottom-left-radius: 0;
@@ -259,4 +260,18 @@
     max-height: 1000px;
     opacity: 1;
     box-shadow: 0 1px 2px 1px var(--s3d);
+}
+
+.setting-list>div>.server-title>div {
+    width: 9%;
+    float: left;
+    font-weight: bold;
+    text-align: center;
+}
+
+.setting-list>div>.server-item>div>div {
+    margin-top: 8px;
+    width: 9%;
+    float: left;
+    text-align: center;
 }

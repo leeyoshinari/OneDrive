@@ -7,20 +7,22 @@ import time
 import json
 import shutil
 import traceback
-from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException
+from fastapi import FastAPI, APIRouter, Request, Response, Depends, HTTPException, WebSocket
 from fastapi.responses import HTMLResponse
 from tortoise import transactions
 from tortoise.contrib.fastapi import register_tortoise
 from mycloud import models
 from mycloud import views
 from mycloud.responses import StreamResponse
-from common.calc import str_md5, beauty_size, modify_prefix
+from common.calc import str_md5, beauty_size, modify_prefix, parse_pwd
 from common.results import Result
 from common.logging import logger
 from common.messages import Msg
 from common.xmind import read_xmind, generate_xmind8
 from common.sheet import read_sheet
 import common.scheduler
+import starlette.websockets
+from common.websocket import WebSSH
 import settings
 
 
@@ -113,7 +115,7 @@ async def modify_pwd(query: models.CreateUser, hh: dict = Depends(auth)):
             result.msg = "两个密码不一样，请重复输入"
             return result
         user = await models.User.get(username=query.username)
-        user.password = str_md5(query.password)
+        user.password = str_md5(parse_pwd(query.password, query.t))
         await user.save()
         logger.info(f"{Msg.MsgModifyPwdSuccess.format(user.username)}, IP: {hh['ip']}")
         result.msg = Msg.MsgModifyPwdSuccess.format(user.username)
@@ -128,7 +130,7 @@ async def modify_pwd(query: models.CreateUser, hh: dict = Depends(auth)):
 async def login(query: models.UserBase, response: Response):
     result = Result()
     try:
-        user = await models.User.get(username=query.username, password=str_md5(query.password))
+        user = await models.User.get(username=query.username, password=str_md5(parse_pwd(query.password, query.t)))
         if user:
             for k, v in root_path.items():
                 folder = await models.Catalog.filter(id=k)
@@ -376,6 +378,59 @@ async def export_share_file(file_id: int, request: Request):
     except:
         logger.error(traceback.format_exc())
         return HTMLResponse(status_code=404, content=settings.HTML404)
+
+
+@router.post("/server/add", summary="添加服务器")
+async def add_server(query: models.ServerModel, hh: dict = Depends(auth)):
+    result = await views.save_server(query, hh)
+    return result
+
+
+@router.get("/server/delete/{server_id}", summary="添加服务器")
+async def delete_server(server_id: str, hh: dict = Depends(auth)):
+    result = await views.delete_server(server_id, hh)
+    return result
+
+
+@router.get("/server/get", summary="获取服务器列表")
+async def get_server(hh: dict = Depends(auth)):
+    result = await views.get_server(hh)
+    return result
+
+
+@router.post("/ssh/file/upload", summary="上传文件")
+async def upload_file_to_ssh(query: Request, hh: dict = Depends(auth)):
+    result = await views.upload_file_to_linux(query, hh)
+    return result
+
+
+@router.get("/ssh/file/download", summary="下载文件")
+async def upload_file_to_ssh(server_id: str, file_path: str, hh: dict = Depends(auth)):
+    _, file_name = os.path.split(file_path)
+    if not file_name:
+        logger.error(f"请输入正确完整的文件绝对路径，用户: {hh['u']}, IP: {hh['ip']}")
+        return Result(code=1, msg='请输入正确完整的文件绝对路径')
+    fp = await views.download_file_from_linux(server_id, file_path, hh)
+    headers = {'Accept-Ranges': 'bytes', 'Content-Disposition': f'inline;filename="{file_name}"'}
+    return StreamResponse(fp, media_type='application/octet-stream', headers=headers)
+
+
+@router.websocket('/ssh/open')
+async def shell_ssh(websocket: WebSocket):
+    await websocket.accept()
+    ws = WebSSH(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await ws.receive(data)
+    except starlette.websockets.WebSocketDisconnect:
+        logger.info(f"websocket 连接已断开")
+    except RuntimeError as err:
+        logger.info(f"websocket 连接已断开")
+    except:
+        logger.error(traceback.format_exc())
+    finally:
+        await ws.disconnect()
 
 
 app.include_router(router)

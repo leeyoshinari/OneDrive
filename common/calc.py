@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author: leeyoshinari
-
 import hashlib
 
 
@@ -45,3 +44,14 @@ def modify_prefix(prefix='/mycloud'):
     lines[0] = f"const server = '{prefix}';\n"
     with open('web/login.js', 'w', encoding='utf-8') as f:
         f.writelines(lines)
+
+
+def parse_pwd(password: str, s: str):
+    p = ''
+    time_len = len(s)
+    for i in range(len(password)):
+        if i < time_len:
+            p += chr(ord(password[i]) ^ int(s[i]))
+        else:
+            p += chr(ord(password[i]) ^ int(s[i - time_len]))
+    return p

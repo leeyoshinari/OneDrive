@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: leeyoshinari
-
 import os
 import time
 import json
@@ -16,12 +15,15 @@ from settings import get_config, path
 from common.results import Result
 from common.messages import Msg
 from common.logging import logger
+from common.ssh import UploadAndDownloadFile, get_server_info
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, create_xmind, generate_xmind8
 from common.sheet import read_sheet, create_sheet
 
 
 root_path = json.loads(get_config("rootPath"))
+if not os.path.exists('tmp'):
+    os.mkdir('tmp')
 
 
 async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
@@ -595,3 +597,94 @@ async def export_special_file(file_id, hh: dict) -> dict:
     result = {'path': file_path, 'name': file.name, 'format': file.format}
     logger.info(f"{file.name} 导出成功, 文件ID: {file.id}, 用户: {hh['u']}, IP: {hh['ip']}")
     return result
+
+
+async def save_server(query: models.ServerModel, hh: dict) -> Result:
+    result = Result()
+    try:
+        async with transactions.in_transaction():
+            datas = get_server_info(host=query.host, port=int(query.port), user=query.user, pwd=query.pwd, current_time=query.t)
+            if datas['code'] == 0:
+                _ = await models.Servers.create(id=query.t, host=query.host, port=query.port, user=query.user,
+                        pwd=query.pwd, system=datas['system'], cpu=datas['cpu'], mem=datas['mem'], disk=datas['disk'])
+            else:
+                result.code = 1
+                result.msg = datas['msg']
+                return result
+        result.msg = Msg.MsgSaveSuccess
+        logger.info(f"{query.host} 保存成功, 用户: {hh['u']}, IP: {hh['ip']}")
+    except:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = Msg.MsgSaveFailure
+    return result
+
+
+async def delete_server(server_id: str, hh: dict) -> Result:
+    result = Result()
+    try:
+        server = await models.Servers.get(id=server_id)
+        await server.delete()
+        await server.save()
+        result.msg = Msg.MsgDeleteSuccess
+        logger.info(f"{server.host} 删除成功, 用户: {hh['u']}, IP: {hh['ip']}")
+    except:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = Msg.MsgDeleteFailure
+    return result
+
+
+async def get_server(hh: dict) -> Result:
+    result = Result()
+    try:
+        async with transactions.in_transaction():
+            server = await models.Servers.all()
+            server_list = [models.ServerListModel.from_orm(f).dict() for f in server]
+        result.data = server_list
+        result.total = len(server_list)
+        logger.info(f"{Msg.MsgGetFileSuccess}, 用户: {hh['u']}, IP: {hh['ip']}")
+    except:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = Msg.MsgGetFileFailure
+    return result
+
+
+async def upload_file_to_linux(query, hh: dict) -> Result:
+    result = Result()
+    try:
+        query = await query.form()
+        server_id = query['id']
+        file_name = query['file'].filename
+        remote_path = query['remotePath']
+        temp_path = os.path.join('tmp', file_name)
+        with open(temp_path, 'wb') as f:
+            f.write(query['file'].file.read())
+        remote_path = remote_path if remote_path else '/home'
+        server = await models.Servers.get(id=server_id)
+        upload_obj = UploadAndDownloadFile(server)
+        _ = upload_obj.upload(temp_path, f'{remote_path}/{file_name}')
+        os.remove(temp_path)
+        logger.info(f"{file_name} 上传成功, 用户: {hh['u']}, IP: {hh['ip']}")
+        del upload_obj
+        result.msg = Msg.MsgUploadSuccess.format(file_name)
+    except:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = Msg.MsgUploadFailure
+    return result
+
+
+async def download_file_from_linux(server_id, file_path, hh: dict):
+    try:
+        server = await models.Servers.get(id=server_id)
+        upload_obj = UploadAndDownloadFile(server)
+        fp = upload_obj.download(file_path)
+        del upload_obj
+        logger.info(f"{file_path} 下载成功, 用户: {hh['u']}, IP: {hh['ip']}")
+        return fp
+    except:
+        del upload_obj
+        logger.error(traceback.format_exc())
+        return None

@@ -1,4 +1,5 @@
 const server = '/mycloud';
+localStorage.setItem('server', server);
 function get_status() {
     $.ajax({
         type: 'GET',
@@ -40,9 +41,11 @@ function login_sys(evn) {
             evn.innerText += '.';
         }
     }, 500);
+    let c = new Date().getTime().toString();
     let post_data = {
-      username: $('#username')[0].value,
-      password: $('#password')[0].value
+        t: c,
+        username: $('#username')[0].value,
+        password: parse_pwd($('#password')[0].value, c)
     }
     $.ajax({
         type: 'POST',
@@ -65,6 +68,12 @@ function login_sys(evn) {
                 evn.id = 'login';
                 evn.innerText = '登录';
             }
+        },
+        error: function () {
+            $.Toast('请重试 ~', 'error');
+            window.clearInterval(qwq);
+            evn.id = 'login';
+            evn.innerText = '登录';
         }
     })
 }

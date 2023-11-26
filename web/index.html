@@ -15,6 +15,15 @@
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
+	<script type="text/javascript">
+		function parse_pwd(p, s) {
+			let a = '';let total = s.length;
+			for (let i = 0; i < p.length; i++) {
+				if (i >= total) {a += String.fromCharCode(p[i].charCodeAt(0) ^ parseInt(s[i - total]));}
+				else {a += String.fromCharCode(p[i].charCodeAt(0) ^ parseInt(s[i]));}}
+			return a
+		}
+	</script>
 	<base target="_blank">
 	<title>Windows 12</title>
 </head>
@@ -103,6 +112,7 @@
 					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt="">账户</a>
 					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt="">个性化</a>
 					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.png" alt="">视频</a>
+					<a class="enable shell" onclick="apps.setting.page('shell')"><img src="img/terminal.svg" alt="">Terminal</a>
 				</list>
 			</div>
 			<div class="page">
@@ -154,9 +164,26 @@
 					<p class="title">视频</p>
 					<div class="setting-list" style="margin-top: 10px;">
 						<a class="dp app-color" onclick="play_local_video();">
-							<icon></icon><div><p>播放本地视频</p><p></p></div><i class="bi bi-chevron-right"></i>
+							<icon></icon><div><p>播放本地视频</p><p>不费流量，请选择本地视频文件</p></div><i class="bi bi-chevron-right"></i>
 						</a>
 						<input type="file" name="filename" id="play_local_video" accept="video/*" style="display: none">
+					</div>
+				</div>
+				<div class="cnt shell">
+					<p class="title" style="float: left;">Terminal</p><a style="padding-top:24px;display:block;margin-left:60%;color:blue;cursor:pointer;" onclick="add_server_window();">添加服务器</a>
+					<div class="setting-list" style="margin-top: 10px;">
+						<a class="dp app-color" onclick="get_server_list(this);">
+							<icon></icon>
+							<div>
+								<p>我的服务器</p>
+								<p>ssh 连接服务器</p>
+							</div><i class="bi bi-chevron-down"></i>
+						</a>
+						<div class="dp app-color">
+							<div class="server-title"><div style="width: 16%;">IP</div><div>端口</div><div>用户</div><div style="width:21%;">系统</div><div>CPU</div><div>内存</div><div>磁盘</div><div style="width:15%;">操作</div></div><br />
+							<div class="server-item"></div>
+						</div>
+						</a>
 					</div>
 				</div>
 			</div>

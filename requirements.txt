@@ -6,3 +6,4 @@ uvicorn>=0.23.2
 gunicorn>=21.0.0
 pydantic>=1.10.6
 APScheduler>=3.10.1
+paramiko>=2.10.3

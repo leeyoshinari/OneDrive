@@ -2,6 +2,7 @@
 - 文件夹的新建、删除、重命名、移动、导出
 - 文件上传、下载、新建、删除、移动、重命名、分享
 - 支持 txt、markdown、xmind、表格、文档的在线编辑功能
+- 支持远程连接 Linux 服务器
 - 单点登录，不同用户的数据完全隔离
 - 可任意挂载多个磁盘
 
@@ -65,6 +66,11 @@
 ### xmind 脑图
 ![xmind.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/xmind.jpg)
 支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
+
+## 连接 Linux
+![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell1.jpg)
+![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell2.jpg)
+在`设置`里添加服务器，在列表中点击`打开`即可远程连接 Linux，支持上传和下载文件，支持 `Ctrl+C` 和 `Ctrl+V` 快捷键，同时 `Ctrl+C` 还保留结束当前进程的功能。为节省服务器资源，对“挂机”超过10分钟的连接进行关闭。
 
 ## 其他
 1、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；

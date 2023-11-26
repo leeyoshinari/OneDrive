@@ -73,8 +73,27 @@ class Shares(Model):
         db_table = 'shares'
 
 
+# 服务器文件
+class Servers(Model):
+    id = fields.CharField(max_length=16, pk=True, description='ID')
+    host = fields.CharField(max_length=16, description='服务器ID')
+    port = fields.IntField(default=22, description='端口')
+    user = fields.CharField(max_length=16, description='用户名')
+    pwd = fields.CharField(max_length=36, description='密码')
+    system = fields.CharField(max_length=64, description='系统')
+    cpu = fields.IntField(default=1, description='cpu逻辑核数')
+    mem = fields.FloatField(default=0.1, description='内存G')
+    disk = fields.CharField(max_length=8, description='磁盘大小')
+    create_time = fields.DatetimeField(auto_now_add=True)
+    update_time = fields.DatetimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'servers'
+
+
 # 用户模型
 class UserBase(BaseModel):
+    t: str
     username: str
     password: str
 
@@ -212,3 +231,26 @@ class ShareFileList(BaseModel):
 class ImportLocalFileByPath(BaseModel):
     id: str
     path: str
+
+
+# 服务器模型
+class ServerModel(BaseModel):
+    t: str
+    host: str
+    port: int
+    user: str
+    pwd: str
+
+
+class ServerListModel(BaseModel):
+    id: str
+    host: str
+    port: int
+    user: str
+    system: str
+    cpu: int
+    mem: float
+    disk: str
+
+    class Config:
+        orm_mode = True

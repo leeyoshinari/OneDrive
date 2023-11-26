@@ -2047,7 +2047,7 @@ function move_files() {
         $('#notice>.cnt').html(`
                 <p class="tit">移动到</p>
                 <div><input id="folder_name" type="text" value="" name="520" readonly></div>
-                <div><label>选择目录：</label><div id="folder-tree" style="overflow-y: scroll;">${root_disk}</div></div></div>
+                <div><label>选择目录：</label><div id="folder-tree" style="overflow-y: scroll;">${root_disk}</div></div>
         `);
         $('#notice>.btns').html(`<a class="a btn main" onclick="move_file_folder();">确定</a><a class="a btn detail" onclick="closenotice();">取消</a>`);
         $('#notice-back').addClass('show');
@@ -2055,6 +2055,19 @@ function move_files() {
         $('#notice')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 + 'px';
         $('#folder-tree')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 - 189 + 'px';
     });
+}
+
+function add_server_window() {
+    $('#notice>.cnt').html(`
+            <p class="tit">添加服务器</p>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">IP：</label><input id="server-host" type="text" placeholder="请输入服务器IP ..." style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">用户名：</label><input id="server-user" type="text" placeholder="请输入服务器 ssh 用户名 ..." value="root" style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">端口：</label><input id="server-port" type="text" placeholder="请输入服务器 ssh 端口 ..." value="22" style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">密码：</label><input id="server-pwd" type="password" autocomplete="off" placeholder="请输入服务器 ssh 密码 ..." style="width:80%;height:39px;"></div>
+    `);
+    $('#notice>.btns').html(`<a class="a btn main" onclick="add_server();">确定</a><a class="a btn detail" onclick="closenotice();">取消</a>`);
+    $('#notice-back').addClass('show');
+    $('#notice')[0].style.width = '50%';
 }
 
 function move_file_folder() {
@@ -2358,14 +2371,16 @@ function play_local_video() {
 function modify_pwd() {
     let pwd1 = $('#setting-pwd1')[0].value;
     let pwd2 = $('#setting-pwd2')[0].value;
+    let c = new Date().getTime().toString();
     if (pwd1 !== pwd2) {
         $.Toast("两次输入的密码不一样 ~", "error");
         return;
     }
     let post_data = {
+        t: c,
         username: document.cookie.split('u=')[1].split(';')[0],
-        password: pwd1,
-        password1: pwd2
+        password: parse_pwd(pwd1, c),
+        password1: parse_pwd(pwd2, c)
     }
     $.ajax({
         type: 'POST',
@@ -2471,4 +2486,56 @@ function open_document(file_id, file_name) {
     document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id;
     $('.window.docu>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_docu").contentWindow.close_document_editor('${file_id}');hidewin('docu');`);
     $('#win-docu>a')[0].download = file_name.replace('docu', 'html');
+}
+
+function get_server_list(event) {
+    if (event.classList.contains('show')) {
+        $('.dp.app-color').toggleClass('show');
+        return;
+    }
+    $.ajax({
+        type: 'GET',
+        url: server + '/server/get',
+        success: function (data) {
+            if (data['code'] === 0) {
+                let s = '';
+                data['data'].forEach(item => {
+                    s += `<div><div style="width: 16%;">${item['host']}</div><div>${item['port']}</div><div>${item['user']}</div><div style="width: 21%;">${item['system']}</div><div>${item['cpu']}核</div><div>${item['mem']}G</div><div>${item['disk']}</div><div style="width:15%;"><a href="module/terminal.html?id=${item['id']}&host=${item['host']}" style="color:blue;">打开</a><a href="${server}/server/delete/${item['id']}" style="color:blue;margin-left:15px;">删除</a></div></div><br />`;
+                })
+                $('.server-item')[0].innerHTML = s;
+                $('.dp.app-color').toggleClass('show');
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    })
+}
+
+function add_server() {
+    let c = new Date().getTime().toString();
+    if (!$('#server-host')[0].value || !$('#server-pwd')[0].value) {
+        $.Toast("请输入服务器信息 ~", "error");
+        return;
+    }
+    let post_data = {
+        t: c,
+        host: $('#server-host')[0].value,
+        port: $('#server-port')[0].value,
+        user: $('#server-user')[0].value,
+        pwd: parse_pwd($('#server-pwd')[0].value, c)
+    }
+    $.ajax({
+        type: 'POST',
+        url: server + '/server/add',
+        data: JSON.stringify(post_data),
+        contentType: 'application/json',
+        success: function (data) {
+            if (data['code'] === 0) {
+                $.Toast(data['msg'], 'success');
+                closenotice();
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    })
 }

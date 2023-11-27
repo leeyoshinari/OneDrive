@@ -239,6 +239,7 @@
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docu');">新建在线文档文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
+								<!--li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');">新建python文件</li-->
 							</ul>
 						</a>
 						<a class="a b act asd" title="新建文件夹"
@@ -382,6 +383,18 @@
 			<pre class="text-cmd"></pre>
 			<pre>>>> <input type="text" onkeyup="if (event.keyCode === 13) { apps.python.run(); }"></pre>
 		</div>
+	</div>
+	<div class="window pythonEditor">
+		<div class="resize-bar"></div>
+		<div class="titbar"><img src="img/python.svg" class="icon"><span><span class="title">Python Editor</span><span class="save-status"></span></span><div>
+				<a class="a wbtg red"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('pythonEditor')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('pythonEditor')"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg run" onclick="document.getElementById('iframe_pythonEditor').contentWindow.run();"><i class="bi bi-play"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/python.svg" class="icon"></div>
+		<div class="content" id="win-pythonEditor"><iframe id="iframe_pythonEditor" src=""></iframe></div>
 	</div>
 	<div class="window whiteboard">
 		<div class="resize-bar"></div>

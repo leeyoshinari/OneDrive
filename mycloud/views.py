@@ -47,8 +47,10 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = '新建sheet工作表.sheet'
             elif file_type == 'docu':
                 file_name = '新建doc文档.docu'
+            elif file_type == 'py':
+                file_name = '新建python文件.py'
             else:
-                file_name = '新建文本文件.txt'
+                file_name = f'新建文本文件.{file_type}'
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
             file_path = os.path.join(folder_path, file_name)
             if os.path.exists(file_path):
@@ -605,7 +607,7 @@ async def save_server(query: models.ServerModel, hh: dict) -> Result:
         async with transactions.in_transaction():
             datas = get_server_info(host=query.host, port=int(query.port), user=query.user, pwd=query.pwd, current_time=query.t)
             if datas['code'] == 0:
-                _ = await models.Servers.create(id=query.t, host=query.host, port=query.port, user=query.user,
+                _ = await models.Servers.create(id=query.t, host=query.host, port=query.port, user=query.user, creator=hh['u'],
                         pwd=query.pwd, system=datas['system'], cpu=datas['cpu'], mem=datas['mem'], disk=datas['disk'])
             else:
                 result.code = 1
@@ -639,7 +641,7 @@ async def get_server(hh: dict) -> Result:
     result = Result()
     try:
         async with transactions.in_transaction():
-            server = await models.Servers.all()
+            server = await models.Servers.filter(creator=hh['u'])
             server_list = [models.ServerListModel.from_orm(f).dict() for f in server]
         result.data = server_list
         result.total = len(server_list)

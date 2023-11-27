@@ -9,7 +9,8 @@ const icons = {
     'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
     'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
     'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
-    'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png'
+    'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png',
+    'pythonEditor':'img/python.svg'
 };
 
 document.querySelectorAll(`list.focs`).forEach(li => {
@@ -748,6 +749,9 @@ let apps = {
                 case 'docu':
                     open_document(file_id, filename);
                     break;
+                case 'py':
+                    open_python(file_id);
+                    break;
                 default:
                     apps.explorer.download(file_id);
                     break;
@@ -1124,36 +1128,13 @@ let apps = {
             }, 200);
         }
     },
-    markdown: {
-        init: () => {
-            return null;
-        }
-    },
-    video: {
-        init: () => {
-            return null;
-        }
-    },
-    xmind: {
-        init: () => {
-            return null;
-        }
-    },
-    sheet: {
-        init: () => {
-            return null;
-        }
-    },
-    docu: {
-        init: () => {
-            return null;
-        }
-    },
-    picture: {
-        init: () => {
-            return null;
-        }
-    },
+    markdown: {init: () => {return null;}},
+    video: {init: () => {return null;}},
+    xmind: {init: () => {return null;}},
+    sheet: {init: () => {return null;}},
+    docu: {init: () => {return null;}},
+    picture: {init: () => {return null;}},
+    pythonEditor: {init: () => {return null;}},
     python: {
         codeCache: '',
         prompt: '>>> ',
@@ -1281,7 +1262,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet', 'docu']
+let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2478,6 +2459,13 @@ function open_sheet(file_id) {
     document.getElementsByClassName("sheet")[0].style.display = 'block';
     document.getElementById("iframe_sheet").src = 'module/sheet.html?server=' + server + '&id=' + file_id;
     $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
+}
+
+function open_python(file_id) {
+    openapp('pythonEditor');
+    document.getElementsByClassName("pythonEditor")[0].style.display = 'block';
+    document.getElementById("iframe_pythonEditor").src = 'module/python.html?server=' + server + '&id=' + file_id;
+    $('.window.pythonEditor>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_pythonEditor").contentWindow.close_python_editor('${file_id}');hidewin('pythonEditor');`);
 }
 
 function open_document(file_id, file_name) {

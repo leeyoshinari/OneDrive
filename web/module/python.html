@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Python Editor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="python/terminal.css" />
+    <script src="../js/jq.min.js"></script>
+    <script src="python/pyodide.js"></script>
+    <script src="python/pyodide.asm.js"></script>
+    <script src="python/ace.min.js"></script>
+    <script src="python/ext-language_tools.min.js"></script>
+    <script src="../js/md5.min.js"></script>
+</head>
+<body>
+    <div id="win-python-ace-editor"></div>
+    <div class="output" id="output"></div>
+</body>
+<script type="text/javascript">
+    let params = window.location.href.split('&');
+	let servers = params[0].split('=')[1];
+	let file_id = params[1].split('=')[1];
+    let is_share = file_id.length > 10;
+    let old_md5 = '';
+    let editor = null;
+    let get_url = servers + '/content/get/' + file_id;
+    if (!is_share) {
+        get_url = servers + '/share/get/' + file_id;
+    }
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: get_url,
+        success: function (data) {
+            if (data['code'] === 0) {
+                if (is_share) {
+                    window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.title')[0].innerText = data['msg'];
+                }
+                document.title = data['msg'];
+                (async function () {
+                    pyodide = await loadPyodide();
+                })();
+                ace.require("ace/ext/language_tools");
+                editor = ace.edit("win-python-ace-editor");
+                editor.session.setMode("ace/mode/python");
+                editor.setTheme("ace/theme/vibrant_ink");
+                editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    showPrintMargin: false,
+                    enableLiveAutocompletion: true
+                });
+                editor.setValue(data['data']);
+                old_md5 = md5(data['data']);
+            }
+        }
+    });
+
+    function run() {
+        let result;
+        let output = document.getElementById("output");
+        try {
+            if (pyodide) {
+                let code = editor.getValue();
+                pyodide.runPython('sys.stdout = io.StringIO()');
+                pyodide.runPython(code);
+                result = pyodide.runPython('sys.stdout.getvalue()');
+            }
+        }
+        catch (e) {
+            result = e.message;
+        }
+        output.innerHTML = result;
+    }
+
+    if (is_share) {
+        let python_interval = window.setInterval(() => {
+            let content = editor.getValue();
+            let new_md5 = md5(content);
+            if (new_md5 !== old_md5) {
+                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.save_text_file(file_id, content);
+                old_md5 = new_md5;
+                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+            }
+        }, 10000);
+
+        function close_python_editor(file_id) {
+            clearInterval(python_interval);
+            window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            let content = editor.getValue();
+            let new_md5 = md5(content);
+            if (new_md5 !== old_md5) {
+                window.parent.save_text_file(file_id, content);
+            }
+            window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = "";
+            window.parent.document.getElementById("iframe_pythonEditor").src = 'about:blank';
+        }
+    }
+</script>
+</html>

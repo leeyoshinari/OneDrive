@@ -84,6 +84,7 @@ class Servers(Model):
     cpu = fields.IntField(default=1, description='cpu逻辑核数')
     mem = fields.FloatField(default=0.1, description='内存G')
     disk = fields.CharField(max_length=8, description='磁盘大小')
+    creator = fields.CharField(max_length=16, description='用户名')
     create_time = fields.DatetimeField(auto_now_add=True)
     update_time = fields.DatetimeField(auto_now=True)
 
@@ -134,6 +135,7 @@ class CatalogGetInfo(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 # 文件夹列表
@@ -253,4 +255,5 @@ class ServerListModel(BaseModel):
     disk: str
 
     class Config:
+        from_attributes = True
         orm_mode = True

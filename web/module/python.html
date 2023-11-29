@@ -4,6 +4,7 @@
     <title>Python Editor</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="python/terminal.css" />
+    <link rel="stylesheet" href="python/desktop.css" />
     <script src="../js/jq.min.js"></script>
     <script src="python/pyodide.js"></script>
     <script src="python/pyodide.asm.js"></script>
@@ -11,9 +12,11 @@
     <script src="python/ext-language_tools.min.js"></script>
     <script src="../js/md5.min.js"></script>
 </head>
-<body>
-    <div id="win-python-ace-editor"></div>
-    <div class="output" id="output"></div>
+<body style="margin: 0px;">
+    <div class="content" id="win-python-editor">
+        <div id="win-python-ace-editor"></div>
+        <div class="output" id="output"></div>
+    </div>
 </body>
 <script type="text/javascript">
     let params = window.location.href.split('&');

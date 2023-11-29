@@ -285,7 +285,7 @@ async def get_share_file(file_id: int, request: Request):
         hh = {'ip': request.headers.get('x-real-ip', '')}
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
-            if result["format"] == 'md':
+            if result["format"] in ['md', 'docu', 'py']:
                 res = Result()
                 with open(result['path'], 'r', encoding='utf-8') as f:
                     res.data = f.read()
@@ -301,12 +301,6 @@ async def get_share_file(file_id: int, request: Request):
                 res = Result()
                 sheet = read_sheet(result['path'])
                 res.data = sheet
-                res.msg = result['name']
-                return res
-            if result["format"] == 'docu':
-                res = Result()
-                with open(result['path'], 'r', encoding='utf-8') as f:
-                    res.data = f.read()
                 res.msg = result['name']
                 return res
             else:

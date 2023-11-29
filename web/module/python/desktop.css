@@ -1,0 +1,32 @@
+:root {
+    --text: #000;
+    --text2: #444;
+    --bg: #ffffff;
+    --bg50: #ffffff80;
+    --bg70: #ffffffa0;
+    --sd: #22222230;
+    --card: #efefef55;
+    --hover: #ffffff65;
+    --hover-half: #ffffff40;
+    --hover-b: #1111110f;
+    --bggrey: #ddd;
+    --fill: #d3d3d370;
+    /*--bgul: url('bg.svg');*/
+    --mm: #ffffffc0;
+    --cm: #fafafabb;
+    --bar: #efefef37;
+    --hr: #ccc;
+    --unfoc: #eaeaea;
+    --msg: #ffffffe7;
+    --theme-1: #ad6eca;
+    --theme-2: #3b91d8;
+    --href: #2983cc;
+    --bd: #8f8f8f30;
+    --s3d: #99999947;
+    --mica: linear-gradient(215deg, #ffe7f6, #a9c3ff);
+}
+::-webkit-scrollbar {border-radius: 7px;height: 14px;width: 14px;}
+::-webkit-scrollbar:hover {background-color: var(--card);}
+::-webkit-scrollbar-thumb {background: #7f7f7f70;background-clip: padding-box;border: 6px solid transparent;border-radius: 10px;}
+::-webkit-scrollbar-thumb:hover {border: 4px solid transparent;}
+::-webkit-scrollbar-corner {display: none;}

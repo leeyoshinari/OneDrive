@@ -65,7 +65,7 @@
     color: #333;
 }
 
-#win-pythonEditor *::-webkit-scrollbar {
+#win-python-editor *::-webkit-scrollbar {
     background-color: #FFFFFF10;
 }
 
@@ -73,15 +73,18 @@
     background-color: #ffffff10;
 }
 
-#win-pythonEditor *{
+#win-python-editor *{
     scroll-behavior:initial !important;
 }
 
-#win-pythonEditor {
+#win-python-editor {
+    position: absolute;
     display: grid;
     grid-template-rows: 60% 40%;
     min-height: 0px;
     user-select: all;
+    width: 100%;
+    height: 100%;
 }
 
 .window.pythonEditor .titbar .run {
@@ -96,15 +99,15 @@
     font-weight: 200;
 }
 
-#win-pythonEditor .output {
+#win-python-editor .output {
     background-color: #0f0f0f;
     color: #f8f8f2;
-    border: 25px solid #1a1a1a !important;
-    border: none;
+    /*border: 25px solid #1a1a1a !important;*/
+    /*border: none;*/
     /* border-radius: 5px; */
-    padding: 10px;
-    width: 100%;
-    height: 100%;
+    padding: 17px;
+    /*width: 100%;*/
+    /*height: 100%;*/
     font: 14px / normal 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Source Code Pro', 'source-code-pro', monospace;
     overflow-y: scroll;
     white-space: pre-wrap;
@@ -112,7 +115,7 @@
     user-select: auto;
 }
 
-#win-pythonEditor .output::selection {
+#win-python-editor .output::selection {
     background: #ddd;
     background-clip: content-box;
     color: #333;

@@ -239,7 +239,7 @@
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docu');">新建在线文档文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
-								<!--li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');">新建python文件</li-->
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');">新建python文件</li>
 							</ul>
 						</a>
 						<a class="a b act asd" title="新建文件夹"
@@ -256,8 +256,8 @@
 						<a class="a b act dsa" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;"><img src="img/explorer/clear_rb.png" alt=""></a>
 					</div>
 					<div class="content" onclick="" oncontextmenu="return showcm(event,'explorer.content',null);">
-						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;">
-							<div class="row"><span style="width: 40%; padding-left: 2%;">名称<button id="name-sort"></button></span><span style="width: 10%;">类型</span>
+						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;margin-right: 8px;">
+							<div class="row"><span style="width: 40%; padding-left: 1%;">名称<button id="name-sort"></button></span><span style="width: 10%;">类型</span>
 								<span style="width: 10%;">大小</span><span style="width: 20%;">修改时间<button id="update_time-sort" class="desc"></button></span>
 								<span style="width: 20%;">创建时间<button id="id-sort"></button></span></div>
 						</div>

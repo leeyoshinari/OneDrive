@@ -36,10 +36,6 @@
 ![calc.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/calc.jpg)
 一个感觉很鸡肋的小工具。
 
-### Python命令窗口
-![python.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/python.jpg)
-仅支持 python 命令行，支持导入 python 官方库，可以用来做一些简单的计算，或者处理一些简单的数据。
-
 ### Whiteboard 画板
 ![wihteboard.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/wihteboard.jpg)
 没事可以用鼠标涂鸦画画。
@@ -67,10 +63,21 @@
 ![xmind.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/xmind.jpg)
 支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
 
+### python 脚本
+![python.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/python.jpg)
+仅支持 python 命令行，支持导入 python 官方库，可以用来做一些简单的计算，或者处理一些简单的数据。
+
+![pythonEditor.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/pythonEditor.jpg)
+支持在线编辑 py 文件，点击运行后可直接在浏览器上看到结果。如果想导入第三方库，需要专门打包，具体可查阅相关资料。
+
 ## 连接 Linux
 ![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell1.jpg)
 ![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell2.jpg)
-在`设置`里添加服务器，在列表中点击`打开`即可远程连接 Linux，支持上传和下载文件，支持 `Ctrl+C` 和 `Ctrl+V` 快捷键，同时 `Ctrl+C` 还保留结束当前进程的功能。为节省服务器资源，对“挂机”超过10分钟的连接进行关闭。
+在`设置`里添加服务器，在列表中点击`打开`即可远程连接 Linux，支持上传和下载文件，支持 `Ctrl+C（复制）` 和 `Ctrl+V（粘贴）` 快捷键，同时 `Ctrl+C` 还保留结束当前进程的功能。为节省服务器资源，对“挂机”超过10分钟的连接进行关闭。
+
+## 播放本地视频
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/playVideo.jpg)
+不管是这里播放本地视频，还是在线播放视频，都支持记录播放进度。播放本地视频不使用流量；用手机打开网站播放本地视频时，部分浏览器不支持倍速播放。
 
 ## 其他
 1、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；

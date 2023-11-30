@@ -41,6 +41,10 @@
                 document.title = data['msg'];
                 (async function () {
                     pyodide = await loadPyodide();
+                    pyodide.runPython(`
+                    import sys
+                    import io
+                    `);
                 })();
                 ace.require("ace/ext/language_tools");
                 editor = ace.edit("win-python-ace-editor");

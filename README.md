@@ -8,8 +8,8 @@
 - 文件上传、下载、新建、删除、移动、重命名、分享
 - txt和markdown文档的在线预览和编辑功能
 - 支持 xmind 文件在线预览和编辑
-- 支持表格在线编辑
-- 支持在线文档编辑
+- 支持表格在线编辑、文档在线编辑
+- 支持 python 脚本在线编辑和运行
 - 支持远程连接 Linux 服务器
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
@@ -17,7 +17,8 @@
 ### ToDo
 - [ ] 支持chatGPT等大模型
 - [ ] 音乐播放器
-- [ ] 其他更多小工具（任务管理器、视频编辑工具、图片编辑工具、浏览器 等）
+- [ ] 真实的任务管理器
+- [ ] 其他更多小工具（视频编辑工具、图片编辑工具、浏览器 等）
 
 ## 技术选型
 - 后端框架：FastApi<br>
@@ -29,7 +30,7 @@
 - 查询文件和文件夹时，直接在数据库中查询，可以非常方便的进行过滤和排序，只有在读写文件和文件夹时，才会和磁盘交互，有效的降低了磁盘IO。
 - 所有文件和文件夹的数据通过 id 查询，页面上只能看到相对路径，完全隐藏了本地真实的文件路径。
 - 可以很方便的“挂载”磁盘，只需要在配置文件中将新磁盘配置上就行了。
-- 搭配大家都熟悉的 Windows 文件系统的页面交互(来源Windows12概念图)，前端页面使用的是这个项目[tjy-gitnub](https://github.com/tjy-gitnub/win12)，非常感谢作者。我只是在这个项目的基础上进行了大量的增删，仅保留和云盘相关的部分。
+- 搭配大家都熟悉的 Windows 文件系统的页面交互(来源Windows12概念图)，前端页面使用的是这个项目[tjy-gitnub](https://github.com/tjy-gitnub/win12)，非常感谢作者。我只是在这个项目的基础上进行了大量的增删（删除了大量的静态代码和缓存数据的代码，提高了整个页面的加载速度，并把大量的功能变成真实有用的功能）。
 
 ## 部署
 1、克隆 `git clone https://github.com/leeyoshinari/OneDrive.git` ；
@@ -75,6 +76,14 @@ location /mycloud {
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
+（3）WebSocket：`proxy_pass`是配置文件`config.conf`中的 IP 和 端口, `/mycloud`必须和`config.conf`中的`prefix`一样，`ssh`不要改，这是接口的路由。这个配置主要用于远程连接`Linux`服务器，如果你不需要连接服务器，可以忽略这个配置
+```shell script
+location /mycloud/ssh {
+    proxy_pass http://127.0.0.1:15200;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+```
 通常nginx会限制请求体大小，需要增加配置`client_max_body_size 4096M;`，还有其他超时时间的配置，可自行上网查找资料修改；
 
 如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。
@@ -103,8 +112,14 @@ location /mycloud {
 ### xmind 脑图
 支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
 
+### python 脚本
+除了以命令行模式运行 python 脚本外，还可以打开 `py` 文件，在线编辑 python 脚本，并运行。需要注意的是：这里只支持部分官方包，第三方包需要进行打包才能使用。
+
 ## 文件分享
 文件分享链接支持设置打开次数，超过次数会返回 Nginx 默认页面。其中：markdown、表格、文档 和 xmind 分享链接打开后页面虽然可以编辑，但数据不会保存，仅支持导出数据。
+
+## 远程连接 Linux
+首先需要设置服务器连接信息，然后就可以直接在浏览器上打开页面连接 Linux 服务器；支持上传文件到服务器，或者下载文件到本地。为了提供更好的使用体验，提供了 Ctrl+C（复制）和 Ctrl+V（粘贴）快捷键，不仅如此，还仍然保留了 Ctrl+C 快捷键终止前台进程的功能。
 
 ## 其他
 1、支持 Linux、Windows、MacOS 等多个平台，建议在 Linux 系统部署； 

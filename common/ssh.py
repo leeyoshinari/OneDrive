@@ -120,7 +120,7 @@ class SSH:
             await self.websocket.send_text(msg)
             await self.websocket.close()
         except (websockets.exceptions.ConnectionClosedOK, websockets.exceptions.ConnectionClosedError):
-            pass
+            logger.error(traceback.format_exc())
         self.ssh_client.close()
 
     async def heart_beat_check(self, host):
@@ -136,8 +136,10 @@ class SSH:
             logger.info('close ssh success ~ ')
         except ValueError as err:
             logger.error(err)
+            self.ssh_client.close()
         except RuntimeError as err:
             logger.error(err)
+            self.ssh_client.close()
         except:
             logger.error(traceback.format_exc())
             await self.close()

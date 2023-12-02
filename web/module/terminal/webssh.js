@@ -65,13 +65,6 @@ term.onData(data => {
     sock.send(JSON.stringify(data_msg));
 });
 
-// setTimeout(function(){
-//     viewport = document.getElementsByClassName("xterm-viewport")[0];
-//     termnal_screen = document.getElementsByClassName('xterm-screen')[0];
-//     resize_term();
-// },500
-// );
-
 function resize_term() {
     let w = $(window).width() + viewport.clientWidth - viewport.offsetWidth + 'px';
     let h = $(window).height() - 30 + 'px';

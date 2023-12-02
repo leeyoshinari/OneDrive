@@ -105,11 +105,15 @@ class SSH:
                 self.keepalive_last_time = time.time()
                 try:
                     await self.websocket.send_text(data)
-                except RuntimeError:
+                except (RuntimeError, websockets.exceptions.ConnectionClosedOK):
                     break
                 logger.debug(f'back to front data: {data}')
         except ValueError as err:
             logger.error(err)
+            self.ssh_client.close()
+        except RuntimeError as err:
+            logger.error(err)
+            self.ssh_client.close()
         except:
             logger.error(self.channel.recv(1024))
             logger.error(traceback.format_exc())

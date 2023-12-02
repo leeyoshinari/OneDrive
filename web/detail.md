@@ -30,14 +30,14 @@
 
 ### 设置页面
 ![setting.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/setting.jpg)
-支持修改密码、退出登陆、上传背景图片、设置主题。
+支持修改密码、退出登陆、上传背景图片、设置主题、播放本地视频、ssh。
 
 ### 计算器
-![calc.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/calc.jpg)
+![calc.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/calc.jpg)<br>
 一个感觉很鸡肋的小工具。
 
 ### Whiteboard 画板
-![wihteboard.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/wihteboard.jpg)
+![wihteboard.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/wihteboard.jpg)<br>
 没事可以用鼠标涂鸦画画。
 
 ## 在线编辑功能
@@ -83,3 +83,15 @@
 1、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；
 
 2、和内网穿透搭配使用体验更佳；把开百度会员的钱，或者开在线文档会员的钱，拿去买一个带公网IP的云服务器，全部私有化部署，文件隐私安全绝对可以保障。现在云服务器厂商的云服务真的非常便宜。
+
+## 建议部署方案
+- 带公网IP的云服务器，买云服务器的钱比开百度网盘会员的钱要便宜的多得多，而且有公网IP，还可以干其他很多有趣的事情；
+- 树莓派，用于部署服务，可根据自己的需求买对应配置的树莓派，500元左右就可以买一个差不多配置的树莓派了，咸鱼上可能更便宜。树莓派 24h 开机，一个星期的耗电量大约不到1度电；高配置的树莓派还可以用来当电脑、电视、机顶盒用哦，就看你的动手能力有多强了；
+- 硬盘，自己可以买一个几T的机械硬盘存储数据，现在机械硬盘也很便宜；土豪可以用固态硬盘，也不是很贵；
+- 内网穿透，在云服务器和树莓派上分别部署内网穿透软件即可，推荐使用 frp 进行内网穿透；
+
+可选部署方案：只需要树莓派和硬盘即可，另需要宽带运营商给你一个固定/动态的公网IP（IPv4就不用想了，运营商肯定不会给，可以使用IPv6），由于IPv6很难记，所以还需要购买一个域名（便宜的域名一年也就不到8元）；
+
+如果你没有随时随地使用的需求，只是在局域网内使用，那你就随便找个电脑部署就行了；
+
+以上，你的云盘数据安全是可以得到保障的，并且拥有了比市面上的商业网盘更多的功能；不仅如此，你还可以自己开发，扩展功能。

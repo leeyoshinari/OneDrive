@@ -6,6 +6,9 @@ let server_id = params[0].split('=')[1];
 let server = localStorage.getItem('server')
 document.title = params[1].split('=')[1];
 let socketURL = 'ws://' + window.location.host + server + '/ssh/open' ;
+if (window.location.protocol === 'https:') {
+    socketURL = 'wss://' + window.location.host + server + '/ssh/open' ;
+}
 $('.container1>h4')[0].innerText = 'IP：' + document.title;
 let sock = new WebSocket(socketURL);
 

@@ -122,14 +122,15 @@ location /mycloud/ssh {
 首先需要设置服务器连接信息，然后就可以直接在浏览器上打开页面连接 Linux 服务器；支持上传文件到服务器，或者下载文件到本地。为了提供更好的使用体验，提供了 Ctrl+C（复制）和 Ctrl+V（粘贴）快捷键，不仅如此，还仍然保留了 Ctrl+C 快捷键终止前台进程的功能。
 
 ## 其他
-1、支持 Linux、Windows、MacOS 等多个平台，建议在 Linux 系统部署； 
+1、支持 `Linux`、`Windows`、`MacOS` 等多个平台，建议在 `Linux` 系统部署； 
 
 2、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；
 
-3、登录页面的背景图片的路径是`web/img/pictures/undefined/back.jpg`，如需修改登录背景图片，可直接替换掉这个图片即可，注意：图片名必须是`back.jpg`；
+3、登录页面的背景图片的路径是`web/img/pictures/undefined/background.jpg`，如需修改登录背景图片，可直接替换掉这个图片即可，注意：图片名必须是`background.jpg`；
 
 4、桌面的背景图片默认和登录页面的背景图片一样，如需修改，可在`设置->个性化->设置背景图片`中上传，上传成功后，清缓存刷新页面即可，注意：图片格式必须是`jpg`；
 
+5、在线播放视频，基本上都是用的是流式播放（边缓存边播放），这就要求视频的元数据必须在视频文件的最前面，而有些视频的元数据在视频文件的末尾，这就需要浏览器把整个视频加载完成后才能播放，体验极差。因此需要手动将视频的元数据移动到视频文件的最前面，然后再上传至云盘，这里使用 [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) 工具移动视频的元数据，命令：`ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`。
 
 ## 鸣谢
 鸣谢以下项目

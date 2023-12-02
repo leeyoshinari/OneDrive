@@ -1025,7 +1025,7 @@ let apps = {
             openapp('video');
             $('.window.video')[0].style.width = 'auto';
             $('.window.video>.titbar>span>.title')[0].innerText = filename;
-            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/download/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/video/play/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
             document.getElementsByClassName('my_video')[0].addEventListener('loadedmetadata', function () {
                 this.currentTime = localStorage.getItem(file_id);
             }, false);
@@ -1149,13 +1149,29 @@ let apps = {
                 css_link.setAttribute('href', 'css/terminal.css');
                 $('.window.python')[0].appendChild(css_link);
             }
-            (async function () {
-                apps.python.pyodide = await loadPyodide();
-                apps.python.pyodide.runPython(`
+            if ($('.window.python>script').length < 1) {
+                let script_link = document.createElement('script');
+                script_link.setAttribute('type', 'text/javascript');
+                script_link.setAttribute('src', 'module/python/pyodide.js');
+                script_link.onload = function () {
+                    (async function () {
+                        apps.python.pyodide = await loadPyodide();
+                        apps.python.pyodide.runPython(`
+                    import sys
+                    import io
+                    `);
+                    })();
+                }
+                $('.window.python')[0].appendChild(script_link);
+            } else {
+                (async function () {
+                    apps.python.pyodide = await loadPyodide();
+                    apps.python.pyodide.runPython(`
                 import sys
                 import io
                 `);
-            })();
+                })();
+            }
         },
         init: () => {
             $('#win-python').html(`
@@ -2309,7 +2325,7 @@ function upload_back_img() {
                         let res = JSON.parse(xhr.responseText);
                         if (res['code'] === 0) {
                             $.Toast(res['msg'], 'success');
-                            document.body.style.backgroundImage='url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/back.jpg")';
+                            document.body.style.backgroundImage='url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/background.jpg")';
                         } else {
                             $.Toast(res['msg'], 'error');
                         }

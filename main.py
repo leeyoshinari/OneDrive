@@ -43,8 +43,9 @@ def auth(request: Request) -> dict:
     return {'u': username, 'ip': request.headers.get('x-real-ip', '')}
 
 
-async def read_file(file_path):
+async def read_file(file_path, start_index=0):
     with open(file_path, 'rb') as f:
+        f.seek(start_index)
         while True:
             chunk = f.read(65536)
             if not chunk:
@@ -94,8 +95,8 @@ async def create_user(username: str, password: str, password1: str):
             back_path = os.path.join(settings.path, 'web/img/pictures', user.username)
             if not os.path.exists(back_path):
                 os.mkdir(back_path)
-            source_file = os.path.join(settings.path, 'web/img/pictures/undefined/back.jpg')
-            target_file = os.path.join(back_path, 'back.jpg')
+            source_file = os.path.join(settings.path, 'web/img/pictures/undefined/background.jpg')
+            target_file = os.path.join(back_path, 'background.jpg')
             shutil.copy(source_file, target_file)
         logger.info(Msg.MsgCreateUserSuccess.format(user.username))
         result.msg = Msg.MsgCreateUserSuccess.format(user.username)
@@ -267,6 +268,22 @@ async def zip_file(query: models.DownloadFile, hh: dict = Depends(auth)):
         return Result(code=1, msg="文件导出失败，请重试")
 
 
+@router.get("/video/play/{file_id}", summary="播放视频")
+async def play_video(file_id: str, request: Request, hh: dict = Depends(auth)):
+    try:
+        result = await views.download_file(file_id, hh)
+        header_range = request.headers.get('range', '0-')
+        start_index = int(header_range.strip('bytes=').split('-')[0])
+        file_size = os.path.getsize(result['path'])
+        content_range = f"bytes {start_index}-{file_size-1}/{file_size}"
+        headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(file_size - start_index),
+                   'Content-Range': content_range, 'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        return StreamResponse(read_file(result['path'], start_index=start_index), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers, status_code=206)
+    except:
+        logger.error(traceback.format_exc())
+        return Result(code=1, msg="文播放视频失败，请重试")
+
+
 @router.post("/file/share", summary="分享文件")
 async def share_file(query: models.ShareFile, hh: dict = Depends(auth)):
     result = await views.share_file(query, hh)
@@ -355,7 +372,7 @@ async def export_file(file_id: str, hh: dict = Depends(auth)):
         return Result(code=1, msg="文件下载失败，请重试")
 
 
-@router.get("/share/export/{file_id}", summary="导出 xmind 文件")
+@router.get("/share/export/{file_id}", summary="导出文件")
 async def export_share_file(file_id: int, request: Request):
     try:
         hh = {'ip': request.headers.get('x-real-ip', '')}

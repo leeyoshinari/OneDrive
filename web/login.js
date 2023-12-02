@@ -11,13 +11,13 @@ function get_status() {
                 $('#loginback').css('display', 'none');
                 $('#dock-box').css('display', 'flex');
                 $('#desktop').css('display', 'flex');
-                document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/back.jpg")';
+                document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/background.jpg")';
             } else {
                 $('#loginback').css('opacity', '1');
                 $('#loginback').css('display', 'flex');
                 $('#dock-box').css('display', 'none');
                 $('#desktop').css('display', 'none');
-                document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
+                document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/background.jpg")';
             }
         },
         error: function (xhr, status, msg) {
@@ -26,7 +26,7 @@ function get_status() {
             $('#loginback').css('display', 'flex');
             $('#dock-box').css('display', 'none');
             $('#desktop').css('display', 'none');
-            document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/back.jpg")';
+            document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/background.jpg")';
         }
     })
 }
@@ -61,7 +61,7 @@ function login_sys(evn) {
                 $('#desktop').css('display', 'flex');
                 window.clearInterval(qwq);
                 this.onclick = null;
-                document.body.style.backgroundImage='url("img/pictures/' + $('#username')[0].value + '/back.jpg")';
+                document.body.style.backgroundImage='url("img/pictures/' + $('#username')[0].value + '/background.jpg")';
             } else {
                 $.Toast(data['msg'], 'error');
                 window.clearInterval(qwq);

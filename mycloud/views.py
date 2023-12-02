@@ -554,7 +554,7 @@ async def upload_image(query, hh: dict) -> Result:
     folder_path = os.path.join(path, 'web/img/pictures', hh['u'])
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
-    file_path = os.path.join(folder_path, 'back.jpg')
+    file_path = os.path.join(folder_path, 'background.jpg')
     data = query['file'].file
     try:
         with open(file_path, 'wb') as f:

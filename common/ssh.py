@@ -10,6 +10,7 @@ import asyncio
 import traceback
 import paramiko
 from threading import Thread
+import websockets.exceptions
 from common.logging import logger
 from common.calc import parse_pwd
 
@@ -86,12 +87,12 @@ class SSH:
     def resize_pty(self, cols, rows):
         self.channel.resize_pty(width=cols, height=rows)
 
-    def django_to_ssh(self, data):
+    async def django_to_ssh(self, data):
         try:
             self.channel.send(data)
         except:
             logger.error(traceback.format_exc())
-            self.close()
+            await self.close()
 
     async def backend_to_frontend(self):
         try:
@@ -115,9 +116,12 @@ class SSH:
             await self.close()
 
     async def close(self, msg='Session is already in CLOSED state ~'):
-        await self.websocket.send_text(msg)
+        try:
+            await self.websocket.send_text(msg)
+            await self.websocket.close()
+        except (websockets.exceptions.ConnectionClosedOK, websockets.exceptions.ConnectionClosedError):
+            pass
         self.ssh_client.close()
-        await self.websocket.close()
 
     async def heart_beat_check(self, host):
         try:

@@ -43,15 +43,13 @@ sock.addEventListener('open', function () {
         id: server_id,
         host: document.title
     };
-    // console.log(JSON.stringify(storage));
     sock.send(JSON.stringify(storage));
     viewport = document.getElementsByClassName("xterm-viewport")[0];
     termnal_screen = document.getElementsByClassName('xterm-screen')[0];
+    resize_term();
 });
 
-sock.addEventListener('message', function (recv) {
-    term.write(recv.data);
-});
+sock.addEventListener('message', function (recv) {term.write(recv.data);});
 
 sock.onclose = function (e) {
     sock.close();
@@ -62,19 +60,17 @@ let data_msg = {'code': 0, 'data': null};
 let size_msg = {'code': 1, 'cols': null, 'rows': null};
 
 term.onData(data => {
-    if (sock.readyState === 3) {
-        $.Toast('Session is already in CLOSED state ~', 'error');
-    }
+    if (sock.readyState === 3) {$.Toast('Session is already in CLOSED state ~', 'error');}
     data_msg['data'] = data;
     sock.send(JSON.stringify(data_msg));
 });
 
-setTimeout(function(){
-    viewport = document.getElementsByClassName("xterm-viewport")[0];
-    termnal_screen = document.getElementsByClassName('xterm-screen')[0];
-    resize_term();
-},500
-);
+// setTimeout(function(){
+//     viewport = document.getElementsByClassName("xterm-viewport")[0];
+//     termnal_screen = document.getElementsByClassName('xterm-screen')[0];
+//     resize_term();
+// },500
+// );
 
 function resize_term() {
     let w = $(window).width() + viewport.clientWidth - viewport.offsetWidth + 'px';
@@ -90,9 +86,7 @@ function resize_term() {
 }
 
 // 监听浏览器窗口, 根据浏览器窗口大小修改终端大小
-$(window).resize(function () {
-    resize_term();
-});
+$(window).resize(function () {resize_term();});
 
 window.onbeforeunload = function(event) {
     event.returnValue = "Are you sure leave ?";

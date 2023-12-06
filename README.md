@@ -87,9 +87,9 @@ location /mycloud/ssh {
 ```
 通常nginx会限制请求体大小，需要增加配置`client_max_body_size 4096M;`，还有其他超时时间的配置，可自行上网查找资料修改；
 
-如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。
+如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。如果你使用的是`https`，直接修改端口并配置 ssl 即可。
 
-8、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第8步中的前端配置的名字）
+8、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第7步中的前端配置的名字）
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/home.jpg)
 

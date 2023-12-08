@@ -90,6 +90,13 @@ def format_x_reader(data):
             res['data'].update({'id': v})
         if k == 'title':
             res['data'].update({'text': v})
+        if k == 'structure-class':
+            if v == 'org.xmind.ui.map.unbalanced':
+                mind['template'] = 'default'
+            elif v == 'org.xmind.ui.org-chart.down':
+                mind['template'] = 'structure'
+            else:
+                mind['template'] = 'right'
         if k == 'children':
             res.update({'children': x_reader_children(v['topics']['topic'])})
     mind['root'] = res
@@ -175,9 +182,15 @@ def format_x_writer(data, style_path):
     template = data['template']
     node_num = len(data['root'].get("children", []))
     if template == 'default':
-        x_extension = x_extensions.format(int((node_num + 1) / 2))
+        my_extension = x_extensions.format(int((node_num + 1) / 2))
     else:
-        x_extension = x_extensions.format(node_num)
+        my_extension = ''
+    if template == 'default':
+        my_structure = 'map.unbalanced'
+    elif template == 'structure':
+        my_structure = 'org-chart.down'
+    else:
+        my_structure = 'logic.right'
     style_id = 's' + str(int(time.time() * 1000)) + str(random.randint(1, 99999))
     ss = format_x_styles(style_id, data['root']["data"])
     style_property = ''
@@ -185,7 +198,7 @@ def format_x_writer(data, style_path):
         with open(style_path, 'a', encoding='utf-8') as f:
             f.write(ss)
         style_property = f' style-id="{style_id}"'
-    topic = f'<topic id="{data["root"]["data"]["id"]}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(data["root"]["data"]["text"])}</title>{format_x_marker(data["root"]["data"])}{format_x_note(data["root"]["data"])}<children><topics type="attached">{format_x_children(data["root"].get("children", []), style_path)}</topics></children>{x_extension}</topic>'
+    topic = f'<topic id="{data["root"]["data"]["id"]}" structure-class="org.xmind.ui.{my_structure}" timestamp="{int(time.time() * 1000)}"{style_property}><title>{deal_xmind_title(data["root"]["data"]["text"])}</title>{format_x_marker(data["root"]["data"])}{format_x_note(data["root"]["data"])}<children><topics type="attached">{format_x_children(data["root"].get("children", []), style_path)}</topics></children>{my_extension}</topic>'
     return topic
 
 

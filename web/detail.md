@@ -43,6 +43,10 @@
 没事的时候可以用鼠标涂鸦画画，放松一下。
 ![wihteboard.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/wihteboard.jpg)
 
+### 浏览器
+功能简单的浏览器，只支持允许嵌套的网页。经测试，仅支持必应搜索。这里使用的是iframe嵌套的方式，百度和Google搜索不允许 iframe 嵌套，所以用不了；后面可考虑接入后端进行请求转发，解决跨域和嵌套的问题。
+![edge.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/edge.jpg)
+
 ### 连接 Linux
 在`设置`里添加服务器，在列表中点击`打开`即可远程连接 Linux，支持上传和下载文件，支持 `Ctrl+C（复制）` 和 `Ctrl+V（粘贴）` 快捷键，同时 `Ctrl+C` 还保留结束当前进程的功能。为节省服务器资源，对“挂机”超过10分钟的连接进行关闭。
 ![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell1.jpg)

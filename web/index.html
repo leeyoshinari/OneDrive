@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="module/toast/toast.style.css">
 	<link rel="stylesheet" href="css/bootstrap-icons.css">
 	<link rel="stylesheet" href="css/explorer.css">
+	<link rel="stylesheet" href="css/edge.css">
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
 	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
@@ -73,6 +74,10 @@
 		</div>
 		<div class="b" ondblclick="openapp('setting');" ontouchstart="openapp('setting');" win12_title="系统设置" oncontextmenu="return showcm(event,'desktop.icon',['setting',-1]);" appname="setting">
 			<img src="img/setting.svg" alt=""><p>设置</p>
+		</div>
+		<div class="b" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="Microsoft Edge" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
+			<img src="img/edge.svg" alt="">
+			<p>Microsoft Edge</p>
 		</div>
 		<span class="choose"></span>
 		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0;left:0;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
@@ -386,7 +391,7 @@
 	</div>
 	<div class="window pythonEditor">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/python.svg" class="icon"><span><span class="title">Python Editor</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python Editor</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('pythonEditor')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('pythonEditor')"><i class="bi bi-dash-lg"></i></a>
@@ -395,6 +400,63 @@
 		</div>
 		<div class="loadback"><img src="img/python.svg" class="icon"></div>
 		<div class="content" id="win-pythonEditor"><iframe id="iframe_pythonEditor" src=""></iframe></div>
+	</div>
+	<div class="window edge tabs" onmousemove="if(apps.edge.in_div('over-bar',event)||apps.edge.in_div('edge-path-bar',event)||apps.edge.in_div('edge-titbar',event)){null}else{if(apps.edge.fuls){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}}">
+		<div class="resize-bar"></div>
+		<div style="height:3px;width:100%;display: none;" id="over-bar" onmouseover="if(apps.edge.fuls){$('.edge>.titbar').show();$('.edge>.content>.tool').show()}" onmouseleave="if(apps.edge.fuls&&(apps.edge.b1||apps.edge.b2)){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}"></div>
+		<div class="titbar" onmouseleave="apps.edge.b1=false;" onmouseover="apps.edge.b1=true;" id="edge-titbar"><img src="img/edge.svg" class="icon" alt=""><span style="display: none;"><span class="title">Microsoft Edge</span><span class="save-status"></span></span>
+			<div class="tabs"></div>
+			<div>
+				<a class="a wbtg red" onclick="hidewin('edge')"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('edge');apps.edge.max=!apps.edge.max;" id="edge-max"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="apps.edge.exitfullscreen()" id="fuls-edge-exit" style="display: none;"><i class="bi bi-arrows-angle-contract" id="fuls-edge-i"></i></a>
+				<a class="a wbtg" onclick="minwin('edge')"><i class="bi bi-dash-lg"></i></a>
+				<a class="a wbtg" onclick="apps.edge.fullscreen()" id="fuls-edge"><i class="bi bi-arrows-angle-expand" id="fuls-edge-i"></i></a>
+			</div>
+		</div>
+		<div class="loadback">
+			<img src="img/edge.svg" class="icon" alt="">
+		</div>
+		<div class="content" id="win-edge">
+			<div class="tool" onmouseleave="apps.edge.b2=false;" onmouseover="apps.edge.b2=true;" id="edge-path-bar">
+				<a class="a back" onclick="apps.edge.back(apps.edge.tabs[apps.edge.now][0]);">
+					<i class="bi bi-arrow-left-short" style="font-size: 25px;--top:-5px;"></i>
+				</a>
+				<a class="a front" onclick="apps.edge.front(apps.edge.tabs[apps.edge.now][0]);">
+					<i class="bi bi-arrow-right-short" style="font-size: 25px;--top:-5px;"></i>
+				</a>
+				<a class="a" onclick="apps.edge.reload()">
+					<i class="bi bi-arrow-clockwise"></i>
+				</a>
+				<input type="text" onkeyup="if(event.keyCode==13&&$(this).val()!=''){apps.edge.goto($(this).val())}"
+					placeholder="在必应中搜索，或输入一个网址" class="url" spellcheck="false" id="edge-path">
+				<input type="text" onkeyup="if(event.keyCode==13&&$(this).val()!=''){m_tab.rename('edge',$(this).val());}"
+					placeholder="为标签页命名" class="rename" spellcheck="false">
+				<a class="a">
+					<i class="bi bi-info-circle" win12_title="浏览器只能访问允许嵌套的网站。由于规则限制无法获取网页标题，请右键标签页手动命名"></i>
+				</a>
+				<script>
+				function add_save(){
+					t = document.getElementById('edge-path').value
+					if(t.length>7){
+						t = t.substring(0,7) + '...';
+					}
+					document.getElementById('save-bar').innerHTML += "<a onclick='apps.edge.goto(`" + document.getElementById('edge-path').value +  "`)' win12_title='" + document.getElementById('edge-path').value + "' class='save-item'><i class='bi bi-file-earmark'></i>" + t + "</a>";
+				}
+				</script>
+				<a class="a" style="filter: contrast(0.2);" onclick="add_save()">
+					<i class="bi bi-star"></i>
+				</a>
+				<a class="a" style="filter: contrast(0.2);">
+					<i class="bi bi-code-slash"></i>
+				</a>
+		    </div>
+			<!--div id="save-bar" style="margin:10px;margin-top: 3px;">
+				<a onclick="apps.edge.goto('https://www.baidu.com')" win12_title="百度一下" class="save-item"><i class="bi bi-file-earmark"></i>百度</a>
+				<a onclick="apps.edge.goto('https://www.bing.com')" win12_title="https://www.bing.com" class="save-item"><i class="bi bi-file-earmark"></i>Bing</a>
+			</div-->
+			<iframe id="iframe_edge" class="0 show" onmousemove="if(apps.edge.fuls){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}"></iframe>
+		</div>
 	</div>
 	<div class="window whiteboard">
 		<div class="resize-bar"></div>

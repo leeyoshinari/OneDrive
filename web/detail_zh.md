@@ -71,7 +71,7 @@
 后端多语言配置在 `common->messages.py` 文件中，每一个message是一个dict，dict中的每一个key对应一种多语言，如需新增多语言，可直接新增一对 key-value 即可。<br>
 ![language_b.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_b.jpg)
 
-另外新增多语言，还需要在页面下拉框增加选项，在`web->index.html`中有2个地方需要修改：一个是第39~42行，另一个是第185~188行。**特别注意**：`option中的value`必须要和`web->language`目录下json的文件名一样，也必须要和`common->messages.py`文件中每一个message的key一样。
+另外新增多语言，还需要在页面下拉框增加选项，在`web->index.html`中有2个地方需要修改：一个是第39 - 42行，另一个是第185 - 188行。**特别注意**：`option中的value`必须要和`web->language`目录下json的文件名一样，也必须要和`common->messages.py`文件中每一个message的key一样。
 
 由于不同语言的长度不一样，如果文案过长导致页面样式不美观，请自行修改。
 

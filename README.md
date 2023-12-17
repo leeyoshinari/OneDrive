@@ -42,7 +42,7 @@ sh startup.sh
 6.Create user<br>
 In order to avoid malicious creation of users by others, the page does not open the entrance to create users. So, it is specially changed to directly enter the URL in the browser to create a user. You can modify line 68 in the `main.py` file to your own url path.
 ```shell script
-http://IP:Port/ prefix in config.conf /user/test/createUser?username=test&password=123456&password1=123456`
+http://IP:Port/ prefix in config.conf /user/test/createUser?username=test&password=123456&password1=123456
 ```
 
 7.Configure and start `nginx`, the location configuration is as follows:<br>

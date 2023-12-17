@@ -1,5 +1,5 @@
 # OneDrive
-[中文文档]()
+[中文文档](https://github.com/leeyoshinari/OneDrive/blob/main/README_zh.md)
 
 ## Function
 - Create, Delete, Rename, Move, and Export folders
@@ -93,9 +93,9 @@ If you don’t know nginx, please go to [nginx official website](http://nginx.or
 
 3.The path of the background image of the login page is `web/img/pictures/undefined/background.jpg`. If you need to modify the login background image, you can directly replace this image. Note: the image name must be `background.jpg`.
 
-4.The background image of the desktop is the same as the background image of the login page by default. If you need to modify it, you can upload it in `Setting->Personalized->Set background image`. After the upload is successful, clear the cache and refresh the page. Note: The image format must be is`jpg`.
+4.The background image of the desktop is the same as the background image of the login page by default. If you need to modify it, you can upload it in `Setting->Personalized->Set background image`. After the upload is successful, clear the cache and refresh the page. Note: The image format must be `jpg`.
 
-5.Playing videos online uses streaming playback, which requires that the metadata of the video must be at the front of the video file. So, you need to manually move the metadata of the video to the front of the video file. Using the [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) to move the metadata of the video. The command:`ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`.
+5.Playing videos online uses streaming playback, which requires that the metadata of the video must be at the front of the video file. So, you need to manually move the metadata of the video to the front of the video file. Using the [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) to move the metadata of the video. The command: `ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`.
 
 6.Whether you are using a PC browser or a mobile browser, setting the browser to display in full screen will provide a better user experience.
 

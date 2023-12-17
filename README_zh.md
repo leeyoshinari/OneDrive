@@ -1,5 +1,5 @@
 # OneDrive
-[English Document]()
+[English Document](https://github.com/leeyoshinari/OneDrive/blob/main/README.md)
 
 ## 功能
 - 文件夹的新建、删除、重命名、移动、导出
@@ -13,7 +13,7 @@
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
 
-查看详细页面样式[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md)
+查看详细页面样式，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md)
 
 ### ToDo
 - [ ] 支持chatGPT等大模型

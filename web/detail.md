@@ -20,7 +20,7 @@ The desktop background image can be changed in `Setting`.
 ![desktop.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/desktop.jpg)
 
 ### Windows File Explorer
-The top row of toolbars are New File, New Folder, Rename, Move, Copy, Upload, Download, Share, and Delete. All icons are system icons of Windows 10. The file can be sorted by name, createTime, and updateTime. All files in the file explorer, except for files that support online editing, files in other formats will be opened directly in the browser. Files that the browser support preview can be previewed directly in the browser, and files that the browser does not support preview can be directly downloaded.
+The top row of toolbars are New File, New Folder, Rename, Move, Copy, Upload, Download, Share, and Delete. All icons are system icons of Windows 10. The file can be sorted by name, createTime, and updateTime. All files in the file explorer, except for files that support online editing, files in other formats will be opened directly in the browser. Files that the browser support preview can be previewed directly in the browser, and files that the browser does not support preview can be directly downloaded.<br>
 When using the file upload function to upload a file, it will first check whether the same file exists, and if exists, it will not be uploaded.
 ![file.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/file.jpg)
 
@@ -62,13 +62,15 @@ Supports python command line and supports importing python official libraries, i
 ### Multi-language settings
 Currently, multiple languages support Simplified Chinese and English. There may be incorrect translations or missing translations, please modify them yourself.
 
-There are two places for multi-language switching: one is the upper left corner of the login page; the other is`Setting->Personalized->Language setting`. Multi-language configuration is divided into front-end configuration and back-end configuration. The configuration of the front-end is mainly for page copywriting display, and the configuration of the back-end is mainly for interface return information and logs, as follows:<br>
+There are two places for multi-language switching: one is the upper left corner of the login page; the other is`Setting->Personalized->Language setting`. <br>
+Multi-language configuration is divided into front-end configuration and back-end configuration. The configuration of the front-end is mainly for page copywriting display, and the configuration of the back-end is mainly for interface return information and logs, as follows:<br>
 The front-end multi-language configuration is in `web->language` directory. Each language corresponds to a json file. The json file contains the keys and translations. If you need to add multiple languages, please copy a json file first, and then modify the translation. The key cannot be modified.<br>
 ![language_f.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_f.jpg)<br>
 The backend multi-language configuration is in the `common->messages.py` file. Each message is a dict, and each key in the dict corresponds to a language. If you need to add multiple languages, you can directly add a key-value pair.<br>
 ![language_b.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_b.jpg)
 
-In addition, when adding multiple languages, you need to add options in the page drop-down box. There are two places in `web->index.html` that need to be modified: one is lines 39~42, and the other is lines 185~188. **Special Note**: The `value in option` must be the same as the json file name in the `web->language`, and must also be the same as the key of each message in the `common->messages.py` file.
+In addition, when adding multiple languages, you need to add options in the page drop-down box. There are two places in `web->index.html` that need to be modified: one is lines 39-42, and the other is lines 185-188. <br>
+**Special Note**: The `value in option` must be the same as the json file name in the `web->language`, and must also be the same as the key of each message in the `common->messages.py` file.
 
 Due to the length of different languages is different, if the copywriting is too long and the page style is not beautiful, please modify it yourself.
 
@@ -106,9 +108,9 @@ Supports online editing of py files, and you can see the results directly on the
 
 3.The path of the background image of the login page is `web/img/pictures/undefined/background.jpg`. If you need to modify the login background image, you can directly replace this image. Note: the image name must be `background.jpg`.
 
-4.The background image of the desktop is the same as the background image of the login page by default. If you need to modify it, you can upload it in `Setting->Personalized->Set background image`. After the upload is successful, clear the cache and refresh the page. Note: The image format must be is`jpg`.
+4.The background image of the desktop is the same as the background image of the login page by default. If you need to modify it, you can upload it in `Setting->Personalized->Set background image`. After the upload is successful, clear the cache and refresh the page. Note: The image format must be `jpg`.
 
-5.Playing videos online uses streaming playback, which requires that the metadata of the video must be at the front of the video file. So, you need to manually move the metadata of the video to the front of the video file. Using the [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) to move the metadata of the video. The command:`ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`.
+5.Playing videos online uses streaming playback, which requires that the metadata of the video must be at the front of the video file. So, you need to manually move the metadata of the video to the front of the video file. Using the [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) to move the metadata of the video. The command: `ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`.
 
 6.All pages and operations have been adapted to the mobile phone as much as possible. Use the mobile browser to open the page and display it horizontally on the mobile phone, the user experience is still good.
 

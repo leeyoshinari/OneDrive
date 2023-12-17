@@ -132,7 +132,7 @@ class SSH:
             while True:
                 if time.time() - self.keepalive_last_time < 600 and self.ssh_client.get_transport():
                     await asyncio.sleep(10)
-                    logger.info(f'{host} - 心跳检测 ... ... ')
+                    logger.info(f'{host} - heart beat ... ... ')
                     continue
                 else:
                     break

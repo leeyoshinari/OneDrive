@@ -55,10 +55,10 @@ let cms = {
                 return 'null';
             }
             if ($('.window.' + arg).hasClass("max")) {
-                return ['<i class="bi bi-window-stack"></i> 还原', `maxwin('${arg}')`];
+                return ['<i class="bi bi-window-stack"></i> '+i18next.t('restore'), `maxwin('${arg}')`];
             }
             else {
-                return ['<i class="bi bi-window-fullscreen"></i> 最大化', `maxwin('${arg}')`];
+                return ['<i class="bi bi-window-fullscreen"></i> '+i18next.t('max.window'), `maxwin('${arg}')`];
             }
         },
         function (arg) {
@@ -66,25 +66,25 @@ let cms = {
                 return 'null';
             }
             else {
-                return ['<i class="bi bi-window-dash"></i> 最小化', `minwin('${arg}')`];
+                return ['<i class="bi bi-window-dash"></i> '+i18next.t('min.window'), `minwin('${arg}')`];
             }
         },
         function (arg) {
             if (arg in nomin) {
-                return ['<i class="bi bi-window-x"></i> 关闭', `hidewin('${arg}', 'configs')`];
+                return ['<i class="bi bi-window-x"></i> '+i18next.t('close'), `hidewin('${arg}', 'configs')`];
             }
             else {
-                return ['<i class="bi bi-window-x"></i> 关闭', `hidewin('${arg}')`];
+                return ['<i class="bi bi-window-x"></i> '+i18next.t('close'), `hidewin('${arg}')`];
             }
         },
     ],
     'taskbar': [
         function (arg) {
-            return ['<i class="bi bi-window-x"></i> 关闭', `hidewin('${arg}')`];
+            return ['<i class="bi bi-window-x"></i> '+i18next.t('close'), `hidewin('${arg}')`];
         }
     ],
     'desktop': [
-        ['<i class="bi bi-arrow-clockwise"></i> 刷新', `$('#desktop').css('opacity','0');setTimeout(()=>{$('#desktop').css('opacity','1');},100);`],
+        ['<i class="bi bi-arrow-clockwise"></i> '+i18next.t('refresh'), `$('#desktop').css('opacity','0');setTimeout(()=>{$('#desktop').css('opacity','1');},100);`],
         ],
     'desktop.icon': [
         function (arg) {
@@ -93,59 +93,59 @@ let cms = {
     ],
     'explorer.folder': [
         arg => {
-            return ['<i class="bi bi-arrow-up-right-square"></i> 在新标签页中打开', `apps.explorer.newtab('${arg}');`];
+            return ['<i class="bi bi-arrow-up-right-square"></i> '+i18next.t('tab.open'), `apps.explorer.newtab('${arg}');`];
         },
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-trash3"></i> 删除', `apps.explorer.del('${arg}')`];
+                return ['<i class="bi bi-trash3"></i> '+i18next.t('setting.window.shell.server.list.action.delete'), `apps.explorer.del('${arg}')`];
             return 'null';
         },
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-input-cursor-text"></i> 重命名', `apps.explorer.rename('${arg}')`];
+                return ['<i class="bi bi-input-cursor-text"></i> '+i18next.t('explore.window.file.tool.rename.title'), `apps.explorer.rename('${arg}')`];
             return 'null';
         }
     ],
     'explorer.file': [
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-trash3"></i> 删除', `apps.explorer.del('${arg}')`];
+                return ['<i class="bi bi-trash3"></i> '+i18next.t('setting.window.shell.server.list.action.delete'), `apps.explorer.del('${arg}')`];
             return 'null';
         },
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-input-cursor-text"></i> 重命名', `apps.explorer.rename('${arg}')`];
+                return ['<i class="bi bi-input-cursor-text"></i> '+i18next.t('explore.window.file.tool.rename.title'), `apps.explorer.rename('${arg}')`];
             return 'null';
         }
     ],
     'explorer.content': [
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-file-earmark-plus"></i> 新建文件', `apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file')`];
+                return ['<i class="bi bi-file-earmark-plus"></i> '+i18next.t('explore.window.file.tool.file.title'), `apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='file')`];
             return 'null';
         },
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-folder-plus"></i> 新建文件夹', `apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder')`];
+                return ['<i class="bi bi-folder-plus"></i> '+i18next.t('explore.window.file.tool.folder.title'), `apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder')`];
             return 'null';
         },
         arg => {
             if ($('#win-explorer>.path>.tit>.path>div.text').length > 1)
-                return ['<i class="bi bi-arrow-clockwise"></i> 刷新', `apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id)`];
-            return ['<i class="bi bi-arrow-clockwise"></i> 刷新', `apps.explorer.reset()`];
+                return ['<i class="bi bi-arrow-clockwise"></i> '+i18next.t('refresh'), `apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id)`];
+            return ['<i class="bi bi-arrow-clockwise"></i> '+i18next.t('refresh'), `apps.explorer.reset()`];
         }
     ],
     'explorer.tab': [
         arg => {
-            return ['<i class="bi bi-x"></i> 关闭标签页', `m_tab.close('explorer',${arg})`];
+            return ['<i class="bi bi-x"></i> '+i18next.t('tab.close'), `m_tab.close('explorer',${arg})`];
         }
     ],
     'edge.tab': [
         arg => {
-            return ['<i class="bi bi-pencil-square"></i> 命名标签页', `apps.edge.c_rename(${arg})`];
+            return ['<i class="bi bi-pencil-square"></i> '+i18next.t('tab.rename'), `apps.edge.c_rename(${arg})`];
         },
         arg => {
-            return ['<i class="bi bi-x"></i> 关闭标签页', `m_tab.close('edge',${arg})`];
+            return ['<i class="bi bi-x"></i> '+i18next.t('tab.close'), `m_tab.close('edge',${arg})`];
         }
     ],
 }
@@ -201,7 +201,6 @@ function showcm(e, cl, arg) {
     cms[cl].forEach(item => {
         if (typeof (item) == 'function') {
             ret = item(arg);
-            console.log(arg, ret);
             if (ret === 'null') {
                 return true;
             }
@@ -235,13 +234,7 @@ $('#cm>.foc').blur(() => {
     }, 200);
 });
 
-let dps = {
-    'xmind.file': [
-        ['<i class="bi"></i> 保存', `save_xmind();`],
-        ['<i class="bi"></i> 下载', `apps.explorer.download($('#win-xmind>.jsmind-inner')[0].id);`],
-    ]
-}
-
+let dps = {}
 let dpt = null, isOnDp = false;
 $('#dp')[0].onmouseover = () => { isOnDp = true };
 $('#dp')[0].onmouseleave = () => { isOnDp = false; hidedp() };
@@ -343,20 +336,20 @@ let nts = {
         cnt: `<p class="tit">错误</p>
             <p>除数不得等于0</p>`,
         btn: [
-            { type: 'main', text: '确定', js: 'closenotice();' },
+            { type: 'main', text: i18next.t('submit'), js: 'closenotice();' },
         ]
     },
     'share': {
-        cnt: `<p class="tit">分享文件</p><input type="text" id="share-time" placeholder="请输入分享文件的打开次数" style="width: 95%;">`,
+        cnt: `<p class="tit"></p><input type="text" id="share-time" placeholder="" style="width: 95%;">`,
         btn: [
-            { type: 'main', text: '确定', js: 'apps.explorer.share();' },
-            { type: 'detail', text: '取消', js: 'closenotice();' }
+            { type: 'main', text: i18next.t('submit'), js: 'apps.explorer.share();' },
+            { type: 'detail', text: i18next.t('cancel'), js: 'closenotice();' }
         ]
     },
     'uploadResult': {
-        cnt: `<p class="tit">上传失败的文件</p><list class="upload-result"></list>`,
+        cnt: `<p class="tit"></p><list class="upload-result"></list>`,
         btn: [
-            { type: 'main', text: '确定', js: 'closenotice();' }]
+            { type: 'main', text: i18next.t('submit'), js: 'closenotice();' }]
     }
 }
 function shownotice(name) {
@@ -366,6 +359,14 @@ function shownotice(name) {
         tmp += `<a class="a btn ${btn.type}" onclick="${btn.js}">${btn.text}</a>`
     });
     $('#notice>.btns').html(tmp);
+    if (name === 'share') {
+        $('#notice>.cnt>p')[0].style.width = '500px';
+        $('#notice>.cnt>p')[0].innerText = i18next.t('explore.window.file.tool.share.window.title');
+        $('#notice>.cnt>input')[0].placeholder = i18next.t('explore.window.file.tool.share.window.placeholder');
+    }
+    if (name === 'uploadResult') {
+        $('#notice>.cnt>p')[0].innerText = i18next.t('terminal.page.upload.result.tips');
+    }
     setTimeout(() => {
         $('#notice-back').addClass('show');
     }, 20);
@@ -557,7 +558,7 @@ let apps = {
                 border-radius: 10px;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.name{margin-left:5px;}
             #win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color:#959595;font-size:14px;margin-left:5px;}</style>
-            <p class="class"><img src="img/explorer/disk.svg" alt=""> 设备和驱动器</p><div class="group"></div>`;
+            <p class="class"><img src="img/explorer/disk.svg" alt=""> ${i18next.t('explore.window.file.disk.title')} </p><div class="group"></div>`;
             $('#win-explorer>.page>.menu>.card>list>a')[0].className ='check';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
@@ -571,20 +572,20 @@ let apps = {
             $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.remove('disabled');
             $('#win-explorer>.path>.back').attr('onclick', 'apps.explorer.reset()');
-            $('#win-explorer>.path>.tit')[0].innerHTML = '<div class="icon" style="background-image: url(\'img/explorer/thispc.svg\')"></div><div class="path"><div class="text" onclick="apps.explorer.reset()">此电脑</div><div class="arrow">&gt;</div></div>';
-            m_tab.rename('explorer', '<img src="img/explorer/thispc.svg" alt=""> 此电脑');
+            $('#win-explorer>.path>.tit')[0].innerHTML = '<div class="icon" style="background-image: url(\'img/explorer/thispc.svg\')"></div><div class="path"><div class="text" onclick="apps.explorer.reset()">' + i18next.t('computer') +'</div><div class="arrow">&gt;</div></div>';
+            m_tab.rename('explorer', '<img src="img/explorer/thispc.svg" alt=""> ' + i18next.t('computer'));
             apps.explorer.tabs[apps.explorer.now][2] = '';
             apps.explorer.tabs[apps.explorer.now][3] = '';
             document.getElementById("all_files").checked = false;
             document.querySelector('#win-explorer>.page>.main>.tool').style.display = 'none'
             if (clear) {
                 apps.explorer.delHistory(apps.explorer.tabs[apps.explorer.now][0]);
-                apps.explorer.pushHistory(apps.explorer.tabs[apps.explorer.now][0], '此电脑');
+                apps.explorer.pushHistory(apps.explorer.tabs[apps.explorer.now][0], i18next.t('computer'));
             }
-            let disk_group = '<a class="a item act" ondblclick="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">本地磁盘 (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB 可用, 共 521 MB</p></div></a>';
+            let disk_group = '<a class="a item act" ondblclick="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">' + i18next.t('explore.window.file.disk.name') + ' (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB' + i18next.t('explore.window.file.disk.size') + '521 MB</p></div></a>';
             $.get(server + '/disk/get').then(res => {
                 res.data.forEach(c => {
-                    disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">本地磁盘 (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + ' 可用, 共 ' + c['total'] + '</p></div></a>';
+                    disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">' + i18next.t('explore.window.file.disk.name') + ' (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + i18next.t('explore.window.file.disk.size') + c['total'] + '</p></div></a>';
                 });
                 document.getElementsByClassName('group')[0].innerHTML = disk_group;
             });
@@ -601,7 +602,7 @@ let apps = {
             $('#win-explorer>.path>.search')[0].style.display = 'none';
             $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
-            m_tab.rename('explorer', '<img src="img/explorer/rb.png" alt=""> 回收站');
+            m_tab.rename('explorer', '<img src="img/explorer/rb.png" alt=""> '+i18next.t('explore.window.menu.garbage.title'));
             document.getElementById("all_files").checked = false;
             let sort_field = 'update_time';
             let sort_type = 'desc';
@@ -621,14 +622,14 @@ let apps = {
             let tmp = queryAllFiles("garbage", "", sort_field, sort_type);
             if (tmp.length === 0) {
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'none';
-                $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = '<p class="info">此文件夹为空。</p>';
+                $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = '<p class="info">'+i18next.t('explore.window.file.list.empty.tips')+'</p>';
             } else {
                 let ht = '';
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'flex';
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')">
-                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">${i18next.t('explore.window.file.list.folder.type.name')}</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
@@ -669,7 +670,7 @@ let apps = {
             $('#win-explorer>.page>.main')[0].style.display = 'none';
             $('#win-explorer>.page>.main-share')[0].style.display = 'flex';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
-            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> 我的分享');
+            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> '+i18next.t('explore.window.menu.share.title'));
             $.ajax({
                 type: 'GET',
                 url: server + '/share/list',
@@ -677,16 +678,16 @@ let apps = {
                     if (data['code'] === 0) {
                         if (data['data'].length === 0) {
                             $('#win-explorer>.page>.main-share>.content>.header')[0].style.display = 'none';
-                            $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = '<p class="info">此文件夹为空。</p>';
+                            $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = '<p class="info">'+i18next.t('explore.window.file.list.empty.tips')+'</p>';
                         } else {
                             $('#win-explorer>.page>.main-share>.content>.header')[0].style.display = 'flex';
                             let ht = '';
                             data['data'].forEach(item => {
                                 let f_src = icons[item['format']] || default_icon;
                                 ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
-                            <span style="width: 40%;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
-                            <span style="width: 10%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
-                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">删除</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}',false);">查看分享链接</a></span></div></div>`;
+                            <span style="width: 38%;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}');"><img style="float: left;" src="${f_src}" alt="">${item['name']}</span>
+                            <span style="width: 12%;">${item['times']}</span><span style="width: 10%;">${item['total_times']}</span><span style="width: 20%;">${item['create_time']}</span>
+                            <span style="width: 20%;"><a style="cursor: pointer; color: blue;" onclick="delete_file([${item['id']}], 'folder', 0, 3);">${i18next.t('setting.window.shell.server.list.action.delete')}</a><a style="margin-left: 10px; cursor: pointer; color: blue;" onclick="apps.explorer.open_share('${item['id']}','${item['format']}',false);">${i18next.t('explore.window.file.share.list.view.link')}</a></span></div></div>`;
                             })
                             $('#win-explorer>.page>.main-share>.content>.view')[0].innerHTML = ht;
                         }
@@ -706,10 +707,10 @@ let apps = {
                     share_url = '/' + window.location.href.split('/')[3] + '/module/xmind.html?server=' + server + '&id=' + share_id;
                     break;
                 case 'sheet':
-                    share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id;
+                    share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id + '&lang=' + lang;
                     break;
                 case 'docu':
-                    share_url = '/' + window.location.href.split('/')[3] + '/module/document.html?server=' + server + '&id=' + share_id;
+                    share_url = '/' + window.location.href.split('/')[3] + '/module/document.html?server=' + server + '&id=' + share_id + '&lang=' + lang;
                     break;
                 case 'py':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/python.html?server=' + server + '&id=' + share_id;
@@ -781,13 +782,13 @@ let apps = {
             let pathqwqid = '';
             let sort_field = 'update_time';
             let sort_type = 'desc';
-            if (path === '此电脑') {
+            if (path === i18next.t('computer')) {
                 apps.explorer.reset(clear);
                 return null;
             }
             $('#win-explorer>.path>.tit')[0].dataset.path = path;
             $('#win-explorer>.path>.tit')[0].id=path_id;
-            $('#win-explorer>.path>.tit>.path')[0].innerHTML = '<div class="text" onclick="apps.explorer.reset()">此电脑</div><div class="arrow">&gt;</div>';
+            $('#win-explorer>.path>.tit>.path')[0].innerHTML = '<div class="text" onclick="apps.explorer.reset()">' + i18next.t('computer') +'</div><div class="arrow">&gt;</div>';
             $('#win-explorer>.path>.tit>.icon')[0].style.marginTop = '0px';
             document.getElementById("all_files").checked = false;
             document.querySelectorAll('#win-explorer>.page>.main>.content>.header>.row>span>button').forEach(item => {
@@ -826,14 +827,14 @@ let apps = {
             }
             if (tmp.length === 0) {
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'none';
-                $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = '<p class="info">此文件夹为空。</p>';
+                $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = '<p class="info">'+i18next.t('explore.window.file.list.empty.tips')+'</p>';
             } else {
                 let ht = '';
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'flex';
                 for(let i=0; i<tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${path}/${tmp[i]['name']}', '${path_id}/${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${path_id}/${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">${i18next.t('explore.window.file.list.folder.type.name')}</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
@@ -969,15 +970,15 @@ let apps = {
         share: () => {
             let ids = getSelectedIds();
             if (ids.folder.length > 0) {
-                $.Toast("只能分享文件，不能分享文件夹 ~", "error");
+                $.Toast(i18next.t("msg.share.file.error1"), "error");
                 return;
             }
             if (ids.file.length === 0) {
-                $.Toast("请选择要分享的文件 ~", "error");
+                $.Toast(i18next.t("msg.share.file.error2"), "error");
                 return;
             }
             if (ids.file.length > 1) {
-                $.Toast("一次只能分享一个文件 ~", "error");
+                $.Toast(i18next.t("msg.share.file.error3"), "error");
                 return;
             }
             let share_times = document.getElementById('share-time').value;
@@ -1006,18 +1007,18 @@ let apps = {
         export: () => {
             let ids = getSelectedIds();
             if (ids.folder.length + ids.file.length === 0) {
-                $.Toast("请选择文件或文件夹 ~", "error");
+                $.Toast(i18next.t('msg.export.file.error1'), "error");
                 return;
             }
             if (ids.folder.length > 0 && ids.file.length > 0) {
-                $.Toast("不能同时选择文件和文件夹 ~", "error");
+                $.Toast(i18next.t('msg.export.file.error2'), "error");
                 return;
             }
             if (ids.folder.length > 0) {
                 if (ids.folder.length === 1) {
                     export_file(ids.folder, 'folder');
                 } else {
-                    $.Toast("暂时只支持一个文件夹导出", "error");
+                    $.Toast(i18next.t('msg.export.file.error3'), "error");
                     return;
                 }
             }
@@ -1033,7 +1034,7 @@ let apps = {
             openapp('video');
             $('.window.video')[0].style.width = 'auto';
             $('.window.video>.titbar>span>.title')[0].innerText = filename;
-            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/video/play/' + file_id + '" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/video/play/' + file_id + '" type="video/mp4"><track src="" srcLang="'+lang+'" kind="subtitles" label="'+lang+'"></video>';
             document.getElementsByClassName('my_video')[0].addEventListener('loadedmetadata', function () {
                 this.currentTime = localStorage.getItem(file_id);
             }, false);
@@ -1273,7 +1274,7 @@ Type "help", "copyright", "credits" or "license" for more information.
         fuls: false,
         b1: false, b2: false, b3: false,
         newtab: () => {
-            m_tab.newtab('edge', '新建标签页');
+            m_tab.newtab('edge', i18next.t('tab.new'));
             apps.edge.initHistory(apps.edge.tabs[apps.edge.tabs.length - 1][0]);
             apps.edge.pushHistory(apps.edge.tabs[apps.edge.tabs.length - 1][0], 'https://bing.com');
             $('#win-edge').append(`<iframe id="iframe_edge" src="module/edge/mainpage.html" class="${apps.edge.tabs[apps.edge.tabs.length - 1][0]}">`);
@@ -1390,7 +1391,7 @@ Type "help", "copyright", "credits" or "license" for more information.
             }
             else {
                 $('#win-edge>iframe.show').attr('src', u);
-                m_tab.rename('edge', u.match(/^mainpage.html$/) ? '新建标签页' : u);
+                m_tab.rename('edge', u.match(/^mainpage.html$/) ? i18next.t('tab.new') : u);
             }
             if (!$('.window.edge>.titbar>.tabs>.tab.' + apps.edge.tabs[apps.edge.now][0] + '>.reloading')[0]) {
                 $('.window.edge>.titbar>.tabs>.tab.' + apps.edge.tabs[apps.edge.now][0])[0].insertAdjacentHTML('afterbegin', apps.edge.reloadElt);
@@ -1460,7 +1461,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 // 日期、时间
 let da = new Date();
-let date = `星期${['日', '一', '二', '三', '四', '五', '六'][da.getDay()]}, ${da.getFullYear()}年${(da.getMonth() + 1).toString().padStart(2, '0')}月${da.getDate().toString().padStart(2, '0')}日`
+let date = `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][da.getDay()]}, ${da.getFullYear()}-${(da.getMonth() + 1).toString().padStart(2, '0')}-${da.getDate().toString().padStart(2, '0')}`;
+if (lang === 'zh-CN') {date = `星期${['日', '一', '二', '三', '四', '五', '六'][da.getDay()]}, ${da.getFullYear()}-${(da.getMonth() + 1).toString().padStart(2, '0')}-${da.getDate().toString().padStart(2, '0')}`;}
 $('#s-m-r>.row1>.tool>.date').text(date);
 $('.dock.date>.date').text(`${da.getFullYear()}/${(da.getMonth() + 1).toString().padStart(2, '0')}/${da.getDate().toString().padStart(2, '0')}`);
 $('#datebox>.tit>.date').text(date);
@@ -2135,22 +2137,22 @@ function rename_selected() {
         }
         apps.explorer.rename(file_id);
     } else {
-        $.Toast("请选择一个文件或文件夹 ~", "error");
+        $.Toast(i18next.t('msg.rename.file.error1'), "error");
     }
 }
 
 function copy_selected() {
     let ids = getSelectedIds();
     if (ids.folder.length > 0) {
-        $.Toast("只能复制文件，不能复制文件夹 ~", "error");
+        $.Toast(i18next.t('msg.copy.file.error1'), "error");
         return;
     }
     if (ids.file.length === 0) {
-        $.Toast("请选择要复制的文件 ~", "error");
+        $.Toast(i18next.t('msg.copy.file.error2'), "error");
         return;
     }
     if (ids.file.length > 1) {
-        $.Toast("一次只能复制一个文件 ~", "error");
+        $.Toast(i18next.t('msg.copy.file.error3'), "error");
         return;
     }
     apps.explorer.copy(ids.file[0]);
@@ -2165,7 +2167,7 @@ function delete_selected(del_type = 1, is_delete= 1, delete_type = 0) {
         ids = getSelectedIds(true);
     }
     if (ids.folder.length + ids.file.length === 0) {
-        $.Toast("请选择文件或文件夹 ~", "error");
+        $.Toast(i18next.t('msg.export.file.error1'), "error");
         close_modal_cover();
         return;
     }
@@ -2207,7 +2209,7 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                 for (let i = 0; i < tmp.length; i++) {
                     if(tmp[i]['folder_type'] === 'folder') {
                         ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item files" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.goto('${tmp[i]['name']}', '${tmp[i]['id']}')" oncontextmenu="showcm(event,'explorer.folder','${tmp[i]['id']}');return stop(event);">
-                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">文件夹</span>
+                            <span style="width: 40%;"><img style="float: left;" src="img/explorer/folder.svg" alt=""><p>${tmp[i]['name']}</p></span><span style="width: 10%;">${i18next.t('explore.window.file.list.folder.type.name')}</span>
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
@@ -2236,7 +2238,7 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                 })
             }
         } else {
-            $.Toast("请输入搜索内容 ~", "error");
+            $.Toast(i18next.t('msg.search.file.error1'), "error");
         }
     }
 })
@@ -2245,7 +2247,7 @@ function move_files() {
     let root_disk = '';
     let ids = getSelectedIds();
     if (ids.folder.length + ids.file.length === 0) {
-        $.Toast("请选择文件或文件夹 ~", "error");
+        $.Toast(i18next.t('msg.export.file.error1'), "error");
         return;
     }
     $.get(server + '/disk/get').then(res => {
@@ -2253,11 +2255,11 @@ function move_files() {
             root_disk = root_disk + `<ul class="domtree"><li onclick="get_folders('move${c['disk']}')"><img src="img/explorer/disk.svg" alt="">${c['disk']}:</li><ul id="move${c['disk']}"></ul></ul>`;
         });
         $('#notice>.cnt').html(`
-                <p class="tit">移动到</p>
+                <p class="tit">${i18next.t('explore.window.file.tool.move.window.title')}</p>
                 <div><input id="folder_name" type="text" value="" name="520" readonly></div>
-                <div><label>选择目录：</label><div id="folder-tree" style="overflow-y: scroll;">${root_disk}</div></div>
+                <div><label>${i18next.t('explore.window.file.tool.move.window.label')}</label><div id="folder-tree" style="overflow-y: scroll;">${root_disk}</div></div>
         `);
-        $('#notice>.btns').html(`<a class="a btn main" onclick="move_file_folder();">确定</a><a class="a btn detail" onclick="closenotice();">取消</a>`);
+        $('#notice>.btns').html(`<a class="a btn main" onclick="move_file_folder();">${i18next.t('submit')}</a><a class="a btn detail" onclick="closenotice();">${i18next.t('cancel')}</a>`);
         $('#notice-back').addClass('show');
         $('#notice')[0].style.width = '50%';
         $('#notice')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 + 'px';
@@ -2267,13 +2269,13 @@ function move_files() {
 
 function add_server_window() {
     $('#notice>.cnt').html(`
-            <p class="tit">添加服务器</p>
-            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">IP：</label><input id="server-host" type="text" placeholder="请输入服务器IP ..." style="width:80%;height:39px;"></div>
-            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">用户名：</label><input id="server-user" type="text" placeholder="请输入服务器 ssh 用户名 ..." value="root" style="width:80%;height:39px;"></div>
-            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">端口：</label><input id="server-port" type="text" placeholder="请输入服务器 ssh 端口 ..." value="22" style="width:80%;height:39px;"></div>
-            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">密码：</label><input id="server-pwd" type="password" autocomplete="off" placeholder="请输入服务器 ssh 密码 ..." style="width:80%;height:39px;"></div>
+            <p class="tit">${i18next.t('setting.window.shell.server.add')}</p>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">${i18next.t('setting.window.shell.server.add.ip.label')}</label><input id="server-host" type="text" placeholder="${i18next.t('setting.window.shell.server.add.ip.placeholder')}" style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">${i18next.t('setting.window.shell.server.add.user.label')}</label><input id="server-user" type="text" placeholder="${i18next.t('setting.window.shell.server.add.user.placeholder')}" value="root" style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">${i18next.t('setting.window.shell.server.add.port.label')}</label><input id="server-port" type="text" placeholder="${i18next.t('setting.window.shell.server.add.port.placeholder')}" value="22" style="width:80%;height:39px;"></div>
+            <div style="margin-top:2%;"><label style="width:80px;display:inline-flex;margin-left:2%;">${i18next.t('setting.window.shell.server.add.pwd.label')}</label><input id="server-pwd" type="password" autocomplete="off" placeholder="${i18next.t('setting.window.shell.server.add.pwd.placeholder')}" style="width:80%;height:39px;"></div>
     `);
-    $('#notice>.btns').html(`<a class="a btn main" onclick="add_server();">确定</a><a class="a btn detail" onclick="closenotice();">取消</a>`);
+    $('#notice>.btns').html(`<a class="a btn main" onclick="add_server();">${i18next.t('submit')}</a><a class="a btn detail" onclick="closenotice();">${i18next.t('cancel')}</a>`);
     $('#notice-back').addClass('show');
     $('#notice')[0].style.width = '50%';
 }
@@ -2283,17 +2285,24 @@ function move_file_folder() {
     let ids = getSelectedIds();
     let path_id = $('#win-explorer>.path>.tit')[0].id.split('/');
     let to_id = document.getElementById('folder_name').name;
+    let move_flag = 0;
     if (ids.folder.length > 0) {
-        move_to(ids.folder, path_id[path_id.length - 1], to_id.slice(4, to_id.length), 'folder');
+        move_flag = move_to(ids.folder, path_id[path_id.length - 1], to_id.slice(4, to_id.length), 'folder');
     }
     if (ids.file.length > 0) {
-        move_to(ids.file, path_id[path_id.length - 1], to_id.slice(4, to_id.length), 'file');
+        move_flag = move_to(ids.file, path_id[path_id.length - 1], to_id.slice(4, to_id.length), 'file');
     }
-    apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
+    if (move_flag !== 0) {
+        apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
+    }
     close_modal_cover();
 }
 
 function move_to(from_ids, parent_id, to_id, folder_type) {
+    if (parent_id === to_id) {
+        $.Toast(i18next.t('msg.move.file.error1'), "error");
+        return 0;
+    }
     let post_data = {
         from_ids: from_ids,
         parent_id: parent_id,
@@ -2310,8 +2319,10 @@ function move_to(from_ids, parent_id, to_id, folder_type) {
             if (data['code'] === 0) {
                 $.Toast(data['msg'], 'success');
                 closenotice();
+                return 1;
             } else {
                 $.Toast(data['msg'], 'error');
+                return 0;
             }
         }
     })
@@ -2319,11 +2330,6 @@ function move_to(from_ids, parent_id, to_id, folder_type) {
 
 function get_folders(folder_id) {
     let abs_path = folder_id.slice(4, folder_id.length);
-    let selected_file = document.getElementById("check" + abs_path);
-    if (selected_file && selected_file.checked) {
-        $.Toast("请不要自己移动到自己里面 ~", "error");
-        return;
-    }
     $.ajax({
         type: "GET",
         url: server + "/folder/get/" + abs_path,
@@ -2477,16 +2483,16 @@ function upload_file() {
                         let msg = "";
                         let level = "success";
                         if (success_num > 0) {
-                            msg += success_num + '个文件上传成功';
+                            msg += success_num + i18next.t('upload.file.success.tips');
                         }
                         if (fast_upload_num > 0) {
                             if (msg.length > 0) {msg += '，';}
-                            msg += fast_upload_num + '个文件已经上传过';
+                            msg += fast_upload_num + i18next.t('upload.file.already.tips');
                             level = "warning";
                         }
                         if (failure_num > 0) {
                             if (msg.length > 0) {msg += '，';}
-                            msg += failure_num + '个文件上传失败';
+                            msg += failure_num + i18next.t('upload.file.failure.tips');
                             level = "error";
                         }
                         $.Toast(msg, level);
@@ -2521,7 +2527,7 @@ function upload_back_img() {
             form_data.append("file", files[i]);
             let file_type = files[i].type;
             if (file_type.indexOf('jpg') === -1 && file_type.indexOf('jpeg') === -1) {
-                $.Toast("只支持 jpg/jpeg 的图片 ~", "error");
+                $.Toast(i18next.t('msg.upload.file.image.error1'), "error");
                 return;
             }
             let xhr = new XMLHttpRequest();
@@ -2558,7 +2564,7 @@ function play_local_video() {
         openapp('video');
         $('.window.video')[0].style.width = 'auto';
         $('.window.video>.titbar>span>.title')[0].innerText = files[0].name;
-        $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="" type="video/mp4"><track src="" srcLang="zh" kind="subtitles" label="zh"></video>';
+        $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="" type="video/mp4"><track src="" srcLang="'+lang+'" kind="subtitles" label="'+lang+'"></video>';
         let local_video = document.getElementsByClassName('my_video')[0];
         local_video.src = URL.createObjectURL(files[0]);
         local_video.load();
@@ -2581,7 +2587,7 @@ function modify_pwd() {
     let pwd2 = $('#setting-pwd2')[0].value;
     let c = new Date().getTime().toString();
     if (pwd1 !== pwd2) {
-        $.Toast("两次输入的密码不一样 ~", "error");
+        $.Toast(i18next.t('msg.modify.password.error1'), "error");
         return;
     }
     let post_data = {
@@ -2626,10 +2632,10 @@ function edit_text_file(file_id) {
                     let text_data = $('#win-notepad>.text-box')[0].innerText;
                     let text_length = $('#notepad-length')[0].value;
                     if (text_data.length !== parseInt(text_length)) {
-                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = i18next.t('edit.online.saving.tips');
                         save_text_file(file_id, text_data);
                         $('#notepad-length')[0].value = text_data.length;
-                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = get_current_time() + " 已保存";
+                        $('.window.notepad>.titbar>span>.save-status')[0].innerText = get_current_time() + i18next.t('edit.online.saved.tips');
                     }
                 }, 10000);
             } else {
@@ -2641,7 +2647,7 @@ function edit_text_file(file_id) {
 
 function close_text_editor(file_id) {
     clearInterval(txt_interval);
-    $('.window.notepad>.titbar>span>.save-status')[0].innerText = "正在保存...";
+    $('.window.notepad>.titbar>span>.save-status')[0].innerText = i18next.t('edit.online.saving.tips');
     let text_data = $('#win-notepad>.text-box')[0].innerText;
     let text_length = $('#notepad-length')[0].value;
     if (text_data.length !== parseInt(text_length)) {
@@ -2684,7 +2690,7 @@ function open_xmind(file_id) {
 function open_sheet(file_id) {
     openapp('sheet');
     document.getElementsByClassName("sheet")[0].style.display = 'block';
-    document.getElementById("iframe_sheet").src = 'module/sheet.html?server=' + server + '&id=' + file_id;
+    document.getElementById("iframe_sheet").src = 'module/sheet.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
     $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
 }
 
@@ -2698,7 +2704,7 @@ function open_python(file_id) {
 function open_document(file_id, file_name) {
     openapp('docu');
     document.getElementsByClassName("docu")[0].style.display = 'block';
-    document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id;
+    document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
     $('.window.docu>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_docu").contentWindow.close_document_editor('${file_id}');hidewin('docu');`);
     $('#win-docu>a')[0].download = file_name.replace('docu', 'html');
 }
@@ -2715,7 +2721,7 @@ function get_server_list(event) {
             if (data['code'] === 0) {
                 let s = '';
                 data['data'].forEach(item => {
-                    s += `<div><div style="width: 16%;">${item['host']}</div><div>${item['port']}</div><div>${item['user']}</div><div style="width: 21%;">${item['system']}</div><div>${item['cpu']}核</div><div>${item['mem']}G</div><div>${item['disk']}</div><div style="width:15%;"><a href="module/terminal.html?id=${item['id']}&host=${item['host']}" style="color:blue;">打开</a><a href="${server}/server/delete/${item['id']}" style="color:blue;margin-left:15px;">删除</a></div></div><br />`;
+                    s += `<div><div style="width: 16%;">${item['host']}</div><div>${item['port']}</div><div>${item['user']}</div><div style="width: 21%;">${item['system']}</div><div>${item['cpu']}${i18next.t('setting.window.shell.server.list.cpu.core')}</div><div>${item['mem']}G</div><div>${item['disk']}</div><div style="width:15%;"><a href="module/terminal.html?id=${item['id']}&host=${item['host']}&lang=${lang}" style="color:blue;">${i18next.t('setting.window.shell.server.list.action.open')}</a><a href="${server}/server/delete/${item['id']}" style="color:blue;margin-left:15px;">${i18next.t('setting.window.shell.server.list.action.delete')}</a></div></div><br />`;
                 })
                 $('.server-item')[0].innerHTML = s;
                 $('.dp.app-color').toggleClass('show');
@@ -2729,7 +2735,7 @@ function get_server_list(event) {
 function add_server() {
     let c = new Date().getTime().toString();
     if (!$('#server-host')[0].value || !$('#server-pwd')[0].value) {
-        $.Toast("请输入服务器信息 ~", "error");
+        $.Toast(i18next.t('msg.server.add.error1'), "error");
         return;
     }
     let post_data = {

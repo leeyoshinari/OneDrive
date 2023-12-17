@@ -1,3 +1,23 @@
+// let params = window.location.href.split('lang=');
+let lang = window.location.href.split('lang=')[1];
+i18next.init({
+    lng: lang,
+    keySeparator: false,
+    resources: {},
+});
+fetch(`../language/${lang}.json`)
+    .then(response => response.json())
+    .then(data => {
+        i18next.addResourceBundle(lang, 'translation', data, true);
+        i18next.changeLanguage(lang, function (){
+            $('.float_right>a')[0].innerText = i18next.t('terminal.page.upload.text');
+            $('.float_right>a')[1].innerText = i18next.t('terminal.page.download.text');
+            $('#failure_file>.modal-content>.modal-footer>a')[0].innerText = i18next.t('cancel');
+            $('#failure_file>.modal-content>.modal-footer>a')[1].innerText = i18next.t('submit');
+            $('#modal_input>.modal-content>.modal-footer>a')[0].innerText = i18next.t('cancel');
+            $('#modal_input>.modal-content>.modal-footer>a')[1].innerText = i18next.t('submit');
+        })
+});
 let t = document.getElementById('terminal');
 let viewport;
 let termnal_screen;
@@ -174,11 +194,11 @@ function upload_file(path) {
                         let msg = "";
                         let level = "success";
                         if (success_num > 0) {
-                            msg += success_num + ' 个文件上传成功';
+                            msg += success_num + i18next.t('upload.file.success.tips');
                         }
                         if (failure_num > 0) {
                             if (msg.length > 0) {msg += '，';}
-                            msg += failure_num + ' 个文件上传失败';
+                            msg += failure_num + i18next.t('upload.file.failure.tips');
                             level = "error";
                         }
                         $.Toast(msg, level);
@@ -204,6 +224,7 @@ function show_message(file_list) {
     let cancel_a = document.getElementsByClassName("cancel")[0];
     let submit_a = document.getElementsByClassName("submit")[0];
     let display_text = document.getElementsByClassName('modal-body')[0];
+    $('#failure_file>.modal-content>.modal-header>h2')[0].innerText = i18next.t('terminal.page.upload.result.tips');
     display_text.style.cssText = "margin-left:5%; margin-top:3%;";
     display_text.innerHTML = file_list;
 
@@ -241,11 +262,11 @@ function float_path(folder) {
     let display_text = document.getElementsByClassName('input-body')[0];
 
     if(folder === 0) {
-        document.getElementById('title-name').innerText = '你想把文件上传到哪个目录？';
-        display_text.innerHTML = '<div><label>目录：</label><input id="folder_path" type="text" placeholder="请输入目录的绝对路径..."></div>';
+        document.getElementById('title-name').innerText = i18next.t('terminal.page.upload.window.title');
+        display_text.innerHTML = '<div><label>'+i18next.t('terminal.page.window.upload.label')+'</label><input id="folder_path" type="text" placeholder="' + i18next.t('terminal.page.upload.placeholder') + '"></div>';
     } else {
-        document.getElementById('title-name').innerText = '你想下载哪个文件？';
-        display_text.innerHTML = '<div><label>文件路径：</label><input id="folder_path" type="text" placeholder="请输入文件的绝对路径..."></div>';
+        document.getElementById('title-name').innerText = i18next.t('terminal.page.download.window.title');
+        display_text.innerHTML = '<div><label>'+i18next.t('terminal.page.window.download.label')+'</label><input id="folder_path" type="text" placeholder="' + i18next.t('terminal.page.download.placeholder') + '"></div>';
     }
 
     modal.style.display = "block";
@@ -263,6 +284,7 @@ function float_path(folder) {
         if (folder === 0) {
             upload_file(folder_path);
         } else {
+            if (!folder_path) {$.Toast(i18next.t('msg.input.file.path.empty'), 'error');return;}
             download_file(folder_path);
         }
     }

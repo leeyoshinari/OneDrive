@@ -39464,8 +39464,7 @@ function() {
             var me = this;
             return {
                 get: function(key) {
-                    return 0 === arguments.length ? me.config : me.config.hasOwnProperty(key) ? me.config[key] : (console.warn("Missing config key pair for : ", key),
-                    "")
+                    return 0 === arguments.length ? me.config : me.config.hasOwnProperty(key) ? me.config[key] : (console.warn("Missing config key pair for : ", key),"")
                 }
             }
         }
@@ -41244,7 +41243,7 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
               , new_md5 = md5(value)
               , old_md5 = md5(mindData);
             if (new_md5 === old_md5) {return;}
-            window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存..."
+            window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips')
             $.ajax({
                 url: servers + '/file/save',
                 type: "POST",
@@ -41258,7 +41257,7 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
                 success: function(result) {
                     localStorage.setItem('xmind_md5', new_md5);
                     0 === result.code ? (
-                    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存",
+                    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + window.parent.i18next.t('edit.online.saved.tips'),
                     parseInt(result.code) > parseInt(version) + 1 ? (alert("此文件已经产生更新版本"),
                     location.reload()) : (version = result.code,
                     mindData = value)) : window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "保存失败! " + result.msg
@@ -41336,11 +41335,11 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
     }
     let div_node = document.createElement('div');
     div_node.className='btn-group-vertical';
-    div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" title="导出为xmind8格式" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">导出为xmind8</span></button>`;
+    div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">${window.parent.i18next.t('explore.window.menu.xmind.export')}</span></button>`;
     setTimeout(()=>{document.querySelectorAll('.tab-pane.ng-scope')[0].appendChild(div_node)}, 3000);
 });
 function close_xmind_editor(file_id) {
-    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = "正在保存...";
+    window.parent.document.querySelectorAll('.window.xmind>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
     let xmind_data = minder.exportData("json").fulfillValue;
     if (md5(xmind_data) !== localStorage.getItem('xmind_md5')) {
         window.parent.save_text_file(file_id, xmind_data, false);

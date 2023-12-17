@@ -71,10 +71,10 @@
             let old_md5 = document.getElementById("content_length").value;
             let new_md5 = md5(text_data);
             if (new_md5 !== old_md5) {
-                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
                 window.parent.save_text_file(file_id, text_data);
                 document.getElementById("content_length").value = new_md5;
-                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+                window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + window.parent.i18next.t('edit.online.saved.tips');
             }
         }, 10000);
         let markdown_js = ["markdown-it.min.js",
@@ -102,7 +102,7 @@
 
         function close_md_editor(file_id) {
             clearInterval(md_interval);
-            window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
             resizeMD.disconnect();
             let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
             let old_md5 = document.getElementById("content_length").value;

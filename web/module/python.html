@@ -84,16 +84,16 @@
             let content = editor.getValue();
             let new_md5 = md5(content);
             if (new_md5 !== old_md5) {
-                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
                 window.parent.save_text_file(file_id, content);
                 old_md5 = new_md5;
-                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+                window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + window.parent.i18next.t('edit.online.saved.tips');
             }
         }, 10000);
 
         function close_python_editor(file_id) {
             clearInterval(python_interval);
-            window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            window.parent.document.querySelectorAll('.window.pythonEditor>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
             let content = editor.getValue();
             let new_md5 = md5(content);
             if (new_md5 !== old_md5) {

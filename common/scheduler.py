@@ -16,7 +16,7 @@ def remove_tmp_folder():
         folders = os.listdir('tmp')
         for folder in folders:
             shutil.rmtree(os.path.join('tmp', folder))
-            logger.info(f"定时清除临时目录成功 - {folder}")
+            logger.info(f"Clearing temporary directory successfully - {folder}")
 
 
 scheduler.add_job(remove_tmp_folder, 'cron', hour=5, minute=20, second=21)

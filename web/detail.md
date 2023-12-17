@@ -1,119 +1,125 @@
 # OneDrive
-## 功能概览
-- 文件夹的新建、删除、重命名、移动、导出
-- 文件上传、下载、新建、删除、移动、重命名、分享
-- 支持 txt、markdown、xmind、表格、文档的在线编辑功能
-- 支持远程连接 Linux 服务器
-- 单点登录，不同用户的数据完全隔离
-- 可任意挂载多个磁盘
+## Function
+- Create, Delete, Rename, Move, and Export folders
+- Upload, Download, Create, Delete, Move, Rename, and Share files
+- Supports online editing functions of txt, markdown, xmind, sheet, and document
+- Support online editing and running of python scripts
+- Support remote connection to Linux server
+- Supports multiple languages and supports configuration of multiple languages
+- Single sign-on, data of different users is completely isolated
+- Multiple disks can be mounted arbitrarily
 
-## 功能介绍
-系统的核心功能就是一个网盘，提供了比普通网盘更多的功能——文本等文件的在线编辑功能，且可任意扩展功能，完全开源。在页面上看到的文件和文件夹的目录层级结构在本地服务器/电脑的磁盘里是真实存在的，即使你以后觉得我这个系统不好用了，我也会给你留下一个完整有序的目录文件，而不是乱序的。
+## Introduction
+The core function is a network disk, which provides more functions - online editing, and can be arbitrarily expanded. It is completely open source. The directory hierarchy of files and folders you see on the page actually exists on the local server/computer disk. Even if you find the system difficult to use in the future, it will also leave you with a directory file that is completely in order, not out of order.
 
-### 登录页面
+### Login Page
 ![login.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
 
-### 页面总概览
-桌面背景图片可以在`设置`里更换。
+### Page Overview
+The desktop background image can be changed in `Setting`.
 ![desktop.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/desktop.jpg)
 
-### 文件资源管理器
-上边一排工具栏依次是新建文件、新建文件夹、重命名、移动、复制、上传、下载、分享、删除，这些图标均来源`Windows10`的系统图标。文件列表可按照名称、创建时间、修改时间排序。文件资源管理器中的所有文件，除了支持在线编辑的文件外，其他格式的文件会直接用浏览器打开，浏览器能打开预览的文件可以直接在浏览器中预览，浏览器不支持预览的文件则直接下载到本地。
-使用文件上传功能上传文件时，会首先检测网盘是否存在相同的文件，如果存在则不上传，这就是类似一些网盘的秒传的功能。
+### Windows File Explorer
+The top row of toolbars are New File, New Folder, Rename, Move, Copy, Upload, Download, Share, and Delete. All icons are system icons of Windows 10. The file can be sorted by name, createTime, and updateTime. All files in the file explorer, except for files that support online editing, files in other formats will be opened directly in the browser. Files that the browser support preview can be previewed directly in the browser, and files that the browser does not support preview can be directly downloaded.
+When using the file upload function to upload a file, it will first check whether the same file exists, and if exists, it will not be uploaded.
 ![file.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/file.jpg)
 
-### 回收站
-上边一排工具栏依次是还原文件、删除文件、清空回收站，基本上和`Windows`系统的回收站操作一样。
+### Recycle Bin
+The top row of toolbars are restoring files, deleting files, and emptying the Recycle Bin.
 ![garbage.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/garbage.jpg)
 
-### 我的分享
-当分享文件时，可设置分享链接的打开次数，超过次数会返回 Nginx 默认页面。其中：markdown、表格、文档 和 xmind 分享链接打开后页面虽然可以编辑，但数据不会保存，仅支持导出数据。
-分享功能的常规使用场景是分享文件给别人，还要一个场景就是去打印店打印文档，通过浏览器调用打印机后，刷新页面到指定的次数，这个链接就失效了，有效降低了文档泄漏的风险和使用U盘被病毒感染的风险。
+### My Share
+When sharing file, you can set the number of times the shared link is opened. If the number is exceeded, the Nginx default page will be returned. Although the page can be edited after the shared link of markdown, sheet, document and xmind is opened, the data will not be saved, and only export data is supported.
 ![share.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/share.jpg)
 
-### 设置页面
-支持修改密码、退出登陆、上传桌面背景图片、设置主题、播放本地视频、ssh。其中上传的桌面背景图片的格式必须是`jpg`。
+### Setting
+Supports modifying passwords, logging out, uploading background images, setting themes, setting multiple languages, playing local videos, and ssh.
 ![setting.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/setting.jpg)
 
-### 计算器
-一个很鸡肋的小工具，感觉还不如用 python 命令行计算。<br>
+### Calculator
 ![calc.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/calc.jpg)
 
-### Whiteboard 画板
-没事的时候可以用鼠标涂鸦画画，放松一下。
+### Whiteboard
 ![wihteboard.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/wihteboard.jpg)
 
-### 浏览器
-功能简单的浏览器，只支持允许嵌套的网页。经测试，仅支持必应搜索。这里使用的是iframe嵌套的方式，百度和Google搜索不允许 iframe 嵌套，所以用不了；后面可考虑接入后端进行请求转发，解决跨域和嵌套的问题。
+### Microsoft Edge
+A simple browser that only supports nested web pages. After testing, only Bing search is supported. Google and Baidu search do not allow iframe nesting, so they cannot be used; Later The backend forwards requests can be considered to solve cross-domain and nested problems.
 ![edge.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/edge.jpg)
 
-### 连接 Linux
-在`设置`里添加服务器，在列表中点击`打开`即可远程连接 Linux，支持上传和下载文件，支持 `Ctrl+C（复制）` 和 `Ctrl+V（粘贴）` 快捷键，同时 `Ctrl+C` 还保留结束当前进程的功能。为节省服务器资源，对“挂机”超过10分钟的连接进行关闭。
+### Connect Linux
+Add the server in `Setting` and click `Open` in the list to connect to Linux remotely. Supports uploading and downloading files, supports `Ctrl+C (copy)` and `Ctrl+V (paste)` shortcut keys, at the same time, `Ctrl+C` also retains the function of ending the current process. To save server resources, connections that have been "hanging up" for more than 10 minutes will be closed.
 ![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell1.jpg)
 ![shell.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/shell2.jpg)
 
-### 播放本地视频
-播放本地视频不使用流量，支持记录播放进度；做这个功能的原因是：我的手机上没有安装视频软件，只能用相册自带的功能看视频，但是它记不住播放进度，每次手误碰退出视频，就得重新看，贼麻烦。所以这个功能就是用来记录视频播放进度的。
+### Play local video
+Playing local videos does not use traffic and supports recording playback progress.
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/playVideo.jpg)
 
-### Python 命令行
-支持 python 命令行，支持导入 python 官方库，可以用来做一些简单的计算，或者处理一些简单的数据。
+### Python
+Supports python command line and supports importing python official libraries, it can be used to do some simple calculations or deal some simple data.
 ![python.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/python.jpg)
 
-### 在线编辑功能
-所有在线编辑功能：每隔10秒自动保存，标题栏文件名旁会展示自动保存的时间，点击关闭按钮也会自动保存。其中`txt`、`markdown`和`文档`的在线编辑支持导出成`html`格式，用浏览器打开导出的`html`后，可通过浏览器自带的打印功能把文件转成`PDF`格式。
+### Multi-language settings
+Currently, multiple languages support Simplified Chinese and English. There may be incorrect translations or missing translations, please modify them yourself.
 
-#### txt 文件
-点击右上角的下载按钮，可以直接将当前文档转成 html，并下载。如需下载原 txt文件，可在文件资源管理器中选中文件并点击下载。
+There are two places for multi-language switching: one is the upper left corner of the login page; the other is`Setting->Personalized->Language setting`. Multi-language configuration is divided into front-end configuration and back-end configuration. The configuration of the front-end is mainly for page copywriting display, and the configuration of the back-end is mainly for interface return information and logs, as follows:<br>
+The front-end multi-language configuration is in `web->language` directory. Each language corresponds to a json file. The json file contains the keys and translations. If you need to add multiple languages, please copy a json file first, and then modify the translation. The key cannot be modified.<br>
+![language_f.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_f.jpg)<br>
+The backend multi-language configuration is in the `common->messages.py` file. Each message is a dict, and each key in the dict corresponds to a language. If you need to add multiple languages, you can directly add a key-value pair.<br>
+![language_b.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_b.jpg)
+
+In addition, when adding multiple languages, you need to add options in the page drop-down box. There are two places in `web->index.html` that need to be modified: one is lines 39~42, and the other is lines 185~188. **Special Note**: The `value in option` must be the same as the json file name in the `web->language`, and must also be the same as the key of each message in the `common->messages.py` file.
+
+Due to the length of different languages is different, if the copywriting is too long and the page style is not beautiful, please modify it yourself.
+
+### Online Editing
+All online editing functions: Automatically save every 10 seconds, the automatic save time will be displayed next to the file name in the title bar, clicking the close button will also save automatically. Online editing of `txt`, `markdown` and `document` supports exporting to `html` format. After opening the exported `html` with browser, the file can be converted into `PDF` format through the browser's built-in printing function.
+
+#### txt
+Click the download button in the upper right corner to directly convert the current document into html and download it. If you want to download the original txt file, select the file in the file explorer and click download.
 ![txt.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/txt.jpg)
 
-#### markdown 文件
-点击右上角的下载按钮，可以直接将当前文档转成 html，并在新标签页打开，如需下载这个 html，可在新打开的标签页右键下载。需要注意：这里使用的是第三方工具转的html，一些样式在转换时会丢失。如需保留所有的html样式，可在工具栏点击`全窗口预览HTML`即可。
+#### Markdown
+Click the download button in the upper right corner to directly convert the current document into html and open it in a new tab. If you want to download this html, you can right-click on the newly opened tab to download. Note: The HTML is converted by a third-party tool, and some styles will be lost during conversion.
 ![markdown.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/markdown.jpg)
 
-#### 表格
-由于表格功能太多，暂不支持导出功能，可用于在线存储一些数据，可手动复制表格中的数据，并粘贴到本地 excel 表格中。
+#### Sheet
+Due to the sheet has too many functions, the export function is not supported, it can be used to store some data online. The data in the sheet can be manually copied and pasted into a local excel file.
 ![sheet.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/sheet.jpg)
 
-#### 文档
-该文档左侧带有目录，支持目录定位页面到指定位置。可导出成 html 格式的文件，用浏览器打开 html 文件，调用浏览器自带的打印功能，调整打印页边距，可把文档转成页面布局合适的 PDF 文件。
+#### Document
+There is a table of contents on the left side of the document, and you can click the table of contents to locate the page to the specified location. It can be exported to html format, open the html file with a browser, call the browser's built-in printing function, adjust the printing margins, and convert the document into a PDF file with a suitable page layout.
 ![docx.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/docx.jpg)
 
-#### xmind 脑图
-支持标准的 `xmind` 文件（`xmind8` 和 `xmind zen(xmind 2020)`）在线编辑，文件打开后，原文件格式已经转换，只能通过页面工具栏中的导出功能才能导出 `xmind8`（只支持导出 `xmind8`，不支持导出 `xmind zen`）。在线编辑的脑图中添加的样式、颜色、优先级、完成进度、备注等也支持导出到 `xmind8` 中。
+#### xmind
+Support online editing of standard `xmind` files (`xmind8` and `xmind zen(xmind 2020)`). After the file is opened, the original file format has been converted and can only be exported to `xmind8` through the export function in the page (only exporting `xmind8` is supported, exporting `xmind zen` is not supported). Styles, colors, priorities, completion progress, notes, etc. also support exporting to `xmind8`.
 ![xmind.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/xmind.jpg)
 
-#### python 脚本
-支持在线编辑 py 文件，点击运行后可直接在浏览器上看到结果。如果想导入第三方库，需要专门打包，具体可查阅相关资料。
+#### Python script
+Supports online editing of py files, and you can see the results directly on the browser after clicking to run. If you want to import a third-party library, you need to package it specially.
 ![pythonEditor.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/pythonEditor.jpg)
 
-## 其他
-1、支持 `Linux`、`Windows`、`MacOS` 等多个平台，建议在 `Linux` 系统部署；可尝试在国产操作系统上部署，如有问题，欢迎提出；
+## Others
+1.Supports multiple platforms such as `Linux`, `Windows`, `MacOS`, etc. It is recommended to deploy on `Linux`.
 
-2、因为是在操作本地文件，所以不支持集群部署和分布式存储，如需集群部署和分布式存储，[请点我](https://github.com/leeyoshinari/mycloud)；
+2.Cluster deployment and distributed storage are not supported. If you need cluster deployment and distributed storage, [Please click me](https://github.com/leeyoshinari/mycloud).
 
-3、登录页面的背景图片的路径是`web/img/pictures/undefined/background.jpg`，如需修改登录背景图片，可直接替换掉这个图片即可，注意：图片名必须是`background.jpg`；
+3.The path of the background image of the login page is `web/img/pictures/undefined/background.jpg`. If you need to modify the login background image, you can directly replace this image. Note: the image name must be `background.jpg`.
 
-4、在线播放视频，基本上都是用的是流式播放（边缓存边播放），这就要求视频的元数据必须在视频文件的最前面，而有些视频的元数据在视频文件的末尾，这就需要浏览器把整个视频加载完成后才能播放，体验极差。因此需要手动将视频的元数据移动到视频文件的最前面，然后再上传至云盘，这里使用 [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) 工具移动视频的元数据，命令：`ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`。
+4.The background image of the desktop is the same as the background image of the login page by default. If you need to modify it, you can upload it in `Setting->Personalized->Set background image`. After the upload is successful, clear the cache and refresh the page. Note: The image format must be is`jpg`.
 
-5、所有页面和操作已尽可能的适配手机端了，使用手机浏览器打开页面，手机横批展示，使用体验还是不错的；
+5.Playing videos online uses streaming playback, which requires that the metadata of the video must be at the front of the video file. So, you need to manually move the metadata of the video to the front of the video file. Using the [ffmpeg](https://github.com/BtbN/FFmpeg-Builds/releases) to move the metadata of the video. The command:`ffmpeg -i input_video.mp4 -map_metadata 0 -c:v copy -c:a copy -movflags +faststart output_video.mp4`.
 
-6、更好的使用体验建议：不管你用的是PC端浏览器还是手机端浏览器，设置浏览器全屏展示，使用体验更好；
+6.All pages and operations have been adapted to the mobile phone as much as possible. Use the mobile browser to open the page and display it horizontally on the mobile phone, the user experience is still good.
 
-## 部署方案
-推荐部署方案：
-- 带公网IP的云服务器，买云服务器的钱比开百度网盘会员的钱要便宜的多得多，而且有公网IP，还可以干其他很多有趣的事情；
-- 树莓派，用于部署网盘服务，可根据自己的需求买对应配置的树莓派，500元左右就可以买一个差不多配置的树莓派了，咸鱼上可能更便宜。树莓派 24h 开机，一个星期的耗电量大约不到1度电；高配置的树莓派还可以用来当电脑、电视、机顶盒用哦，就看你的动手能力有多强了；
-- 硬盘，自己可以买一个几T的机械硬盘存储数据，现在机械硬盘也很便宜；土豪可以用固态硬盘，也不是很贵；
-- 内网穿透，在云服务器和树莓派上分别部署内网穿透软件即可，推荐使用 frp 进行内网穿透；
+7.Whether you are using a PC browser or a mobile browser, setting the browser to display in full screen will provide a better user experience.
 
-可选部署方案：
-- 树莓派 + 硬盘；
-- 公网IP，可以让宽带运营商给你一个固定/动态的公网IP（IPv4就不用想了，运营商肯定不会给，可以使用IPv6）；
-- 域名，由于IPv6很难记，所以还需要购买一个域名（便宜的域名一年也就不到8元）；
-- 动态域名解析，宽带运营商如果给你一个固定的公网IP，那样就很不安全，动态公网IP会安全一些，这就需要动态域名解析；
+## Deployment
+Recommended deployment solution:
+- Cloud server with public IP.
+- Raspberry Pi is used to deploy network disk services. You can buy a Raspberry Pi with corresponding configuration according to your own needs.
+- Hard drive, you can buy a mechanical hard drive to store data.
+- NAT traversal, Just deploy NAT traversal software on the cloud server and Raspberry Pi respectively. It is recommended to use frp.
 
-其他部署：
-如果你没有随时随地使用的需求，只是在局域网内用着玩，那你就随便找个电脑部署就行了；
 
-以上，你的个人数据安全是可以得到保障的，并且拥有了比市面上的商业网盘更多的功能，也再也不用担心自己的视频变成8秒教育片了；不仅如此，你还可以自己开发，扩展功能。
+Above, you have a secure personal network disk with more functions than a commercial network disk. Not only that, you can also develop and expand the functions yourself.

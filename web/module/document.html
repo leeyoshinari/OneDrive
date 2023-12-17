@@ -100,7 +100,7 @@
 		}
 	});
     const E = window.wangEditor
-    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    const LANG = location.href.indexOf('lang=zh') > 0 ? 'zh-CN' : 'en'
     E.i18nChangeLanguage(LANG)
     const headerContainer = document.getElementById('header-container')
     headerContainer.addEventListener('mousedown', event => {
@@ -114,7 +114,6 @@
       selector: '#editor-text-area',
       html: content,
       config: {
-        placeholder: '请在这里输入内容...',
         MENU_CONF: {
           uploadImage: {
             fieldName: filename,
@@ -154,17 +153,17 @@
             let text_data = editor.getHtml();
             let new_md5 = md5(text_data);
             if (new_md5 !== old_md5) {
-                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = "正在保存...";
+                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
                 window.parent.save_text_file(file_id, text_data);
                 old_md5 = new_md5;
-                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + " 已保存";
+                window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + window.parent.i18next.t('edit.online.saved.tips');
             }
         }, 10000);
 
         function close_document_editor(file_id) {
             clearInterval(editor_interval);
             resizeDoc.disconnect();
-            window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = "正在保存...";
+            window.parent.document.querySelectorAll('.window.docu>.titbar>span>.save-status')[0].innerText = window.parent.i18next.t('edit.online.saving.tips');
             let content = editor.getHtml();
             if (old_md5 !== md5(content)) {
                 window.parent.save_text_file(file_id, content);

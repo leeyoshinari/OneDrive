@@ -14,9 +14,13 @@
 	<link rel="stylesheet" href="css/explorer.css">
 	<link rel="stylesheet" href="css/edge.css">
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
-	<script src="login.js"></script>
 	<script src="js/jq.min.js"></script>
+	<script src="js/i18next.min.js"></script>
+	<script src="head.js"></script>
+	<script src="js/language.js"></script>
 	<script type="text/javascript">
+		let lang = localStorage.getItem('lang');
+		if (!lang) {lang = 'en';}
 		function parse_pwd(p, s) {
 			let a = '';let total = s.length;
 			for (let i = 0; i < p.length; i++) {
@@ -24,16 +28,23 @@
 				else {a += String.fromCharCode(p[i].charCodeAt(0) ^ parseInt(s[i]));}}
 			return a
 		}
+		$.ajaxSetup({beforeSend:function(xhr){xhr.setRequestHeader('lang', lang);}});
 	</script>
 	<base target="_blank">
 	<title>Windows 12</title>
 </head>
 <body>
 	<div id="loginback">
+		<div style="top:1%;left:1%;position:absolute;">
+			<select style="width:110px;border:none;background-color:var(--msg);" onchange="change_language(0);">
+				<option value="en">English</option>
+				<option value="zh-CN">简体中文</option>
+			</select>
+		</div>
 		<div class="user"></div>
-		<div class="name">账 号: <input id="username" type="text" autocomplete="off" placeholder="请输入账号"></div>
-		<div class="name">密 码: <input id="password" type="password" autocomplete="off" placeholder="请输入密码"></div>
-		<div id="login" onclick="login_sys(this);">登录</div>
+		<div class="name"><span></span><input id="username" type="text" autocomplete="off" placeholder=""></div>
+		<div class="name"><span></span><input id="password" type="password" autocomplete="off" placeholder=""></div>
+		<div id="login" onclick="login_sys(this);"></div>
 	</div>
 	<div id="datebox">
 		<div class="tit">
@@ -69,15 +80,15 @@
 		</div>
 	</div>
 	<div id="desktop">
-		<div ondblclick="openapp('explorer');" ontouchstart="openapp('explorer');" win12_title="显示连接到此计算机的驱动器和硬件" oncontextmenu="return showcm(event,'desktop.icon',['explorer',-1]);" appname="explorer">
-			<img src="img/explorer/thispc.svg" alt=""><p>此电脑</p>
+		<div ondblclick="openapp('explorer');" ontouchstart="openapp('explorer');" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['explorer',-1]);" appname="explorer">
+			<img src="img/explorer/thispc.svg" alt=""><p></p>
 		</div>
-		<div class="b" ondblclick="openapp('setting');" ontouchstart="openapp('setting');" win12_title="系统设置" oncontextmenu="return showcm(event,'desktop.icon',['setting',-1]);" appname="setting">
-			<img src="img/setting.svg" alt=""><p>设置</p>
+		<div class="b" ondblclick="openapp('setting');" ontouchstart="openapp('setting');" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['setting',-1]);" appname="setting">
+			<img src="img/setting.svg" alt=""><p></p>
 		</div>
-		<div class="b" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="Microsoft Edge" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
+		<div class="b" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
 			<img src="img/edge.svg" alt="">
-			<p>Microsoft Edge</p>
+			<p></p>
 		</div>
 		<span class="choose"></span>
 		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0;left:0;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
@@ -114,10 +125,10 @@
 					<div><p></p></div>
 				</a>
 				<list class="focs">
-					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt="">账户</a>
-					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt="">个性化</a>
-					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.png" alt="">视频</a>
-					<a class="enable shell" onclick="apps.setting.page('shell')"><img src="img/terminal.svg" alt="">Terminal</a>
+					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt=""><span>账户</span></a>
+					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt=""><span>个性化</span></a>
+					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.png" alt=""><span>视频</span></a>
+					<a class="enable shell" onclick="apps.setting.page('shell')"><img src="img/terminal.svg" alt=""><span>Terminal</span></a>
 				</list>
 			</div>
 			<div class="page">
@@ -144,7 +155,7 @@
 				<div class="cnt appearance">
 					<p class="title">个性化</p>
 					<div class="setting-list" style="margin-top: 10px;">
-						<a class="dp app-color" onclick="$('.dp.app-color').toggleClass('show');">
+						<a class="dp app-color" onclick="$('.dp.app-color.upload').toggleClass('show');">
 							<icon></icon>
 							<div>
 								<p>设置背景图片</p>
@@ -152,7 +163,7 @@
 							</div><i class="bi bi-chevron-down"></i>
 						</a>
 						<input type="file" name="filename" id="back-img-input" accept=".jpg" style="display: none">
-						<div class="dp app-color"><br />
+						<div class="dp app-color upload">
 							<a onclick="upload_back_img();" style="cursor:pointer;">上传图片</a>
 							<br />
 						</div>
@@ -163,6 +174,19 @@
 							</div>
 							<div><p>切换主题</p><p>切换明/暗主题</p></div><i class="bi bi-chevron-right"></i>
 						</a>
+						<a class="dp app-color" onclick="$('.dp.app-color.lang').toggleClass('show');">
+							<icon></icon>
+							<div>
+								<p>设置多语言</p>
+								<p>请选择语言，如果没有，请先配置</p>
+							</div><i class="bi bi-chevron-down"></i>
+						</a>
+						<div class="dp app-color lang">
+							<select style="width:190px;height:33px;background-color:var(--bar);" onchange="change_language(1);">
+								<option value="en">English</option>
+								<option value="zh-CN">简体中文</option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="cnt videos">
@@ -219,18 +243,18 @@
 			<div class="page">
 				<div class="menu">
 					<div class="card pinned">
-						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png" alt=""> 快速访问</p>
+						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png" alt=""><span> 快速访问</span></p>
 						<list>
 							<a class="check" onclick="apps.explorer.reset();"><span style="background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/thispc.svg" alt="">此电脑</a>
+								<img src="img/explorer/thispc.svg" alt=""><span>此电脑</span></a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/rb.png" alt="">回收站</a>
+								<img src="img/explorer/rb.png" alt=""><span>回收站</span></a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/share.png" alt="">我的分享</a>
-							<a onclick="openapp('calc');"><img src="img/calc.svg" alt="">计算器</a>
-							<a onclick="openapp('python');"><img src="img/python.svg" alt="">Python</a>
-							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg" alt="">Whiteboard</a>
-							<a onclick="openapp('setting');"><img src="img/setting.svg" alt="">设置</a>
+								<img src="img/explorer/share.png" alt=""><span>我的分享</span></a>
+							<a onclick="openapp('calc');"><img src="img/calc.svg" alt=""><span>计算器</span></a>
+							<a onclick="openapp('python');"><img src="img/python.svg" alt=""><span>Python</span></a>
+							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg" alt=""><span>Whiteboard</span></a>
+							<a onclick="openapp('setting');"><img src="img/setting.svg" alt=""><span>设置</span></a>
 						</list>
 					</div>
 				</div>
@@ -262,9 +286,9 @@
 					</div>
 					<div class="content" onclick="" oncontextmenu="return showcm(event,'explorer.content',null);">
 						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;margin-right: 8px;">
-							<div class="row"><span style="width: 40%; padding-left: 1%;">名称<button id="name-sort"></button></span><span style="width: 10%;">类型</span>
-								<span style="width: 10%;">大小</span><span style="width: 20%;">修改时间<button id="update_time-sort" class="desc"></button></span>
-								<span style="width: 20%;">创建时间<button id="id-sort"></button></span></div>
+							<div class="row"><span style="width: 40%; padding-left: 1%;"><span>名称</span><button id="name-sort"></button></span><span style="width: 10%;">类型</span>
+								<span style="width: 10%;">大小</span><span style="width: 20%;"><span>修改时间</span><button id="update_time-sort" class="desc"></button></span>
+								<span style="width: 20%;"><span>创建时间</span><button id="id-sort"></button></span></div>
 						</div>
 						<div class="view"></div>
 					</div>
@@ -272,7 +296,7 @@
 				<div class="main-share">
 					<div class="content" onclick="" oncontextmenu="">
 						<div class="header">
-							<div class="row"><span style="width: 40%; padding-left: 2%;">名称</span><span style="width: 10%;">已打开次数</span>
+							<div class="row"><span style="width: 38%; padding-left: 2%;">名称</span><span style="width: 12%;">已打开次数</span>
 								<span style="width: 10%;">总次数</span><span style="width: 20%;">分享时间</span><span style="width: 20%;">操作</span></div>
 						</div>
 						<div class="view"></div>
@@ -429,11 +453,11 @@
 					<i class="bi bi-arrow-clockwise"></i>
 				</a>
 				<input type="text" onkeyup="if(event.keyCode==13&&$(this).val()!=''){apps.edge.goto($(this).val())}"
-					placeholder="在必应中搜索，或输入一个网址" class="url" spellcheck="false" id="edge-path">
+					placeholder="" class="url" spellcheck="false" id="edge-path">
 				<input type="text" onkeyup="if(event.keyCode==13&&$(this).val()!=''){m_tab.rename('edge',$(this).val());}"
 					placeholder="为标签页命名" class="rename" spellcheck="false">
 				<a class="a">
-					<i class="bi bi-info-circle" win12_title="浏览器只能访问允许嵌套的网站。由于规则限制无法获取网页标题，请右键标签页手动命名"></i>
+					<i class="bi bi-info-circle" win12_title=""></i>
 				</a>
 				<script>
 				function add_save(){
@@ -620,8 +644,26 @@
 		</div>
 		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
 		<div class="content" id="win-docu"><iframe id="iframe_docu" src=""></iframe>
-		<a href="" download="未命名.html" style="opacity: 0;" class="save_doc">另存为</a></div>
+		<a href="" download="未命名.html" style="opacity: 0;" class="save_doc"></a></div>
 	</div>
+	<script type="text/javascript">
+		let optionToSelect = Array.from($('#loginback>div>select')[0].options).find(option => option.value === lang);
+		if (optionToSelect) {optionToSelect.selected = true;}
+		optionToSelect = Array.from($('#win-setting>.page>.appearance>.setting-list>.lang>select')[0].options).find(option => option.value === lang);
+		if (optionToSelect) {optionToSelect.selected = true;}
+		i18next.init({
+			lng: lang,
+			keySeparator: false,
+			resources: {},
+		});
+		fetch(`language/${lang}.json`)
+			.then(response => response.json())
+			.then(data => {
+				i18next.addResourceBundle(lang, 'translation', data, true);
+				i18next.changeLanguage(lang, function (){set_page_language();})
+		});
+	</script>
+	<script src="js/login.js"></script>
 	<script src="module/toast/toast.script.js"></script>
 	<script src="module/viewer.js/viewer.min.js"></script>
 	<script src="js/tab.js"></script>

@@ -1,42 +1,9 @@
-const server = '/mycloud';
-localStorage.setItem('server', server);
-function get_status() {
-    $.ajax({
-        type: 'GET',
-        async: false,
-        url: server + '/status',
-        success: function (data) {
-            if (data['code'] === 0) {
-                $('#loginback').css('opacity', '0');
-                $('#loginback').css('display', 'none');
-                $('#dock-box').css('display', 'flex');
-                $('#desktop').css('display', 'flex');
-                document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/background.jpg")';
-            } else {
-                $('#loginback').css('opacity', '1');
-                $('#loginback').css('display', 'flex');
-                $('#dock-box').css('display', 'none');
-                $('#desktop').css('display', 'none');
-                document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/background.jpg")';
-            }
-        },
-        error: function (xhr, status, msg) {
-            console.error(msg);
-            $('#loginback').css('opacity', '1');
-            $('#loginback').css('display', 'flex');
-            $('#dock-box').css('display', 'none');
-            $('#desktop').css('display', 'none');
-            document.getElementById('loginback').style.backgroundImage = 'url("img/pictures/undefined/background.jpg")';
-        }
-    })
-}
-
 function login_sys(evn) {
     evn.id = 'login-after';
-    evn.innerText = '登录中...';
+    evn.innerText = i18next.t('login.button.login.ing') + '...';
     let qwq = window.setInterval(() => {
         if (evn.innerText.match(/\.\.\./)) {
-            evn.innerText = '登录中.';
+            evn.innerText = i18next.t('login.button.login.ing') + '.';
         } else {
             evn.innerText += '.';
         }
@@ -61,19 +28,21 @@ function login_sys(evn) {
                 $('#desktop').css('display', 'flex');
                 window.clearInterval(qwq);
                 this.onclick = null;
+                evn.id = 'login';
+                evn.innerText = i18next.t('login.button.text');
                 document.body.style.backgroundImage='url("img/pictures/' + $('#username')[0].value + '/background.jpg")';
             } else {
                 $.Toast(data['msg'], 'error');
                 window.clearInterval(qwq);
                 evn.id = 'login';
-                evn.innerText = '登录';
+                evn.innerText = i18next.t('login.button.text');
             }
         },
         error: function () {
             $.Toast('请重试 ~', 'error');
             window.clearInterval(qwq);
             evn.id = 'login';
-            evn.innerText = '登录';
+            evn.innerText = i18next.t('login.button.text');
         }
     })
 }

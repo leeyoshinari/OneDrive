@@ -459,7 +459,7 @@ list:not(.new)>a:active,
     margin-top: 22px;
     position: absolute;
     background-color: #ffffffdb;
-    min-width: 160px;
+    min-width: 200px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
 }

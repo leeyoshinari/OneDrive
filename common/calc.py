@@ -39,10 +39,10 @@ def beauty_size(size):
 
 
 def modify_prefix(prefix='/mycloud'):
-    with open('web/login.js', 'r', encoding='utf-8') as f:
+    with open('web/head.js', 'r', encoding='utf-8') as f:
         lines = f.readlines()
     lines[0] = f"const server = '{prefix}';\n"
-    with open('web/login.js', 'w', encoding='utf-8') as f:
+    with open('web/head.js', 'w', encoding='utf-8') as f:
         f.writelines(lines)
 
 

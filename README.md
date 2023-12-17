@@ -1,4 +1,6 @@
 # OneDrive
+Windows-style personal skydisk with supporting online editing.
+
 [中文文档](https://github.com/leeyoshinari/OneDrive/blob/main/README_zh.md)
 
 ## Function

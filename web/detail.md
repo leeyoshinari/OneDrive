@@ -69,7 +69,7 @@ The front-end multi-language configuration is in `web->language` directory. Each
 The backend multi-language configuration is in the `common->messages.py` file. Each message is a dict, and each key in the dict corresponds to a language. If you need to add multiple languages, you can directly add a key-value pair.<br>
 ![language_b.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/language_b.jpg)
 
-In addition, when adding multiple languages, you need to add options in the page drop-down box. There are two places in `web->index.html` that need to be modified: one is lines 39-42, and the other is lines 185-188. <br>
+In addition, when adding multiple languages, you need to add options in the page drop-down box. There are two places in `web->index.html` that need to be modified: one is lines 39 - 42, and the other is lines 185 - 188. <br>
 **Special Note**: The `value in option` must be the same as the json file name in the `web->language`, and must also be the same as the key of each message in the `common->messages.py` file.
 
 Due to the length of different languages is different, if the copywriting is too long and the page style is not beautiful, please modify it yourself.

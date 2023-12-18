@@ -2711,7 +2711,7 @@ function open_document(file_id, file_name) {
 
 function get_server_list(event) {
     if (event.classList.contains('show')) {
-        $('.dp.app-color').toggleClass('show');
+        $('.dp.app-color.server').toggleClass('show');
         return;
     }
     $.ajax({
@@ -2724,7 +2724,7 @@ function get_server_list(event) {
                     s += `<div><div style="width: 16%;">${item['host']}</div><div>${item['port']}</div><div>${item['user']}</div><div style="width: 21%;">${item['system']}</div><div>${item['cpu']}${i18next.t('setting.window.shell.server.list.cpu.core')}</div><div>${item['mem']}G</div><div>${item['disk']}</div><div style="width:15%;"><a href="module/terminal.html?id=${item['id']}&host=${item['host']}&lang=${lang}" style="color:blue;">${i18next.t('setting.window.shell.server.list.action.open')}</a><a href="${server}/server/delete/${item['id']}" style="color:blue;margin-left:15px;">${i18next.t('setting.window.shell.server.list.action.delete')}</a></div></div><br />`;
                 })
                 $('.server-item')[0].innerHTML = s;
-                $('.dp.app-color').toggleClass('show');
+                $('.dp.app-color.server').toggleClass('show');
             } else {
                 $.Toast(data['msg'], 'error');
             }

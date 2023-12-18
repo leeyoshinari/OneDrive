@@ -29,7 +29,7 @@
 
 #win-setting>.menu {
     width: 30%;
-    min-width: 246px;
+    min-width: 195px;
     max-width: 300px;
     padding: 3px 5px 5px 15px;
 }
@@ -262,16 +262,19 @@
     box-shadow: 0 1px 2px 1px var(--s3d);
 }
 
-.setting-list>div>.server-title>div {
+.server-title>div {
     width: 9%;
     float: left;
     font-weight: bold;
     text-align: center;
 }
 
-.setting-list>div>.server-item>div>div {
+.server-item>div>div {
     margin-top: 8px;
     width: 9%;
     float: left;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

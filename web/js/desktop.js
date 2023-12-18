@@ -2710,7 +2710,7 @@ function open_document(file_id, file_name) {
 }
 
 function get_server_list(event) {
-    if (event.classList.contains('show')) {
+    if ($('.dp.app-color.server')[0].classList.contains('show')) {
         $('.dp.app-color.server').toggleClass('show');
         return;
     }

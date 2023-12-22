@@ -2,7 +2,7 @@ const default_icon = 'img/files/none.png';
 const icons = {
     'video': 'img/files/video.png', 'picture': 'img/files/picture.png', 'markdown': 'img/files/markdown.png',
     'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
-    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png',
+    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png', 'music': 'img/files/music.png',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'docu': 'img/files/word.png',
@@ -745,6 +745,9 @@ let apps = {
                 case 'mp4':
                     apps.explorer.open_video(file_id, filename);
                     break;
+                // case 'mp3':
+                //     open_music(file_id);
+                //     break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
@@ -1142,6 +1145,7 @@ let apps = {
     },
     markdown: {init: () => {return null;}},
     video: {init: () => {return null;}},
+    music: {init: () => {return null;}},
     xmind: {init: () => {return null;}},
     sheet: {init: () => {return null;}},
     docu: {init: () => {return null;}},
@@ -1491,7 +1495,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'pythonEditor']
+let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2670,6 +2674,13 @@ function save_text_file(file_id, data, is_code=true) {
             }
         }
     })
+}
+
+function open_music(file_id) {
+    openapp('music');
+    document.getElementsByClassName("music")[0].style.display = 'block';
+    document.getElementById("iframe_music").src = 'module/music.html?server=' + server + '&id=' + file_id;
+    $('.window.music>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_music").src = 'about:blank';hidewin('music');`);
 }
 
 function open_md(file_id) {

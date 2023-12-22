@@ -9,3 +9,4 @@ APScheduler>=3.10.1
 paramiko>=2.10.3
 websockets>=10.4
 python-multipart>=0.0.5
+eyed3>=0.9.7

@@ -92,6 +92,22 @@ class Servers(Model):
         db_table = 'servers'
 
 
+# 音乐播放记录
+class Musics(Model):
+    id = fields.IntField(pk=True, generated=True, description='主键')
+    file_id = fields.CharField(max_length=16, description='文件ID')
+    name = fields.CharField(max_length=64, description='文件名')
+    singer = fields.CharField(max_length=16, description='歌手')
+    duration = fields.CharField(max_length=16, description='歌曲时长')
+    username = fields.CharField(max_length=16, description='用户名')
+    times = fields.IntField(default=1, description="播放次数")
+    create_time = fields.DatetimeField(auto_now_add=True)
+    update_time = fields.DatetimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'music'
+
+
 # 用户模型
 class UserBase(BaseModel):
     t: str
@@ -257,3 +273,45 @@ class ServerListModel(BaseModel):
     class Config:
         from_attributes = True
         orm_mode = True
+
+
+# MP3列表
+class MP3List(BaseModel):
+    id: str
+    name: str
+    format: str
+    size: str
+    duration: str
+
+    class Config:
+        orm_mode = True
+
+    @classmethod
+    def from_orm_format(cls, obj: Files, duration):
+        return cls(id=obj.id, name=obj.name, format=obj.format, size=beauty_size(obj.size), duration=duration)
+
+
+# mp3 历史记录列表
+class MusicList(BaseModel):
+    file_id: str
+    name: str
+    singer: str
+    duration: str
+    create_time: str
+    update_time: str
+
+    class Config:
+        orm_mode = True
+
+    @classmethod
+    def from_orm_format(cls, obj: Musics):
+        c = obj.create_time.strftime("%Y-%m-%d %H:%M:%S")
+        m = obj.update_time.strftime("%Y-%m-%d %H:%M:%S")
+        return cls(file_id=obj.file_id, name=obj.name, singer=obj.singer, duration=obj.duration, create_time=c, update_time=m)
+
+
+class MusicHistory(BaseModel):
+    file_id: str
+    name: str
+    singer: str = ""
+    duration: str

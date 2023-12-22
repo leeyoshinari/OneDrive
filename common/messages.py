@@ -93,5 +93,7 @@ class Msg(object):
                     'en': 'Open shared link'}
     MsgShareTimes = {'zh-CN': '分享链接打开次数太多',
                      'en': 'The shared link has been opened too many times'}
+    MsgMusicRecord = {'zh-CN': '{} 正在播放',
+                      'en': '{} is playing.'}
     MsgAccessPermissionNon = {'zh-CN': '未经授权的访问',
                               'en': 'Unauthorized access'}

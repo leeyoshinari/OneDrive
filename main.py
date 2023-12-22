@@ -440,6 +440,36 @@ async def upload_file_to_ssh(server_id: str, file_path: str, hh: dict = Depends(
     return StreamResponse(fp, media_type='application/octet-stream', headers=headers)
 
 
+@router.get("/music/info/get/{file_id}", summary="get music meta info (音乐的信息)")
+async def get_music_info(file_id: str, hh: dict = Depends(auth)):
+    result = await views.get_mp3_info(file_id, hh)
+    return result
+
+
+@router.get("/music/get/{folder_id}", summary="query music list from folder (从文件夹中查询音乐)")
+async def get_music_from_folder(folder_id: str, hh: dict = Depends(auth)):
+    result = await views.get_all_mp3(folder_id, hh)
+    return result
+
+
+@router.get("/music/history/get", summary="query music history list (查询播放历史列表)")
+async def get_music_history_list(hh: dict = Depends(auth)):
+    result = await views.get_mp3_history(hh)
+    return result
+
+
+@router.post("/music/record/set", summary="Record playing music (记录播放的音乐)")
+async def set_music_record(query: models.MusicHistory, hh: dict = Depends(auth)):
+    result = await views.set_mp3_history(query, hh)
+    return result
+
+
+@router.get("/music/lyric/get/{file_id}", summary="query music lyric (根据歌曲查歌词)")
+async def get_music_lyric(file_id: str, hh: dict = Depends(auth)):
+    result = await views.get_mp3_lyric(file_id, hh)
+    return result
+
+
 @router.websocket('/ssh/open')
 async def shell_ssh(websocket: WebSocket):
     await websocket.accept()

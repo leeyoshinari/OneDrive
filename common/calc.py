@@ -38,6 +38,16 @@ def beauty_size(size):
         return f'{round(size / 1024, 2)} GB'
 
 
+def beauty_mp3_time(duration):
+    minute = int(duration // 60)
+    second = int(duration % 60)
+    if minute < 10:
+        minute = f"0{minute}"
+    if second < 10:
+        second = f"0{second}"
+    return f"{minute}:{second}"
+
+
 def modify_prefix(prefix='/mycloud'):
     with open('web/head.js', 'r', encoding='utf-8') as f:
         lines = f.readlines()

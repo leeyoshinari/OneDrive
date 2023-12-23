@@ -61,7 +61,6 @@
         right: 0;
     }
     
-    
     /*列表菜单不显示*/
     .list-menu {
         display: none!important;
@@ -115,9 +114,6 @@
         display: none;
         width: 100%;
     }
-    .cover {
-        margin-top: 60px;
-    }
     #lyric {
         overflow-x: hidden;
         overflow-y: auto;
@@ -150,26 +146,7 @@
     .center {
         bottom: 60px;
     }
-    /* 歌单封面 */
-    .sheet-item {   
-        width: 33.33%;
-    }
-    /* 歌单名字 */
-    .sheet-name {
-        max-width: 100px;
-    }
-    .cover {
-        margin-top: 50px;
-    }
     .footer {
         height: 60px;
-    }
-}
-
-/* 小于 350px 采用这个样式 */
-@media screen and (max-width: 350px) {
-    /* 歌单封面 */
-    .sheet-item {   
-        width: 50%;
     }
 }

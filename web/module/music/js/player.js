@@ -1,38 +1,21 @@
 // 播放器功能配置
 var mkPlayer = {
-    api: "api.php", // api地址
-    loadcount: 20,  // 搜索结果一次加载多少条
-    method: "POST",     // 数据传输方式(POST/GET)
-    defaultlist: 3,    // 默认要显示的播放列表编号
     autoplay: false,    // 是否自动播放(true/false) *此选项在移动端可能无效
-    dotshine: false,    // 是否开启播放进度条的小点闪动效果[不支持IE](true/false) *开启后会有些卡
-    mdotshine: false,   // 是否开启[移动端]播放进度条的小点闪动效果[不支持IE](true/false)
     volume: 0.6,        // 默认音量值(0~1之间)
-    version: "v2.41",    // 播放器当前版本号(仅供调试)
 };
-
-
-
-/*******************************************************
- * 以下内容是播放器核心文件，不建议进行修改，否则可能导致播放器无法正常使用!
- * 
- * 哈哈，吓唬你的！想改就改呗！不过建议修改之前先【备份】,要不然改坏了弄不好了。
- ******************************************************/
-
 // 存储全局变量
 var rem = [];
-
 // 音频错误处理函数
 function audioErr() {
     // 没播放过，直接跳过
     if(rem.playlist === undefined) return true;
     
     if(rem.errCount > 10) { // 连续播放失败的歌曲过多
-        layer.msg('似乎出了点问题~播放已停止');
+        layer.msg(window.parent.i18next.t('music.play.multi.error.text'));
         rem.errCount = 0;
     } else {
         rem.errCount++;     // 记录连续播放失败的歌曲数目
-        layer.msg('当前歌曲播放失败，自动播放下一首');
+        layer.msg(window.parent.i18next.t('music.play.error.text'));
         nextMusic();    // 切换下一首歌
     } 
 }
@@ -46,8 +29,6 @@ function pause() {
         if(rem.playlist === undefined) {
             rem.playlist = rem.dislist;
             musicList[1].item = musicList[rem.playlist].item; // 更新正在播放列表中音乐
-            // 正在播放 列表项已发生变更，进行保存
-            playerSavedata('playing', musicList[1].item);   // 保存正在播放列表
             listClick(0);
         }
         rem.audio[0].play();
@@ -61,23 +42,23 @@ function orderChange() {
     switch(rem.order) {
         case 1:     // 单曲循环 -> 列表循环
             orderDiv.addClass("player-btn btn-order btn-order-list");
-            orderDiv.attr("title", "列表循环");
-            layer.msg("列表循环");
+            orderDiv.attr("title", window.parent.i18next.t('music.control.circle.title'));
+            layer.msg(window.parent.i18next.t('music.control.circle.title'));
             rem.order = 2;
             break;
             
         case 3:     // 随机播放 -> 单曲循环
             orderDiv.addClass("player-btn btn-order btn-order-single");
-            orderDiv.attr("title", "单曲循环");
-            layer.msg("单曲循环");
+            orderDiv.attr("title", window.parent.i18next.t('music.control.circle.single.title'));
+            layer.msg(window.parent.i18next.t('music.control.circle.single.title'));
             rem.order = 1;
             break;
             
         // case 2:
         default:    // 列表循环(其它) -> 随机播放
             orderDiv.addClass("player-btn btn-order btn-order-random");
-            orderDiv.attr("title", "随机播放");
-            layer.msg("随机播放");
+            orderDiv.attr("title", window.parent.i18next.t('music.control.circle.random.title'));
+            layer.msg(window.parent.i18next.t('music.control.circle.random.title'));
             rem.order = 3;
     }
 }
@@ -88,18 +69,10 @@ function audioPlay() {
     refreshList();      // 刷新状态，显示播放的波浪
     $(".btn-play").addClass("btn-state-paused");        // 恢复暂停
     
-    if((mkPlayer.dotshine === true && !rem.isMobile) || (mkPlayer.mdotshine === true && rem.isMobile)) {
-        $("#music-progress .mkpgb-dot").addClass("dot-move");   // 小点闪烁效果
-    }
-    
     var music = musicList[rem.playlist].item[rem.playid];   // 获取当前播放的歌曲信息
-    var msg = " 正在播放: " + music.name ;  // 改变浏览器标题
-    
+    var msg = window.parent.i18next.t('music.play.window.title') + music.name ;  // 改变浏览器标题
     // 清除定时器
-    if (rem.titflash !== undefined ) 
-    {
-        clearInterval(rem.titflash);
-    }
+    if (rem.titflash !== undefined ) {clearInterval(rem.titflash);}
     // 标题滚动
     titleFlash(msg);
 }
@@ -118,7 +91,6 @@ function audioPause() {
     rem.paused = true;      // 更新状态（已暂停）
     $(".list-playing").removeClass("list-playing");        // 移除其它的正在播放
     $(".btn-play").removeClass("btn-state-paused");     // 取消暂停
-    $("#music-progress .dot-move").removeClass("dot-move");   // 小点闪烁效果
 
      // 清除定时器
     if (rem.titflash !== undefined ) 
@@ -140,8 +112,8 @@ function nextMusic() {
             playList(rem.playid + 1);
         break;
         case 3: 
-            if (musicList[1] && musicList[1].item.length) {
-                var id = parseInt(Math.random() * musicList[1].item.length);
+            if (musicList[0] && musicList[0].item.length) {
+                var id = parseInt(Math.random() * musicList[0].item.length);
                 playList(id);
             }
         break;
@@ -164,7 +136,23 @@ function updateProgress(){
     // 暂停状态不管
     if(rem.paused !== false) return true;
     // 同步进度条
-	music_bar.goto(rem.audio[0].currentTime / rem.audio[0].duration);
+    let process_play = rem.audio[0].currentTime / rem.audio[0].duration;
+    if (process_play > 0.3 && rem.set_history) {
+        if (rem.post_data.file_id.length > 16) {rem.set_history = false;return;}
+        window.parent.$.ajax({
+            type: 'POST',
+            url: servers + '/music/record/set',
+            data: JSON.stringify(rem.post_data),
+            contentType: 'application/json',
+            success: function (data) {
+                rem.set_history = false;
+                if (data['code'] !== 0) {
+                    window.parent.$.Toast(data['msg'], 'error');
+                }
+            }
+        })
+    }
+	music_bar.goto(process_play);
     // 同步歌词显示	
 	scrollLyric(rem.audio[0].currentTime);
 }
@@ -174,57 +162,15 @@ function updateProgress(){
 function listClick(no) {
     // 记录要播放的歌曲的id
     var tmpid = no;
-    
-    // 调试信息输出
-    if(mkPlayer.debug) {
-        console.log("点播了列表中的第 " + (no + 1) + " 首歌 " + musicList[rem.dislist].item[no].name);
+
+    // 与之前不是同一个列表了（在播放别的列表的歌曲）或者是首次播放
+    if((rem.dislist !== rem.playlist && rem.dislist !== 0) || rem.playlist === undefined) {
+        rem.playlist = rem.dislist;     // 记录正在播放的列表
+        musicList[0].item = musicList[rem.playlist].item; // 更新正在播放列表中音乐
+        // 刷新正在播放的列表的动画
+        refreshSheet();     // 更改正在播放的列表的显示
     }
-    
-    // 搜索列表的歌曲要额外处理
-    if(rem.dislist === 0) {
-        
-        // 没播放过
-        if(rem.playlist === undefined) {
-            rem.playlist = 1;   // 设置播放列表为 正在播放 列表
-            rem.playid = musicList[1].item.length - 1;  // 临时设置正在播放的曲目为 正在播放 列表的最后一首
-        }
-        
-        // 获取选定歌曲的信息
-        var tmpMusic = musicList[0].item[no];
-        
-        
-        // 查找当前的播放列表中是否已经存在这首歌
-        for(var i=0; i<musicList[1].item.length; i++) {
-            if(musicList[1].item[i].id == tmpMusic.id && musicList[1].item[i].source == tmpMusic.source) {
-                tmpid = i;
-                playList(tmpid);    // 找到了直接播放
-                return true;    // 退出函数
-            }
-        }
-        
-        
-        // 将点击的这项追加到正在播放的条目的下方
-        musicList[1].item.splice(rem.playid + 1, 0, tmpMusic);
-        tmpid = rem.playid + 1;
-        
-        // 正在播放 列表项已发生变更，进行保存
-        playerSavedata('playing', musicList[1].item);   // 保存正在播放列表
-    } else {    // 普通列表
-        // 与之前不是同一个列表了（在播放别的列表的歌曲）或者是首次播放
-        if((rem.dislist !== rem.playlist && rem.dislist !== 1) || rem.playlist === undefined) {
-            rem.playlist = rem.dislist;     // 记录正在播放的列表
-            musicList[1].item = musicList[rem.playlist].item; // 更新正在播放列表中音乐
-            
-            // 正在播放 列表项已发生变更，进行保存
-            playerSavedata('playing', musicList[1].item);   // 保存正在播放列表
-            
-            // 刷新正在播放的列表的动画
-            refreshSheet();     // 更改正在播放的列表的显示
-        }
-    }
-    
     playList(tmpid);
-    
     return true;
 }
 
@@ -236,29 +182,21 @@ function playList(id) {
         pause();
         return true;
     }
+    if (rem.dislist === undefined) {rem.dislist = 0;}
     
     // 没有歌曲，跳出
-    if(musicList[1].item.length <= 0) return true;
-    
+    if(musicList[rem.dislist].item.length <= 0) return true;
     // ID 范围限定
-    if(id >= musicList[1].item.length) id = 0;
-    if(id < 0) id = musicList[1].item.length - 1;
-    
+    if(id >= musicList[rem.dislist].item.length) id = 0;
+    if(id < 0) id = musicList[rem.dislist].item.length - 1;
     // 记录正在播放的歌曲在正在播放列表中的 id
     rem.playid = id;
-    
-    // 如果链接为空，则 ajax 获取数据后再播放
-    if(musicList[1].item[id].url === null || musicList[1].item[id].url === "") {
-        ajaxUrl(musicList[1].item[id], play);
-    } else {
-        play(musicList[1].item[id]);
-    }
+    play(musicList[rem.dislist].item[id]);
 }
 
 // 初始化 Audio
 function initAudio() {
     rem.audio = $('<audio></audio>').appendTo('body');
-    
     // 应用初始音量
     rem.audio[0].volume = volume_bar.percent;
     // 绑定歌曲进度变化事件
@@ -278,34 +216,18 @@ function play(music) {
         audioErr(); // 调用错误处理函数
         return false;
     }
-
-    // 如果当前主界面显示的是播放历史，那么还需要刷新列表显示
-    if(rem.dislist === 2 && rem.playlist !== 2) {
-        loadList(2);
-    } else {
-        refreshList();  // 更新列表显示
-    }
     
     try {
         rem.audio[0].pause();
         rem.audio.attr('src', music.url);
         rem.audio[0].play();
-        let post_data = {
+        rem.mp3_id = music.id
+        rem.post_data = {
             file_id: music.id,
             name: music.name,
             duration: music.duration
-        }
-        $.ajax({
-            type: 'POST',
-            url: servers + '/music/record/set',
-            data: JSON.stringify(post_data),
-            contentType: 'application/json',
-            success: function (data) {
-                if (data['code'] !== 0) {
-                    window.parent.$.Toast(data['msg'], 'error');
-                }
-            }
-        })
+        };
+        rem.set_history = true;
     } catch(e) {
         audioErr(); // 调用错误处理函数
         return;
@@ -331,14 +253,12 @@ function vBcallback(newVal) {
     if(rem.audio[0] !== undefined) {   // 音频对象已加载则立即改变音量
         rem.audio[0].volume = newVal;
     }
-    
     if($(".btn-quiet").is('.btn-state-quiet')) {
         $(".btn-quiet").removeClass("btn-state-quiet");     // 取消静音
     }
     
     if(newVal === 0) $(".btn-quiet").addClass("btn-state-quiet");
-    
-    playerSavedata('volume', newVal); // 存储音量信息
+    localStorage.setItem('mp3_volume', newVal); // 存储音量信息
 }
 
 // 下面是进度条处理
@@ -347,8 +267,8 @@ var initProgress = function(){
     music_bar = new mkpgb("#music-progress", 0, mBcallback);
     music_bar.lock(true);   // 未播放时锁定不让拖动
     // 初始化音量设定
-    var tmp_vol = playerReaddata('volume');
-    tmp_vol = (tmp_vol != null)? tmp_vol: (rem.isMobile? 1: mkPlayer.volume);
+    var tmp_vol = localStorage.getItem('mp3_volume');
+    tmp_vol = (tmp_vol != null)? tmp_vol: mkPlayer.volume;
     if(tmp_vol < 0) tmp_vol = 0;    // 范围限定
     if(tmp_vol > 1) tmp_vol = 1;
     if(tmp_vol === 0) $(".btn-quiet").addClass("btn-state-quiet"); // 添加静音样式
@@ -446,4 +366,28 @@ document.onkeydown = function showkey(e) {
     if (ctrl && key === 37) playList(rem.playid - 1);    // Ctrl+左方向键 切换上一首歌
     if (ctrl && key === 39) playList(rem.playid + 1);    // Ctrl+右方向键 切换下一首歌
     if (key === 32 && isFocus === false) pause();         // 空格键 播放/暂停歌曲
+}
+
+// ajax加载歌词
+function ajaxLyric(music, callback) {
+    lyricTip(window.parent.i18next.t('music.lyric.loading.error.text'));
+    if (music.lyric_url === ''){callback('');return;}
+    window.parent.$.ajax({
+        type: 'GET',
+        url: music.lyric_url,
+        success: function(data){
+            if (data['code'] === 0) {
+                callback(data['data']);
+            } else if(data['code'] > 0) {
+                callback('');
+            } else {
+                callback(data);
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            layer.msg(XMLHttpRequest.status);
+            console.error(XMLHttpRequest + textStatus + errorThrown);
+            callback('');
+        }
+    });
 }

@@ -9,6 +9,7 @@
 - 支持表格在线编辑、文档在线编辑
 - 支持 python 脚本在线编辑和运行
 - 支持远程连接 Linux 服务器
+- 音乐播放器，支持播放云盘（服务端）和本地（客户端）的音乐
 - 支持多语言，支持配置多语言
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
@@ -17,7 +18,6 @@
 
 ### ToDo
 - [ ] 支持chatGPT等大模型
-- [ ] 音乐播放器
 - [ ] 真实的任务管理器
 - [ ] 其他更多小工具（视频编辑工具、图片编辑工具 等）
 
@@ -128,3 +128,4 @@ location /mycloud/ssh {
 - [markdown-it](https://github.com/markdown-it/markdown-it)
 - [Luckysheet](https://github.com/dream-num/Luckysheet)
 - [wangEditor](https://github.com/wangeditor-team/wangEditor)
+- [优折美在线音乐播放器](https://m.uzz.me)

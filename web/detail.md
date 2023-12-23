@@ -5,6 +5,7 @@
 - Supports online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
+- Music player, supports playing music from this skydisk (Server) and local (Client)
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily
@@ -54,6 +55,16 @@ Add the server in `Setting` and click `Open` in the list to connect to Linux rem
 ### Play local video
 Playing local videos does not use traffic and supports recording playback progress.
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/playVideo.jpg)
+
+### Music Player
+The music player only supports songs in `mp3` format and lyrics in `.lrc` format. If you want to display lyrics, the song name and lyrics name need to be the same. Only when the playback progress of a song exceeds `30%`, it will be added to the playback history; when a song is added to history, the play count is incremented by `1`.
+
+The way to open the music player is the same as on `windows`:<br>
+1. Click the music player icon on the desktop to enter the music player interface, and then import music;<br>
+2. Enter the file explorer, find the song in `mp3` format, and double-click to open it, and then play it;
+
+There are two ways to import music: one is to import from this skydisk (Select the folder containing the songs, and all mp3 music in the folder will be imported by default); the other is to import from local (Import from the computer or mobile phone that opens this website. When selecting files, it is best to select both song files and lyrics files).
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/music.jpg)
 
 ### Python
 Supports python command line and supports importing python official libraries, it can be used to do some simple calculations or deal some simple data.

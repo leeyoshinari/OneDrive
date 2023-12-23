@@ -13,6 +13,8 @@ function set_page_language() {
     $('#desktop>div')[1].setAttribute('win12_title', i18next.t('setting.title'));
     $('#desktop>div>p')[2].innerText = i18next.t('edge');
     $('#desktop>div')[2].setAttribute('win12_title', i18next.t('edge.title'));
+    $('#desktop>div>p')[3].innerText = i18next.t('music');
+    $('#desktop>div')[3].setAttribute('win12_title', i18next.t('music.title'));
 
     // 设置页面
     // 账号
@@ -101,4 +103,5 @@ function set_page_language() {
     $('.window.docu>.titbar>div>.export')[0].title = i18next.t('document.window.tool.download.title');
     $('.window.notepad>.titbar>div>.export')[0].title = i18next.t('document.window.tool.download.title');
     $('.window.markdown>.titbar>div>.export')[0].title = i18next.t('document.window.tool.download.title');
+    $('.window.music>.titbar>span>.title')[0].innerText = i18next.t('music');
 }

@@ -269,7 +269,7 @@ body {
     display: block;
     width: auto;
     margin-left: 40px;
-    margin-right: 300px;
+    margin-right: 100px;
     height: 100%;
     -webkit-user-select: none;
     -moz-user-select: none; /*禁止双击选定*/
@@ -295,7 +295,7 @@ body {
 .music-album {
     position: relative;
     display: block;
-    width: 150px;
+    width: 88px;
     float: right;
     height: 100%;
     word-break: keep-all;

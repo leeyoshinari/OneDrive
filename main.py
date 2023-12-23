@@ -452,9 +452,17 @@ async def get_music_from_folder(folder_id: str, hh: dict = Depends(auth)):
     return result
 
 
-@router.get("/music/history/get", summary="query music history list (查询播放历史列表)")
-async def get_music_history_list(hh: dict = Depends(auth)):
-    result = await views.get_mp3_history(hh)
+@router.get("/music/history/get/{flag}", summary="query music history list (查询播放历史列表)")
+async def get_music_history_list(flag: int = 1, hh: dict = Depends(auth)):
+    order_by = '-update_time'
+    if flag == 2: order_by = '-times'
+    result = await views.get_mp3_history(order_by, hh)
+    return result
+
+
+@router.get("/music/history/delete/{file_id}", summary="delete music history (删除播放历史记录)")
+async def get_music_history_list(file_id: str, hh: dict = Depends(auth)):
+    result = await views.delete_mp3_history(file_id, hh)
     return result
 
 

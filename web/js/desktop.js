@@ -1,16 +1,16 @@
-const default_icon = 'img/files/none.png';
+const default_icon = 'img/files/none.svg';
 const icons = {
     'video': 'img/files/video.png', 'picture': 'img/files/picture.png', 'markdown': 'img/files/markdown.png',
     'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
-    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png', 'music': 'img/files/music.png',
+    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png', 'music': 'img/music.ico',
     'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
     'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
     'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'docu': 'img/files/word.png',
-    'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png',
+    'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png', 'css': 'img/files/css.svg',
     'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
     'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
     'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png',
-    'pythonEditor':'img/python.svg'
+    'pythonEditor':'img/python.svg', 'js': 'img/files/js.svg'
 };
 
 document.querySelectorAll(`list.focs`).forEach(li => {
@@ -745,9 +745,9 @@ let apps = {
                 case 'mp4':
                     apps.explorer.open_video(file_id, filename);
                     break;
-                // case 'mp3':
-                //     open_music(file_id);
-                //     break;
+                case 'mp3':
+                    open_music(file_id);
+                    break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
@@ -2040,16 +2040,13 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
     }, 100);
     document.querySelectorAll('.window').forEach(w => {
         let qw = $(w), wc = w.classList[1];
-        // window: onmousedown="focwin('explorer')" ontouchstart="focwin('explorer')"
         qw.attr('onmousedown', `focwin('${wc}')`);
         qw.attr('ontouchstart', `focwin('${wc}')`);
-        // titbar: oncontextmenu="return showcm(event,'titbar','edge')" ondblclick="maxwin('edge')"
         qw = $(`.window.${wc}>.titbar`);
         qw.attr('oncontextmenu', `return showcm(event,'titbar','${wc}')`);
         if (!(wc in nomax)) {
             qw.attr('ondblclick', `maxwin('${wc}')`);
         }
-        // icon: onclick="return showcm(event,'titbar','explorer')"
         qw = $(`.window.${wc}>.titbar>.icon`);
         qw.attr('onclick', `let os=$(this).offset();stop(event);return showcm({clientX:os.left-5,clientY:os.top+this.offsetHeight+3},'titbar','${wc}')`);
         qw.mousedown(stop);
@@ -2677,6 +2674,7 @@ function save_text_file(file_id, data, is_code=true) {
 }
 
 function open_music(file_id) {
+    $('.window.music>.titbar>span>.title')[0].innerText = i18next.t('music');
     openapp('music');
     document.getElementsByClassName("music")[0].style.display = 'block';
     document.getElementById("iframe_music").src = 'module/music.html?server=' + server + '&id=' + file_id;

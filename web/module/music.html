@@ -18,36 +18,15 @@
         <div class="container">
             <div class="btn-bar">
                 <div class="btn-box" id="btn-area">
-<!--                    <span class="btn" data-action="player" hidden="">播放器</span>-->
-                    <span class="btn active" data-action="playing" title="正在播放列表">正在播放</span>
+                    <span class="btn active" data-action="playing" title="添加的音乐列表">正在播放</span>
                     <span class="btn" data-action="history" title="音乐播放历史">播放历史</span>
                     <span class="btn" data-action="usual" title="常听的音乐">经常听的</span>
-                    <span class="btn" data-action="add" title="添加音乐到播放列表">添加音乐</span>
+                    <span class="btn" data-action="adds" title="添加服务端音乐到播放列表">添加音乐（S）</span>
+                    <span class="btn" data-action="addc" title="添加客户端音乐到播放列表">添加音乐（C）</span>
+                    <input type="file" name="filename" id="play_local_mp3" multiple accept=".lrc,audio/*" style="display: none">
                 </div>
             </div>
             <div class="data-area">
-<!--                <div id="sheet" class="data-box mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" hidden="" style="overflow: visible;">-->
-<!--                    <div id="mCSB_1" class="mCustomScrollBox mCS-minimal mCSB_vertical mCSB_outside" style="max-height: 433px;" tabindex="0">-->
-<!--                        <div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">-->
-<!--                            <div class="sheet-item" data-no="1">-->
-<!--                                <img class="sheet-cover" src="../img/explorer/folder.png">-->
-<!--                                <p class="sheet-name">正在播放</p>-->
-<!--                            </div>-->
-<!--                            <div class="sheet-item" data-no="2">-->
-<!--                                <img class="sheet-cover" src="music/history.png">-->
-<!--                                <p class="sheet-name">播放历史</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal mCSB_scrollTools_vertical" style="display: none;">-->
-<!--                        <div class="mCSB_draggerContainer">-->
-<!--                            <div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 50px; top: 0px;">-->
-<!--                                <div class="mCSB_dragger_bar" style="line-height: 50px;"></div>-->
-<!--                            </div>-->
-<!--                            <div class="mCSB_draggerRail"></div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <div id="main-list" class="music-list data-box mCustomScrollbar _mCS_2 mCS-autoHide" style="overflow: visible;">
                     <div id="mCSB_2" class="mCustomScrollBox mCS-minimal mCSB_vertical mCSB_outside" style="max-height: none;" tabindex="0">
                         <div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr"></div>
@@ -103,9 +82,7 @@
         </div>
     </div>
     <script src="music/layer/layer.js"></script>
-    <script src="music/js/ajax.js"></script>
     <script src="music/js/lyric.js"></script>
-    <script src="music/js/musicList.js"></script>
     <script src="music/js/functions.js"></script>
     <script src="music/js/player.js"></script>
     <script src="music/js/jquery.mCustomScrollbar.concat.min.js"></script>

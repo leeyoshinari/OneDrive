@@ -158,7 +158,7 @@ body {
     position: absolute;
     display: inline-block;
     left: 0;
-    right: 400px;
+    right: 360px;
     height: 55px;
 }
 
@@ -166,7 +166,7 @@ body {
 /* 顶部按钮区域 */
 .btn-box {
     position: absolute;
-    top: 10px;
+    top: 5px;
     bottom: 10px;
     left: 10px;
     right: 10px;
@@ -192,7 +192,7 @@ body {
     filter: alpha(opacity=80);
     cursor: pointer;
     font-size: 14px;
-    padding: 6px 25px;
+    padding: 6px 13px;
     margin: 0 2px;
 }
 .btn:hover {
@@ -200,52 +200,15 @@ body {
     opacity: 1;
     filter: alpha(opacity=100);
 }
-.btn[data-action='player'] {
-    display: none;
-}
-
-/* 搜索工具样式 */
-#search-area {
-    padding: 25px 15px;
-}
-.search-group {
-    font-size: 0;
-    padding-bottom: 10px;
-}
-.search-group>input, .search-group>button {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.search-group>input {
-    padding: 5px;
-    border: 1px solid #a7a1a1;
-    height: 35px;
-    width: 80%;
-}
-.search-group>button {
-    border: 1px solid #a7a1a1;
-    background-color: #eee;
-    height: 35px;
-    margin-left: -1px;
-    width: 20%;
-    white-space: nowrap;
-    text-overflow: clip;
-    overflow: hidden;
-}
-.radio-group>label {
-    margin-right: 10px;
-    cursor: pointer;
-}
-.radio-group>label>input {
-    vertical-align: -2px;
+.btn-select {
+    color: darkturquoise;
 }
 
 /* 左侧主体数据区 */
 .data-area {
     position: absolute;
     left: 0;
-    right: 400px;
+    right: 360px;
     top: 60px;
     bottom: 0;
     overflow: hidden;
@@ -392,7 +355,7 @@ body {
 /* 播放器主体(歌词和封面) */
 .player {
     height: 100%;
-    width: 400px;
+    width: 369px;
     float: right;
     position: relative;
 }
@@ -401,7 +364,7 @@ body {
     position: absolute;
     left: 10px;
     right: 10px;
-    top: 93px;
+    top: 6px;
     bottom: 10px;
     overflow: hidden;
     text-align: center;
@@ -488,7 +451,7 @@ body {
 }
 
 .btn-play{
-    width: 19px;
+    width: 21px;
     height: 29px;
     margin-top: -14.5px; 
     left: 36%;
@@ -640,14 +603,3 @@ body {
 .mkpgb-locked {
     cursor: default;
 }
-
-/* 闪动效果作者：qiuye */
-.dot-move {
-    -webkit-box-shadow: 0 0 20px #fff;
-    -moz-animation: dot-move 3s linear 2s infinite;
-    -webkit-animation: dot-move 3s linear 2s infinite;
-    -o-animation: dot-move 3s linear 2s infinite;
-    -ms-animation: dot-move 3s linear 2s infinite;
-}
-@-webkit-keyframes dot-move{0%{-webkit-box-shadow: 0 0 20px #fff;}25%{-webkit-box-shadow: 0 0 10px #fff;}50%{-webkit-box-shadow: 0 0 0px #fff;}75%{-webkit-box-shadow: 0 0 10px #fff;}100%{-webkit-box-shadow: 0 0 20px #fff;}}
-@keyframes dot-move{0%{-webkit-box-shadow: 0 0 10px #363333;}25%{-webkit-box-shadow: 0 0 7px #363333;}50%{-webkit-box-shadow: 0 0 0px #fff;}75%{-webkit-box-shadow: 0 0 6px #fff;}100%{-webkit-box-shadow: 0 0 10px #363333;}}

@@ -724,7 +724,7 @@ async def get_mp3_info(file_id: str, hh: dict) -> Result:
 async def get_all_mp3(folder_id, hh: dict) -> Result:
     result = Result()
     try:
-        music_list = await models.Files.filter(Q(parent_id=folder_id) & Q(format='mp3')).select_related('parent').order_by('-id')
+        music_list = await models.Files.filter(Q(parent_id=folder_id) & Q(format='mp3') & Q(is_delete=0)).select_related('parent').order_by('-id')
         file_list = []
         for f in music_list:
             parent_path = await f.parent.get_all_path()
@@ -742,10 +742,13 @@ async def get_all_mp3(folder_id, hh: dict) -> Result:
     return result
 
 
-async def get_mp3_history(hh: dict) -> Result:
+async def get_mp3_history(order_by: str, hh: dict) -> Result:
     result = Result()
     try:
-        music_list = await models.Musics.filter(username=hh['u'])
+        page_size = 200
+        if order_by == '-times':
+            page_size = 100
+        music_list = await models.Musics.filter(username=hh['u']).order_by(order_by).limit(page_size)
         file_list = [models.MusicList.from_orm_format(f).dict() for f in music_list]
         result.data = file_list
         result.total = len(result.data)
@@ -776,6 +779,23 @@ async def set_mp3_history(query: models.MusicHistory, hh: dict) -> Result:
     return result
 
 
+async def delete_mp3_history(file_id, hh: dict) -> Result:
+    result = Result()
+    try:
+        try:
+            mp3 = await models.Musics.get(file_id=file_id)
+            await mp3.delete()
+        except DoesNotExist:
+            pass
+        result.msg = f"{Msg.MsgDelete[hh['lang']].format(file_id)}{Msg.Success[hh['lang']]}"
+        logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, file_id, hh['u'], hh['ip'])}")
+    except:
+        result.code = 1
+        result.msg = f"{Msg.MsgDelete[hh['lang']].format(file_id)}{Msg.Failure[hh['lang']]}"
+        logger.error(traceback.format_exc())
+    return result
+
+
 async def get_mp3_lyric(file_id: str, hh: dict) -> Result:
     result = Result()
     try:
@@ -783,10 +803,15 @@ async def get_mp3_lyric(file_id: str, hh: dict) -> Result:
         parent_path = await mp3_file.parent.get_all_path()
         lrc_file_name = mp3_file.name.replace('mp3', 'lrc')
         lrc_file_path = os.path.join(parent_path, lrc_file_name)
-        with open(lrc_file_path, 'rb') as f:
-            result.data = f.read()
-        result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"
-        logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, file_id, hh['u'], hh['ip'])}")
+        if os.path.exists(lrc_file_path):
+            with open(lrc_file_path, 'rb') as f:
+                result.data = f.read()
+            result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"
+            logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, file_id, hh['u'], hh['ip'])}")
+        else:
+            result.code = 1
+            result.msg = f"{Msg.MsgFileNotExist[hh['lang']].format(lrc_file_name)}"
+            logger.error(f"{Msg.CommonLog1[hh['lang']].format(result.msg, file_id, hh['u'], hh['ip'])}")
     except:
         result.code = 1
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Failure[hh['lang']]}"

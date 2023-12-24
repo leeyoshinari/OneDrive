@@ -34,7 +34,7 @@ When sharing file, you can set the number of times the shared link is opened. If
 ![share.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/share.jpg)
 
 ### Setting
-Supports modifying passwords, logging out, uploading background images, setting themes, setting multiple languages, playing local videos, and ssh.
+Supports modifying passwords, logging out, uploading background images, setting themes, windows transparent, setting multiple languages, playing local videos, and ssh.
 ![setting.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/setting.jpg)
 
 ### Calculator

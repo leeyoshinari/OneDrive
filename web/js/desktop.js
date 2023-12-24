@@ -48,6 +48,7 @@ let startClientX = 0;
 let startClientY = 0;
 let endClientX = 0;
 let endClientY = 0;
+let current_window = '';
 let cms = {
     'titbar': [
         function (arg) {
@@ -1867,6 +1868,7 @@ if (localStorage.getItem('transparent') === '1') {
     $('.window').addClass('transparent');
     $('.setting-list>*').addClass('transparent');
     $('.card.pinned').addClass('transparent');
+    $('#win-notepad>.text-box').addClass('transparent');
     $('#win-explorer>.page>.main>.content').addClass('transparent');
     $('#win-explorer>.page>.main-share>.content').addClass('transparent');
     $('#win-whiteboard>canvas').addClass('transparent');
@@ -1883,8 +1885,7 @@ function win_move(e) {
     let cx, cy;
     if (e.type === 'touchmove') {
         cx = e.targetTouches[0].clientX, cy = e.targetTouches[0].clientY;
-    }
-    else {
+    } else {
         cx = e.clientX, cy = e.clientY;
     }
     // $(this).css('cssText', `left:${cx - deltaLeft}px;top:${cy - deltaTop}px;`);
@@ -1959,6 +1960,8 @@ for (let i = 0; i < wins.length; i++) {
         }
         deltaLeft = e.clientX - x;
         deltaTop = e.clientY - y;
+        win.classList.add('move_transparent');
+        current_window = win;
         page.onmousemove = win_move.bind(win);
     })
     titbar.addEventListener('touchstart', (e) => {
@@ -1970,11 +1973,13 @@ for (let i = 0; i < wins.length; i++) {
         }
         deltaLeft = e.targetTouches[0].clientX - x;
         deltaTop = e.targetTouches[0].clientY - y;
+        $(this).css('backdrop-filter', 'none');
         page.ontouchmove = win_move.bind(win);
     })
 }
-page.addEventListener('mouseup', () => {
+page.addEventListener('mouseup', (e) => {
     page.onmousemove = null;
+    if (current_window) {current_window.classList.remove('move_transparent');}
     if (fil) {
         if (filty === 'top') {
             maxwin(fil.classList[1], false);
@@ -1998,8 +2003,9 @@ page.addEventListener('mouseup', () => {
         fil = false;
     }
 });
-page.addEventListener('touchend', () => {
+page.addEventListener('touchend', (e) => {
     page.ontouchmove = null;
+    $(this).css('backdrop-filter', 'blur(180px) saturate(1.5)');
     if (fil) {
         if (filty === 'top')
             maxwin(fil.classList[1], false);

@@ -35,8 +35,10 @@ function set_page_language() {
     $('#win-setting>.page>.appearance>.setting-list>.upload>a')[0].innerText = i18next.t('setting.window.appearance.background.image.upload');
     $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[2].innerText = i18next.t('setting.window.appearance.theme.switch');
     $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[3].innerText = i18next.t('setting.window.appearance.theme.switch.tips');
-    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[4].innerText = i18next.t('setting.window.appearance.language');
-    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[5].innerText = i18next.t('setting.window.appearance.language.tips');
+    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[4].innerText = i18next.t('setting.window.appearance.transparent.switch');
+    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[5].innerText = i18next.t('setting.window.appearance.transparent.tips');
+    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[6].innerText = i18next.t('setting.window.appearance.language');
+    $('#win-setting>.page>.appearance>.setting-list>.dp>div>p')[7].innerText = i18next.t('setting.window.appearance.language.tips');
     // 视频
     $('#win-setting>.menu>.focs>.videos>span')[0].innerText = i18next.t('setting.window.videos');
     $('#win-setting>.page>.videos>p')[0].innerText = i18next.t('setting.window.videos');

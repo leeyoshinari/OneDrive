@@ -5,7 +5,6 @@ blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr
 }
 body, button, input, select, textarea, th {
     color: #333;
-    background-color: #fff;
     font-size: 14px;
     line-height: 1.5;
     font-family: poppin, 'PingFang SC', Tahoma, Arial, \5FAE\8F6F\96C5\9ED1, sans-serif;
@@ -55,19 +54,6 @@ a:focus, button:focus, input:focus {
 html,body{
     height: 100%;
     width: 100%;
-    background-color: #777970;
-    overflow: hidden;
-}
-body {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ba43a8+0,ea4fce+62,537bad+100&amp;0.38+0,0.17+61,0.8+100 */
-    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-    background: #000000;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7f7280', endColorstr='#000000');
-    background-image: -webkit-linear-gradient(200deg, #7f7280, #000000);
-    background-image: -moz-linear-gradient(200deg, #7f7280, #000000);
-    background-image: -o-linear-gradient(200deg, #7f7280, #000000);
-    background-image: -ms-linear-gradient(200deg, #7f7280, #000000);
-    background-image: linear-gradient(200deg, #7f7280, #000000);
     overflow: hidden;
 }
 /* 模糊图像层 */
@@ -101,7 +87,7 @@ body {
     background-color: #000;
     filter:alpha(opacity=30); 
     -moz-opacity:0.3; 
-    opacity:0.3;
+    opacity:0.6;
     top: 0;
     left: 0;
     overflow: hidden;

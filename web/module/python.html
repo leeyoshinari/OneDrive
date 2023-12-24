@@ -45,6 +45,12 @@
                     import sys
                     import io
                     `);
+                    if (localStorage.getItem('transparent') === '1') {
+                        $('.ace-vibrant-ink')[0].style.background = '0';
+                        $('.ace-vibrant-ink>.ace_gutter')[0].style.background = '0';
+                        $('#output')[0].style.background = '0';
+                        $('.ace-vibrant-ink>.ace_marker-layer>.ace_active-line')[0].style.background = '0';
+                    }
                 })();
                 ace.require("ace/ext/language_tools");
                 editor = ace.edit("win-python-ace-editor");

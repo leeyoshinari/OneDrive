@@ -1,6 +1,9 @@
 let params = window.location.href.split('&');
 let servers = params[0].split('=')[1];
 let file_id = params[1].split('=')[1];
+if (localStorage.getItem('transparent') === '1') {
+    $('.blur-mask')[0].style.backgroundColor = '#00000000';
+}
 $('#btn-area>span')[0].innerText = window.parent.i18next.t('music.btn.box.playing.text');
 $('#btn-area>span')[0].title = window.parent.i18next.t('music.btn.box.playing.title');
 $('#btn-area>span')[1].innerText = window.parent.i18next.t('music.btn.box.history.text');

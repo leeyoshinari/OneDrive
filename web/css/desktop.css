@@ -92,7 +92,6 @@ html {
 }
 
 body {
-    /*background-image: url("apps/pictures/20210110_134128.109.jpg");*/
     background-position: center;
     background-size: cover;
     height: 100%;
@@ -172,6 +171,12 @@ list:not(.new)>a:active,
     /* filter: blur(0.5px); */
     filter: opacity(0.75);
     /* transition: transform 500ms cubic-bezier(0.24, 0.86, 0.36, 0.44) !important; */
+}
+
+.transparent {
+    background: 0 !important;
+    /*background-color: #FFFFFF00 !important;*/
+    box-shadow: 0 0 0 0 !important;
 }
 
 #dock-box {
@@ -1060,7 +1065,7 @@ list>span.focs.cl {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #00000070;
+    background-color: var(--bg50);
     position: fixed;
     z-index: 99;
     justify-content: center;
@@ -1162,7 +1167,6 @@ list>span.focs.cl {
 }
 
 :root.mica .window.foc {
-    /* background: url(bg-dark-mica.jpg) no-repeat fixed center; */
     background: var(--mica) no-repeat fixed center;
     background-size: cover;
     backdrop-filter: none;
@@ -1288,7 +1292,7 @@ list>span.focs.cl {
 .window>.titbar>span>.save-status {
     font-size: 12px;
     margin-left: 20px;
-    color: #808080;
+    color: var(--text2);
 }
 
 .window>.titbar>a {

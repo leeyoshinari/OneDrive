@@ -294,7 +294,7 @@
 }
 
 .content>.view>.info {
-    color: #888;
+    color: var(--text2);
     text-align: center;
 }
 
@@ -416,3 +416,18 @@
     margin-left: 5%;
     background-color: #f2f1f3;
 }
+#win-explorer>.page>.main>.content>.view>.class{margin: 5px 0 0 10px;display: flex;}
+#win-explorer>.page>.main>.content>.view>.class>img{width: 20px;height: 20px;margin-top: 3px;margin-right: 5px;filter:brightness(0.9);}
+#win-explorer>.page>.main>.content>.view>.group{display: flex;flex-wrap: wrap;padding: 10px 20px;}
+#win-explorer>.page>.main>.content>.view>.group>.item{width: 280px;margin: 5px;height:80px;
+    box-shadow: 0 1px 2px var(--s3d); background: radial-gradient(circle, var(--card),var(--card));border-radius: 10px;display: flex;}
+#win-explorer>.page>.main>.content>.view>.group>.item:hover{background-color: var(--hover);}
+#win-explorer>.page>.main>.content>.view>.group>.item:active{transform: scale(0.97);}
+#win-explorer>.page>.main>.content>.view>.group>.item>img{width:55px;height:55px;margin-top:18px;}
+#win-explorer>.page>.main>.content>.view>.group>.item>div{flex-grow: 1;padding: 5px 5px 0 0;}
+#win-explorer>.page>.main>.content>.view>.group>.item>div>.bar{width: calc(100% - 10px);height: 8px;border-radius: 10px;
+    background-color: var(--hover-b);margin: 5px 5px;}
+#win-explorer>.page>.main>.content>.view>.group>.item>div>.bar>.content{height: 100%;background-image: linear-gradient(90deg, var(--theme-1), var(--theme-2));
+    border-radius: 10px;}
+#win-explorer>.page>.main>.content>.view>.group>.item>div>.name{margin-left:5px;}
+#win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color:var(--text2);font-size:14px;margin-left:5px;}

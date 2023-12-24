@@ -182,7 +182,7 @@
 
 .setting-list>*>div>p:last-child {
     font-size: 10px;
-    color: #7f7f7f;
+    color: var(--text2);
     margin-bottom: 0px;
 }
 

@@ -41,6 +41,8 @@
   "setting.window.appearance.background.image.upload": "上传图片",
   "setting.window.appearance.theme.switch": "切换主题",
   "setting.window.appearance.theme.switch.tips": "切换明/暗主题",
+  "setting.window.appearance.transparent.switch": "切换窗口透明度",
+  "setting.window.appearance.transparent.tips": "切换窗口透明/不透明",
   "setting.window.appearance.language": "设置语言",
   "setting.window.appearance.language.tips": "请选择语言，如果没有，请先配置",
   "setting.window.videos": "视频",

@@ -333,30 +333,23 @@ function hidedescp(e) {
 // 提示
 let nts = {
     'ZeroDivision': {//计算器报错窗口
-        cnt: `<p class="tit">错误</p>
-            <p>除数不得等于0</p>`,
-        btn: [
-            { type: 'main', text: i18next.t('submit'), js: 'closenotice();' },
-        ]
+        cnt: `<p class="tit">错误</p><p>除数不得等于0</p>`,
+        btn: [{ type: 'main', text: 'submit', js: 'closenotice();' }]
     },
     'share': {
         cnt: `<p class="tit"></p><input type="text" id="share-time" placeholder="" style="width: 95%;">`,
-        btn: [
-            { type: 'main', text: i18next.t('submit'), js: 'apps.explorer.share();' },
-            { type: 'detail', text: i18next.t('cancel'), js: 'closenotice();' }
-        ]
+        btn: [{ type: 'main', text: 'submit', js: 'apps.explorer.share();' },
+            { type: 'detail', text: 'cancel', js: 'closenotice();' }]
     },
     'uploadResult': {
         cnt: `<p class="tit"></p><list class="upload-result"></list>`,
-        btn: [
-            { type: 'main', text: i18next.t('submit'), js: 'closenotice();' }]
-    }
+        btn: [{ type: 'main', text: 'submit', js: 'closenotice();' }]}
 }
 function shownotice(name) {
     $('#notice>.cnt').html(nts[name].cnt);
     let tmp = '';
     nts[name].btn.forEach(btn => {
-        tmp += `<a class="a btn ${btn.type}" onclick="${btn.js}">${btn.text}</a>`
+        tmp += `<a class="a btn ${btn.type}" onclick="${btn.js}">${i18next.t(btn.text)}</a>`
     });
     $('#notice>.btns').html(tmp);
     if (name === 'share') {
@@ -543,22 +536,7 @@ let apps = {
             apps.explorer.checkHistory(apps.explorer.tabs[c][0]);
         },
         reset: (clear = true) => {
-            $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = `<style>#win-explorer>.page>.main>.content>.view>.class{margin: 5px 0 0 10px;display: flex;}
-            #win-explorer>.page>.main>.content>.view>.class>img{width: 20px;height: 20px;margin-top: 3px;margin-right: 5px;filter:brightness(0.9);}
-            #win-explorer>.page>.main>.content>.view>.group{display: flex;flex-wrap: wrap;padding: 10px 20px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item{width: 280px;margin: 5px;height:80px;
-                box-shadow: 0 1px 2px var(--s3d); background: radial-gradient(circle, var(--card),var(--card));border-radius: 10px;display: flex;}
-            #win-explorer>.page>.main>.content>.view>.group>.item:hover{background-color: var(--hover);}
-            #win-explorer>.page>.main>.content>.view>.group>.item:active{transform: scale(0.97);}
-            #win-explorer>.page>.main>.content>.view>.group>.item>img{width:55px;height:55px;margin-top:18px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div{flex-grow: 1;padding: 5px 5px 0 0;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div>.bar{width: calc(100% - 10px);height: 8px;border-radius: 10px;
-                background-color: var(--hover-b);margin: 5px 5px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div>.bar>.content{height: 100%;background-image: linear-gradient(90deg, var(--theme-1), var(--theme-2));
-                border-radius: 10px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div>.name{margin-left:5px;}
-            #win-explorer>.page>.main>.content>.view>.group>.item>div>.info{color:#959595;font-size:14px;margin-left:5px;}</style>
-            <p class="class"><img src="img/explorer/disk.svg" alt=""> ${i18next.t('explore.window.file.disk.title')} </p><div class="group"></div>`;
+            $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = `<p class="class"><img src="img/explorer/disk.svg" alt=""> ${i18next.t('explore.window.file.disk.title')} </p><div class="group"></div>`;
             $('#win-explorer>.page>.menu>.card>list>a')[0].className ='check';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
@@ -588,6 +566,11 @@ let apps = {
                     disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">' + i18next.t('explore.window.file.disk.name') + ' (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + i18next.t('explore.window.file.disk.size') + c['total'] + '</p></div></a>';
                 });
                 document.getElementsByClassName('group')[0].innerHTML = disk_group;
+                if (localStorage.getItem('transparent') === '1') {
+                    $('#win-explorer>.page>.main>.content>.view>.group>.item').addClass('transparent');
+                } else {
+                    $('#win-explorer>.page>.main>.content>.view>.group>.item').removeClass('transparent');
+                }
             });
         },
         garbage: () => {
@@ -1853,6 +1836,24 @@ function toggletheme() {
         $('.window.whiteboard>.titbar>span>.title').text('Whiteboard');
     }
 }
+// 透明度
+function toggle_transparent() {
+    $('.window').toggleClass('transparent');
+    $('.setting-list>*').toggleClass('transparent');
+    $('.card.pinned').toggleClass('transparent');
+    $('#win-explorer>.page>.main>.content').toggleClass('transparent');
+    $('#win-notepad>.text-box').toggleClass('transparent');
+    $('#win-explorer>.page>.main-share>.content').toggleClass('transparent');
+    $('#win-whiteboard>canvas').toggleClass('transparent');
+    $('#win-whiteboard>.toolbar>.tools').toggleClass('transparent');
+    $('#notice').toggleClass('transparent');
+    $('#notice>.btns').toggleClass('transparent');
+    if ($('.window').hasClass('transparent')) {
+        localStorage.setItem('transparent', '1');
+    } else {
+        localStorage.setItem('transparent', '0');
+    }
+}
 
 const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
 if (isDarkTheme.matches) { //是深色
@@ -1861,6 +1862,17 @@ if (isDarkTheme.matches) { //是深色
     $('.window.whiteboard>.titbar>span>.title').text('Blackboard');
 } else { // 不是深色
     $('.window.whiteboard>.titbar>span>.title').text('Whiteboard');
+}
+if (localStorage.getItem('transparent') === '1') {
+    $('.window').addClass('transparent');
+    $('.setting-list>*').addClass('transparent');
+    $('.card.pinned').addClass('transparent');
+    $('#win-explorer>.page>.main>.content').addClass('transparent');
+    $('#win-explorer>.page>.main-share>.content').addClass('transparent');
+    $('#win-whiteboard>canvas').addClass('transparent');
+    $('#win-whiteboard>.toolbar>.tools').addClass('transparent');
+    $('#notice').addClass('transparent');
+    $('#notice>.btns').addClass('transparent');
 }
 // 拖拽窗口
 const page = document.getElementsByTagName('html')[0];

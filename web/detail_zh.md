@@ -35,7 +35,7 @@
 ![share.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/share.jpg)
 
 ### 设置页面
-支持修改密码、退出登陆、上传桌面背景图片、设置主题、选择语言、播放本地视频、ssh。其中上传的桌面背景图片的格式必须是`jpg`。
+支持修改密码、退出登陆、上传桌面背景图片、设置主题、窗口透明、选择语言、播放本地视频、ssh。其中上传的桌面背景图片的格式必须是`jpg`。
 ![setting.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/setting.jpg)
 
 ### 计算器

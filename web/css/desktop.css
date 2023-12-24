@@ -178,6 +178,7 @@ list:not(.new)>a:active,
     /*background-color: #FFFFFF00 !important;*/
     box-shadow: 0 0 0 0 !important;
 }
+.move_transparent {backdrop-filter:none !important;}
 
 #dock-box {
     position: fixed;

@@ -381,7 +381,7 @@ function play_local_mp3() {
                     musicList[0].item[music_index].lyric_url = URL.createObjectURL(files[i]);
                 }
             } else {
-                if (file_name.indexOf('.mp3')>0) {
+                if (file_name.indexOf('.mp3') > 0) {
                     musicList[0].item.push({
                         id: window.parent.md5(file_name_no),
                         name: file_name,
@@ -397,8 +397,8 @@ function play_local_mp3() {
                         lyric_url: URL.createObjectURL(files[i])
                     });
                 }
+                music_list_index.push(file_name_no);
             }
-            music_list_index.push(file_name_no);
         }
         $(".btn[data-action='playing']").addClass("btn-select");
         $(".btn[data-action='history']").removeClass("btn-select");

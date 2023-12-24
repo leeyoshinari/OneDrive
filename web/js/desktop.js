@@ -1973,7 +1973,8 @@ for (let i = 0; i < wins.length; i++) {
         }
         deltaLeft = e.targetTouches[0].clientX - x;
         deltaTop = e.targetTouches[0].clientY - y;
-        $(this).css('backdrop-filter', 'none');
+        win.classList.add('move_transparent');
+        current_window = win;
         page.ontouchmove = win_move.bind(win);
     })
 }
@@ -2005,7 +2006,7 @@ page.addEventListener('mouseup', (e) => {
 });
 page.addEventListener('touchend', (e) => {
     page.ontouchmove = null;
-    $(this).css('backdrop-filter', 'blur(180px) saturate(1.5)');
+    if (current_window) {current_window.classList.remove('move_transparent');}
     if (fil) {
         if (filty === 'top')
             maxwin(fil.classList[1], false);

@@ -77,28 +77,6 @@
                 window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = window.parent.get_current_time() + window.parent.i18next.t('edit.online.saved.tips');
             }
         }, 10000);
-        let markdown_js = ["markdown-it.min.js",
-            "markdownItAnchor.umd.js",
-            "markdownItTocDoneRight.umd.js",
-            "markdown-it-multimd-table.min.js",
-            "markdown-it-container.min.js",
-            "markdown-it-deflist.min.js",
-            "markdown-it-ins.min.js",
-            "markdown-it-mark.min.js",
-            "markdown-it-sub.min.js",
-            "markdown-it-sup.min.js",
-            "markdown-it-footnote.min.js",
-            "markdown-it-emoji.min.js",
-            "markdown-it-emoji-bare.min.js",
-            "markdown-it-emoji-light.min.js",
-            "markdown-it-task-list-plus.min.js"];
-        setTimeout(() => {
-            markdown_js.forEach(item => {
-                let script = document.createElement('script');
-                script.setAttribute('src', 'markdown/' + item);
-                document.body.appendChild(script);
-            })
-        }, 3000);
 
         function close_md_editor(file_id) {
             clearInterval(md_interval);
@@ -112,32 +90,6 @@
             window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.save-status')[0].innerText = "";
             window.parent.document.getElementsByClassName("markdown")[0].style.display = 'none';
             window.parent.document.getElementById("iframe_markdown").src = 'about:blank';
-        }
-
-        function md2html() {
-            let content = document.getElementById("editormd").getElementsByTagName("textarea")[0].value;
-            let md = window.markdownit({html: true, linkify: true, typographer: true});
-            md.use(window.markdownItAnchor)
-                .use(window.markdownItTocDoneRight)
-                .use(window.markdownitContainer)
-                .use(window.markdownitDeflist)
-                .use(window.markdownitEmoji)
-                .use(window.markdownitFootnote)
-                .use(window.markdownitIns)
-                .use(window.markdownitMark)
-                .use(window.markdownitSub)
-                .use(window.markdownitSup)
-                .use(window.markdownitMultimdTable, {
-                    multiline: false,
-                    rowspan: false,
-                    headerless: false,
-                    multibody: true,
-                    autolabel: true
-                });
-            let html = md.render("${toc}\n" + content);
-            localStorage.setItem('md2html', html);
-            localStorage.setItem('filename', window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText.replace('.md', '.html'));
-            window.open('module/markdown/md2html.html');
         }
     } else {
         document.getElementById("editormd").style.height = window.innerHeight + 'px';

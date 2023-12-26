@@ -138,14 +138,14 @@ function updateProgress(){
     // 同步进度条
     let process_play = rem.audio[0].currentTime / rem.audio[0].duration;
     if (process_play > 0.3 && rem.set_history) {
-        if (rem.post_data.file_id.length > 16) {rem.set_history = false;return;}
+        rem.set_history = false;
+        if (rem.post_data.file_id.length > 16) {return;}
         window.parent.$.ajax({
             type: 'POST',
             url: servers + '/music/record/set',
             data: JSON.stringify(rem.post_data),
             contentType: 'application/json',
             success: function (data) {
-                rem.set_history = false;
                 if (data['code'] !== 0) {
                     window.parent.$.Toast(data['msg'], 'error');
                 }

@@ -2705,7 +2705,7 @@ function open_md(file_id) {
     document.getElementsByClassName("markdown")[0].style.display = 'block';
     document.getElementById("iframe_markdown").src = 'module/md.html?server=' + server + '&id=' + file_id;
     $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
-    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.md2html();`);
+    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `window.open('${server}/export/md/${file_id}')`);
 }
 
 function open_xmind(file_id) {

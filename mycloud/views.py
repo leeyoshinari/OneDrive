@@ -8,6 +8,7 @@ import shutil
 import zipfile
 import traceback
 import eyed3
+import markdown
 from tortoise import transactions
 from tortoise.expressions import Q
 from tortoise.exceptions import DoesNotExist
@@ -815,5 +816,21 @@ async def get_mp3_lyric(file_id: str, hh: dict) -> Result:
     except:
         result.code = 1
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Failure[hh['lang']]}"
+        logger.error(traceback.format_exc())
+    return result
+
+
+async def markdown_to_html(file_id: str, hh: dict) -> dict:
+    result = {'name': '', 'format': '', 'data': ''}
+    try:
+        file = await models.Files.get(id=file_id).select_related('parent')
+        parent_path = await file.parent.get_all_path()
+        file_path = os.path.join(parent_path, file.name)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            result['data'] = markdown.markdown(f.read(), extensions=['markdown.extensions.toc', 'markdown.extensions.fenced_code', 'markdown.extensions.tables'])
+        result['name'] = file.name.replace('.md', '.html')
+        result['format'] = 'html'
+        logger.info(f"{Msg.CommonLog1[hh['lang']].format(Msg.MsgExport[hh['lang']].format(file.name) + Msg.Success[hh['lang']], file_id, hh['u'], hh['ip'])}")
+    except:
         logger.error(traceback.format_exc())
     return result

@@ -20,10 +20,10 @@ $('.player-btn.btn-play')[0].title = window.parent.i18next.t('music.control.paus
 $('.player-btn.btn-order')[0].title = window.parent.i18next.t('music.control.circle.title');
 $('.player-btn.btn-quiet')[0].title = window.parent.i18next.t('music.control.mute.title');
 var isMobile = {
-    Android: function() {return navigator.userAgent.match(/Android/i) ? true : false;},
-    BlackBerry: function() {return navigator.userAgent.match(/BlackBerry/i) ? true : false;},
-    iOS: function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;},
-    Windows: function() {return navigator.userAgent.match(/IEMobile/i) ? true : false;},
+    Android: function() {return !!navigator.userAgent.match(/Android/i);},
+    BlackBerry: function() {return !!navigator.userAgent.match(/BlackBerry/i);},
+    iOS: function() {return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+    Windows: function() {return !!navigator.userAgent.match(/IEMobile/i);},
     any: function() {return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());}
 };
 if (isMobile.any()) {$('#play_local_mp3')[0].setAttribute('accept', '*');}

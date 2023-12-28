@@ -125,7 +125,6 @@ location /mycloud/ssh {
 - [viewerjs](https://github.com/fengyuanchen/viewerjs)
 - [kityminder](https://github.com/fex-team/kityminder)
 - [editor.md](https://github.com/pandao/editor.md)
-- [markdown-it](https://github.com/markdown-it/markdown-it)
 - [Luckysheet](https://github.com/dream-num/Luckysheet)
 - [wangEditor](https://github.com/wangeditor-team/wangEditor)
 - [优折美在线音乐播放器](https://m.uzz.me)

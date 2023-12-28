@@ -5,7 +5,7 @@ import json
 
 
 def create_sheet(file_path):
-    content = [{"name": "Sheet 1", "status": "1", "order": "0", "row": 66, "column": 52, "celldata": [{"r": 0, "c": 0, "v": {}}], "config": {}, "index": 0}]
+    content = [{"name": "Sheet 1", "status": "1", "order": "0", "row": 66, "column": 26, "celldata": [{"r": 0, "c": 0, "v": {}}], "config": {}, "index": 0}]
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(json.dumps(content, ensure_ascii=False))
 

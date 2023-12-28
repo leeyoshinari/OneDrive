@@ -20,6 +20,7 @@ from common.ssh import UploadAndDownloadFile, get_server_info
 from common.calc import calc_md5, calc_file_md5, beauty_mp3_time
 from common.xmind import read_xmind, create_xmind, generate_xmind8
 from common.sheet import read_sheet, create_sheet
+from common.md2html import md_to_html
 
 
 root_path = json.loads(get_config("rootPath"))
@@ -815,5 +816,21 @@ async def get_mp3_lyric(file_id: str, hh: dict) -> Result:
     except:
         result.code = 1
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Failure[hh['lang']]}"
+        logger.error(traceback.format_exc())
+    return result
+
+
+async def markdown_to_html(file_id: str, hh: dict) -> dict:
+    result = {'name': '', 'format': '', 'data': ''}
+    try:
+        file = await models.Files.get(id=file_id).select_related('parent')
+        parent_path = await file.parent.get_all_path()
+        file_path = os.path.join(parent_path, file.name)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            result['data'] = md_to_html(f.read())
+        result['name'] = file.name.replace('.md', '.html')
+        result['format'] = 'html'
+        logger.info(f"{Msg.CommonLog1[hh['lang']].format(Msg.MsgExport[hh['lang']].format(file.name) + Msg.Success[hh['lang']], file_id, hh['u'], hh['ip'])}")
+    except:
         logger.error(traceback.format_exc())
     return result

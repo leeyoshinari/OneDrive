@@ -41335,7 +41335,9 @@ angular.module("kityminderDemo", ["kityminderEditor"]).controller("MainControlle
     }
     let div_node = document.createElement('div');
     div_node.className='btn-group-vertical';
-    div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">${window.parent.i18next.t('explore.window.menu.xmind.export')}</span></button>`;
+    if (file_id.length > 10)
+    {div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">${window.parent.i18next.t('explore.window.menu.xmind.export')}</span></button>`;}
+    else {div_node.innerHTML = `<button type="button" class="btn btn-default search-caption dropdown-toggle" onclick="window.open('${export_url}')" style="height:100%;"><span class="caption ng-binding" style="white-space:break-spaces;">导出为xmind8</span></button>`;}
     setTimeout(()=>{document.querySelectorAll('.tab-pane.ng-scope')[0].appendChild(div_node)}, 3000);
 });
 function close_xmind_editor(file_id) {

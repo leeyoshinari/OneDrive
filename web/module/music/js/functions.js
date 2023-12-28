@@ -19,6 +19,14 @@ $('.player-btn.btn-next')[0].title = window.parent.i18next.t('music.control.next
 $('.player-btn.btn-play')[0].title = window.parent.i18next.t('music.control.pause.title');
 $('.player-btn.btn-order')[0].title = window.parent.i18next.t('music.control.circle.title');
 $('.player-btn.btn-quiet')[0].title = window.parent.i18next.t('music.control.mute.title');
+var isMobile = {
+    Android: function() {return !!navigator.userAgent.match(/Android/i);},
+    BlackBerry: function() {return !!navigator.userAgent.match(/BlackBerry/i);},
+    iOS: function() {return !!navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+    Windows: function() {return !!navigator.userAgent.match(/IEMobile/i);},
+    any: function() {return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());}
+};
+if (isMobile.any()) {$('#play_local_mp3')[0].setAttribute('accept', '*');}
 var musicList = [{name: "正在播放", item: []}, {name: "播放历史", item: []}, {name: "经常听的", item: []}];
 let startClientX = 0;
 let startClientY = 0;
@@ -389,7 +397,7 @@ function play_local_mp3() {
                         url: URL.createObjectURL(files[i]),
                         lyric_url: ''
                     });
-                } else {
+                } else if (file_name.indexOf('.lrc') > 0) {
                     musicList[0].item.push({
                         id: window.parent.md5(file_name_no),
                         duration: '',

@@ -215,7 +215,7 @@ class SaveFile(BaseModel):
 
 # 文件删除模型
 class IsDelete(BaseModel):
-    ids: List[str]
+    ids: List[Any]
     file_type: str = "file"
     is_delete: int = 1
     delete_type: int = 0

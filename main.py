@@ -386,6 +386,17 @@ async def export_file(file_id: str, hh: dict = Depends(auth)):
         return Result(code=1, msg=Msg.MsgDownloadError[hh['lang']])
 
 
+@router.get("/export/md/{file_id}", summary="Export markdown to html (导出 markdown 转 html)")
+async def md2html(file_id: str, hh: dict = Depends(auth)):
+    try:
+        result = await views.markdown_to_html(file_id, hh)
+        headers = {'Accept-Ranges': 'bytes', 'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        return Response(result['data'].encode('utf-8'), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+    except:
+        logger.error(traceback.format_exc())
+        return Result(code=1, msg=Msg.Failure[hh['lang']])
+
+
 @router.get("/share/export/{file_id}", summary="Export file (导出文件)")
 async def export_share_file(file_id: int, request: Request):
     try:
@@ -430,7 +441,7 @@ async def upload_file_to_ssh(query: Request, hh: dict = Depends(auth)):
 
 
 @router.get("/ssh/file/download", summary="Download file (下载文件)")
-async def upload_file_to_ssh(server_id: str, file_path: str, hh: dict = Depends(auth)):
+async def download_file_from_ssh(server_id: str, file_path: str, hh: dict = Depends(auth)):
     _, file_name = os.path.split(file_path)
     if not file_name:
         logger.error(f"{Msg.CommonLog[hh['lang']].format(Msg.MsgSSHExport[hh['lang']], hh['u'], hh['ip'])}")

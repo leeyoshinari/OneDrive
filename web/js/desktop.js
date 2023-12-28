@@ -706,7 +706,7 @@ let apps = {
             if (is_open) {
                 window.open(share_url);
             } else {
-                let url_t = 'http://' + window.location.href.split('/')[2] + share_url;
+                let url_t = window.location.href.split('/')[0] + '//' + window.location.href.split('/')[2] + share_url;
                 let textarea = document.createElement('textarea');
                 textarea.value = url_t;
                 document.body.appendChild(textarea);

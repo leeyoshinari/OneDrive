@@ -153,6 +153,7 @@ function updateProgress(){
         })
     }
 	music_bar.goto(process_play);
+    $('#play-time')[0].innerText = formatSeconds(rem.audio[0].currentTime);
     // 同步歌词显示	
 	scrollLyric(rem.audio[0].currentTime);
 }
@@ -390,4 +391,10 @@ function ajaxLyric(music, callback) {
             callback('');
         }
     });
+}
+
+function formatSeconds(totalSeconds) {
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = Math.floor(totalSeconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }

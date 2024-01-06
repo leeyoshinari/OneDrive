@@ -39,13 +39,8 @@ def beauty_size(size):
 
 
 def beauty_mp3_time(duration):
-    minute = int(duration // 60)
-    second = int(duration % 60)
-    if minute < 10:
-        minute = f"0{minute}"
-    if second < 10:
-        second = f"0{second}"
-    return f"{minute}:{second}"
+    minute, second = divmod(int(duration), 60)
+    return f"{minute:02}:{second:02}"
 
 
 def modify_prefix(prefix='/mycloud'):

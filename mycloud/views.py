@@ -301,7 +301,9 @@ async def get_folders_by_id(folder_id: str, hh: dict) -> Result:
         folder = await models.Catalog.get(id=folder_id)
         folder_path = await folder.get_all_path()
         for k, v in root_path.items():
-            full_path = folder_path.replace(f"{v}/{hh['u']}", '')
+            tmp1 = folder_path.replace('\\', '/')
+            tmp2 = v.replace('\\', '/') + '/' + hh['u']
+            full_path = tmp1.replace(tmp2, '')
             if len(folder_path) != len(full_path):
                 folder_path = f"{k}:{full_path}"
                 break

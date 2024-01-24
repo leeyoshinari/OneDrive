@@ -1,5 +1,5 @@
 # OneDrive
-Windows-style personal skydisk with supporting online editing.
+Windows-style personal cloud-drive with supporting online editing.
 
 [中文文档](https://github.com/leeyoshinari/OneDrive/blob/main/README_zh.md)
 
@@ -9,7 +9,7 @@ Windows-style personal skydisk with supporting online editing.
 - Supports online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
-- Music player, supports playing music from this skydisk (Server) and local (Client)
+- Music player, supports playing music from this cloud-drive (Server) and local (Client)
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily

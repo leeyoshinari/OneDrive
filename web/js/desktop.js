@@ -893,6 +893,7 @@ let apps = {
             input.value = old_name;
             input.style.width = element.clientWidth - 35 + 'px';
             element.appendChild(input);
+            element.appendChild(add_button_to_input());
             setTimeout(() => { $("#new_name").focus(); $("#new_name").select(); }, 200);
             element.classList.add("change");
             let input_ = document.getElementById("new_name");
@@ -2077,6 +2078,22 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
         }
     });
 };
+
+function add_button_to_input() {
+    let parent_div = document.createElement("div");
+    parent_div.className = "input-group-append";
+    let confirm_button = document.createElement("button");
+    confirm_button.type = "button";
+    confirm_button.className = "input-button";
+    confirm_button.innerText = "√";
+    let cancel_button = document.createElement("button");
+    cancel_button.type = "button";
+    cancel_button.className = "input-button";
+    cancel_button.innerText = "×";
+    parent_div.appendChild(confirm_button);
+    parent_div.appendChild(cancel_button);
+    return parent_div;
+}
 
 function show_modal_cover(gif=true, progress=false) {
     $('.modal_cover')[0].style.display = 'flex';

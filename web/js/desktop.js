@@ -893,7 +893,7 @@ let apps = {
             input.value = old_name;
             input.style.width = element.clientWidth - 35 + 'px';
             element.appendChild(input);
-            element.appendChild(add_button_to_input(name));
+            element.appendChild(add_button_to_input(name, old_name));
             setTimeout(() => { $("#new_name").focus(); $("#new_name").select(); }, 200);
             element.classList.add("change");
             let input_ = document.getElementById("new_name");
@@ -2050,18 +2050,19 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
     });
 };
 
-function add_button_to_input(name) {
+function add_button_to_input(name, old_name) {
     let parent_div = document.createElement("div");
     parent_div.className = "input-group-append";
     let confirm_button = document.createElement("button");
     confirm_button.type = "button";
     confirm_button.className = "input-button";
     confirm_button.innerText = "√";
+    confirm_button.addEventListener('click', ()=> {rename_file_and_folder(name, old_name);})
     let cancel_button = document.createElement("button");
     cancel_button.type = "button";
     cancel_button.className = "input-button";
     cancel_button.innerText = "×";
-    cancel_button.addEventListener('onclick', ()=> {cancel_rename(name);})
+    cancel_button.addEventListener('click', ()=> {cancel_rename(name, old_name);})
     parent_div.appendChild(confirm_button);
     parent_div.appendChild(cancel_button);
     return parent_div;
@@ -2097,9 +2098,8 @@ function rename_file_and_folder(name, old_name) {
     apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
 }
 
-function cancel_rename(name) {
+function cancel_rename(name, old_name) {
     let element = document.querySelector('#f' + name).querySelectorAll('span')[0];
-    let old_name = document.getElementById("new_name").value;
     element.removeChild(element.querySelector("input"));
     element.removeChild(element.querySelector("div"));
     element.append(old_name);

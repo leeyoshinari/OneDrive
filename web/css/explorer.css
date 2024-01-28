@@ -331,6 +331,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    position: relative;
+}
+.input-group-append {
+    position: absolute;
+    top: -5%;
+    right: 1%;
 }
 
 .content>.view>.row>.item>span>img {

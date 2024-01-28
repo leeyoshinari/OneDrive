@@ -893,39 +893,11 @@ let apps = {
             input.value = old_name;
             input.style.width = element.clientWidth - 35 + 'px';
             element.appendChild(input);
+            element.appendChild(add_button_to_input(name, old_name));
             setTimeout(() => { $("#new_name").focus(); $("#new_name").select(); }, 200);
             element.classList.add("change");
             let input_ = document.getElementById("new_name");
-            input_.addEventListener("keyup", function (event) {
-                if (event.key === "Enter") {
-                    if (old_name !== input_.value) {
-                        let file_type = 'file';
-                        if (document.querySelector('#f' + name).classList.contains('files')) {
-                            file_type = 'folder';
-                        }
-                        let post_data = {
-                            id: name,
-                            name: input_.value,
-                            type: file_type
-                        }
-                        $.ajax({
-                            type: 'POST',
-                            url: server + '/rename',
-                            async: false,
-                            data: JSON.stringify(post_data),
-                            contentType: 'application/json',
-                            success: function (data) {
-                                if (data['code'] === 0) {
-                                    $.Toast(data['msg'], 'success');
-                                } else {
-                                    $.Toast(data['msg'], 'error');
-                                }
-                            }
-                        })
-                    }
-                    apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
-                }
-            });
+            input_.addEventListener("keyup", function (event) {if (event.key === "Enter") {rename_file_and_folder(name, old_name);}});
         },
         copy: (file_id) => {
             show_modal_cover();
@@ -2077,6 +2049,61 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
         }
     });
 };
+
+function add_button_to_input(name, old_name) {
+    let parent_div = document.createElement("div");
+    parent_div.className = "input-group-append";
+    let confirm_button = document.createElement("button");
+    confirm_button.type = "button";
+    confirm_button.className = "input-button";
+    confirm_button.innerText = "√";
+    confirm_button.addEventListener('click', ()=> {rename_file_and_folder(name, old_name);})
+    let cancel_button = document.createElement("button");
+    cancel_button.type = "button";
+    cancel_button.className = "input-button";
+    cancel_button.innerText = "×";
+    cancel_button.addEventListener('click', ()=> {cancel_rename(name, old_name);})
+    parent_div.appendChild(confirm_button);
+    parent_div.appendChild(cancel_button);
+    return parent_div;
+}
+
+function rename_file_and_folder(name, old_name) {
+    let new_name = document.getElementById("new_name");
+    if (old_name !== new_name.value) {
+        let file_type = 'file';
+        if (document.querySelector('#f' + name).classList.contains('files')) {
+            file_type = 'folder';
+        }
+        let post_data = {
+            id: name,
+            name: new_name.value,
+            type: file_type
+        }
+        $.ajax({
+            type: 'POST',
+            url: server + '/rename',
+            async: false,
+            data: JSON.stringify(post_data),
+            contentType: 'application/json',
+            success: function (data) {
+                if (data['code'] === 0) {
+                    $.Toast(data['msg'], 'success');
+                } else {
+                    $.Toast(data['msg'], 'error');
+                }
+            }
+        })
+    }
+    apps.explorer.goto($('#win-explorer>.path>.tit')[0].dataset.path, $('#win-explorer>.path>.tit')[0].id);
+}
+
+function cancel_rename(name, old_name) {
+    let element = document.querySelector('#f' + name).querySelectorAll('span')[0];
+    element.removeChild(element.querySelector("input"));
+    element.removeChild(element.querySelector("div"));
+    element.append(old_name);
+}
 
 function show_modal_cover(gif=true, progress=false) {
     $('.modal_cover')[0].style.display = 'flex';

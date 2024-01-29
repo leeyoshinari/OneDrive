@@ -770,16 +770,6 @@ list:not(.new)>a:active,
     opacity: 1;
 }
 
-.input-button {
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 16px;
-    padding: 0px 4px;
-    transition: 100ms;
-    background-color: var(--hover-b);
-    border-color: var(--sd);
-}
-
 .btn {
     border: 0 solid;
     border-radius: 10px;

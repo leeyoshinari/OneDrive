@@ -1,3 +1,5 @@
+@font-face {font-family:SettingsIcons; src:url(fonts/bootstrap-icons.woff2) format("woff2")}
+
 .window.explorer>.titbar>.tabs>.tab>p>img{
     width: 25px;
     height: 25px;
@@ -338,6 +340,7 @@
     top: -5%;
     right: 1%;
 }
+.input-group-append>icon {font-family: SettingsIcons;font-size:20px;margin-right:9px;}
 
 .content>.view>.row>.item>span>img {
     width: 22px;

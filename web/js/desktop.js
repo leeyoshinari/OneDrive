@@ -2053,15 +2053,11 @@ document.getElementsByTagName('body')[0].onload = function nupd() {
 function add_button_to_input(name, old_name) {
     let parent_div = document.createElement("div");
     parent_div.className = "input-group-append";
-    let confirm_button = document.createElement("button");
-    confirm_button.type = "button";
-    confirm_button.className = "input-button";
-    confirm_button.innerText = "√";
+    let confirm_button = document.createElement("icon");
+    confirm_button.innerText = "";
     confirm_button.addEventListener('click', ()=> {rename_file_and_folder(name, old_name);})
-    let cancel_button = document.createElement("button");
-    cancel_button.type = "button";
-    cancel_button.className = "input-button";
-    cancel_button.innerText = "×";
+    let cancel_button = document.createElement("icon");
+    cancel_button.innerHTML = "";
     cancel_button.addEventListener('click', ()=> {cancel_rename(name, old_name);})
     parent_div.appendChild(confirm_button);
     parent_div.appendChild(cancel_button);

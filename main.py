@@ -391,7 +391,7 @@ async def md2html(file_id: str, hh: dict = Depends(auth)):
     try:
         result = await views.markdown_to_html(file_id, hh)
         headers = {'Accept-Ranges': 'bytes', 'Content-Disposition': f'inline;filename="{result["name"]}"'}
-        return Response(result['data'].encode('utf-8'), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+        return StreamResponse(result['data'].encode('utf-8'), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
     except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg=Msg.Failure[hh['lang']])

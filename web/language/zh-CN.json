@@ -173,5 +173,6 @@
   "msg.move.file.error1": "请不要自己移动到自己里面 ~",
   "msg.upload.file.image.error1": "只支持 jpg/jpeg 的图片 ~",
   "msg.modify.password.error1": "两次输入的密码不一样 ~",
+  "msg.modify.password.error2": "请输入密码 ~",
   "msg.server.add.error1": "请输入服务器信息 ~"
 }

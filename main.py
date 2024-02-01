@@ -14,7 +14,7 @@ from tortoise.exceptions import DoesNotExist
 from tortoise.contrib.fastapi import register_tortoise
 from mycloud import models
 from mycloud import views
-from mycloud.responses import StreamResponse
+from mycloud.responses import StreamResponse, MyResponse
 from common.calc import str_md5, beauty_size, modify_prefix, parse_pwd
 from common.results import Result
 from common.logging import logger
@@ -391,7 +391,7 @@ async def md2html(file_id: str, hh: dict = Depends(auth)):
     try:
         result = await views.markdown_to_html(file_id, hh)
         headers = {'Accept-Ranges': 'bytes', 'Content-Disposition': f'inline;filename="{result["name"]}"'}
-        return StreamResponse(result['data'].encode('utf-8'), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+        return MyResponse(result['data'].encode('utf-8'), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
     except:
         logger.error(traceback.format_exc())
         return Result(code=1, msg=Msg.Failure[hh['lang']])

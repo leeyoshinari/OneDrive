@@ -2629,6 +2629,10 @@ function modify_pwd() {
     let pwd1 = $('#setting-pwd1')[0].value;
     let pwd2 = $('#setting-pwd2')[0].value;
     let c = new Date().getTime().toString();
+    if (!pwd1) {
+        $.Toast(i18next.t('msg.modify.password.error2'), "error");
+        return;
+    }
     if (pwd1 !== pwd2) {
         $.Toast(i18next.t('msg.modify.password.error1'), "error");
         return;

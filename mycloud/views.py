@@ -432,8 +432,8 @@ async def upload_file_by_path(query: models.ImportLocalFileByPath, hh: dict) -> 
                     folder = await models.Catalog.create(id=str(int(time.time() * 10000)), name=file, parent_id=query.id)
                     folder_path = await folder.get_all_path()
                     os.mkdir(folder_path)
-                query = models.ImportLocalFileByPath(id=folder.id, path=file_path)
-                await upload_file_by_path(query, hh)
+                query1 = models.ImportLocalFileByPath(id=folder.id, path=file_path)
+                await upload_file_by_path(query1, hh)
         logger.info(f"{Msg.MsgUpload[hh['lang']].format(query.path)}{Msg.Success[hh['lang']]}")
         return Result(msg=f"{Msg.MsgUpload[hh['lang']].format(query.path)}{Msg.Success[hh['lang']]}")
     except:

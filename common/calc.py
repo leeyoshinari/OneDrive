@@ -35,7 +35,11 @@ def beauty_size(size):
     if size < 1000:
         return f'{round(size, 2)} MB'
     else:
-        return f'{round(size / 1024, 2)} GB'
+        size = size / 1024
+    if size < 1000:
+        return f'{round(size, 2)} GB'
+    else:
+        return f'{round(size / 1024, 2)} TB'
 
 
 def beauty_mp3_time(duration):

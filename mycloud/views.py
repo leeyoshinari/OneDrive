@@ -296,7 +296,7 @@ async def get_folders_by_id(folder_id: str, hh: dict) -> Result:
             result.code = 1
             result.msg = Msg.MsgAccessPermissionNon[hh['lang']]
             return result
-        folders = await models.Catalog.filter(parent_id=folder_id)
+        folders = await models.Catalog.filter(Q(parent_id=folder_id) & Q(is_delete=0))
         folder_list = [models.CatalogGetInfo.from_orm(f) for f in folders if f.id.startswith(tuple('123456789'))]
         folder = await models.Catalog.get(id=folder_id)
         folder_path = await folder.get_all_path()

@@ -471,6 +471,7 @@ list:not(.new)>a:active,
 }
 
 .dropdown-list li {
+    cursor: pointer;
     color: black;
     margin: 10px 16px;
     text-decoration: none;

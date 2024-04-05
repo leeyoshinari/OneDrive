@@ -256,6 +256,8 @@
 								<img src="img/explorer/thispc.svg" alt=""><span>此电脑</span></a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/rb.png" alt=""><span>回收站</span></a>
+							<a onclick="apps.explorer.download_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
+								<img src="img/explorer/share.png" alt=""><span>下载</span></a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/share.png" alt=""><span>我的分享</span></a>
 							<a onclick="openapp('calc');"><img src="img/calc.svg" alt=""><span>计算器</span></a>
@@ -276,6 +278,7 @@
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');">新建python文件</li>
+								<li onclick="shownotice('downloader');">新建下载任务</li>
 							</ul>
 						</a>
 						<a class="a b act asd" title="新建文件夹"
@@ -305,6 +308,16 @@
 						<div class="header">
 							<div class="row"><span style="width: 38%; padding-left: 2%;">名称</span><span style="width: 12%;">已打开次数</span>
 								<span style="width: 10%;">总次数</span><span style="width: 20%;">分享时间</span><span style="width: 20%;">操作</span></div>
+						</div>
+						<div class="view"></div>
+					</div>
+				</div>
+				<div class="main-download">
+					<div class="content" onclick="" oncontextmenu="">
+						<div class="header">
+							<div class="row"><span style="width: 33%; padding-left: 2%;">名称</span><span style="width: 10%;">大小</span>
+								<span style="width: 10%;">下载进度</span><span style="width: 10%;">状态</span><span style="width: 10%;">下载速度</span>
+								<span style="width: 10%;">剩余时间</span><span style="width: 15%;">操作</span></div>
 						</div>
 						<div class="view"></div>
 					</div>

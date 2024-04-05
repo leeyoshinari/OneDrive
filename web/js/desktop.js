@@ -342,6 +342,12 @@ let nts = {
         btn: [{ type: 'main', text: 'submit', js: 'apps.explorer.share();' },
             { type: 'detail', text: 'cancel', js: 'closenotice();' }]
     },
+    'downloader': {
+        cnt: `<p class="tit"></p><input type="text" id="downloader-url" placeholder="" style="width: 95%;">
+            <p class="tit"></p><input type="text" id="downloader-cookie" placeholder="" style="width: 95%;">`,
+        btn: [{ type: 'main', text: 'submit', js: 'apps.explorer.download_online();' },
+            { type: 'detail', text: 'cancel', js: 'closenotice();' }]
+    },
     'uploadResult': {
         cnt: `<p class="tit"></p><list class="upload-result"></list>`,
         btn: [{ type: 'main', text: 'submit', js: 'closenotice();' }]}
@@ -360,6 +366,12 @@ function shownotice(name) {
     }
     if (name === 'uploadResult') {
         $('#notice>.cnt>p')[0].innerText = i18next.t('terminal.page.upload.result.tips');
+    }
+    if (name === 'downloader') {
+        $('#notice>.cnt>p')[0].innerText = i18next.t('explore.window.file.tool.downloader.window.title1');
+        $('#notice>.cnt>input')[0].placeholder = i18next.t('explore.window.file.tool.downloader.window.placeholder1');
+        $('#notice>.cnt>p')[1].innerText = i18next.t('explore.window.file.tool.downloader.window.title2');
+        $('#notice>.cnt>input')[1].placeholder = i18next.t('explore.window.file.tool.downloader.window.placeholder2');
     }
     setTimeout(() => {
         $('#notice-back').addClass('show');
@@ -544,8 +556,11 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[2].className = '';
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].className = '';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
             $('#win-explorer>.page>.main')[0].style.display = 'flex';
             $('#win-explorer>.page>.main-share')[0].style.display = 'none';
+            $('#win-explorer>.page>.main-download')[0].style.display = 'none';
             $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'none';
             $('#win-explorer>.path>.search')[0].style.display = 'flex';
             $('#win-explorer>.path>.search>input')[0].value = '';
@@ -577,12 +592,15 @@ let apps = {
         garbage: () => {
             $('#win-explorer>.page>.main')[0].style.display = 'flex';
             $('#win-explorer>.page>.main-share')[0].style.display = 'none';
+            $('#win-explorer>.page>.main-download')[0].style.display = 'none';
             $('#win-explorer>.page>.menu>.card>list>a')[0].className ='';
             $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = 'check';
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[2].className ='';
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].className ='';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
             $('#win-explorer>.path>.search')[0].style.display = 'none';
             $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
@@ -643,8 +661,10 @@ let apps = {
             }
         },
         share_list: () => {
-            $('#win-explorer>.page>.menu>.card>list>a')[2].className ='check';
-            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='flex';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].className ='check';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='flex';
+            $('#win-explorer>.page>.menu>.card>list>a')[2].className = '';
+            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[0].className = '';
@@ -652,6 +672,7 @@ let apps = {
             $('#win-explorer>.path>.search')[0].style.display = 'none';
             $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.page>.main')[0].style.display = 'none';
+            $('#win-explorer>.page>.main-download')[0].style.display = 'none';
             $('#win-explorer>.page>.main-share')[0].style.display = 'flex';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
             m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> '+i18next.t('explore.window.menu.share.title'));
@@ -715,6 +736,53 @@ let apps = {
                 document.body.removeChild(textarea);
                 alert(url_t);
             }
+        },
+        download_list: () => {
+            $('#win-explorer>.page>.menu>.card>list>a')[2].className ='check';
+            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='flex';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].className = '';
+            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
+            $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
+            $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
+            $('#win-explorer>.page>.menu>.card>list>a')[0].className = '';
+            $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='none';
+            $('#win-explorer>.path>.search')[0].style.display = 'none';
+            $('#win-explorer>.path>.search>input')[0].value = '';
+            $('#win-explorer>.page>.main')[0].style.display = 'none';
+            $('#win-explorer>.page>.main-share')[0].style.display = 'none';
+            $('#win-explorer>.page>.main-download')[0].style.display = 'flex';
+            $('#win-explorer>.path>.back')[0].classList.add('disabled');
+            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> '+i18next.t('explore.window.menu.download.title'));
+            $.ajax({
+                type: 'GET',
+                url: server + '/download/list',
+                success: function (data) {
+                    if (data['code'] === 0) {
+                        if (data['data'].length === 0) {
+                            $('#win-explorer>.page>.main-download>.content>.header')[0].style.display = 'none';
+                            $('#win-explorer>.page>.main-download>.content>.view')[0].innerHTML = '<p class="info">'+i18next.t('explore.window.file.list.empty.tips')+'</p>';
+                        } else {
+                            $('#win-explorer>.page>.main-download>.content>.header')[0].style.display = 'flex';
+                            let ht = '';
+                            data['data'].forEach(item => {
+                                ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
+                            <span style="width: 33%;" onclick="">${item['name']}</span><span style="width: 10%;">${item['total_size']}</span>
+                            <span style="width: 10%;">${item['progress']}%</span><span style="width: 10%;">${item['status']}</span><span style="width: 10%;">${item['download_speed']}</span>
+                            <span style="width: 10%;">${item['eta']}</span>`;
+                                if (item['status'] === 'active') {
+                                    ht += `<span style="width: 15%;"><a style="cursor: pointer; color: blue;" onclick="update_download_status('${item['gid']}', 'pause');">${i18next.t('explore.window.file.download.list.action.pause')}</a>`;
+                                } else {
+                                    ht += `<span style="width: 15%;"><a style="cursor: pointer; color: blue;" onclick="update_download_status('${item['gid']}', 'continue');">${i18next.t('explore.window.file.download.list.action.unpause')}</a>`;
+                                }
+                                ht += `<a style="cursor: pointer; color: blue; margin-left: 10px;" onclick="update_download_status('${item['gid']}', 'cancel');">${i18next.t('explore.window.file.download.list.action.cancel')}</a></span></div></div>`
+                            })
+                            $('#win-explorer>.page>.main-download>.content>.view')[0].innerHTML = ht;
+                        }
+                    } else {
+                        $.Toast(data['msg'], 'error');
+                    }
+                }
+            })
         },
         open_file: (file_id,filename) => {
             let filenames = filename.split('.');
@@ -962,6 +1030,32 @@ let apps = {
         },
         download: (file_id) => {
             window.open(server + '/file/download/' + file_id);
+        },
+        download_online: () => {
+            show_modal_cover(true, false);
+            let folder_id = $('#win-explorer>.path>.tit')[0].id;
+            let downloader_url = document.getElementById("downloader-url").value;
+            let downloader_cookie = document.getElementById("downloader-cookie").value;
+            let post_data = {
+                parent_id: folder_id,
+                url: downloader_url,
+                cookie: downloader_cookie
+            }
+            $.ajax({
+                type: 'POST',
+                url: server + '/download/file',
+                data: JSON.stringify(post_data),
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data['code'] === 0) {
+                        $.Toast(data['msg'], 'success');
+                        closenotice();
+                    } else {
+                        $.Toast(data['msg'], 'error');
+                    }
+                    close_modal_cover();
+                }
+            })
         },
         export: () => {
             let ids = getSelectedIds();
@@ -1817,6 +1911,7 @@ function toggle_transparent() {
     $('#win-explorer>.page>.main>.content').toggleClass('transparent');
     $('#win-notepad>.text-box').toggleClass('transparent');
     $('#win-explorer>.page>.main-share>.content').toggleClass('transparent');
+    $('#win-explorer>.page>.main-download>.content').toggleClass('transparent');
     $('#win-whiteboard>canvas').toggleClass('transparent');
     $('#win-whiteboard>.toolbar>.tools').toggleClass('transparent');
     $('#notice').toggleClass('transparent');
@@ -1843,6 +1938,7 @@ if (localStorage.getItem('transparent') === '1') {
     $('#win-notepad>.text-box').addClass('transparent');
     $('#win-explorer>.page>.main>.content').addClass('transparent');
     $('#win-explorer>.page>.main-share>.content').addClass('transparent');
+    $('#win-explorer>.page>.main-download>.content').toggleClass('transparent');
     $('#win-whiteboard>canvas').addClass('transparent');
     $('#win-whiteboard>.toolbar>.tools').addClass('transparent');
     $('#notice').addClass('transparent');
@@ -2809,6 +2905,24 @@ function add_server() {
             if (data['code'] === 0) {
                 $.Toast(data['msg'], 'success');
                 closenotice();
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    })
+}
+
+function update_download_status(gid, action) {
+    let post_data = {gid: gid, status: action}
+    $.ajax({
+        type: 'POST',
+        url: server + '/download/status/update',
+        data: JSON.stringify(post_data),
+        contentType: 'application/json',
+        success: function (data) {
+            if (data['code'] === 0) {
+                $.Toast(data['msg'], 'success');
+                apps.explorer.download_list();
             } else {
                 $.Toast(data['msg'], 'error');
             }

@@ -63,9 +63,10 @@ function set_page_language() {
     $('#win-explorer>.page>.menu>.card>.title>span')[0].innerText = i18next.t('explore.window.menu.card.title');
     $('#win-explorer>.page>.menu>.card>list>a>span')[1].innerText = i18next.t('computer');
     $('#win-explorer>.page>.menu>.card>list>a>span')[3].innerText = i18next.t('explore.window.menu.garbage.title');
-    $('#win-explorer>.page>.menu>.card>list>a>span')[5].innerText = i18next.t('explore.window.menu.share.title');
-    $('#win-explorer>.page>.menu>.card>list>a>span')[6].innerText = i18next.t('explore.window.menu.calc.title');
-    $('#win-explorer>.page>.menu>.card>list>a>span')[9].innerText = i18next.t('setting');
+    $('#win-explorer>.page>.menu>.card>list>a>span')[5].innerText = i18next.t('explore.window.menu.download.title');
+    $('#win-explorer>.page>.menu>.card>list>a>span')[7].innerText = i18next.t('explore.window.menu.share.title');
+    $('#win-explorer>.page>.menu>.card>list>a>span')[8].innerText = i18next.t('explore.window.menu.calc.title');
+    $('#win-explorer>.page>.menu>.card>list>a>span')[11].innerText = i18next.t('setting');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>span')[0].innerText = i18next.t('explore.window.file.tool.file.title');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[0].innerText = i18next.t('explore.window.file.tool.file.title.txt');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[1].innerText = i18next.t('explore.window.file.tool.file.title.md');
@@ -73,6 +74,7 @@ function set_page_language() {
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].innerText = i18next.t('explore.window.file.tool.file.title.sheet');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].innerText = i18next.t('explore.window.file.tool.file.title.xmind');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].innerText = i18next.t('explore.window.file.tool.file.title.py');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].innerText = i18next.t('explore.window.file.tool.file.title.downloader');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[0].title = i18next.t('explore.window.file.tool.folder.title');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[1].title = i18next.t('explore.window.file.tool.rename.title');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[2].title = i18next.t('explore.window.file.tool.move.title');
@@ -94,6 +96,12 @@ function set_page_language() {
     $('#win-explorer>.page>.main-share>.content>.header>.row>span')[2].innerText = i18next.t('explore.window.file.share.list.header.times.total');
     $('#win-explorer>.page>.main-share>.content>.header>.row>span')[3].innerText = i18next.t('explore.window.file.share.list.header.time');
     $('#win-explorer>.page>.main-share>.content>.header>.row>span')[4].innerText = i18next.t('setting.window.shell.server.list.action');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[0].innerText = i18next.t('explore.window.file.list.header.name');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[1].innerText = i18next.t('explore.window.file.list.header.size');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[2].innerText = i18next.t('explore.window.file.download.list.header.progress');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[3].innerText = i18next.t('explore.window.file.download.list.header.status');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[4].innerText = i18next.t('explore.window.file.download.list.header.speed');
+    $('#win-explorer>.page>.main-download>.content>.header>.row>span')[5].innerText = i18next.t('explore.window.file.download.list.header.eta');
     //edge
     $('#edge-path')[0].placeholder = i18next.t('edge.window.tool.input.placeholder');
     $('#edge-path-bar>a>i')[3].setAttribute('win12_title', i18next.t('edge.window.tool.tips'));

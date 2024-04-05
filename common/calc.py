@@ -42,6 +42,15 @@ def beauty_size(size):
         return f'{round(size / 1024, 2)} TB'
 
 
+def beauty_time(duration):
+    minute, second = divmod(int(duration), 60)
+    if minute < 60:
+        return f"{minute:02}:{second:02}"
+    else:
+        hour, minute = divmod(int(minute), 60)
+        return f"{hour:02}:{minute:02}:{second:02}"
+
+
 def beauty_mp3_time(duration):
     minute, second = divmod(int(duration), 60)
     return f"{minute:02}:{second:02}"

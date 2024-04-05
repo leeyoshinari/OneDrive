@@ -49,6 +49,8 @@ aerich init -t settings.TORTOISE_ORM
 aerich init-db
 ```
 
+安装文件下载工具 [aria2](https://github.com/aria2/aria2/releases)
+
 5、启动服务；
 ```shell script
 sh startup.sh

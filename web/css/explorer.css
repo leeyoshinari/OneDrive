@@ -73,7 +73,7 @@
     padding-left: 2px;
 }
 
-#win-explorer>.page>.main-share {
+#win-explorer>.page>.main-share, #win-explorer>.page>.main-download {
     flex-grow: 1;
     height: 100%;
     display: none;
@@ -126,7 +126,7 @@
     box-shadow: 0 1px 2px 1px var(--s3d);
 }
 
-#win-explorer>.page>.main-share>.content {
+#win-explorer>.page>.main-share>.content, #win-explorer>.page>.main-download>.content {
     width: calc(100% - 15px);
     flex-grow: 1;
     background-color: var(--card);

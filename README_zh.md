@@ -49,18 +49,20 @@ aerich init -t settings.TORTOISE_ORM
 aerich init-db
 ```
 
-5、启动服务；
+5、安装文件下载工具 [aria2](https://github.com/aria2/aria2/releases)，执行 `aria2c -v` 验证是否安装成功。
+
+6、启动服务；
 ```shell script
 sh startup.sh
 ```
 
-6、创建账号；
+7、创建账号；
 为了避免被其他人恶意创建账号，页面未放开创建账号的入口；为了方便使用，特意改成直接在浏览器地址栏中输入url创建用户。可在`main.py`文件中的第68行修改成你专属的url路径。
 ```shell script
 http://IP:Port/配置文件中的prefix/user/test/createUser?username=用户名&password=密码&password1=再次确认密码`
 ```
 
-7、配置并启动 `nginx`，location相关配置如下：<br>
+8、配置并启动 `nginx`，location相关配置如下：<br>
 （1）前端配置：前端文件在 `web` 目录里, `/OneDrive`可任意修改成你喜欢的名字
 ```shell script
 location /OneDrive {
@@ -91,15 +93,15 @@ location /mycloud/ssh {
 
 如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。如果你使用的是`https`，直接修改端口并配置 ssl 即可。
 
-8、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第7步中的前端配置的名字）
+9、访问页面，url是 `http://IP:Port/OneDrive`（这里的 IP 和 端口是 Nginx 中设置的 IP 和 端口。`OneDrive`就是第7步中的前端配置的名字）
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/home.jpg)
 
-9、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
+10、如果想把当前服务器上已有的文件导入系统中，可访问后台 api 接口页面，找到 `file/import` 接口，请求参数分别是需要导入的文件夹的绝对路径和目标的目录Id。
 
-10、如需配置多语言，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md) 。
+11、如需配置多语言，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md) 。
 
-11、如需了解更多，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md) 。
+12、如需了解更多，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md) 。
 
 ## 其他
 1、支持 `Linux`、`Windows`、`MacOS` 等多个平台，建议在 `Linux` 系统部署； 

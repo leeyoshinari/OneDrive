@@ -37,18 +37,20 @@ aerich init -t settings.TORTOISE_ORM
 aerich init-db
 ```
 
-5.Startup
+5.Install download tool [aria2](https://github.com/aria2/aria2/releases), running `aria2c -v` to verify whether the installation is successful.
+
+6.Startup
 ```shell script
 sh startup.sh
 ```
 
-6.Create user<br>
+7.Create user<br>
 In order to avoid malicious creation of users by others, the page does not open the entrance to create users. So, it is specially changed to directly enter the URL in the browser to create a user. You can modify line 68 in the `main.py` file to your own url path.
 ```shell script
 http://IP:Port/ prefix in config.conf /user/test/createUser?username=test&password=123456&password1=123456
 ```
 
-7.Configure and start `nginx`, the location configuration is as follows:<br>
+8.Configure and start `nginx`, the location configuration is as follows:<br>
 (1)Front-end configuration: The front-end file is in `web`, `/OneDrive` can be modified to any name you like.
 ```shell script
 location /OneDrive {
@@ -79,15 +81,15 @@ Usually nginx will limit the size of the request body, and you need to add `clie
 
 If you don’t know nginx, please go to [nginx official website](http://nginx.org/en/download.html) to download nginx and install it. After the installation is completed, replace the installed `nginx.conf` with the `nginx.conf` in this project, and then restart nginx.
 
-8.Page, the url is `http://IP:Port/OneDrive` (the IP and port are the IP and port set in Nginx. `OneDrive` is the name of the front-end configuration in step 7)
+9.Page, the url is `http://IP:Port/OneDrive` (the IP and port are the IP and port set in Nginx. `OneDrive` is the name of the front-end configuration in step 7)
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/login.jpg)
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/home.jpg)
 
-9.If you want to import existing files on the current server into the system, you can access the background api interface page and find the `file/import` interface. The request parameters are the absolute path of the folder to be imported and the Id of the target catalog.
+10.If you want to import existing files on the current server into the system, you can access the background api interface page and find the `file/import` interface. The request parameters are the absolute path of the folder to be imported and the Id of the target catalog.
 
-10.If you need to configure multiple languages, [Please click me](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail.md).
+11.If you need to configure multiple languages, [Please click me](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail.md).
 
-11.If you want to know more, [Please click me](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail.md).
+12.If you want to know more, [Please click me](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail.md).
 
 ## Others
 1.Supports multiple platforms such as `Linux`, `Windows`, `MacOS`, etc. It is recommended to deploy on `Linux`.

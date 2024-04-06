@@ -6,7 +6,7 @@ from typing import Optional, List, Any
 from tortoise import fields
 from tortoise.models import Model
 from pydantic import BaseModel
-from common.calc import beauty_size
+from common.calc import beauty_size, beauty_time
 
 
 # 用户数据库模型
@@ -315,3 +315,45 @@ class MusicHistory(BaseModel):
     name: str
     singer: str = ""
     duration: str
+
+
+class DownloadFileOnline(BaseModel):
+    parent_id: str
+    url: str
+    cookie: str = ""
+
+
+class DownloadFileOnlineStatus(BaseModel):
+    gid: str
+    status: str
+
+
+class DownloadList(BaseModel):
+    gid: str
+    name: str
+    path: str
+    status: str
+    completed_size: str
+    total_size: str
+    progress: float
+    download_speed: str
+    eta: str
+
+    @classmethod
+    def from_orm_format(cls, obj):
+        file_path = obj['files'][0]['path']
+        completed_length = int(obj['completedLength'])
+        total_length = int(obj['totalLength'])
+        download_speed = int(obj['downloadSpeed'])
+        eta = beauty_time(int((total_length - completed_length) / download_speed)) if download_speed > 1 else '-'
+        if total_length < 1:
+            progress = 0
+            eta = '-'
+        else:
+            progress = round((completed_length / total_length) * 100, 2)
+        if download_speed < 1:
+            eta = '-'
+
+        return cls(gid=obj['gid'], name=file_path.split('/')[-1], path=file_path, status=obj['status'],
+                   completed_size=beauty_size(completed_length), total_size=beauty_size(total_length), eta=eta,
+                   download_speed=beauty_size(download_speed) + '/s', progress=progress)

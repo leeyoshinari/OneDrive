@@ -2,10 +2,11 @@
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files
-- Supports online editing functions of txt, markdown, xmind, sheet, and document
+- Support online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
+- Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily
@@ -69,6 +70,14 @@ There are two ways to import music: one is to import from this cloud-drive (Sele
 ### Python
 Supports python command line and supports importing python official libraries, it can be used to do some simple calculations or deal some simple data.
 ![python.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/python.jpg)
+
+### Aria2c Download Tool
+Aria2 is a lightweight multi-protocol command line download tool that supports multiple protocols such as HTTP, FTP, BitTorrent, etc., and supports multi-connection downloads and breakpoint resume downloads.
+Enter the directory where you want to download the file, then click `New File -> New Download Task` and fill in the download URL in the input box. If cookie verification is required, you need to fill in the cookie, otherwise you can leave the cookie blank.
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-new.jpg)
+
+If you need to view the tasks currently being downloaded, click `Download List`. Click `Pause` to pause the download task, click `Cancel` to cancel the download. After the download is completed, you can see the downloaded file in the directory.
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-list.jpg)
 
 ### Multi-language settings
 Currently, multiple languages support Simplified Chinese and English. There may be incorrect translations or missing translations, please modify them yourself.

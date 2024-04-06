@@ -6,6 +6,7 @@
 - 支持 python 脚本在线编辑和运行
 - 支持远程连接 Linux 服务器
 - 音乐播放器，支持播放云盘（服务端）和本地（客户端）的音乐
+- 集成 aria2，支持 HTTP、FTP、BitTorrent 等多种下载协议
 - 支持多语言，支持配置多语言
 - 单点登录，不同用户的数据完全隔离
 - 可任意挂载多个磁盘
@@ -72,6 +73,14 @@
 ### Python 命令行
 支持 python 命令行，支持导入 python 官方库，可以用来做一些简单的计算，或者处理一些简单的数据。
 ![python.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/python.jpg)
+
+### Aria2c 下载工具
+aria2 是一个轻量级的多协议命令行下载工具，支持HTTP、FTP、BitTorrent等多种协议，支持多连接下载和断点续传。
+进入需要下载文件的目录，然后点击 `新建文件 -> 新建下载任务`，在输入框中填入下载的 URL 即可，如果需要 cookie 才能下载，则需要填入 cookie，否则可以不填 cookie。
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-new.jpg)
+
+如需查看当前正在下载的任务，点击 `下载列表` 即可。点击`暂停`可以暂停下载任务，点击`取消`可以取消下载，下载完成后，即可在目录里看到下载的文件。
+![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-list.jpg)
 
 ### 多语言设置
 目前多语言已支持中文简体和英文，可能存在翻译不正确，或者漏翻译的，请自行修改。

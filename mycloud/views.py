@@ -29,7 +29,7 @@ from common.aria2c import Aria2Downloader
 
 root_path = json.loads(get_config("rootPath"))
 aria2c_downloader = Aria2Downloader()
-scheduler.add_job(aria2c_downloader.close_aria2c_downloader, 'cron', second=3)
+scheduler.add_job(aria2c_downloader.close_aria2c_downloader, 'cron', second=20)
 if not os.path.exists('tmp'):
     os.mkdir('tmp')
 
@@ -884,6 +884,11 @@ async def download_with_aria2c(query: models.DownloadFileOnline, hh: dict) -> Re
                     file_path = res['files'][0]['path']
                     result.msg = f"{Msg.MsgFileExist[hh['lang']].format(file_path.split('/')[-1])}"
                     logger.info(f"{Msg.MsgFileExist[hh['lang']].format(file_path.split('/')[-1])}")
+                    return result
+                if res['errorCode'] == '1' and not res['files'][0]['path'] and not res['files'][0]['uris']:
+                    result.code = 1
+                    result.msg = f"{Msg.MsgDownloadOnlineProtocol[hh['lang']]}"
+                    logger.error(res)
                     return result
                 result.code = 1
                 result.msg = res['errorMessage']

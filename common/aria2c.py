@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Author: leeyoshinari
 import time
 import subprocess
 import requests

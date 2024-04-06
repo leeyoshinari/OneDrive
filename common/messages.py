@@ -71,6 +71,8 @@ class Msg(object):
                          'en': 'Downloading, please check the progress in the download list'}
     MsgDownloadOnlineRemove = {'zh-CN': '已取消下载，{}',
                                'en': 'Downloading has been cancelled, {}'}
+    MsgDownloadOnlineProtocol = {'zh-CN': '暂不支持下载',
+                                 'en': 'Download is not supported yet'}
     MsgCreate = {'zh-CN': '{} 创建',
                  'en': '{} create'}
     MsgFileExist = {'zh-CN': '{}已存在',

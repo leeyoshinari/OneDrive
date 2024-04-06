@@ -10,6 +10,7 @@ Windows-style personal cloud-drive with supporting online editing.
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
+- Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily

@@ -221,6 +221,8 @@ def deal_xmind_title(text: str) -> str:
         text = text.replace('<', '&lt;')
     if '>' in text:
         text = text.replace('>', '&gt;')
+    if '&' in text:
+        text = text.replace('&', '&amp;')
     return text
 
 

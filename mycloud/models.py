@@ -320,7 +320,7 @@ class MusicHistory(BaseModel):
 class DownloadFileOnline(BaseModel):
     parent_id: str
     url: str
-    cookie: str = ""
+    cookie: Optional[str] = None
 
 
 class DownloadFileOnlineStatus(BaseModel):

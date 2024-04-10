@@ -23,13 +23,11 @@ from common.calc import calc_md5, calc_file_md5, beauty_mp3_time
 from common.xmind import read_xmind, create_xmind, generate_xmind8
 from common.sheet import read_sheet, create_sheet
 from common.md2html import md_to_html
-from common.scheduler import scheduler
 from common.aria2c import Aria2Downloader
 
 
 root_path = json.loads(get_config("rootPath"))
 aria2c_downloader = Aria2Downloader()
-scheduler.add_job(aria2c_downloader.close_aria2c_downloader, 'cron', second=20)
 if not os.path.exists('tmp'):
     os.mkdir('tmp')
 
@@ -928,6 +926,8 @@ async def write_aria2c_task_to_db(gid, parent_id):
                                              format=file_name.split(".")[-1].lower(), parent_id=parent_id,
                                              size=os.path.getsize(file_path), md5=calc_file_md5(file_path))
             logger.info(f"{file.id} - {file.name}")
+            time.sleep(3)
+            aria2c_downloader.close_aria2c_downloader()
             break
         elif res and res['status'] == 'removed':
             logger.info(f"{Msg.MsgDownloadOnlineRemove['en'].format('gid: ' + res['gid'] + ', file: ' + res['files'][0]['path'])}")
@@ -936,7 +936,7 @@ async def write_aria2c_task_to_db(gid, parent_id):
             logger.info(f"{res}")
             break
         else:
-            logger.info(f"{res}")
+            logger.info(f"{res['gid']} - {res['status']} - {res['files'][0]['path']}")
             time.sleep(1)
 
 
@@ -952,6 +952,7 @@ async def update_area2c_task_status(query: models.DownloadFileOnlineStatus, hh: 
             time.sleep(1)
             os.remove(file_path)
             os.remove(file_path + '.aria2')
+            aria2c_downloader.close_aria2c_downloader()
         result.data = res
     except:
         logger.error(traceback.format_exc())

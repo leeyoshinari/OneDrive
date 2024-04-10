@@ -1033,11 +1033,11 @@ let apps = {
         },
         download_online: () => {
             show_modal_cover(true, false);
-            let folder_id = $('#win-explorer>.path>.tit')[0].id;
+            let folder_id = $('#win-explorer>.path>.tit')[0].id.split('/');
             let downloader_url = document.getElementById("downloader-url").value;
             let downloader_cookie = document.getElementById("downloader-cookie").value;
             let post_data = {
-                parent_id: folder_id,
+                parent_id: folder_id[folder_id.length - 1],
                 url: downloader_url,
                 cookie: downloader_cookie
             }

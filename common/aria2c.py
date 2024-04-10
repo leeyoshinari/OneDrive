@@ -30,6 +30,7 @@ class Aria2Downloader:
     def add_download_task(self, url: str, file_path: str, cookie: str = ""):
         if not self.process:
             self.start_rpc_server()
+            time.sleep(1)
         options = {
             # "max-download-limit": "30K",
             "max-connection-per-server": "5",
@@ -71,10 +72,7 @@ class Aria2Downloader:
         if self.process:
             tasks = self.list_download_tasks()
             if not tasks:
-                time.sleep(10)
-                tasks = self.list_download_tasks()
-                if not tasks:
-                    self.stop_rpc_server()
+                self.stop_rpc_server()
 
     def get_completed_task_info(self, gid):
         payload = {

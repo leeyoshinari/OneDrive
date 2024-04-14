@@ -876,28 +876,39 @@ async def download_with_aria2c(query: models.DownloadFileOnline, hh: dict) -> Re
         gid = aria2c_downloader.add_download_task(query.url, folder_path, query.cookie)
         res = aria2c_downloader.get_completed_task_info(gid)
         logger.info(res)
+        start_time = time.time()
         while int(res['downloadSpeed']) < 1:
             if 'errorCode' in res:
                 if res['status'] == 'complete':
                     file_path = res['files'][0]['path']
                     result.msg = f"{Msg.MsgFileExist[hh['lang']].format(file_path.split('/')[-1])}"
-                    logger.info(f"{Msg.MsgFileExist[hh['lang']].format(file_path.split('/')[-1])}")
+                    logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, query.url, hh['u'], hh['ip'])}")
+                    aria2c_downloader.close_aria2c_downloader()
                     return result
                 if res['errorCode'] == '1' and not res['files'][0]['path'] and not res['files'][0]['uris']:
                     result.code = 1
                     result.msg = f"{Msg.MsgDownloadOnlineProtocol[hh['lang']]}"
-                    logger.error(res)
+                    logger.error(f"{Msg.CommonLog1[hh['lang']].format(res, query.url, hh['u'], hh['ip'])}")
+                    aria2c_downloader.close_aria2c_downloader()
                     return result
                 result.code = 1
                 result.msg = res['errorMessage']
-                logger.error(res)
+                logger.error(f"{Msg.CommonLog1[hh['lang']].format(res, query.url, hh['u'], hh['ip'])}")
+                aria2c_downloader.close_aria2c_downloader()
                 return result
             else:
+                if time.time() - start_time > 30:
+                    result.code = 1
+                    result.msg = f"{Msg.MsgDownloadOnlineProtocol[hh['lang']]}"
+                    logger.error(f"{Msg.CommonLog1[hh['lang']].format(result.msg, query.url, hh['u'], hh['ip'])}")
+                    _ = aria2c_downloader.update_task(gid, 'cancel')
+                    aria2c_downloader.close_aria2c_downloader()
+                    return result
                 time.sleep(1)
                 res = aria2c_downloader.get_completed_task_info(gid)
         threading.Thread(target=run_async_write_aria2c_to_db, args=(gid, folder_id, )).start()
         result.msg = f"{Msg.MsgDownloadOnline[hh['lang']]}"
-        logger.info(f"{query.url} - {gid} {Msg.MsgDownloadOnline[hh['lang']]}")
+        logger.info(f"{Msg.CommonLog1[hh['lang']].format(query.url, gid, hh['u'], hh['ip'])}")
     except:
         result.code = 1
         result.msg = f"{Msg.MsgDownloadError[hh['lang']]}"
@@ -954,6 +965,8 @@ async def update_area2c_task_status(query: models.DownloadFileOnlineStatus, hh: 
             os.remove(file_path + '.aria2')
             aria2c_downloader.close_aria2c_downloader()
         result.data = res
+        result.msg = f"{Msg.MsgUpdateStatus[hh['lang']]}"
+        logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, query.gid, hh['u'], hh['ip'])}")
     except:
         logger.error(traceback.format_exc())
     return result

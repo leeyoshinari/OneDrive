@@ -25,9 +25,9 @@ let params = window.location.href.split('&');
 let server_id = params[0].split('=')[1];
 let server = localStorage.getItem('server')
 document.title = params[1].split('=')[1];
-let socketURL = 'ws://' + window.location.host + server + '/ssh/open' ;
+let socketURL = 'ws://' + window.location.host + server + '/server/open' ;
 if (window.location.protocol === 'https:') {
-    socketURL = 'wss://' + window.location.host + server + '/ssh/open' ;
+    socketURL = 'wss://' + window.location.host + server + '/server/open' ;
 }
 $('.container1>h4')[0].innerText = 'IP：' + document.title;
 let sock = new WebSocket(socketURL);
@@ -160,7 +160,7 @@ function upload_file(path) {
             form_data.append('remotePath', path);
 
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", server + "/ssh/file/upload", true);
+            xhr.open("POST", server + "/server/file/upload", true);
 
             xhr.upload.onprogress = function(event) {
                 if (event.lengthComputable) {
@@ -252,7 +252,7 @@ function show_message(file_list) {
     }
 }
 
-function download_file(filePath) {window.open(server + '/ssh/file/download?server_id=' + server_id + '&file_path=' + filePath);}
+function download_file(filePath) {window.open(server + '/server/file/download?server_id=' + server_id + '&file_path=' + filePath);}
 
 function float_path(folder) {
     let modal = document.getElementById('modal_input');

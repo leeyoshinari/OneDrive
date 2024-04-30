@@ -46,9 +46,9 @@ sh startup.sh
 ```
 
 7.Create user<br>
-In order to avoid malicious creation of users by others, the page does not open the entrance to create users. So, it is specially changed to directly enter the URL in the browser to create a user. You can modify line 68 in the `main.py` file to your own url path.
+In order to avoid malicious creation of users by others, the page does not open the entrance to create users. So, you can create a user in the API interface documentation, entering the `swagger-ui` page and finding the `createUser` interface.
 ```shell script
-http://IP:Port/ prefix in config.conf /user/test/createUser?username=test&password=123456&password1=123456
+http://IP:Port/配置文件中的prefix/swagger-ui
 ```
 
 8.Configure and start `nginx`, the location configuration is as follows:<br>
@@ -69,9 +69,9 @@ location /mycloud {
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
-（3）WebSocket：`proxy_pass` is the IP and port in `config.conf`, `/mycloud` must be the same as `prefix` in `config.conf`. Don't modify `/ssh`, this is the routing of the interface. This location is mainly used to remotely connect to the `Linux` server. If you do not need to connect to the server, you can ignore this location.
+（3）WebSocket：`proxy_pass` is the IP and port in `config.conf`, `/mycloud` must be the same as `prefix` in `config.conf`. Don't modify `/server`, this is the routing of the interface. This location is mainly used to remotely connect to the `Linux` server. If you do not need to connect to the server, you can ignore this location.
 ```shell script
-location /mycloud/ssh {
+location /mycloud/server {
     proxy_pass http://127.0.0.1:15200;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;

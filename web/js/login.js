@@ -16,7 +16,7 @@ function login_sys(evn) {
     }
     $.ajax({
         type: 'POST',
-        url: server + '/login',
+        url: server + '/user/login',
         data: JSON.stringify(post_data),
         contentType: 'application/json',
         success: function (data) {
@@ -50,7 +50,7 @@ function login_sys(evn) {
 function logout() {
     $.ajax({
         type: 'GET',
-        url: server + '/logout',
+        url: server + '/user/logout',
         success: function (data) {
             if (data['code'] === 0) {
                 window.location.reload();

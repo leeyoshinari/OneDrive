@@ -3,7 +3,8 @@
   <title>Demo</title>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
   <meta charset="utf-8"/>
-  <script src="http://192.168.137.152:15678/web-apps/apps/api/documents/api.js"></script>
+  <script src="../js/jq.min.js"></script>
+  <script src="http://192.168.137.21:15678/web-apps/apps/api/documents/api.js"></script>
   <style>
     body {
       padding: 0;
@@ -31,7 +32,7 @@
                 },
                 "fileType": fileType,
                 "title": filename,
-                "url": url,
+                "url": 'http://192.168.73.35/asdf.docx',
                 // "key": this.md5,
                 "lang": "zh-CN"
             },
@@ -46,8 +47,26 @@
     }
 
     // 要预览的文档地址
-    const url = 'http://127.0.0.1/mycloud/file/download/17129987751687';
+    // let url = 'http://127.0.0.1/mycloud/byte/get/17129987751687';
+    // $.ajax({
+	// 	type: "GET",
+    //     async: false,
+	// 	url: url,
+	// 	success: function (data) {
+	// 		if (data['code'] === 0) {
+    //             // if (is_share) {
+    //             //     window.parent.document.querySelectorAll('.window.markdown>.titbar>span>.title')[0].innerText = data['msg'];
+    //             // }
+    //             // document.title = data['msg'];
+    //             const blob = new Blob([data['data']], { type: 'application/octet-stream' });
+    //             url = URL.createObjectURL(blob);
+	// 			// $('#layout>#editormd>textarea')[0].value = data['data'];
+	// 			// document.getElementById("content_length").value = md5(data['data']);
+	// 		}
+	// 	}
+	// });
     // 要预览的文档文件名
+    let url = 'http://127.0.0.1/asdf.docx';
     const filename = '开题报告.docx';
     // 调用方法
     preview(url, filename);

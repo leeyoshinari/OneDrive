@@ -23,6 +23,12 @@ class Msg(object):
                  'en': 'New Worksheet.sheet'}
     FileDocu = {'zh-CN': '新建doc文档.docu',
                 'en': 'New Document.docu'}
+    FileExcel = {'zh-CN': '新建 Excel 工作表.xlsx',
+                 'en': 'New Excel Worksheet.xlsx'}
+    FileWord = {'zh-CN': '新建 Word 文档.docx',
+                'en': 'New Document.docx'}
+    FilePowerPoint = {'zh-CN': '新建 PowerPoint 演示文稿.pptx',
+                      'en': 'New PowerPoint Presentation.pptx'}
     FilePy = {'zh-CN': '新建python文件.py',
               'en': 'New Python.py'}
     MsgParamError = {'zh-CN': '参数错误',

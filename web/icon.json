@@ -1,0 +1,46 @@
+{
+    "video": "img/files/video.png",
+    "mp4": "img/files/video.png",
+    "avi": "img/files/video.png",
+
+    "picture": "img/files/picture.png",
+    "jpg": "img/files/picture.png",
+    "jpeg": "img/files/picture.png",
+    "gif": "img/files/picture.png",
+    "png": "img/files/picture.png",
+    "bmp": "img/files/picture.png",
+
+    "markdown": "img/files/markdown.png",
+    "md": "img/files/markdown.png",
+    "xmind": "img/files/xmind.ico",
+    "exe": "img/files/exefile.png",
+    "txt": "img/files/txt.png",
+
+    "word": "img/files/word.png",
+    "doc": "img/files/word.png",
+    "docx": "img/files/word.png",
+    "docu": "img/files/word.png",
+    "docxf": "img/files/word.png",
+    "epub": "img/files/epub.jpg",
+    "xml": "img/files/xml.jpg",
+
+    "excel": "img/files/excel.png",
+    "xls": "img/files/excel.png",
+    "xlsx": "img/files/excel.png",
+    "csv": "img/files/excel.png",
+    "sheet": "img/files/excel.png",
+    "powerpoint": "img/files/ppt.png",
+    "ppt": "img/files/ppt.png",
+    "pptx": "img/files/ppt.png",
+    "zip": "img/files/zip.png",
+
+    "music": "img/music.ico",
+    "mp3": "img/files/music.png",
+    "pdf": "img/files/pdf.png",
+    "json": "img/files/json.png",
+    "html": "img/files/html.png",
+    "css": "img/files/css.svg",
+    "js": "img/files/js.svg",
+    "py": "img/python.svg",
+    "pythonEditor": "img/python.svg"
+}

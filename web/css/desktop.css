@@ -1158,7 +1158,7 @@ list>span.focs.cl {
     height: 80%;
     width: 70%;
     transform: scale(0.7);
-    background-color: var(--unfoc);
+    background-color: var(--bd);
     border-radius: 10px;
     border: 1.5px solid #6f6f6f30;
     display: none;
@@ -1175,7 +1175,7 @@ list>span.focs.cl {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background-color: unset;
-    background-color: var(--unfoc);
+    /*background-color: var(--unfoc);*/
 }
 
 .window.foc>.titbar {
@@ -1186,7 +1186,6 @@ list>span.focs.cl {
     background-color: var(--bg70);
     backdrop-filter: blur(180px) saturate(1.5);
     filter: none;
-    -webkit-backdrop-filter: blur(80px) saturate(1.5);
     box-shadow: 3px 3px 20px 3px var(--sd);
 }
 

@@ -1,18 +1,6 @@
 const default_icon = 'img/files/none.svg';
-const icons = {
-    'video': 'img/files/video.png', 'picture': 'img/files/picture.png', 'markdown': 'img/files/markdown.png',
-    'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
-    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png', 'music': 'img/music.ico',
-    'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
-    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
-    'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'docu': 'img/files/word.png',
-    'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png', 'css': 'img/files/css.svg',
-    'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
-    'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
-    'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png',
-    'pythonEditor':'img/python.svg', 'js': 'img/files/js.svg'
-};
-
+let icons = {};
+$.ajax({type: 'GET', url: 'icon.json', success: function (data){icons = data;}})
 document.querySelectorAll(`list.focs`).forEach(li => {
     li.addEventListener('click', e => {
         let _ = li.querySelector('span.focs'), la = li.querySelector('a.check'),
@@ -586,6 +574,14 @@ let apps = {
                     $('#win-explorer>.page>.main>.content>.view>.group>.item').addClass('transparent');
                 } else {
                     $('#win-explorer>.page>.main>.content>.view>.group>.item').removeClass('transparent');
+                }
+                if (res.data[0]['enableOnlyoffice'] === '1') {
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[2].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].style.display = 'none';
+                } else {
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].style.display = 'none';
                 }
             });
         },
@@ -1202,6 +1198,9 @@ let apps = {
     music: {init: () => {return null;}},
     xmind: {init: () => {return null;}},
     sheet: {init: () => {return null;}},
+    word: {init: () => {return null;}},
+    excel: {init: () => {return null;}},
+    powerpoint: {init: () => {return null;}},
     docu: {init: () => {return null;}},
     picture: {init: () => {return null;}},
     pythonEditor: {init: () => {return null;}},
@@ -1549,7 +1548,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'pythonEditor']
+let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -1629,7 +1628,7 @@ function hidewin(name, arg = 'window') {
     setTimeout(() => {$('.window.' + name).removeClass('show-begin');}, 20);
     $('.window.' + name + '>.titbar>div>.wbtg.max').html('<i class="bi bi-app"></i>');
     wo.splice(wo.indexOf(name), 1);
-    focwin(wo[wo.length - 1]);
+    if(wo.length > 0){focwin(wo[0]);}
     if (!$('#control.show')[0] && !$('#datebox.show')[0]) {
         if ($('.window.max:not(.left):not(.right)')[0]) {
             $('#dock-box').addClass('hide');
@@ -1866,7 +1865,6 @@ function focwin(name, arg = 'window') {
 function taskbarclick(name) {
     if ($('.window.' + name).hasClass('foc')) {
         minwin(name);
-        // focwin(null); // 禁改
         return;
     }
     if ($('.window.' + name).hasClass('min')) {
@@ -2024,8 +2022,8 @@ for (let i = 0; i < wins.length; i++) {
     const win = wins[i];
     const titbar = titbars[i];
     titbar.addEventListener('mousedown', (e) => {
-        let x = window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0];
-        let y = window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0];
+        let x = Number(window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0]);
+        let y = Number(window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0]);
         if (y !== 0) {
             bfLeft = x;
             bfTop = y;
@@ -2037,8 +2035,8 @@ for (let i = 0; i < wins.length; i++) {
         page.onmousemove = win_move.bind(win);
     })
     titbar.addEventListener('touchstart', (e) => {
-        let x = window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0];
-        let y = window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0];
+        let x = Number(window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0]);
+        let y = Number(window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0]);
         if (y !== 0) {
             bfLeft = x;
             bfTop = y;

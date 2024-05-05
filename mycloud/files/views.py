@@ -41,6 +41,12 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = Msg.FileSheet[hh['lang']]
             elif file_type == 'docu':
                 file_name = Msg.FileDocu[hh['lang']]
+            elif file_type == 'docx':
+                file_name = Msg.FileWord[hh['lang']]
+            elif file_type == 'xlsx':
+                file_name = Msg.FileExcel[hh['lang']]
+            elif file_type == 'pptx':
+                file_name = Msg.FilePowerPoint[hh['lang']]
             elif file_type == 'py':
                 file_name = Msg.FilePy[hh['lang']]
             else:
@@ -114,7 +120,7 @@ async def rename_file(query: models.FilesBase, hh: dict) -> Result:
             origin_name = file.name
             if len(file_list) > 1:
                 file.name = query.name
-                file.format = file_list[-1]
+                file.format = file_list[-1].lower()
             else:
                 file.name = f"{query.name}.{file.format}"
             await file.save()

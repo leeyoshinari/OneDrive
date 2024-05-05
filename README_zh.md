@@ -17,10 +17,6 @@
 
 查看详细页面样式，[请点我](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail_zh.md)
 
-### ToDo
-- [ ] 支持chatGPT等大模型
-- [ ] 真实的任务管理器
-- [ ] 其他更多小工具（视频编辑工具、图片编辑工具 等）
 
 ## 技术选型
 - 后端框架：FastApi<br>
@@ -58,9 +54,9 @@ sh startup.sh
 ```
 
 7、创建账号；
-为了避免被其他人恶意创建账号，页面未放开创建账号的入口；为了方便使用，特意改成直接在浏览器地址栏中输入url创建用户。可在`main.py`文件中的第68行修改成你专属的url路径。
+为了避免被其他人恶意创建账号，页面未放开创建账号的入口；可以通过在API接口文档中创建用户，进入 swagger-ui 页面，找到 `createUser` 接口即可。
 ```shell script
-http://IP:Port/配置文件中的prefix/user/test/createUser?username=用户名&password=密码&password1=再次确认密码`
+http://IP:Port/配置文件中的prefix/swagger-ui
 ```
 
 8、配置并启动 `nginx`，location相关配置如下：<br>
@@ -81,9 +77,9 @@ location /mycloud {
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
-（3）WebSocket：`proxy_pass`是配置文件`config.conf`中的 IP 和 端口, `/mycloud`必须和`config.conf`中的`prefix`一样，`/ssh`不要改，这是接口的路由。这个配置主要用于远程连接`Linux`服务器，如果你不需要连接服务器，可以忽略这个配置
+（3）WebSocket：`proxy_pass`是配置文件`config.conf`中的 IP 和 端口, `/mycloud`必须和`config.conf`中的`prefix`一样，`/server`不要改，这是接口的路由。这个配置主要用于远程连接`Linux`服务器，如果你不需要连接服务器，可以忽略这个配置
 ```shell script
-location /mycloud/ssh {
+location /mycloud/server {
     proxy_pass http://127.0.0.1:15200;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;

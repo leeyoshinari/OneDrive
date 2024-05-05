@@ -71,10 +71,13 @@ function set_page_language() {
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[0].innerText = i18next.t('explore.window.file.tool.file.title.txt');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[1].innerText = i18next.t('explore.window.file.tool.file.title.md');
     $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[2].innerText = i18next.t('explore.window.file.tool.file.title.docu');
-    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].innerText = i18next.t('explore.window.file.tool.file.title.sheet');
-    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].innerText = i18next.t('explore.window.file.tool.file.title.xmind');
-    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].innerText = i18next.t('explore.window.file.tool.file.title.py');
-    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].innerText = i18next.t('explore.window.file.tool.file.title.downloader');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].innerText = i18next.t('explore.window.file.tool.file.title.docx');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].innerText = i18next.t('explore.window.file.tool.file.title.sheet');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].innerText = i18next.t('explore.window.file.tool.file.title.xlsx');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].innerText = i18next.t('explore.window.file.tool.file.title.pptx');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[7].innerText = i18next.t('explore.window.file.tool.file.title.xmind');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[8].innerText = i18next.t('explore.window.file.tool.file.title.py');
+    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[9].innerText = i18next.t('explore.window.file.tool.file.title.downloader');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[0].title = i18next.t('explore.window.file.tool.folder.title');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[1].title = i18next.t('explore.window.file.tool.rename.title');
     $('#win-explorer>.page>.main>.tool>.a.b.act')[2].title = i18next.t('explore.window.file.tool.move.title');

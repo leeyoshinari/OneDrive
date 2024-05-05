@@ -20,7 +20,7 @@
 	let file_id = params[1].split('=')[1];
     let is_share = file_id.length > 10;
     let old_md5 = '';
-    let get_url = servers + '/content/get/' + file_id;
+    let get_url = servers + '/file/content/' + file_id;
     if (!is_share) {
         get_url = servers + '/share/get/' + file_id;
     }

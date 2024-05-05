@@ -18,7 +18,7 @@ function get_status() {
     $.ajax({
         type: 'GET',
         async: false,
-        url: server + '/status',
+        url: server + '/user/status',
         success: function (data) {
             if (data['code'] === 0) {
                 $('#loginback').css('opacity', '0');

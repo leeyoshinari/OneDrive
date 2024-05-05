@@ -46,7 +46,7 @@ class Catalog(Model):
 class Files(Model):
     id = fields.CharField(max_length=16, pk=True, description='文件ID')
     name = fields.CharField(max_length=64, description='文件名')
-    format = fields.CharField(max_length=8, null=True, description='文件格式')
+    format = fields.CharField(max_length=16, null=True, description='文件格式')
     parent = fields.ForeignKeyField('models.Catalog', on_delete=fields.CASCADE, related_name='files', description='目录ID')
     size = fields.BigIntField(default=None, null=True, description='文件大小')
     md5 = fields.CharField(max_length=50, index=True, description='文件的MD5值')
@@ -64,7 +64,7 @@ class Shares(Model):
     file_id = fields.CharField(max_length=16, description='文件ID')
     name = fields.CharField(max_length=50, description='文件名')
     path = fields.CharField(max_length=256, description='文件路径')
-    format = fields.CharField(max_length=8, default=None, description='文件格式')
+    format = fields.CharField(max_length=16, default=None, description='文件格式')
     times = fields.IntField(default=0, description='链接已打开次数')
     total_times = fields.IntField(default=1, description='分享链接打开最大次数')
     create_time = fields.DatetimeField(auto_now_add=True, description='创建时间')
@@ -132,7 +132,6 @@ class SearchItems(BaseModel):
 # 新建文件、文件夹
 class CatalogBase(BaseModel):
     id: str
-    type: str
     file_type: str
 
 
@@ -141,7 +140,6 @@ class CatalogMoveTo(BaseModel):
     from_ids: List[str]
     parent_id: str
     to_id: str
-    folder_type: str = 'folder'
 
 
 # 查询目录模型
@@ -177,7 +175,6 @@ class FolderList(BaseModel):
 # 重命名文件、文件夹
 class FilesBase(BaseModel):
     id: str
-    type: str
     name: str
 
 

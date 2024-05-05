@@ -31,7 +31,7 @@
 		$.ajaxSetup({beforeSend:function(xhr){xhr.setRequestHeader('lang', lang);}});
 	</script>
 	<base target="_blank">
-	<title>Windows 12</title>
+	<title>Windows</title>
 </head>
 <body>
 	<div id="loginback">
@@ -275,7 +275,10 @@
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');">新建txt文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','md');">新建md文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docu');">新建在线文档文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docx');">新建Word文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');">新建在线表格文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xlsx');">新建Excel文件</li>
+								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','pptx');">新建PowerPoint文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');">新建xmind文件</li>
 								<li onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');">新建python文件</li>
 								<li onclick="shownotice('downloader');">新建下载任务</li>
@@ -678,6 +681,39 @@
 		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
 		<div class="content" id="win-docu"><iframe id="iframe_docu" src=""></iframe>
 		<a href="" download="未命名.html" style="opacity: 0;" class="save_doc"></a></div>
+	</div>
+	<div class="window word">
+		<div class="resize-bar"></div>
+		<div class="titbar" style="position: fixed; width: 122px;"><span><span class="title" style="display:none;">Word</span></span><div style="position: fixed; right: 40px;">
+				<a class="a wbtg red" onclick="hidewin('word');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('word')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('word')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
+		<div class="content" id="win-word"><iframe id="iframe_word" src=""></iframe></div>
+	</div>
+	<div class="window excel">
+		<div class="resize-bar"></div>
+		<div class="titbar" style="position: fixed; width: 122px;"><span><span class="title" style="display:none;">Excel</span></span><div style="position: fixed; right: 40px;">
+				<a class="a wbtg red" onclick="hidewin('excel');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('excel')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('excel')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/excel.png" class="icon" alt=""></div>
+		<div class="content" id="win-excel"><iframe id="iframe_excel" src=""></iframe></div>
+	</div>
+	<div class="window powerpoint">
+		<div class="resize-bar"></div>
+		<div class="titbar" style="position: fixed; width: 122px;"><span><span class="title" style="display:none;">PowerPoint</span></span><div style="position: fixed; right: 40px;">
+				<a class="a wbtg red" onclick="hidewin('powerpoint');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('powerpoint')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('powerpoint')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/files/ppt.png" class="icon" alt=""></div>
+		<div class="content" id="win-powerpoint"><iframe id="iframe_powerpoint" src=""></iframe></div>
 	</div>
 	<script type="text/javascript">
 		let optionToSelect = Array.from($('#loginback>div>select')[0].options).find(option => option.value === lang);

@@ -319,7 +319,7 @@ function get_history(flag = 1) {
 
 function add_files_s() {
     let root_disk = '';
-    window.parent.$.get(servers + '/disk/get').then(res => {
+    window.parent.$.get(servers + '/folder/getDisk').then(res => {
         res.data.forEach(c => {
             root_disk = root_disk + `<ul class="domtree"><li onclick="window.parent.get_folders('move${c['disk']}')"><img src="img/explorer/disk.svg" alt="">${c['disk']}:</li><ul id="move${c['disk']}"></ul></ul>`;
         });
@@ -332,7 +332,7 @@ function add_files_s() {
         window.parent.$('#notice-back').addClass('show');
         window.parent.$('#notice')[0].style.width = '50%';
         window.parent.$('#notice')[0].style.height = window.parent.$('#notice-back')[0].clientHeight * 0.8 + 'px';
-        window.parent.$('#folder-tree')[0].style.height = window.parent.$('#notice-back')[0].clientHeight * 0.8 - 189 + 'px';
+        window.parent.$('#folder-tree')[0].style.height = window.parent.$('#notice-back')[0].clientHeight * 0.8 - 207 + 'px';
     });
 }
 

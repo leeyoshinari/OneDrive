@@ -1,18 +1,6 @@
 const default_icon = 'img/files/none.svg';
-const icons = {
-    'video': 'img/files/video.png', 'picture': 'img/files/picture.png', 'markdown': 'img/files/markdown.png',
-    'jpg': 'img/files/picture.png', 'jpeg': 'img/files/picture.png', 'gif': 'img/files/picture.png',
-    'png': 'img/files/picture.png', 'bmp': 'img/files/picture.png', 'music': 'img/music.ico',
-    'mp4': 'img/files/video.png', 'avi': 'img/files/video.png', 'xmind': 'img/files/xmind.ico',
-    'exe': 'img/files/exefile.png', 'txt': 'img/files/txt.png', 'sheet': 'img/files/excel.png',
-    'doc': 'img/files/word.png', 'docx': 'img/files/word.png', 'docu': 'img/files/word.png',
-    'xls': 'img/files/excel.png', 'xlsx': 'img/files/excel.png', 'css': 'img/files/css.svg',
-    'ppt': 'img/files/ppt.png', 'pptx': 'img/files/ppt.png', 'zip': 'img/files/zip.png',
-    'mp3': 'img/files/music.png', 'pdf': 'img/files/pdf.png', 'json': 'img/files/json.png',
-    'py': 'img/python.svg', 'md': 'img/files/markdown.png', 'html': 'img/files/html.png',
-    'pythonEditor':'img/python.svg', 'js': 'img/files/js.svg'
-};
-
+let icons = {};
+$.ajax({type: 'GET', url: 'icon.json', success: function (data){icons = data;}})
 document.querySelectorAll(`list.focs`).forEach(li => {
     li.addEventListener('click', e => {
         let _ = li.querySelector('span.focs'), la = li.querySelector('a.check'),
@@ -577,7 +565,7 @@ let apps = {
                 apps.explorer.pushHistory(apps.explorer.tabs[apps.explorer.now][0], i18next.t('computer'));
             }
             let disk_group = '<a class="a item act" ondblclick="" oncontextmenu=""><img src="img/explorer/diskwin.svg" alt=""><div><p class="name">' + i18next.t('explore.window.file.disk.name') + ' (C:)</p><div class="bar"><div class="content" style="width: 1%;"></div></div><p class="info">520 MB' + i18next.t('explore.window.file.disk.size') + '521 MB</p></div></a>';
-            $.get(server + '/disk/get').then(res => {
+            $.get(server + '/folder/getDisk').then(res => {
                 res.data.forEach(c => {
                     disk_group = disk_group + '<a class="a item act" ondblclick="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" ontouchend="apps.explorer.goto(\'' + c['disk'] + ':\'' + ',\'' + c['disk'] + '\')" oncontextmenu="showcm(event,\'explorer.folder\',\'' + c['disk'] + ':\');return stop(event);"><img src="img/explorer/disk.svg"><div><p class="name">' + i18next.t('explore.window.file.disk.name') + ' (' + c['disk'] + ':)</p><div class="bar"><div class="content" style="width: ' + c['used'] + '%;"></div></div><p class="info">' + c['free'] + i18next.t('explore.window.file.disk.size') + c['total'] + '</p></div></a>';
                 });
@@ -586,6 +574,14 @@ let apps = {
                     $('#win-explorer>.page>.main>.content>.view>.group>.item').addClass('transparent');
                 } else {
                     $('#win-explorer>.page>.main>.content>.view>.group>.item').removeClass('transparent');
+                }
+                if (res.data[0]['enableOnlyoffice'] === '1') {
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[2].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].style.display = 'none';
+                } else {
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].style.display = 'none';
+                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].style.display = 'none';
                 }
             });
         },
@@ -933,9 +929,13 @@ let apps = {
                 type: type,
                 file_type: file_type
             }
+            let url = server + '/folder/create';
+            if (type === 'file') {
+                url = server + '/file/create';
+            }
             $.ajax({
                 type: 'POST',
-                url: server + '/create',
+                url: url,
                 data: JSON.stringify(post_data),
                 contentType: 'application/json',
                 async: false,
@@ -1087,7 +1087,7 @@ let apps = {
             openapp('video');
             $('.window.video')[0].style.width = 'auto';
             $('.window.video>.titbar>span>.title')[0].innerText = filename;
-            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/video/play/' + file_id + '" type="video/mp4"><track src="" srcLang="'+lang+'" kind="subtitles" label="'+lang+'"></video>';
+            $('#win-video')[0].innerHTML = '<video class="my_video" controls preload="metadata" data-setup="{}" playsinline><source src="' + server + '/file/playVideo/' + file_id + '" type="video/mp4"><track src="" srcLang="'+lang+'" kind="subtitles" label="'+lang+'"></video>';
             document.getElementsByClassName('my_video')[0].addEventListener('loadedmetadata', function () {
                 this.currentTime = localStorage.getItem(file_id);
             }, false);
@@ -1198,6 +1198,9 @@ let apps = {
     music: {init: () => {return null;}},
     xmind: {init: () => {return null;}},
     sheet: {init: () => {return null;}},
+    word: {init: () => {return null;}},
+    excel: {init: () => {return null;}},
+    powerpoint: {init: () => {return null;}},
     docu: {init: () => {return null;}},
     picture: {init: () => {return null;}},
     pythonEditor: {init: () => {return null;}},
@@ -1545,7 +1548,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'pythonEditor']
+let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -1625,7 +1628,7 @@ function hidewin(name, arg = 'window') {
     setTimeout(() => {$('.window.' + name).removeClass('show-begin');}, 20);
     $('.window.' + name + '>.titbar>div>.wbtg.max').html('<i class="bi bi-app"></i>');
     wo.splice(wo.indexOf(name), 1);
-    focwin(wo[wo.length - 1]);
+    if(wo.length > 0){focwin(wo[0]);}
     if (!$('#control.show')[0] && !$('#datebox.show')[0]) {
         if ($('.window.max:not(.left):not(.right)')[0]) {
             $('#dock-box').addClass('hide');
@@ -1862,7 +1865,6 @@ function focwin(name, arg = 'window') {
 function taskbarclick(name) {
     if ($('.window.' + name).hasClass('foc')) {
         minwin(name);
-        // focwin(null); // 禁改
         return;
     }
     if ($('.window.' + name).hasClass('min')) {
@@ -2020,8 +2022,8 @@ for (let i = 0; i < wins.length; i++) {
     const win = wins[i];
     const titbar = titbars[i];
     titbar.addEventListener('mousedown', (e) => {
-        let x = window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0];
-        let y = window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0];
+        let x = Number(window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0]);
+        let y = Number(window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0]);
         if (y !== 0) {
             bfLeft = x;
             bfTop = y;
@@ -2033,8 +2035,8 @@ for (let i = 0; i < wins.length; i++) {
         page.onmousemove = win_move.bind(win);
     })
     titbar.addEventListener('touchstart', (e) => {
-        let x = window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0];
-        let y = window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0];
+        let x = Number(window.getComputedStyle(win, null).getPropertyValue('left').split("px")[0]);
+        let y = Number(window.getComputedStyle(win, null).getPropertyValue('top').split("px")[0]);
         if (y !== 0) {
             bfLeft = x;
             bfTop = y;
@@ -2163,18 +2165,17 @@ function add_button_to_input(name, old_name) {
 function rename_file_and_folder(name, old_name) {
     let new_name = document.getElementById("new_name");
     if (old_name !== new_name.value) {
-        let file_type = 'file';
+        let url = server + '/file/rename';
         if (document.querySelector('#f' + name).classList.contains('files')) {
-            file_type = 'folder';
+            url = server + '/folder/rename';
         }
         let post_data = {
             id: name,
             name: new_name.value,
-            type: file_type
         }
         $.ajax({
             type: 'POST',
-            url: server + '/rename',
+            url: url,
             async: false,
             data: JSON.stringify(post_data),
             contentType: 'application/json',
@@ -2246,9 +2247,13 @@ function delete_file(ids, file_type, is_delete= 1, delete_type = 0) {
         is_delete: is_delete,
         delete_type: delete_type
     }
+    let url = server + '/folder/delete';
+    if (delete_type === 3){
+        url = server + '/share/delete';
+    }
     $.ajax({
         type: 'POST',
-        url: server + '/delete',
+        url: url,
         async: false,
         data: JSON.stringify(post_data),
         contentType: 'application/json',
@@ -2389,7 +2394,7 @@ function move_files() {
         $.Toast(i18next.t('msg.export.file.error1'), "error");
         return;
     }
-    $.get(server + '/disk/get').then(res => {
+    $.get(server + '/folder/getDisk').then(res => {
         res.data.forEach(c => {
             root_disk = root_disk + `<ul class="domtree"><li onclick="get_folders('move${c['disk']}')"><img src="img/explorer/disk.svg" alt="">${c['disk']}:</li><ul id="move${c['disk']}"></ul></ul>`;
         });
@@ -2402,7 +2407,7 @@ function move_files() {
         $('#notice-back').addClass('show');
         $('#notice')[0].style.width = '50%';
         $('#notice')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 + 'px';
-        $('#folder-tree')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 - 189 + 'px';
+        $('#folder-tree')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 - 207 + 'px';
     });
 }
 
@@ -2442,15 +2447,18 @@ function move_to(from_ids, parent_id, to_id, folder_type) {
         $.Toast(i18next.t('msg.move.file.error1'), "error");
         return 0;
     }
+    let url = server + '/file/move';
+    if (folder_type === 'folder') {
+        url = server + '/folder/move';
+    }
     let post_data = {
         from_ids: from_ids,
         parent_id: parent_id,
-        to_id: to_id,
-        folder_type: folder_type
+        to_id: to_id
     }
     $.ajax({
         type: 'POST',
-        url: server + '/move',
+        url: url,
         async: false,
         data: JSON.stringify(post_data),
         contentType: 'application/json',
@@ -2670,7 +2678,7 @@ function upload_back_img() {
                 return;
             }
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", server + "/img/upload");
+            xhr.open("POST", server + "/file/uploadImage");
             xhr.setRequestHeader("processData", "false");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
@@ -2762,7 +2770,7 @@ function edit_text_file(file_id) {
     openapp('notepad');
     $.ajax({
         type: 'GET',
-        url: server + '/content/get/' + file_id,
+        url: server + '/file/content/' + file_id,
         success: function (data) {
             if (data['code'] === 0) {
                 $('.window.notepad>.titbar>span>.title')[0].innerText = data['msg'];
@@ -2828,7 +2836,7 @@ function open_md(file_id) {
     document.getElementsByClassName("markdown")[0].style.display = 'block';
     document.getElementById("iframe_markdown").src = 'module/md.html?server=' + server + '&id=' + file_id;
     $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
-    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `window.open('${server}/export/md/${file_id}')`);
+    $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `window.open('${server}/file/export/md/${file_id}')`);
 }
 
 function open_xmind(file_id) {

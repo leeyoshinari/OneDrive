@@ -23,6 +23,12 @@ class Msg(object):
                  'en': 'New Worksheet.sheet'}
     FileDocu = {'zh-CN': '新建doc文档.docu',
                 'en': 'New Document.docu'}
+    FileExcel = {'zh-CN': '新建 Excel 工作表.xlsx',
+                 'en': 'New Excel Worksheet.xlsx'}
+    FileWord = {'zh-CN': '新建 Word 文档.docx',
+                'en': 'New Document.docx'}
+    FilePowerPoint = {'zh-CN': '新建 PowerPoint 演示文稿.pptx',
+                      'en': 'New PowerPoint Presentation.pptx'}
     FilePy = {'zh-CN': '新建python文件.py',
               'en': 'New Python.py'}
     MsgParamError = {'zh-CN': '参数错误',
@@ -101,5 +107,7 @@ class Msg(object):
                      'en': 'The shared link has been opened too many times'}
     MsgMusicRecord = {'zh-CN': '{} 正在播放',
                       'en': '{} is playing.'}
+    MsgUpdateStatus = {'zh-CN': '更新状态成功',
+                       'en': 'Update status successful'}
     MsgAccessPermissionNon = {'zh-CN': '未经授权的访问',
                               'en': 'Unauthorized access'}

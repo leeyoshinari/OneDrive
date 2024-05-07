@@ -191,5 +191,21 @@
   "msg.upload.file.image.error1": "Only supports images in jpg/jpeg format ~",
   "msg.modify.password.error1": "The passwords entered twice are different ~",
   "msg.modify.password.error2": "Please input password ~",
-  "msg.server.add.error1": "Please input server's info ~"
+  "msg.server.add.error1": "Please input server's info ~",
+
+  "game": "Game Center",
+  "game.title": "Game Center",
+  "game.snake": "Snake",
+  "game.snake.user": "User: ",
+  "game.snake.score": "Score: ",
+  "game.snake.time": "Time Cost: ",
+  "game.snake.time.unit": "(second)",
+  "game.snake.rule": "Game Rule: ",
+  "game.snake.rule.text": "Press any direction key to start the game.",
+  "game.snake.ranking": "Ranking: ",
+  "game.snake.result.text1": "Your score is ",
+  "game.snake.result.text2": ", whether you are in the ranking list.",
+  "game.snake.result.title.wall": "Hit the Wall",
+  "game.snake.result.title.yourself": "Bite Yourself",
+  "game.snake.restart": "Restart"
 }

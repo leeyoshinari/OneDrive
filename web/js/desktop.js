@@ -1200,6 +1200,7 @@ let apps = {
     sheet: {init: () => {return null;}},
     word: {init: () => {return null;}},
     excel: {init: () => {return null;}},
+    game: {init: () => {return null;}},
     powerpoint: {init: () => {return null;}},
     docu: {init: () => {return null;}},
     picture: {init: () => {return null;}},
@@ -1548,7 +1549,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
+let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'game', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2866,6 +2867,32 @@ function open_document(file_id, file_name) {
     document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
     $('.window.docu>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_docu").contentWindow.close_document_editor('${file_id}');hidewin('docu');`);
     $('#win-docu>a')[0].download = file_name.replace('docu', 'html');
+}
+
+function open_game(game_type) {
+    openapp('game');
+    $('.window.game>.titbar>img').attr('src', 'img/explorer/'+ game_type +'.png')
+    document.getElementsByClassName("game")[0].style.display = 'block';
+    if (game_type === 'snake') {
+        $('.window.game')[0].style.width = '850px';
+        $('.window.game')[0].style.height = '700px';
+        $('.window.game')[0].style.top = (document.body.clientHeight - 750) / 2 + 'px';
+        $('.window.game')[0].style.left = (document.body.clientWidth - 850) / 2 + 'px';
+    }
+    document.getElementById("iframe_game").src = 'module/' + game_type +'/index.html?server=' + server;
+    $('.window.game>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_game").src = 'about:blank';hidewin('game');`);
+    closenotice();
+}
+
+function open_game_center() {
+    $('#notice>.cnt').html(`
+            <div style="height: 50px;"><p class="tit" style="margin:0;font-size: x-large; float: left;">${i18next.t('game')}</p><a class="a wbtg" onclick="closenotice();"><i class="bi bi-x-lg"></i></a></div>
+            <div><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""> <p>${i18next.t('game.snake')}</p> </div></div>
+    `);
+    $('#notice>.btns')[0].style.display = 'none';
+    $('#notice-back').addClass('show');
+    $('#notice')[0].style.width = '50%';
+    $('#notice')[0].style.height = $('#notice-back')[0].clientHeight * 0.8 + 'px';
 }
 
 function get_server_list(event) {

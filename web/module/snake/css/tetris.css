@@ -1,0 +1,221 @@
+body{
+    background-color: #ffffff00;
+}
+
+table{
+    background-color: rgb(103,120,104);
+    border-right: 2px solid black;
+}
+
+tr{
+    border:1px solid red;
+    /*border-collapse:collapse;*/
+}
+
+td{
+    width:10px;
+    height:10px;
+    border:3px solid rgb(88, 104, 88);
+    box-shadow: 0px 0px 0px 3px rgb(103,120,104) inset;
+    background-color: rgb(88, 104, 88);
+}
+
+/*整体内容*/
+.content{
+    vertical-align:middle;
+    display: flex;
+    margin: 0 auto;
+    width: 815px;
+    border: 2px solid black;
+}
+
+.content table{
+    width: 767px;
+}
+
+/*左侧游戏棋盘*/
+.content .left{
+    width: 180px;
+    margin-right: 10px;
+}
+
+/*右侧信息栏*/
+.content .right{
+    /*border: 1px solid black;*/
+    height: 635px;
+    width: 180px;
+}
+
+.rules{
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
+.rules span:first-child{
+    font-size: 16px;
+    height: 20px;
+}
+
+.rules .unit{
+    font-size: 13px;
+}
+
+.rules .title{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.rules:last-child{
+    border-bottom: 0;
+}
+
+.rules p{
+    text-indent: 25px;
+}
+
+.rules .score{
+    margin: 0 auto;
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.name{
+    height: 49px !important;
+    line-height: 49px !important;
+    font-size: 20px !important;
+}
+
+.edit{
+    display: inline-block;
+    border-radius: 5px !important;
+    border: 1px solid black !important;
+    padding: 0px 15px !important;
+    font-weight: normal;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/*弹框*/
+.wrapper{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    /*background-color: grey;*/
+
+    display: none;
+    align-items: center;
+}
+.wrapper .dialog-box{
+    width: 420px;
+    background-color: #fff;
+    border: 1px solid #ebeef5;
+    margin: 0 auto;
+    border-radius: 4px;
+    box-shadow: 0px 0px 0px 3px rgb(103,120,104);
+    padding: 15px;
+    position: relative;
+}
+.box-header{
+    padding-bottom: 10px;
+    font-size: 18px;
+    line-height: 1;
+    color: #303133;
+}
+
+.head-button{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor:pointer;
+}
+
+.head-button img{
+    width: 25px;
+    height: 25px;
+}
+
+.box-content{
+    padding: 10px 0 0;
+    color: #606266;
+    font-size: 14px;
+}
+
+.box-content .sq-input{
+    padding: 15px 0;
+}
+.box-content .sq-input input{
+    padding: 5px 15px;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dcdfe6;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+}
+.box-btns{
+    text-align: right;
+    margin: 15px 0 0;
+}
+
+.box-btns button{
+    padding: 9px 15px;
+    color: #606266;
+    outline: none;
+    line-height: 1;
+    font-size: 12px;
+    color: #606266;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.box-btns .leave-Message{
+    display: none;
+    background-color: #f56c6c;
+    border-color: #f56c6c;
+    color:#fff;
+}
+
+.box-btns .conform{
+    background-color: #409eff !important;
+    color: #fff !important;
+    border: 1px solid #409eff !important;
+}
+
+.box-btns button:focus, .box-btns button:hover {
+    color: #409eff;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+}
+
+.box-btns .leave-Message:focus, .box-btns .leave-Message:hover{
+    display: none;
+    background-color: rgba(245, 108, 108, 0.7);
+    border-color: rgba(245, 108, 108, 0.7);
+    color:#fff;
+}
+
+.ranking p{
+    display: flex;
+    height: 16px;
+    line-height: 16px;
+    text-indent: 0;
+}
+
+.user-name{
+    width: 120px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.score-num{
+    vertical-align: middle;
+    text-indent: 10px;
+    width: 85px;
+    overflow: hidden;
+}

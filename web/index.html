@@ -87,12 +87,13 @@
 			<img src="img/setting.svg" alt=""><p></p>
 		</div>
 		<div class="b" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
-			<img src="img/edge.svg" alt="">
-			<p></p>
+			<img src="img/edge.svg" alt=""><p></p>
 		</div>
 		<div class="b" ondblclick="open_music('');" ontouchstart="open_music('');" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['music',-1]);" appname="music">
-			<img src="img/music.ico" alt="">
-			<p></p>
+			<img src="img/music.ico" alt=""><p></p>
+		</div>
+		<div class="b" ondblclick="open_game_center();" ontouchstart="open_game_center();" win12_title="" oncontextmenu="return showcm(event,'desktop.icon',['game',-1]);" appname="game">
+			<img src="img/game.png" alt=""><p></p>
 		</div>
 		<span class="choose"></span>
 		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0;left:0;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
@@ -714,6 +715,17 @@
 		</div>
 		<div class="loadback"><img src="img/files/ppt.png" class="icon" alt=""></div>
 		<div class="content" id="win-powerpoint"><iframe id="iframe_powerpoint" src=""></iframe></div>
+	</div>
+	<div class="window game">
+		<div class="resize-bar"></div>
+		<div class="titbar"><img src="img/game.png" class="icon" alt=""><span><span class="title">Game Center</span></span><div>
+				<a class="a wbtg red" onclick="hidewin('game');"><i class="bi bi-x-lg"></i></a>
+				<a class="a wbtg max" onclick="maxwin('game')"><i class="bi bi-app"></i></a>
+				<a class="a wbtg" onclick="minwin('game')"><i class="bi bi-dash-lg"></i></a>
+			</div>
+		</div>
+		<div class="loadback"><img src="img/game.png" class="icon" alt=""></div>
+		<div class="content" id="win-game"><iframe id="iframe_game" src=""></iframe></div>
 	</div>
 	<script type="text/javascript">
 		let optionToSelect = Array.from($('#loginback>div>select')[0].options).find(option => option.value === lang);

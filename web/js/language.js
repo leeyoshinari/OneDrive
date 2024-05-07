@@ -15,6 +15,8 @@ function set_page_language() {
     $('#desktop>div')[2].setAttribute('win12_title', i18next.t('edge.title'));
     $('#desktop>div>p')[3].innerText = i18next.t('music');
     $('#desktop>div')[3].setAttribute('win12_title', i18next.t('music.title'));
+    $('#desktop>div>p')[4].innerText = i18next.t('game');
+    $('#desktop>div')[4].setAttribute('win12_title', i18next.t('game.title'));
 
     // 设置页面
     // 账号

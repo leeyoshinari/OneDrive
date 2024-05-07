@@ -11,6 +11,7 @@ Windows-style personal cloud-drive with supporting online editing.
 - Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
 - Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
+- Add game center, support Snake games (plans to support more games in the future).
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily
@@ -115,3 +116,4 @@ Thanks to the following projects
 - [Luckysheet](https://github.com/dream-num/Luckysheet)
 - [wangEditor](https://github.com/wangeditor-team/wangEditor)
 - [优折美在线音乐播放器](https://m.uzz.me)
+- [snake](https://github.com/SunQQQ/snake)

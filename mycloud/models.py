@@ -108,6 +108,18 @@ class Musics(Model):
         db_table = 'music'
 
 
+class Games(Model):
+    id = fields.IntField(pk=True, generated=True, description='主键')
+    type = fields.CharField(max_length=8, description='游戏类型')
+    name = fields.CharField(max_length=16, description='用户名')
+    score = fields.IntField(default=0, description="得分")
+    create_time = fields.DatetimeField(auto_now_add=True)
+    update_time = fields.DatetimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'games'
+
+
 # 用户模型
 class UserBase(BaseModel):
     t: str
@@ -354,3 +366,17 @@ class DownloadList(BaseModel):
         return cls(gid=obj['gid'], name=file_path.split('/')[-1], path=file_path, status=obj['status'],
                    completed_size=beauty_size(completed_length), total_size=beauty_size(total_length), eta=eta,
                    download_speed=beauty_size(download_speed) + '/s', progress=progress)
+
+
+class GamesScoreInfo(BaseModel):
+    type: str
+    score: int
+
+
+class GamesRankInfo(BaseModel):
+    name: str
+    score: int
+
+    class Config:
+        orm_mode = True
+        from_attributes = True

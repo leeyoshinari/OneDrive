@@ -11,6 +11,7 @@
 - 支持远程连接 Linux 服务器
 - 音乐播放器，支持播放云盘（服务端）和本地（客户端）的音乐
 - 集成 aria2，支持 HTTP、FTP、BitTorrent 等多种下载协议
+- 增加游戏中心，支持贪吃蛇游戏（计划陆续支持更多游戏）
 - 支持多语言，支持配置多语言
 - 不同用户的数据完全隔离
 - 可任意挂载多个磁盘
@@ -127,3 +128,4 @@ location /mycloud/server {
 - [Luckysheet](https://github.com/dream-num/Luckysheet)
 - [wangEditor](https://github.com/wangeditor-team/wangEditor)
 - [优折美在线音乐播放器](https://m.uzz.me)
+- [snake](https://github.com/SunQQQ/snake)

@@ -107,6 +107,8 @@ class Msg(object):
                      'en': 'The shared link has been opened too many times'}
     MsgMusicRecord = {'zh-CN': '{} 正在播放',
                       'en': '{} is playing.'}
+    MsgGameScore = {'zh-CN': '游戏得分设置{}',
+                    'en': 'Set game score {}'}
     MsgUpdateStatus = {'zh-CN': '更新状态成功',
                        'en': 'Update status successful'}
     MsgAccessPermissionNon = {'zh-CN': '未经授权的访问',

@@ -1440,3 +1440,12 @@ iframe {
     height: 100%;
     width: 100%;
 }
+
+.game-list {
+    position: relative;
+    height: 80px;
+    width: 80px;
+    margin: 2%;
+    cursor: pointer;
+    text-align: center;
+}

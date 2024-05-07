@@ -191,5 +191,21 @@
   "msg.upload.file.image.error1": "只支持 jpg/jpeg 的图片 ~",
   "msg.modify.password.error1": "两次输入的密码不一样 ~",
   "msg.modify.password.error2": "请输入密码 ~",
-  "msg.server.add.error1": "请输入服务器信息 ~"
+  "msg.server.add.error1": "请输入服务器信息 ~",
+
+  "game": "游戏中心",
+  "game.title": "游戏中心",
+  "game.snake": "贪吃蛇",
+  "game.snake.user": "用户：",
+  "game.snake.score": "分数：",
+  "game.snake.time": "用时：",
+  "game.snake.time.unit": "(秒)",
+  "game.snake.rule": "游戏规则：",
+  "game.snake.rule.text": "按任意方向键，开始游戏。",
+  "game.snake.ranking": "排名：",
+  "game.snake.result.text1": "您的得分是",
+  "game.snake.result.text2": "，看下榜单有没有你吧",
+  "game.snake.result.title.wall": "撞墙啦",
+  "game.snake.result.title.yourself": "咬自己啦",
+  "game.snake.restart": "再来一局"
 }

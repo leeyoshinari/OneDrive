@@ -697,8 +697,8 @@ list:not(.new)>a:active,
 }
 
 #desktop>div {
-    width: 85px;
-    height: 84px;
+    width: 88px;
+    height: 87px;
     text-overflow: ellipsis;
     border-radius: 5px;
     text-align: center;

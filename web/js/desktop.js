@@ -2873,6 +2873,12 @@ function open_game(game_type) {
     openapp('game');
     $('.window.game>.titbar>img').attr('src', 'img/explorer/'+ game_type +'.png')
     document.getElementsByClassName("game")[0].style.display = 'block';
+    if (game_type === 'snake') {
+        $('.window.game')[0].style.width = '850px';
+        $('.window.game')[0].style.height = '700px';
+        $('.window.game')[0].style.top = (document.body.clientHeight - 750) / 2 + 'px';
+        $('.window.game')[0].style.left = (document.body.clientWidth - 850) / 2 + 'px';
+    }
     document.getElementById("iframe_game").src = 'module/' + game_type +'/index.html?server=' + server;
     $('.window.game>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_game").src = 'about:blank';hidewin('game');`);
     closenotice();
@@ -2880,7 +2886,7 @@ function open_game(game_type) {
 
 function open_game_center() {
     $('#notice>.cnt').html(`
-            <p class="tit" style="margin: 0">${i18next.t('game')}</p>
+            <div style="height: 50px;"><p class="tit" style="margin:0;font-size: x-large; float: left;">${i18next.t('game')}</p><a class="a wbtg" onclick="closenotice();"><i class="bi bi-x-lg"></i></a></div>
             <div><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""> <p>${i18next.t('game.snake')}</p> </div></div>
     `);
     $('#notice>.btns')[0].style.display = 'none';

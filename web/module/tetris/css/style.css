@@ -1,0 +1,69 @@
+.square{
+	width: 400px;
+	height: 450px;
+	float: left;
+	margin-top: 50px;
+}
+
+.title{
+	font-size: 30px;
+	margin: 20px auto;
+}
+
+.game{
+	width:220px;
+	height: 400px;
+	background-color: #F2FAFF;
+	border-top: 1px solid blue;
+	border-left: 1px solid blue;
+	border-right: 1px solid blue;
+	border-bottom: 1px solid blue;
+	position: relative;
+	float: left;
+}
+
+.next
+{
+	width: 80px ;
+	height: 80px;
+	background-color: #F2FAFF;
+	position: relative;
+	border: 1px solid blue;
+	float: left;
+	margin-left:40px;
+}
+
+.info
+{
+	float: left;
+	margin-left:40px;
+	margin-top: 10px ;
+}
+
+#local_usage p {
+	margin: 0;
+}
+
+.none, .current, .done{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	box-sizing: border-box;
+}
+
+.none
+{
+	background-color: #F2FAFF;
+}
+
+.current
+{
+	background-color: pink;
+	border:1px solid black;
+}
+
+.done
+{
+	background-color: grey;
+	border:1px solid black;
+}

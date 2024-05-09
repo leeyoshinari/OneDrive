@@ -207,5 +207,6 @@
   "game.snake.result.text2": ", whether you are in the ranking list.",
   "game.snake.result.title.wall": "Hit the Wall",
   "game.snake.result.title.yourself": "Bite Yourself",
-  "game.snake.restart": "Restart"
+  "game.snake.restart": "Restart",
+  "game.tetris": "Tetris"
 }

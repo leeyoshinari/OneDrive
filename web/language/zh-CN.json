@@ -207,5 +207,6 @@
   "game.snake.result.text2": "，看下榜单有没有你吧",
   "game.snake.result.title.wall": "撞墙啦",
   "game.snake.result.title.yourself": "咬自己啦",
-  "game.snake.restart": "再来一局"
+  "game.snake.restart": "再来一局",
+  "game.tetris": "俄罗斯方块"
 }

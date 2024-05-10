@@ -5,7 +5,6 @@ var Game = function()
 	var timeDiv ;
 	var scoreDiv ;
 	var score = 0 ;
-	var resultDiv ;
 	var gameData = [
 	[0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0],
@@ -278,7 +277,7 @@ var Game = function()
 		{
 			if(gameData[1][i] === 1)
 			{
-				gameOver = true ;
+				gameOver = true;
 			}
 		}
 
@@ -316,14 +315,23 @@ var Game = function()
 	}
 	var gameOver = function(win)
 	{
-		if(win)
-		{
-			resultDiv.innerHTML = "you win";
-		}
-		else
-		{
-			resultDiv.innerHTML = "you lost";
-		}
+        window.parent.$.ajax({
+            type: 'POST',
+            url: localStorage.getItem('server') + '/games/set/score',
+            data: JSON.stringify({type: 'tetris', score: score}),
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.code === 0) {
+                    let r = window.parent.i18next.t("game.result.lost");
+                    if(win) {
+                        r = window.parent.i18next.t("game.result.win");
+                    }
+                    reloadGame(score, r);
+                } else {
+                    window.parent.$.Toast(data.msg, 'error');
+                }
+            }
+        })
 	}
 
 	// 增加干扰项目，底部增加行
@@ -351,13 +359,52 @@ var Game = function()
 	{
 		gameDiv = doms.gameDiv; 
 		nextDiv = doms.nextDiv;
-		timeDiv = doms.timeDiv ;
-		scoreDiv = doms.scoreDiv ;
-		resultDiv = doms.resultDiv ;
+		timeDiv = doms.timeDiv;
+		scoreDiv = doms.scoreDiv;
+		doms.infoDiv.getElementsByTagName("div")[0].getElementsByTagName('span')[0].innerText = window.parent.i18next.t("game.snake.time");
+		doms.infoDiv.getElementsByTagName("div")[1].getElementsByTagName('span')[0].innerText = window.parent.i18next.t("game.snake.score");
+		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[0].innerText = window.parent.i18next.t("game.operate.title");
+		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[1].innerText = window.parent.i18next.t("game.operate.up");
+		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[2].innerText = window.parent.i18next.t("game.operate.down");
+		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[3].innerText = window.parent.i18next.t("game.operate.left");
+		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[4].innerText = window.parent.i18next.t("game.operate.right");
+		doms.infoDiv.getElementsByTagName("div")[3].getElementsByTagName('div')[0].innerText = window.parent.i18next.t("game.snake.ranking");
 		next = SquareFactory.prototype.make(type,dir);
 		initDiv(gameDiv,gameData,gameDivs);
 		initDiv(nextDiv,next.data,nextDivs);	
 		refashDiv(next.data,nextDivs);
+		reloadScoreList();
+	}
+
+    var reloadGame = function (score,overReason) {
+        var text = window.parent.i18next.t('game.snake.result.text1');
+        var text2 = window.parent.i18next.t('game.snake.result.text2');
+        document.getElementsByClassName('wrapper')[0].style.display = 'flex';
+        document.getElementsByClassName('box-header')[0].innerHTML = overReason;
+        document.getElementsByClassName('box-content')[0].innerHTML = text + score + text2;
+        document.getElementsByClassName('skip')[0].innerHTML = window.parent.i18next.t('game.snake.restart');
+        document.getElementsByClassName('skip')[0].onclick = function () {
+            window.location.reload();
+        };
+    };
+
+	var reloadScoreList = function(){
+		window.parent.$.ajax({
+			type: 'GET',
+			url: localStorage.getItem('server') + '/games/get/rank/tetris',
+			success: function (data) {
+				if (data.code === 0) {
+					let scoreList = data.data;
+					let rankString = '';
+					for(let i=0; i<scoreList.length; i++){
+						rankString += '<p><span class="user-name">' + scoreList[i].name + '</span>:<span class="score-num">' + scoreList[i].score + '</span></p>';
+					}
+					document.getElementsByClassName('ranking')[0].innerHTML = rankString;
+				} else {
+					window.parent.$.Toast(data['msg'], 'error');
+				}
+			}
+		})
 	}
 
 	// report fun

@@ -2870,15 +2870,30 @@ function open_document(file_id, file_name) {
 }
 
 function open_game(game_type) {
+    $('.window.game>.titbar>span>span')[0].innerText = i18next.t('game.title');
     openapp('game');
     $('.window.game>.titbar>img').attr('src', 'img/explorer/'+ game_type +'.png')
     document.getElementsByClassName("game")[0].style.display = 'block';
-    if (game_type === 'snake') {
-        $('.window.game')[0].style.width = '850px';
-        $('.window.game')[0].style.height = '700px';
-        $('.window.game')[0].style.top = (document.body.clientHeight - 750) / 2 + 'px';
-        $('.window.game')[0].style.left = (document.body.clientWidth - 850) / 2 + 'px';
+    let width = 0;
+    let height = 0;
+    switch (game_type) {
+        case 'snake':
+            width = 850;
+            height = 700;
+            break;
+        case 'tetris':
+            width = 430;
+            height = 510;
+            break;
+        default:
+            width = 0;
+            height = 0;
+            break;
     }
+    $('.window.game')[0].style.width = width + 'px';
+    $('.window.game')[0].style.height = height + 'px';
+    $('.window.game')[0].style.left = (document.body.clientWidth - width) / 2 + 'px';
+    $('.window.game')[0].style.top = (document.body.clientHeight - height - 50) / 2 + 'px';
     document.getElementById("iframe_game").src = 'module/' + game_type +'/index.html?server=' + server;
     $('.window.game>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_game").src = 'about:blank';hidewin('game');`);
     closenotice();

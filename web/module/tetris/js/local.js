@@ -1,7 +1,7 @@
 var Local = function()
 {
 	var game ; 
-	var INERVAL = 200 ;
+	var INERVAL = 500 ;
 	var timer = null ;
 	var timeCount = 0 ;
 	var time = 0 ;
@@ -78,8 +78,8 @@ var Local = function()
 			time = time + 1 ;
 			game.setTime(time);
 			//  每隔10秒生成从底部生成干扰项
-			if(time % 10 === 0)
-				game.addTailLines(generateBottomLine(1));
+			// if(time % 10 === 0)
+			// 	game.addTailLines(generateBottomLine(1));
 		}
 	}
 	// rand for 0 - 6
@@ -99,8 +99,7 @@ var Local = function()
 			nextDiv:document.getElementById("local_next"),
 			timeDiv:document.getElementById("local_time"),
 			scoreDiv:document.getElementById("local_score"),
-			resultDiv:document.getElementById("local_gameover")
-
+			infoDiv:document.getElementsByClassName("info")[0]
 		}	
 		game = new Game();
 		game.init(dom,generateType(),generateDir());

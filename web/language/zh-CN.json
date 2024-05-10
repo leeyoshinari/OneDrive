@@ -195,6 +195,13 @@
 
   "game": "游戏中心",
   "game.title": "游戏中心",
+  "game.result.lost": "哈哈哈，你输啦",
+  "game.result.win": "你赢了",
+  "game.operate.title": "按方向键操作",
+  "game.operate.up": "上->旋转",
+  "game.operate.down": "下->下移",
+  "game.operate.left": "左->左移",
+  "game.operate.right": "右->右移",
   "game.snake": "贪吃蛇",
   "game.snake.user": "用户：",
   "game.snake.score": "分数：",

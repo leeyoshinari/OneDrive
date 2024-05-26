@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+onlyoffice/
 eggs/
 .eggs/
 # lib/
@@ -147,6 +148,7 @@ logs/
 sqlite3.db
 sqlite3.db-shm
 sqlite3.db-wal
+onlyoffice.html
 string/
 highlight/
 tmp/

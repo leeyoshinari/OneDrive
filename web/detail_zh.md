@@ -1,12 +1,14 @@
 # OneDrive
 ## 功能概览
 - 文件夹的新建、删除、重命名、移动、导出
-- 文件上传、下载、新建、删除、移动、重命名、分享
+- 文件的上传、下载、新建、删除、移动、重命名、分享
+- 支持 OnlyOffice (Word、Excel、PowerPoint) 在线编辑和多人协作
 - 支持 txt、markdown、xmind、表格、文档的在线编辑功能
 - 支持 python 脚本在线编辑和运行
 - 支持远程连接 Linux 服务器
 - 音乐播放器，支持播放云盘（服务端）和本地（客户端）的音乐
 - 集成 aria2，支持 HTTP、FTP、BitTorrent 等多种下载协议
+- 增加游戏中心，支持贪吃蛇、俄罗斯方块游戏（会陆续支持更多小游戏）
 - 支持多语言，支持配置多语言
 - 单点登录，不同用户的数据完全隔离
 - 可任意挂载多个磁盘
@@ -82,6 +84,10 @@ aria2 是一个轻量级的多协议命令行下载工具，支持HTTP、FTP、B
 如需查看当前正在下载的任务，点击 `下载列表` 即可。点击`暂停`可以暂停下载任务，点击`取消`可以取消下载，下载完成后，即可在目录里看到下载的文件。
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-list.jpg)
 
+### 游戏中心
+增加了游戏中心，现支持贪吃蛇、俄罗斯方块游戏，后续会陆续支持其他网页版的小游戏
+![snake.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/snake.jpg)
+
 ### 多语言设置
 目前多语言已支持中文简体和英文，可能存在翻译不正确，或者漏翻译的，请自行修改。
 
@@ -94,6 +100,15 @@ aria2 是一个轻量级的多协议命令行下载工具，支持HTTP、FTP、B
 另外新增多语言，还需要在页面下拉框增加选项，在`web->index.html`中有2个地方需要修改：一个是第39 - 42行，另一个是第185 - 188行。**特别注意**：`option中的value`必须要和`web->language`目录下json的文件名一样，也必须要和`common->messages.py`文件中每一个message的key一样。
 
 由于不同语言的长度不一样，如果文案过长导致页面样式不美观，请自行修改。
+
+### OnlyOffice
+打开 `office` 文件，会使用 `onlyoffice` 打开，可在线编辑并实时保存，关闭窗口可退出编辑，onlyoffice 默认设置是：用户退出编辑 10s 后，才会自动把文件保存到本地。
+多人协作编辑文档：可通过在文件列表中右键获取协作编辑的链接，然后把链接发送给协作编辑的人。如果其中一个用户退出编辑，然后再通过链接进入编辑状态，此时不会协作编辑，必须所有用户全部重新进入编辑状态才可以协作编辑。
+查看历史版本：可从历史记录中查看文档的改动，并可从历史记录中恢复。
+![word.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/word.jpg)
+![excel.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/excel.jpg)
+![powerpoint.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/powerpoint.jpg)
+![history.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/history.jpg)
 
 ### 在线编辑功能
 所有在线编辑功能：每隔10秒自动保存，标题栏文件名旁会展示自动保存的时间，点击关闭按钮也会自动保存。其中`txt`、`markdown`和`文档`的在线编辑支持导出成`html`格式，用浏览器打开导出的`html`后，可通过浏览器自带的打印功能把文件转成`PDF`格式。

@@ -1444,6 +1444,7 @@ iframe {
 .game-list {
     position: relative;
     height: 80px;
+    float: left;
     width: 80px;
     margin: 2%;
     cursor: pointer;

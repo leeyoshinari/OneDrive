@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Tetris</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<div class="square" id="local">
+			<div class="game" id="local_game"></div>
+			<div class="next" id="local_next"></div>
+			<div class="info">
+				<div><span class="i18n" key="game.snake.time">已用时</span><span id="local_time">0</span>s</div>
+				<div><span class="i18n" key="game.snake.score">已得分</span><span id="local_score">0</span></div>
+				<div id="local_usage" style="margin-top: 8px;">
+					<p style="width: 110px;" class="i18n" key="game.operate.title">按方向键操作</p>
+					<p class="i18n" key="game.operate.up">上->旋转</p><p class="i18n" key="game.operate.down">下->坠落</p>
+					<p class="i18n" key="game.operate.left">左->左移</p><p class="i18n" key="game.operate.right">右->右移</p></div>
+				<div>
+					<div style="margin-top: 20px; margin-bottom: 7px;" class="i18n" key="game.snake.ranking">最高记录：</div>
+					<div class="ranking"></div>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper">
+			<div class="dialog-box">
+				<div class="box-header"></div>
+				<div class="box-content"></div>
+				<div class="box-btns">
+					<button class="skip i18n" key="game.snake.restart">跳过</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/game.js"></script>
+		<script type="text/javascript" src="js/local.js"></script>
+		<script type="text/javascript" src="js/square.js"></script>
+		<script type="text/javascript" src="js/squareFactory.js"></script>
+		<!--script type="text/javascript" src="js/remote.js"></script-->
+		<script type="text/javascript" src="js/script.js"></script>
+	</body>
+</html>

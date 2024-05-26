@@ -145,7 +145,7 @@ window.onkeydown = function (event) {
     }
 }
 
-function showcm(e, cl, arg) {
+function showcm(e, cl, arg, file_type='null') {
     if ($('#cm').hasClass('show-begin')) {
         setTimeout(() => {
             $('#cm').css('left', e.clientX);
@@ -165,6 +165,9 @@ function showcm(e, cl, arg) {
                     h += `<a class="a" onmousedown="${item[1]}">${item[0]}</a>\n`;
                 }
             })
+            if ("docx,xlsx,pptx,csv".indexOf(file_type) > -1){
+                h += `<a class="a" onmousedown="apps.explorer.coediting('${arg}')"><i class="bi bi-arrow-up-right-square"></i>${i18next.t('explore.window.file.tool.co-editing')}</a>`;
+            }
             $('#cm>list')[0].innerHTML = h;
             $('#cm').addClass('show-begin');
             $('#cm>.foc').focus();
@@ -815,6 +818,18 @@ let apps = {
                 case 'py':
                     open_python(file_id);
                     break;
+                case 'docx':
+                case 'doc':
+                    open_office(file_id, 'word');
+                    break;
+                case 'xlsx':
+                case 'xls':
+                    open_office(file_id, 'excel');
+                    break;
+                case 'pptx':
+                case 'ppt':
+                    open_office(file_id, 'powerpoint');
+                    break;
                 default:
                     apps.explorer.download(file_id);
                     break;
@@ -889,7 +904,7 @@ let apps = {
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}');return stop(event);">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${path_id}/${tmp[i]['id']}','${tmp[i]['format']}');return stop(event);">
                             <span style="width: 40%;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -1030,6 +1045,17 @@ let apps = {
         },
         download: (file_id) => {
             window.open(server + '/file/download/' + file_id);
+        },
+        coediting: (file_id) => {
+            let pathl = file_id.split('/');
+            let url_t = window.location.href + "module/onlyoffice.html?server=" + server + "&id=" + pathl[pathl.length - 1] + "&lang=" + lang;
+            let textarea = document.createElement('textarea');
+            textarea.value = url_t;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert(url_t);
         },
         download_online: () => {
             show_modal_cover(true, false);
@@ -1673,6 +1699,9 @@ function maxwin(name, trigger = true) {
     else {
         $('#dock-box').removeClass('hide')
     }
+    setTimeout(() => {if (name === 'word' || name === 'excel' || name === 'powerpoint') {
+        $('.window.' + name + '>.titbar')[0].style.width = Number($('.window.' + name).css('width').split('px')[0]) - 336 + 'px';
+    }},500);
 }
 function minwin(name) {
     if ($('.window.' + name).hasClass('min')) {
@@ -1837,6 +1866,9 @@ function resizing(win, e, arg) {
         else {
             win.style.height = minHeight + 'px';
         }
+    }
+    if (win.classList.value.indexOf('word') > 0 || win.classList.value.indexOf('excel') > 0 || win.classList.value.indexOf('powerpoint') > 0) {
+        win.getElementsByClassName('titbar')[0].style.width = Number(win.style.width.split('px')[0]) - 336 + 'px';
     }
 }
 let wo = [];
@@ -2358,7 +2390,7 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                             <span style="width: 10%;"></span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     } else {
                         let f_src = icons[tmp[i]['format']] || default_icon;
-                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${tmp[i]['id']}');return stop(event);">
+                        ht += `<div class="row" style="padding-left: 5px;"><input type="checkbox" id="check${tmp[i]['id']}" style="float: left; margin-top: 8px;margin-right: 8px;"><a class="a item act file" id="f${tmp[i]['id']}" onclick="apps.explorer.select('${tmp[i]['id']}');" ondblclick="apps.explorer.open_file('${tmp[i]['id']}', '${tmp[i]['name']}')" oncontextmenu="showcm(event,'explorer.file','${tmp[i]['id']}','${tmp[i]['format']}');return stop(event);">
                             <span style="width: 40%;"><img style="float: left;" src="${f_src}" alt="">${tmp[i]['name']}</span><span style="width: 10%;">${tmp[i]['format']}</span>
                             <span style="width: 10%;">${tmp[i]['size']}</span><span style="width: 20%;">${tmp[i]['update_time']}</span><span style="width: 20%;">${tmp[i]['create_time']}</span></a></div>`;
                     }
@@ -2854,6 +2886,13 @@ function open_sheet(file_id) {
     $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
 }
 
+function open_office(file_id, name) {
+    openapp(name);
+    document.getElementsByClassName(name)[0].style.display = 'block';
+    document.getElementById("iframe_" + name).src = 'module/onlyoffice.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
+    $('.window.'+name+'>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_${name}").src = 'about:blank';hidewin('${name}');`);
+}
+
 function open_python(file_id) {
     openapp('pythonEditor');
     document.getElementsByClassName("pythonEditor")[0].style.display = 'block';
@@ -2870,15 +2909,30 @@ function open_document(file_id, file_name) {
 }
 
 function open_game(game_type) {
+    $('.window.game>.titbar>span>span')[0].innerText = i18next.t('game.title');
     openapp('game');
     $('.window.game>.titbar>img').attr('src', 'img/explorer/'+ game_type +'.png')
     document.getElementsByClassName("game")[0].style.display = 'block';
-    if (game_type === 'snake') {
-        $('.window.game')[0].style.width = '850px';
-        $('.window.game')[0].style.height = '700px';
-        $('.window.game')[0].style.top = (document.body.clientHeight - 750) / 2 + 'px';
-        $('.window.game')[0].style.left = (document.body.clientWidth - 850) / 2 + 'px';
+    let width = 0;
+    let height = 0;
+    switch (game_type) {
+        case 'snake':
+            width = 850;
+            height = 700;
+            break;
+        case 'tetris':
+            width = 430;
+            height = 510;
+            break;
+        default:
+            width = 0;
+            height = 0;
+            break;
     }
+    $('.window.game')[0].style.width = width + 'px';
+    $('.window.game')[0].style.height = height + 'px';
+    $('.window.game')[0].style.left = (document.body.clientWidth - width) / 2 + 'px';
+    $('.window.game')[0].style.top = (document.body.clientHeight - height - 50) / 2 + 'px';
     document.getElementById("iframe_game").src = 'module/' + game_type +'/index.html?server=' + server;
     $('.window.game>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_game").src = 'about:blank';hidewin('game');`);
     closenotice();
@@ -2887,7 +2941,8 @@ function open_game(game_type) {
 function open_game_center() {
     $('#notice>.cnt').html(`
             <div style="height: 50px;"><p class="tit" style="margin:0;font-size: x-large; float: left;">${i18next.t('game')}</p><a class="a wbtg" onclick="closenotice();"><i class="bi bi-x-lg"></i></a></div>
-            <div><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""> <p>${i18next.t('game.snake')}</p> </div></div>
+            <div><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""><p>${i18next.t('game.snake')}</p></div>
+            <div class="game-list" onclick="open_game('tetris')"><img src="img/explorer/tetris.png" alt=""><p>${i18next.t('game.tetris')}</p></div></div>
     `);
     $('#notice>.btns')[0].style.display = 'none';
     $('#notice-back').addClass('show');

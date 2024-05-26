@@ -6,6 +6,7 @@ Windows-style personal cloud-drive with supporting online editing.
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files
+- Supports OnlyOffice (Word, Excel, PowerPoint) online editing and multi-user collaborative editing
 - Supports online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
@@ -67,18 +68,25 @@ location /mycloud {
      proxy_set_header Host $proxy_host;
      proxy_set_header lang $http_lang;
      proxy_set_header X-Real-IP $remote_addr;
+     proxy_set_header Upgrade $http_upgrade;
+	 proxy_set_header Connection $proxy_connection;
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
-（3）WebSocket：`proxy_pass` is the IP and port in `config.conf`, `/mycloud` must be the same as `prefix` in `config.conf`. Don't modify `/server`, this is the routing of the interface. This location is mainly used to remotely connect to the `Linux` server. If you do not need to connect to the server, you can ignore this location.
-```shell script
-location /mycloud/server {
-    proxy_pass http://127.0.0.1:15200;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
+(3) In the `http` module, a mapping need to be add.
+```shell
+map $http_upgrade $proxy_connection {
+    default upgrade;
+    "" close;
 }
 ```
+（4）Swagger page
+```shell
+location /api/openapi {
+    proxy_pass  http://127.0.0.1:15200;
+}
+```
+
 Usually nginx will limit the size of the request body, and you need to add `client_max_body_size 4096M;` to `nginx.conf`. There are other configurations, you can search for information and modify them online by yourself.
 
 If you don’t know nginx, please go to [nginx official website](http://nginx.org/en/download.html) to download nginx and install it. After the installation is completed, replace the installed `nginx.conf` with the `nginx.conf` in this project, and then restart nginx.

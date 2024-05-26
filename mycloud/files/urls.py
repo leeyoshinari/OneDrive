@@ -7,7 +7,7 @@ import traceback
 from fastapi import APIRouter, Request, Depends
 from mycloud import models
 from mycloud.files import views
-from mycloud.auth_middleware import auth
+from mycloud.auth_middleware import auth, auth_url
 from mycloud.responses import StreamResponse, MyResponse
 from common.results import Result
 from common.logging import logger
@@ -42,7 +42,7 @@ async def query_files(file_id: str, q: str = "", sort_field: str = 'update_time'
 
 
 @router.post('/create', summary="Create new folder or new file (新建文件)")
-async def create_folder(query: models.CatalogBase, hh: dict = Depends(auth)):
+async def create_file(query: models.CatalogBase, hh: dict = Depends(auth)):
     result = await views.create_file(query.id, query.file_type, hh)
     return result
 
@@ -73,6 +73,18 @@ async def copy_file(file_id: str, hh: dict = Depends(auth)):
 
 @router.get("/download/{file_id}", summary="Download file (下载文件)")
 async def download_file(file_id: str, hh: dict = Depends(auth)):
+    try:
+        result = await views.download_file(file_id, hh)
+        headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
+                   'Content-Disposition': f'inline;filename="{result["name"]}"'}
+        return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
+    except:
+        logger.error(traceback.format_exc())
+        return Result(code=1, msg=Msg.MsgDownloadError[hh['lang']])
+
+
+@router.get("/onlyoffice/{file_id}", summary="Download office file (下载 onlyoffice 文件)")
+async def onlyoffice_file(file_id: str, hh: dict = Depends(auth_url)):
     try:
         result = await views.download_file(file_id, hh)
         headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),

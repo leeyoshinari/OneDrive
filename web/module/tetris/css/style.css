@@ -1,0 +1,173 @@
+.square{
+	width: 400px;
+	height: 430px;
+	float: left;
+	margin-top: 30px;
+	margin-left: 15px;
+}
+
+.title{
+	font-size: 30px;
+	margin: 20px auto;
+}
+
+.game{
+	width:220px;
+	height: 400px;
+	background-color: #F2FAFF;
+	border-top: 1px solid blue;
+	border-left: 1px solid blue;
+	border-right: 1px solid blue;
+	border-bottom: 1px solid blue;
+	position: relative;
+	float: left;
+}
+
+.next
+{
+	width: 80px ;
+	height: 80px;
+	background-color: #F2FAFF;
+	position: relative;
+	border: 1px solid blue;
+	float: left;
+	margin-left:40px;
+}
+
+.info
+{
+	float: left;
+	margin-left:40px;
+	margin-top: 10px ;
+}
+
+#local_usage p {
+	margin: 0;
+}
+
+.none, .current, .done{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	box-sizing: border-box;
+}
+
+.none
+{
+	background-color: #F2FAFF;
+}
+
+.current
+{
+	background-color: pink;
+	border:1px solid black;
+}
+
+.done
+{
+	background-color: grey;
+	border:1px solid black;
+}
+
+/*弹框*/
+.wrapper{
+    position: fixed;
+    left: 15px;
+    right: 15px;
+    top:0;
+    bottom: 0;
+    /*background-color: grey;*/
+
+    display: none;
+    align-items: center;
+}
+.wrapper .dialog-box{
+    width: 420px;
+    background-color: #fff;
+    border: 1px solid #ebeef5;
+    margin: 0 auto;
+    border-radius: 4px;
+    padding: 15px;
+    position: relative;
+}
+.box-header{
+    padding-bottom: 10px;
+    font-size: 18px;
+    line-height: 1;
+    color: #303133;
+}
+
+.head-button{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor:pointer;
+}
+
+.head-button img{
+    width: 25px;
+    height: 25px;
+}
+
+.box-content{
+    padding: 10px 0 0;
+    color: #606266;
+    font-size: 14px;
+}
+
+.box-content .sq-input{
+    padding: 15px 0;
+}
+.box-content .sq-input input{
+    padding: 5px 15px;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dcdfe6;
+    height: 40px;
+    line-height: 40px;
+    outline: none;
+}
+.box-btns{
+    text-align: right;
+    margin: 15px 0 0;
+}
+
+.box-btns button{
+    padding: 9px 15px;
+    color: #606266;
+    outline: none;
+    line-height: 1;
+    font-size: 12px;
+    color: #606266;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.box-btns button:focus, .box-btns button:hover {
+    color: #409eff;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+}
+
+.ranking p{
+    display: flex;
+    height: 23px;
+    line-height: 16px;
+    text-indent: 0;
+    margin-block: 0;
+}
+
+.user-name{
+    width: 60px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.score-num{
+    vertical-align: middle;
+    text-indent: 7px;
+    width: 66px;
+    overflow: hidden;
+}

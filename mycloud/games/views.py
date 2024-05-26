@@ -12,7 +12,7 @@ from common.logging import logger
 async def get_rank(game_type: str, hh: dict) -> Result:
     result = Result()
     try:
-        game = await models.Games.filter(type=game_type).order_by('-score')
+        game = await models.Games.filter(type=game_type).order_by('-score').limit(5)
         rank_list = [models.GamesRankInfo.from_orm(f).dict() for f in game]
         result.data = rank_list
         log_str = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"

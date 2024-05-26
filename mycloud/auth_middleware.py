@@ -16,3 +16,12 @@ def auth(request: Request) -> dict:
         raise HTTPException(status_code=401)
     return {'u': username, 'ip': ip, 'lang': lang}
 
+
+def auth_url(request: Request) -> dict:
+    username = request.query_params.get('u', '')
+    lang = request.query_params.get('lang', 'en')
+    ip = request.headers.get('x-real-ip', '')
+    token = request.query_params.get("token", None)
+    if not username or username not in settings.TOKENs or token != settings.TOKENs[username]:
+        raise HTTPException(status_code=401)
+    return {'u': username, 'ip': ip, 'lang': lang}

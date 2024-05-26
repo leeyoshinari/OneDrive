@@ -2,11 +2,13 @@
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files
+- Supports OnlyOffice (Word, Excel, PowerPoint) online editing and multi-user collaborative editing
 - Support online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
 - Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
 - Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
+- Add game center, support Snake games (plans to support more games in the future).
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Multiple disks can be mounted arbitrarily
@@ -79,6 +81,11 @@ Enter the directory where you want to download the file, then click `New File ->
 If you need to view the tasks currently being downloaded, click `Download List`. Click `Pause` to pause the download task, click `Cancel` to cancel the download. After the download is completed, you can see the downloaded file in the directory.
 ![](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/download-list.jpg)
 
+### Game Center
+Add game center. Now, Snake game is supported, other web small games will be supported in the future.
+![snake.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/snake.jpg)
+
+
 ### Multi-language settings
 Currently, multiple languages support Simplified Chinese and English. There may be incorrect translations or missing translations, please modify them yourself.
 
@@ -93,6 +100,17 @@ In addition, when adding multiple languages, you need to add options in the page
 **Special Note**: The `value in option` must be the same as the json file name in the `web->language`, and must also be the same as the key of each message in the `common->messages.py` file.
 
 Due to the length of different languages is different, if the copywriting is too long and the page style is not beautiful, please modify it yourself.
+
+### OnlyOffice
+All `office` files are opened with `onlyoffice`, you can edit online and save real-time, closing window to exit editing. The default value of the onlyoffice is: When user exits editing after 10 seconds, it will save file to local automatically.
+
+Multi-user collaborative editing: Right click file in file explorer to get collaborative editing url, then share the url to other collaborative editing user. If one of the users exits editing and then enters the editing state through the url, collaborative editing will not occur. All users must re-enter the editing state before collaborative editing can occur.
+
+View history version: Document changes can be viewed from the history record, and restore document from the history record.<br>
+![word.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/word.jpg)
+![excel.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/excel.jpg)
+![powerpoint.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/powerpoint.jpg)
+![history.jpg](https://github.com/leeyoshinari/OneDrive/blob/main/web/img/pictures/history.jpg)
 
 ### Online Editing
 All online editing functions: Automatically save every 10 seconds, the automatic save time will be displayed next to the file name in the title bar, clicking the close button will also save automatically. Online editing of `txt`, `markdown` and `document` supports exporting to `html` format. After opening the exported `html` with browser, the file can be converted into `PDF` format through the browser's built-in printing function.

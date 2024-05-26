@@ -3,10 +3,14 @@
 # @Author: leeyoshinari
 
 import os
+import sys
 import configparser
 
+if hasattr(sys, 'frozen'):
+    path = os.path.dirname(sys.executable)
+else:
+    path = os.path.dirname(os.path.abspath(__file__))
 cfg = configparser.ConfigParser()
-path = os.path.dirname(os.path.abspath(__file__))
 config_path = os.path.join(path, 'config.conf')
 cfg.read(config_path, encoding='utf-8')
 TOKENs = {}

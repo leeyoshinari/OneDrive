@@ -10,12 +10,10 @@ fetch(`../language/${lang}.json`)
     .then(data => {
         i18next.addResourceBundle(lang, 'translation', data, true);
         i18next.changeLanguage(lang, function (){
-            $('.float_right>a')[0].innerText = i18next.t('terminal.page.upload.text');
-            $('.float_right>a')[1].innerText = i18next.t('terminal.page.download.text');
-            $('#failure_file>.modal-content>.modal-footer>a')[0].innerText = i18next.t('cancel');
-            $('#failure_file>.modal-content>.modal-footer>a')[1].innerText = i18next.t('submit');
-            $('#modal_input>.modal-content>.modal-footer>a')[0].innerText = i18next.t('cancel');
-            $('#modal_input>.modal-content>.modal-footer>a')[1].innerText = i18next.t('submit');
+            let i18nList = document.getElementsByClassName('i18n');
+            for (let i=0; i<i18nList.length; i++) {
+                i18nList[i].innerText = i18next.t(i18nList[i].getAttribute('key'));
+            }
         })
 });
 let t = document.getElementById('terminal');

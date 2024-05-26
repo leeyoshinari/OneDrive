@@ -113,3 +113,15 @@ class Msg(object):
                        'en': 'Update status successful'}
     MsgAccessPermissionNon = {'zh-CN': '未经授权的访问',
                               'en': 'Unauthorized access'}
+    MsgOnlyOfficeCreateTips = {'zh-CN': '暂不支持在这里创建文件',
+                               'en': 'File creation is not supported here'}
+    MsgOnlyOfficeOpenFile = {'zh-CN': '{} 文件打开成功',
+                             'en': '{} is opened successfully.'}
+    MsgFileTypeNotSupport = {'zh-CN': '文件类型暂不支持',
+                             'en': 'File type is not supported yet.'}
+    MsgOnlyOfficeTrack = {'zh-CN': '{} 正在保存，状态是 {}。',
+                          'en': '{} is tracking. Status is {}.'}
+    MsgHistoryRecord = {'zh-CN': '查询历史记录',
+                        'en': 'Query history record'}
+    MsgRestoreFromHistory = {'zh-CN': '从历史记录中恢复',
+                             'en': 'Restore from history record'}

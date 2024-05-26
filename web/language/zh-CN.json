@@ -143,6 +143,7 @@
   "upload.file.success.tips": " 个文件上传成功",
   "upload.file.failure.tips": " 个文件上传失败",
   "upload.file.already.tips": " 个文件已经上传过",
+  "edge.window.tab.rename.placeholder": "为标签页命名",
   "edge.window.tool.input.placeholder": "在必应中搜索，或输入一个网址",
   "edge.window.tool.tips": "浏览器只能访问允许嵌套的网站。由于规则限制无法获取网页标题，请右键标签页手动命名",
 

@@ -96,7 +96,7 @@
   "explore.window.file.tool.move.title": "Move File/Folder",
   "explore.window.file.tool.copy.title": "Copy File",
   "explore.window.file.tool.upload.title": "Upload Local Files",
-  "explore.window.file.tool.export.title": "Export multiple Files or a Folder",
+  "explore.window.file.tool.export.title": "Export Multiple Files or a Folder",
   "explore.window.file.tool.share.title": "Share File",
   "explore.window.file.tool.restore.title": "Restore Files from Recycle Bin",
   "explore.window.file.tool.delete.title": "Delete Files/Folders",
@@ -143,6 +143,7 @@
   "upload.file.success.tips": " file(s) uploaded successfully",
   "upload.file.failure.tips": " file(s) uploaded failed",
   "upload.file.already.tips": " file(s) have been uploaded",
+  "edge.window.tab.rename.placeholder": "Rename for Tab Page",
   "edge.window.tool.input.placeholder": "Search in Bing or enter a URL",
   "edge.window.tool.tips": "The browser can only access sites that allow nesting. The title of the webpage cannot be obtained due to rule restrictions. Please right-click the tab to name it manually.",
 

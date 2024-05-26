@@ -4,6 +4,7 @@
 ## 功能
 - 文件夹的新建、删除、重命名、移动、导出
 - 文件上传、下载、新建、删除、移动、重命名、分享
+- 支持 OnlyOffice (Word、Excel、PowerPoint) 在线编辑和多人协作
 - txt和markdown文档的在线预览和编辑功能
 - 支持 xmind 文件在线预览和编辑
 - 支持表格在线编辑、文档在线编辑
@@ -75,18 +76,25 @@ location /mycloud {
      proxy_set_header Host $proxy_host;
      proxy_set_header lang $http_lang;
      proxy_set_header X-Real-IP $remote_addr;
+     proxy_set_header Upgrade $http_upgrade;
+	 proxy_set_header Connection $proxy_connection;
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
-（3）WebSocket：`proxy_pass`是配置文件`config.conf`中的 IP 和 端口, `/mycloud`必须和`config.conf`中的`prefix`一样，`/server`不要改，这是接口的路由。这个配置主要用于远程连接`Linux`服务器，如果你不需要连接服务器，可以忽略这个配置
-```shell script
-location /mycloud/server {
-    proxy_pass http://127.0.0.1:15200;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
+（3）在 `http` 模块中，需要添加一个映射关系
+```shell
+map $http_upgrade $proxy_connection {
+    default upgrade;
+    "" close;
 }
 ```
+（4）Swagger 接口页面
+```shell
+location /api/openapi {
+    proxy_pass  http://127.0.0.1:15200;
+}
+```
+
 通常nginx会限制请求体大小，需要增加配置`client_max_body_size 4096M;`，还有其他超时时间的配置，可自行上网查找资料修改；
 
 如果你不了解 nginx，请先去[nginx 官方网站](http://nginx.org/en/download.html)下载对应系统的nginx安装包，并按照网上的教程安装。安装完成后用本项目中的`nginx.conf`替换掉安装完成后的`nginx.conf`，然后重启nginx即可。如果你使用的是`https`，直接修改端口并配置 ssl 即可。

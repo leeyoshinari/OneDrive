@@ -9,12 +9,14 @@
 			<div class="game" id="local_game"></div>
 			<div class="next" id="local_next"></div>
 			<div class="info">
-				<div><span>已用时</span><span id="local_time">0</span>s</div>
-				<div><span>已得分</span><span id="local_score">0</span></div>
+				<div><span class="i18n" key="game.snake.time">已用时</span><span id="local_time">0</span>s</div>
+				<div><span class="i18n" key="game.snake.score">已得分</span><span id="local_score">0</span></div>
 				<div id="local_usage" style="margin-top: 8px;">
-					<p style="width: 110px;">按方向键操作<p>上->旋转</p><p>下->坠落</p><p>左->左移</p><p>右->右移</p></div>
+					<p style="width: 110px;" class="i18n" key="game.operate.title">按方向键操作</p>
+					<p class="i18n" key="game.operate.up">上->旋转</p><p class="i18n" key="game.operate.down">下->坠落</p>
+					<p class="i18n" key="game.operate.left">左->左移</p><p class="i18n" key="game.operate.right">右->右移</p></div>
 				<div>
-					<div style="margin-top: 20px; margin-bottom: 7px;">最高记录：</div>
+					<div style="margin-top: 20px; margin-bottom: 7px;" class="i18n" key="game.snake.ranking">最高记录：</div>
 					<div class="ranking"></div>
 				</div>
 			</div>
@@ -24,7 +26,7 @@
 				<div class="box-header"></div>
 				<div class="box-content"></div>
 				<div class="box-btns">
-					<button class="skip">跳过</button>
+					<button class="skip i18n" key="game.snake.restart">跳过</button>
 				</div>
 			</div>
 		</div>

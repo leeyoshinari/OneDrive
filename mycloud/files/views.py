@@ -60,6 +60,8 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                     create_xmind(file_path)
                 elif file_type == 'sheet':
                     create_sheet(file_path)
+                elif file_type in ['docx', 'xlsx', 'pptx']:
+                    shutil.copy2(f"web/module/onlyoffice/document-templates/new.{file_type}", file_path)
                 else:
                     f = open(file_path, 'w', encoding='utf-8')
                     f.close()

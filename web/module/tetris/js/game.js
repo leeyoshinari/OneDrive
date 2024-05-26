@@ -361,14 +361,8 @@ var Game = function()
 		nextDiv = doms.nextDiv;
 		timeDiv = doms.timeDiv;
 		scoreDiv = doms.scoreDiv;
-		doms.infoDiv.getElementsByTagName("div")[0].getElementsByTagName('span')[0].innerText = window.parent.i18next.t("game.snake.time");
-		doms.infoDiv.getElementsByTagName("div")[1].getElementsByTagName('span')[0].innerText = window.parent.i18next.t("game.snake.score");
-		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[0].innerText = window.parent.i18next.t("game.operate.title");
-		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[1].innerText = window.parent.i18next.t("game.operate.up");
-		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[2].innerText = window.parent.i18next.t("game.operate.down");
-		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[3].innerText = window.parent.i18next.t("game.operate.left");
-		doms.infoDiv.getElementsByTagName("div")[2].getElementsByTagName('p')[4].innerText = window.parent.i18next.t("game.operate.right");
-		doms.infoDiv.getElementsByTagName("div")[3].getElementsByTagName('div')[0].innerText = window.parent.i18next.t("game.snake.ranking");
+		let i18nList = document.getElementsByClassName('i18n');
+		for (let i=0; i<i18nList.length; i++) {i18nList[i].innerText = window.parent.i18next.t(i18nList[i].getAttribute('key'));}
 		next = SquareFactory.prototype.make(type,dir);
 		initDiv(gameDiv,gameData,gameDivs);
 		initDiv(nextDiv,next.data,nextDivs);	
@@ -382,7 +376,6 @@ var Game = function()
         document.getElementsByClassName('wrapper')[0].style.display = 'flex';
         document.getElementsByClassName('box-header')[0].innerHTML = overReason;
         document.getElementsByClassName('box-content')[0].innerHTML = text + score + text2;
-        document.getElementsByClassName('skip')[0].innerHTML = window.parent.i18next.t('game.snake.restart');
         document.getElementsByClassName('skip')[0].onclick = function () {
             window.location.reload();
         };

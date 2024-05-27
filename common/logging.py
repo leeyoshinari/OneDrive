@@ -4,10 +4,9 @@
 
 import os
 import logging.handlers
-from settings import get_config
+from settings import get_config, path
 
 LEVEL = get_config("level")
-path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 log_path = os.path.join(path, 'logs')
 if not os.path.exists(log_path):
     os.mkdir(log_path)

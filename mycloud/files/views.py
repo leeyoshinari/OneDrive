@@ -91,16 +91,19 @@ async def get_all_files(parent_id: str, query: models.SearchItems, hh: dict) -> 
         order_type = f'-{query.sort_field}' if query.sort_type == 'desc' else f'{query.sort_field}'
         if parent_id == 'garbage':
             folders = await models.Catalog.filter(is_delete=1).order_by(order_type)
-            files = await models.Files.filter(is_delete=1).order_by(order_type)
+            files = await models.Files.filter(is_delete=1).select_related('parent').order_by(order_type)
+            folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789')) and f"/{hh['u']}" in await f.get_all_path()]
+            file_list = [models.FileList.from_orm_format(f).dict() for f in files if f"/{hh['u']}" in await f.parent.get_all_path()]
         elif parent_id == 'search':
             folders = await models.Catalog.filter(Q(is_delete=0) & Q(name__contains=query.q)).order_by(order_type)
-            files = await models.Files.filter(Q(is_delete=0) & Q(name__contains=query.q)).order_by(order_type)
+            files = await models.Files.filter(Q(is_delete=0) & Q(name__contains=query.q)).select_related('parent').order_by(order_type)
+            folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789')) and f"/{hh['u']}" in await f.get_all_path()]
+            file_list = [models.FileList.from_orm_format(f).dict() for f in files if f"/{hh['u']}" in await f.parent.get_all_path()]
         else:
             folders = await models.Catalog.filter(Q(parent_id=parent_id) & Q(is_delete=0)).order_by(order_type)
             files = await models.Files.filter(Q(parent_id=parent_id) & Q(is_delete=0)).order_by(order_type)
-
-        folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789'))]
-        file_list = [models.FileList.from_orm_format(f).dict() for f in files]
+            folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789'))]
+            file_list = [models.FileList.from_orm_format(f).dict() for f in files]
         result.data = folder_list + file_list
         result.total = len(result.data)
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"

@@ -262,8 +262,6 @@
 								<img src="img/explorer/thispc.svg" alt=""><span class="i18n" key="computer">此电脑</span></a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/rb.png" alt=""><span class="i18n" key="explore.window.menu.garbage.title">回收站</span></a>
-							<a onclick="apps.explorer.download_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/share.png" alt=""><span class="i18n" key="explore.window.menu.download.title">下载</span></a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
 								<img src="img/explorer/share.png" alt=""><span class="i18n" key="explore.window.menu.share.title">我的分享</span></a>
 							<a onclick="openapp('calc');"><img src="img/calc.svg" alt=""><span class="i18n" key="explore.window.menu.calc.title">计算器</span></a>
@@ -280,14 +278,7 @@
 							<ul class="dropdown-list">
 								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','txt');" key="explore.window.file.tool.file.title.txt">新建txt文件</li>
 								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','md');" key="explore.window.file.tool.file.title.md">新建md文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docu');" key="explore.window.file.tool.file.title.docu">新建在线文档文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','docx');" key="explore.window.file.tool.file.title.docx">新建Word文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','sheet');" key="explore.window.file.tool.file.title.sheet">新建在线表格文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xlsx');" key="explore.window.file.tool.file.title.xlsx">新建Excel文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','pptx');" key="explore.window.file.tool.file.title.pptx">新建PowerPoint文件</li>
 								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','xmind');" key="explore.window.file.tool.file.title.xmind">新建xmind文件</li>
-								<li class="i18n" onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,'file','py');" key="explore.window.file.tool.file.title.py">新建python文件</li>
-								<li class="i18n" onclick="shownotice('downloader');" key="explore.window.file.tool.file.title.downloader">新建下载任务</li>
 							</ul>
 						</a>
 						<a class="a b act asd i18n_t" title="新建文件夹" key="explore.window.file.tool.folder.title"
@@ -514,6 +505,7 @@
 				</a>
 		    </div>
 			<div id="save-bar" style="margin:10px;margin-top: 3px;">
+				<a onclick="apps.edge.goto('https://blog.ihuster.top')" win12_title="博客" class="save-item"><i class="bi bi-file-earmark"></i>博客</a>
 				<a onclick="apps.edge.goto('https://www.musicenc.com')" win12_title="MusicEnc" class="save-item"><i class="bi bi-file-earmark"></i>MusicEnc</a>
 				<a onclick="apps.edge.goto('https://music.txqq.pro')" win12_title="全网音乐免费下载" class="save-item"><i class="bi bi-file-earmark"></i>全网音乐免费下载</a>
 				<a onclick="apps.edge.goto('https://tool.liumingye.cn/music')" win12_title="MyFreeMP3" class="save-item"><i class="bi bi-file-earmark"></i>MyFreeMP3</a>
@@ -672,63 +664,6 @@
 		</div>
 		<div class="loadback"><img src="img/files/xmind.ico" class="icon" alt=""></div>
 		<div class="content" id="win-xmind"><iframe id="iframe_xmind" src=""></iframe></div>
-	</div>
-	<div class="window sheet">
-		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/excel.png" class="icon" alt=""><span><span class="title">sheet</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="hidewin('sheet');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('sheet')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('sheet')"><i class="bi bi-dash-lg"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/files/excel.png" class="icon" alt=""></div>
-		<div class="content" id="win-sheet"><iframe id="iframe_sheet" src=""></iframe></div>
-	</div>
-	<div class="window docu">
-		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/word.png" class="icon" alt=""><span><span class="title">document</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="hidewin('docu');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('docu')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('docu')"><i class="bi bi-dash-lg"></i></a>
-				<a class="a wbtg export i18n_t" title="转成 HTML 并下载" key="document.window.tool.download.title" onclick="$('#win-docu>.save_doc').attr('href', window.URL.createObjectURL(new Blob([document.getElementById('iframe_docu').contentWindow.editor.getHtml()])));$('#win-docu>.save_doc')[0].click();"><i class="bi bi-download"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
-		<div class="content" id="win-docu"><iframe id="iframe_docu" src=""></iframe>
-		<a href="" download="未命名.html" style="opacity: 0;" class="save_doc"></a></div>
-	</div>
-	<div class="window word">
-		<div class="resize-bar"></div>
-		<div class="titbar" style="position: inherit;width: 75%; right: 40px; height: 30px; min-height: 30px;"><span><span class="title" style="display:none;">Word</span></span><div>
-				<a class="a wbtg red" onclick="hidewin('word');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('word')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('word')"><i class="bi bi-dash-lg"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/files/word.png" class="icon" alt=""></div>
-		<div class="content" id="win-word"><iframe id="iframe_word" src=""></iframe></div>
-	</div>
-	<div class="window excel">
-		<div class="resize-bar"></div>
-		<div class="titbar" style="position: inherit;width: 75%; right: 40px; height: 30px; min-height: 30px;"><span><span class="title" style="display:none;">Excel</span></span><div>
-				<a class="a wbtg red" onclick="hidewin('excel');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('excel')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('excel')"><i class="bi bi-dash-lg"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/files/excel.png" class="icon" alt=""></div>
-		<div class="content" id="win-excel"><iframe id="iframe_excel" src=""></iframe></div>
-	</div>
-	<div class="window powerpoint">
-		<div class="resize-bar"></div>
-		<div class="titbar" style="position: inherit; width: 75%; right: 40px; height: 30px; min-height: 30px;"><span><span class="title" style="display:none;">PowerPoint</span></span><div>
-				<a class="a wbtg red" onclick="hidewin('powerpoint');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('powerpoint')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('powerpoint')"><i class="bi bi-dash-lg"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/files/ppt.png" class="icon" alt=""></div>
-		<div class="content" id="win-powerpoint"><iframe id="iframe_powerpoint" src=""></iframe></div>
 	</div>
 	<div class="window game">
 		<div class="resize-bar"></div>

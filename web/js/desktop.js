@@ -358,12 +358,6 @@ function shownotice(name) {
     if (name === 'uploadResult') {
         $('#notice>.cnt>p')[0].innerText = i18next.t('terminal.page.upload.result.tips');
     }
-    if (name === 'downloader') {
-        $('#notice>.cnt>p')[0].innerText = i18next.t('explore.window.file.tool.downloader.window.title1');
-        $('#notice>.cnt>input')[0].placeholder = i18next.t('explore.window.file.tool.downloader.window.placeholder1');
-        $('#notice>.cnt>p')[1].innerText = i18next.t('explore.window.file.tool.downloader.window.title2');
-        $('#notice>.cnt>input')[1].placeholder = i18next.t('explore.window.file.tool.downloader.window.placeholder2');
-    }
     setTimeout(() => {
         $('#notice-back').addClass('show');
     }, 20);
@@ -547,8 +541,6 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[2].className = '';
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].className = '';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
             $('#win-explorer>.page>.main')[0].style.display = 'flex';
             $('#win-explorer>.page>.main-share')[0].style.display = 'none';
             $('#win-explorer>.page>.main-download')[0].style.display = 'none';
@@ -578,14 +570,6 @@ let apps = {
                 } else {
                     $('#win-explorer>.page>.main>.content>.view>.group>.item').removeClass('transparent');
                 }
-                if (res.data[0]['enableOnlyoffice'] === '1') {
-                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[2].style.display = 'none';
-                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[4].style.display = 'none';
-                } else {
-                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[3].style.display = 'none';
-                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[5].style.display = 'none';
-                    $('#win-explorer>.page>.main>.tool>.dropdown-container>.dropdown-list>li')[6].style.display = 'none';
-                }
             });
         },
         garbage: () => {
@@ -598,8 +582,6 @@ let apps = {
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[2].className ='';
             $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].className ='';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
             $('#win-explorer>.path>.search')[0].style.display = 'none';
             $('#win-explorer>.path>.search>input')[0].value = '';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
@@ -660,10 +642,8 @@ let apps = {
             }
         },
         share_list: () => {
-            $('#win-explorer>.page>.menu>.card>list>a')[3].className ='check';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='flex';
-            $('#win-explorer>.page>.menu>.card>list>a')[2].className = '';
-            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='none';
+            $('#win-explorer>.page>.menu>.card>list>a')[2].className ='check';
+            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='flex';
             $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
             $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
             $('#win-explorer>.page>.menu>.card>list>a')[0].className = '';
@@ -736,53 +716,6 @@ let apps = {
                 alert(url_t);
             }
         },
-        download_list: () => {
-            $('#win-explorer>.page>.menu>.card>list>a')[2].className ='check';
-            $('#win-explorer>.page>.menu>.card>list>a')[2].querySelector('span').style.display='flex';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].className = '';
-            $('#win-explorer>.page>.menu>.card>list>a')[3].querySelector('span').style.display='none';
-            $('#win-explorer>.page>.menu>.card>list>a')[1].className = '';
-            $('#win-explorer>.page>.menu>.card>list>a')[1].querySelector('span').style.display='none';
-            $('#win-explorer>.page>.menu>.card>list>a')[0].className = '';
-            $('#win-explorer>.page>.menu>.card>list>a')[0].querySelector('span').style.display='none';
-            $('#win-explorer>.path>.search')[0].style.display = 'none';
-            $('#win-explorer>.path>.search>input')[0].value = '';
-            $('#win-explorer>.page>.main')[0].style.display = 'none';
-            $('#win-explorer>.page>.main-share')[0].style.display = 'none';
-            $('#win-explorer>.page>.main-download')[0].style.display = 'flex';
-            $('#win-explorer>.path>.back')[0].classList.add('disabled');
-            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> '+i18next.t('explore.window.menu.download.title'));
-            $.ajax({
-                type: 'GET',
-                url: server + '/download/list',
-                success: function (data) {
-                    if (data['code'] === 0) {
-                        if (data['data'].length === 0) {
-                            $('#win-explorer>.page>.main-download>.content>.header')[0].style.display = 'none';
-                            $('#win-explorer>.page>.main-download>.content>.view')[0].innerHTML = '<p class="info">'+i18next.t('explore.window.file.list.empty.tips')+'</p>';
-                        } else {
-                            $('#win-explorer>.page>.main-download>.content>.header')[0].style.display = 'flex';
-                            let ht = '';
-                            data['data'].forEach(item => {
-                                ht += `<div class="row" style="padding-left: 5px;"><div class="a item act file" style="cursor: auto;">
-                            <span style="width: 33%;" onclick="">${item['name']}</span><span style="width: 10%;">${item['total_size']}</span>
-                            <span style="width: 10%;">${item['progress']}%</span><span style="width: 10%;">${item['status']}</span><span style="width: 10%;">${item['download_speed']}</span>
-                            <span style="width: 10%;">${item['eta']}</span>`;
-                                if (item['status'] === 'active') {
-                                    ht += `<span style="width: 15%;"><a style="cursor: pointer; color: blue;" onclick="update_download_status('${item['gid']}', 'pause');">${i18next.t('explore.window.file.download.list.action.pause')}</a>`;
-                                } else {
-                                    ht += `<span style="width: 15%;"><a style="cursor: pointer; color: blue;" onclick="update_download_status('${item['gid']}', 'continue');">${i18next.t('explore.window.file.download.list.action.unpause')}</a>`;
-                                }
-                                ht += `<a style="cursor: pointer; color: blue; margin-left: 10px;" onclick="update_download_status('${item['gid']}', 'cancel');">${i18next.t('explore.window.file.download.list.action.cancel')}</a></span></div></div>`
-                            })
-                            $('#win-explorer>.page>.main-download>.content>.view')[0].innerHTML = ht;
-                        }
-                    } else {
-                        $.Toast(data['msg'], 'error');
-                    }
-                }
-            })
-        },
         open_file: (file_id,filename) => {
             let filenames = filename.split('.');
             let format = filenames[filenames.length - 1].toLowerCase();
@@ -809,26 +742,8 @@ let apps = {
                 case 'xmind':
                     open_xmind(file_id);
                     break;
-                case 'sheet':
-                    open_sheet(file_id);
-                    break;
-                case 'docu':
-                    open_document(file_id, filename);
-                    break;
                 case 'py':
                     open_python(file_id);
-                    break;
-                case 'docx':
-                case 'doc':
-                    open_office(file_id, 'word');
-                    break;
-                case 'xlsx':
-                case 'xls':
-                    open_office(file_id, 'excel');
-                    break;
-                case 'pptx':
-                case 'ppt':
-                    open_office(file_id, 'powerpoint');
                     break;
                 default:
                     apps.explorer.download(file_id);
@@ -1699,9 +1614,6 @@ function maxwin(name, trigger = true) {
     else {
         $('#dock-box').removeClass('hide')
     }
-    setTimeout(() => {if (name === 'word' || name === 'excel' || name === 'powerpoint') {
-        $('.window.' + name + '>.titbar')[0].style.width = Number($('.window.' + name).css('width').split('px')[0]) - 336 + 'px';
-    }},500);
 }
 function minwin(name) {
     if ($('.window.' + name).hasClass('min')) {
@@ -1866,9 +1778,6 @@ function resizing(win, e, arg) {
         else {
             win.style.height = minHeight + 'px';
         }
-    }
-    if (win.classList.value.indexOf('word') > 0 || win.classList.value.indexOf('excel') > 0 || win.classList.value.indexOf('powerpoint') > 0) {
-        win.getElementsByClassName('titbar')[0].style.width = Number(win.style.width.split('px')[0]) - 336 + 'px';
     }
 }
 let wo = [];
@@ -2879,33 +2788,11 @@ function open_xmind(file_id) {
     $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_xmind").contentWindow.close_xmind_editor('${file_id}');hidewin('xmind');`);
 }
 
-function open_sheet(file_id) {
-    openapp('sheet');
-    document.getElementsByClassName("sheet")[0].style.display = 'block';
-    document.getElementById("iframe_sheet").src = 'module/sheet.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
-    $('.window.sheet>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_sheet").contentWindow.close_sheet_editor('${file_id}');hidewin('sheet');`);
-}
-
-function open_office(file_id, name) {
-    openapp(name);
-    document.getElementsByClassName(name)[0].style.display = 'block';
-    document.getElementById("iframe_" + name).src = 'module/onlyoffice.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
-    $('.window.'+name+'>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_${name}").src = 'about:blank';hidewin('${name}');`);
-}
-
 function open_python(file_id) {
     openapp('pythonEditor');
     document.getElementsByClassName("pythonEditor")[0].style.display = 'block';
     document.getElementById("iframe_pythonEditor").src = 'module/python.html?server=' + server + '&id=' + file_id;
     $('.window.pythonEditor>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_pythonEditor").contentWindow.close_python_editor('${file_id}');hidewin('pythonEditor');`);
-}
-
-function open_document(file_id, file_name) {
-    openapp('docu');
-    document.getElementsByClassName("docu")[0].style.display = 'block';
-    document.getElementById("iframe_docu").src = 'module/document.html?server=' + server + '&id=' + file_id + '&lang=' + lang;
-    $('.window.docu>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_docu").contentWindow.close_document_editor('${file_id}');hidewin('docu');`);
-    $('#win-docu>a')[0].download = file_name.replace('docu', 'html');
 }
 
 function open_game(game_type) {
@@ -2995,24 +2882,6 @@ function add_server() {
             if (data['code'] === 0) {
                 $.Toast(data['msg'], 'success');
                 closenotice();
-            } else {
-                $.Toast(data['msg'], 'error');
-            }
-        }
-    })
-}
-
-function update_download_status(gid, action) {
-    let post_data = {gid: gid, status: action}
-    $.ajax({
-        type: 'POST',
-        url: server + '/download/status/update',
-        data: JSON.stringify(post_data),
-        contentType: 'application/json',
-        success: function (data) {
-            if (data['code'] === 0) {
-                $.Toast(data['msg'], 'success');
-                apps.explorer.download_list();
             } else {
                 $.Toast(data['msg'], 'error');
             }

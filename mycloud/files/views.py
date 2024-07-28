@@ -16,7 +16,6 @@ from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
 from common.xmind import read_xmind, create_xmind, generate_xmind8
-from common.sheet import read_sheet, create_sheet
 from common.md2html import md_to_html
 
 
@@ -37,18 +36,6 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
                 file_name = Msg.FileMd[hh['lang']]
             elif file_type == 'xmind':
                 file_name = Msg.FileXmind[hh['lang']]
-            elif file_type == 'sheet':
-                file_name = Msg.FileSheet[hh['lang']]
-            elif file_type == 'docu':
-                file_name = Msg.FileDocu[hh['lang']]
-            elif file_type == 'docx':
-                file_name = Msg.FileWord[hh['lang']]
-            elif file_type == 'xlsx':
-                file_name = Msg.FileExcel[hh['lang']]
-            elif file_type == 'pptx':
-                file_name = Msg.FilePowerPoint[hh['lang']]
-            elif file_type == 'py':
-                file_name = Msg.FilePy[hh['lang']]
             else:
                 file_name = f"{Msg.FileTxt[hh['lang']]}.{file_type}"
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
@@ -58,10 +45,6 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
             else:
                 if file_type == 'xmind':
                     create_xmind(file_path)
-                elif file_type == 'sheet':
-                    create_sheet(file_path)
-                elif file_type in ['docx', 'xlsx', 'pptx']:
-                    shutil.copy2(f"web/module/onlyoffice/document-templates/new.{file_type}", file_path)
                 else:
                     f = open(file_path, 'w', encoding='utf-8')
                     f.close()
@@ -154,9 +137,6 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
         if file.format == 'xmind':
             xmind = read_xmind(os.path.join(parent_path, file.name))
             result.data = xmind
-        elif file.format == 'sheet':
-            excel = read_sheet(os.path.join(parent_path, file.name))
-            result.data = excel
         else:
             with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
                 result.data = f.read()

@@ -13,7 +13,6 @@ from mycloud.responses import StreamResponse
 from common.results import Result
 from common.logging import logger
 from common.xmind import read_xmind, generate_xmind8
-from common.sheet import read_sheet
 import settings
 
 
@@ -42,7 +41,7 @@ async def get_share_file(file_id: int, request: Request):
         hh = {'ip': request.headers.get('x-real-ip', ''), 'lang': request.headers.get('lang', 'en')}
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
-            if result["format"] in ['md', 'docu', 'py']:
+            if result["format"] in ['md', 'py']:
                 res = Result()
                 with open(result['path'], 'r', encoding='utf-8') as f:
                     res.data = f.read()
@@ -52,12 +51,6 @@ async def get_share_file(file_id: int, request: Request):
                 res = Result()
                 xmind = read_xmind(result['path'])
                 res.data = xmind
-                res.msg = result['name']
-                return res
-            if result["format"] == 'sheet':
-                res = Result()
-                sheet = read_sheet(result['path'])
-                res.data = sheet
                 res.msg = result['name']
                 return res
             else:
@@ -76,7 +69,7 @@ async def get_share_file(file_id: int, request: Request):
 @router.get("/export/{file_id}", summary="Export file (导出文件)")
 async def export_share_file(file_id: int, request: Request):
     try:
-        hh = {'ip': request.headers.get('x-real-ip', '')}
+        hh = {'ip': request.headers.get('x-real-ip', ''), 'lang': request.headers.get('lang', 'en')}
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
             if result["format"] == 'xmind':

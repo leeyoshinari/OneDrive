@@ -26,7 +26,7 @@ async def get_disk_usage(hh: dict) -> Result:
         for k, v in root_path.items():
             info = shutil.disk_usage(v)
             data.append({'disk': k, 'total': beauty_size(info.total), 'free': beauty_size(info.free),
-                         'used': round(info.used / info.total * 100, 2), 'enableOnlyoffice': get_config("enableOnlyoffice")})
+                         'used': round(info.used / info.total * 100, 2)})
         result.data = data
         result.total = len(result.data)
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"

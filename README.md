@@ -8,12 +8,9 @@ Windows-style personal cloud-drive with supporting online editing.
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files
-- Supports OnlyOffice (Word, Excel, PowerPoint) online editing and multi-user collaborative editing
-- Supports online editing functions of txt, markdown, xmind, sheet, and document
+- Supports online editing functions of txt, markdown, xmind
 - Support online editing and running of python scripts
-- Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
-- Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
 - Add game center, support Snake games (plans to support more games in the future).
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated

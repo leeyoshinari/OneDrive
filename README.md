@@ -3,6 +3,8 @@ Windows-style personal cloud-drive with supporting online editing.
 
 [中文文档](https://github.com/leeyoshinari/OneDrive/blob/main/README_zh.md)
 
+[更多内容详见博客](https://blog.ihuster.top/p/940241891.html)
+
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files

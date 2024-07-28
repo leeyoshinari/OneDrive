@@ -1,6 +1,8 @@
 # OneDrive
 [English Document](https://github.com/leeyoshinari/OneDrive/blob/main/README.md)
 
+[更多内容详见博客](https://blog.ihuster.top/p/940241891.html)
+
 ## 功能
 - 文件夹的新建、删除、重命名、移动、导出
 - 文件上传、下载、新建、删除、移动、重命名、分享

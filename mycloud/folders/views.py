@@ -9,7 +9,6 @@ import traceback
 from tortoise import transactions
 from tortoise.expressions import Q
 from mycloud import models
-# from mycloud.onlyoffice.views import remove
 from settings import get_config
 from common.results import Result
 from common.messages import Msg
@@ -27,7 +26,7 @@ async def get_disk_usage(hh: dict) -> Result:
         for k, v in root_path.items():
             info = shutil.disk_usage(v)
             data.append({'disk': k, 'total': beauty_size(info.total), 'free': beauty_size(info.free),
-                         'used': round(info.used / info.total * 100, 2), 'enableOnlyoffice': get_config("enableOnlyoffice")})
+                         'used': round(info.used / info.total * 100, 2)})
         result.data = data
         result.total = len(result.data)
         result.msg = f"{Msg.MsgQuery[hh['lang']]}{Msg.Success[hh['lang']]}"
@@ -199,8 +198,6 @@ async def delete_file(query: models.IsDelete, hh: dict) -> Result:
                         file_path = await file.parent.get_all_path()
                         try:
                             os.remove(os.path.join(file_path, file.name))
-                            # if file.format in ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']:
-                            #     remove(file.id, hh)
                         except FileNotFoundError:
                             logger.error(f"{Msg.CommonLog1[hh['lang']].format(Msg.MsgFileNotExist[hh['lang']].format(file.name), file.id, hh['u'], hh['ip'])}")
                             logger.error(traceback.format_exc())

@@ -15,8 +15,6 @@ import mycloud.music.urls as music_urls
 import mycloud.SSH.urls as ssh_urls
 import mycloud.share.urls as share_urls
 import mycloud.games.urls as game_urls
-import mycloud.downloader.urls as downloader_urls
-# import mycloud.onlyoffice.urls as onlyoffice_urls
 
 
 prefix = settings.get_config("prefix")
@@ -37,8 +35,6 @@ app.include_router(file_urls.router, prefix=prefix)
 app.include_router(ssh_urls.router, prefix=prefix)
 app.include_router(music_urls.router, prefix=prefix)
 app.include_router(share_urls.router, prefix=prefix)
-app.include_router(downloader_urls.router, prefix=prefix)
-# app.include_router(onlyoffice_urls.router, prefix=prefix)
 app.include_router(game_urls.router, prefix=prefix)
 
 

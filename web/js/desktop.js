@@ -687,9 +687,6 @@ let apps = {
                 case 'md':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/md.html?server=' + server + '&id=' + share_id;
                     break;
-                case 'xmind':
-                    share_url = '/' + window.location.href.split('/')[3] + '/module/xmind.html?server=' + server + '&id=' + share_id;
-                    break;
                 case 'sheet':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id + '&lang=' + lang;
                     break;
@@ -739,9 +736,6 @@ let apps = {
                 case 'gif':
                     apps.explorer.open_picture(file_id, filename);
                     break
-                case 'xmind':
-                    open_xmind(file_id);
-                    break;
                 case 'py':
                     open_python(file_id);
                     break;
@@ -1137,7 +1131,6 @@ let apps = {
     markdown: {init: () => {return null;}},
     video: {init: () => {return null;}},
     music: {init: () => {return null;}},
-    xmind: {init: () => {return null;}},
     sheet: {init: () => {return null;}},
     word: {init: () => {return null;}},
     excel: {init: () => {return null;}},
@@ -1490,7 +1483,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'music', 'picture', 'markdown', 'xmind', 'game', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
+let other_img = ['video', 'music', 'picture', 'markdown', 'game', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2779,13 +2772,6 @@ function open_md(file_id) {
     document.getElementById("iframe_markdown").src = 'module/md.html?server=' + server + '&id=' + file_id;
     $('.window.markdown>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_markdown").contentWindow.close_md_editor('${file_id}');hidewin('markdown');`);
     $('.window.markdown>.titbar>div>.wbtg.export').attr("onclick", `window.open('${server}/file/export/md/${file_id}')`);
-}
-
-function open_xmind(file_id) {
-    openapp('xmind');
-    document.getElementsByClassName("xmind")[0].style.display = 'block';
-    document.getElementById("iframe_xmind").src = 'module/xmind.html?server=' + server + '&id=' + file_id;
-    $('.window.xmind>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_xmind").contentWindow.close_xmind_editor('${file_id}');hidewin('xmind');`);
 }
 
 function open_python(file_id) {

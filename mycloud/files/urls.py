@@ -154,18 +154,6 @@ async def play_video(file_id: str, request: Request, hh: dict = Depends(auth)):
         return Result(code=1, msg=Msg.MsgVideoError[hh['lang']])
 
 
-@router.get("/export/xmind/{file_id}", summary="Export xmind file (导出 xmind 文件)")
-async def export_file(file_id: str, hh: dict = Depends(auth)):
-    try:
-        result = await views.export_xmind_file(file_id, hh)
-        headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
-                   'Content-Disposition': f'inline;filename="{result["name"]}"'}
-        return StreamResponse(read_file(result['path']), media_type=settings.CONTENT_TYPE.get(result["format"], 'application/octet-stream'), headers=headers)
-    except:
-        logger.error(traceback.format_exc())
-        return Result(code=1, msg=Msg.MsgDownloadError[hh['lang']])
-
-
 @router.get("/export/md/{file_id}", summary="Export markdown to html (导出 markdown 转 html)")
 async def md2html(file_id: str, hh: dict = Depends(auth)):
     try:

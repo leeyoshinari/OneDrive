@@ -15,7 +15,6 @@ from common.results import Result
 from common.messages import Msg
 from common.logging import logger
 from common.calc import calc_md5, calc_file_md5
-from common.xmind import read_xmind, create_xmind, generate_xmind8
 from common.md2html import md_to_html
 
 
@@ -34,8 +33,6 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
             file_id = str(int(time.time() * 10000))
             if file_type == 'md':
                 file_name = Msg.FileMd[hh['lang']]
-            elif file_type == 'xmind':
-                file_name = Msg.FileXmind[hh['lang']]
             else:
                 file_name = f"{Msg.FileTxt[hh['lang']]}.{file_type}"
             files = await models.Files.create(id=file_id, name=file_name, format=file_type, parent_id=folder_id, size=0, md5='0')
@@ -43,11 +40,8 @@ async def create_file(folder_id: str, file_type: str, hh: dict) -> Result:
             if os.path.exists(file_path):
                 raise FileExistsError
             else:
-                if file_type == 'xmind':
-                    create_xmind(file_path)
-                else:
-                    f = open(file_path, 'w', encoding='utf-8')
-                    f.close()
+                f = open(file_path, 'w', encoding='utf-8')
+                f.close()
         result.data = files.id
         result.msg = f"{Msg.MsgCreate[hh['lang']].format(files.name)}{Msg.Success[hh['lang']]}"
         logger.info(f"{Msg.CommonLog1[hh['lang']].format(result.msg, file_id, hh['u'], hh['ip'])}")
@@ -134,12 +128,8 @@ async def get_file_by_id(file_id: str, hh: dict) -> Result:
     try:
         file = await models.Files.get(id=file_id).select_related('parent')
         parent_path = await file.parent.get_all_path()
-        if file.format == 'xmind':
-            xmind = read_xmind(os.path.join(parent_path, file.name))
-            result.data = xmind
-        else:
-            with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
-                result.data = f.read()
+        with open(os.path.join(parent_path, file.name), 'r', encoding='utf-8') as f:
+            result.data = f.read()
         result.msg = file.name
         logger.info(f"{Msg.CommonLog1[hh['lang']].format(Msg.MsgQuery[hh['lang']] + Msg.Success[hh['lang']], file.id, hh['u'], hh['ip'])}")
     except KeyError:
@@ -397,15 +387,6 @@ async def upload_image(query, hh: dict) -> Result:
         result.msg = f"{Msg.MsgUpload[hh['lang']].format(query['file'].filename)}{Msg.Failure[hh['lang']]}"
         logger.error(f"{Msg.CommonLog[hh['lang']].format(result.msg, hh['u'], hh['ip'])}")
         logger.error(traceback.format_exc())
-    return result
-
-
-async def export_xmind_file(file_id, hh: dict) -> dict:
-    file = await models.Files.get(id=file_id).select_related('parent')
-    parent_path = await file.parent.get_all_path()
-    file_path = generate_xmind8(file.id, file.name, os.path.join(parent_path, file.name))
-    result = {'path': file_path, 'name': file.name, 'format': file.format}
-    logger.info(f"{Msg.CommonLog1[hh['lang']].format(Msg.MsgExport[hh['lang']].format(file.name) + Msg.Success[hh['lang']], file.id, hh['u'], hh['ip'])}")
     return result
 
 

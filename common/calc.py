@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Author: leeyoshinari
 import hashlib
+import os.path
 
 
 def str_md5(s: str):
@@ -57,11 +58,12 @@ def beauty_mp3_time(duration):
 
 
 def modify_prefix(prefix='/mycloud'):
-    with open('web/head.js', 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    lines[0] = f"const server = '{prefix}';\n"
-    with open('web/head.js', 'w', encoding='utf-8') as f:
-        f.writelines(lines)
+    if os.path.exists('web/head.js'):
+        with open('web/head.js', 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        lines[0] = f"const server = '{prefix}';\n"
+        with open('web/head.js', 'w', encoding='utf-8') as f:
+            f.writelines(lines)
 
 
 def parse_pwd(password: str, s: str):

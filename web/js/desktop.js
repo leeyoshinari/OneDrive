@@ -1177,7 +1177,7 @@ let apps = {
         init: () => {
             $('#win-python').html(`
         <pre>
-Python 3.10.2  [MSC v.1912 64 bit (AMD64)] :: Anaconda, Inc. on win32
+Python 3.12.1 (main, Jul 26 2024, 14:03:47) [MSC v.1938 64 bit (AMD64)] on win32
 Type "help", "copyright", "credits" or "license" for more information.
         </pre>
         <pre class="text-cmd"></pre>

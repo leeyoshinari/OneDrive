@@ -2,7 +2,8 @@
 <html lang="en" style="height: 100%;">
 <head>
 	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="mobile-web-app-capable" content="yes" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="format-detection" content="telephone=no" />
 	<link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
@@ -14,10 +15,20 @@
 	<link rel="stylesheet" href="css/explorer.css">
 	<link rel="stylesheet" href="css/edge.css">
 	<link rel="stylesheet" href="module/viewer.js/viewer.min.css">
+	<link rel="manifest" href="manifest.json">
 	<script src="js/jq.min.js"></script>
 	<script src="js/i18next.min.js"></script>
 	<script src="head.js"></script>
 	<script type="text/javascript">
+		if ('serviceWorker' in navigator) {
+		  window.addEventListener('load', () => {
+			navigator.serviceWorker.register('sw.js').then(registration => {
+			  console.log('SW registered: ', registration);
+			}).catch(registrationError => {
+			  console.log('SW registration failed: ', registrationError);
+			});
+		  });
+		}
 		let lang = localStorage.getItem('lang');
 		if (!lang) {lang = 'en';}
 		function parse_pwd(p, s) {
@@ -402,7 +413,7 @@
 	</div>
 	<div class="window python terminal-apps">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python 3.10.2</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python 3.12.1</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('python')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('python')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('python')"><i class="bi bi-dash-lg"></i></a>
@@ -411,7 +422,7 @@
 		<div class="loadback"><img src="img/python.svg" class="icon" alt=""></div>
 		<div class="content" id="win-python" onmouseup="$('#win-python input').focus();" ontouchend="$('#win-python input').focus();">
             <pre>
-				Python 3.10.2  [MSC v.1912 64 bit (AMD64)] :: Anaconda, Inc. on win32
+				Python 3.12.1 (main, Jul 26 2024, 14:03:47) [MSC v.1938 64 bit (AMD64)] on win32
 				Type "help", "copyright", "credits" or "license" for more information.
 			</pre>
 			<pre class="text-cmd"></pre>

@@ -39,7 +39,6 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((networkResponse) => {
-          console.log(regex.test(networkResponse.url) + networkResponse.url);
         if (networkResponse && networkResponse.status === 200 && regex.test(networkResponse.url) && networkResponse.type === 'basic') {
           const clonedResponse = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {

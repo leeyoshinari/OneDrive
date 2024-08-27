@@ -12,7 +12,7 @@ from common.logging import logger
 async def open_share_file(share_id: int, hh: dict) -> dict:
     try:
         share = await models.Shares.get(id=share_id)
-        if share.times < share.total_times:
+        if share.total_times == 0 or share.times < share.total_times:
             share.times = share.times + 1
             await share.save()
             result = {'type': 0, 'path': share.path, 'name': share.name, 'format': share.format, 'file_id': share.file_id}

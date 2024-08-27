@@ -11,7 +11,6 @@ import settings
 import mycloud.user.urls as user_urls
 import mycloud.folders.urls as folder_urls
 import mycloud.files.urls as file_urls
-import mycloud.music.urls as music_urls
 import mycloud.share.urls as share_urls
 import mycloud.games.urls as game_urls
 
@@ -31,7 +30,6 @@ async def get_docs():
 app.include_router(user_urls.router, prefix=prefix)
 app.include_router(folder_urls.router, prefix=prefix)
 app.include_router(file_urls.router, prefix=prefix)
-app.include_router(music_urls.router, prefix=prefix)
 app.include_router(share_urls.router, prefix=prefix)
 app.include_router(game_urls.router, prefix=prefix)
 

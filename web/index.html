@@ -99,9 +99,6 @@
 		<div class="b i18n_w" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="" key="edge.title" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
 			<img src="img/edge.svg" alt=""><p class="i18n" key="edge"></p>
 		</div>
-		<div class="b i18n_w" ondblclick="open_music('');" ontouchstart="open_music('');" win12_title="" key="music.title" oncontextmenu="return showcm(event,'desktop.icon',['music',-1]);" appname="music">
-			<img src="img/music.ico" alt=""><p class="i18n" key="music"></p>
-		</div>
 		<div class="b i18n_w" ondblclick="open_game_center();" ontouchstart="open_game_center();" win12_title="" key="game.title" oncontextmenu="return showcm(event,'desktop.icon',['game',-1]);" appname="game">
 			<img src="img/game.png" alt=""><p class="i18n" key="game"></p>
 		</div>
@@ -493,10 +490,8 @@
 		    </div>
 			<div id="save-bar" style="margin:10px;margin-top: 3px;">
 				<a onclick="apps.edge.goto('https://blog.ihuster.top')" win12_title="博客" class="save-item"><i class="bi bi-file-earmark"></i>博客</a>
-				<a onclick="apps.edge.goto('https://www.musicenc.com')" win12_title="MusicEnc" class="save-item"><i class="bi bi-file-earmark"></i>MusicEnc</a>
 				<a onclick="apps.edge.goto('https://music.txqq.pro')" win12_title="全网音乐免费下载" class="save-item"><i class="bi bi-file-earmark"></i>全网音乐免费下载</a>
 				<a onclick="apps.edge.goto('https://tool.liumingye.cn/music')" win12_title="MyFreeMP3" class="save-item"><i class="bi bi-file-earmark"></i>MyFreeMP3</a>
-				<a onclick="apps.edge.goto('https://cctrax.com')" win12_title="cctrax" class="save-item"><i class="bi bi-file-earmark"></i>free music</a>
 				<a onclick="apps.edge.goto('https://xbeibeix.com/api/bilibili')" win12_title="bilibili" class="save-item"><i class="bi bi-file-earmark"></i>B站视频下载</a>
 			</div>
 			<iframe id="iframe_edge" class="0 show" onmousemove="if(apps.edge.fuls){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}"></iframe>
@@ -629,17 +624,6 @@
 		</div>
 		<div class="loadback"><img src="img/files/picture.png" class="icon" alt=""></div>
 		<div class="content" id="win-image"><img class="my_video" style="object-fit: contain;" src="" alt=""></div>
-	</div>
-	<div class="window music">
-		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/music.ico" class="icon" alt=""><span><span class="title i18n" key="music">music</span><span class="save-status"></span></span><div>
-				<a class="a wbtg red" onclick="hidewin('music');"><i class="bi bi-x-lg"></i></a>
-				<a class="a wbtg max" onclick="maxwin('music')"><i class="bi bi-app"></i></a>
-				<a class="a wbtg" onclick="minwin('music')"><i class="bi bi-dash-lg"></i></a>
-			</div>
-		</div>
-		<div class="loadback"><img src="img/music.ico" class="icon" alt=""></div>
-		<div class="content" id="win-music"><iframe id="iframe_music" src=""></iframe></div>
 	</div>
 	<div class="window game">
 		<div class="resize-bar"></div>

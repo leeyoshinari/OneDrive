@@ -726,9 +726,6 @@ let apps = {
                 case 'mp4':
                     apps.explorer.open_video(file_id, filename);
                     break;
-                case 'mp3':
-                    open_music(file_id);
-                    break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
@@ -1130,7 +1127,6 @@ let apps = {
     },
     markdown: {init: () => {return null;}},
     video: {init: () => {return null;}},
-    music: {init: () => {return null;}},
     sheet: {init: () => {return null;}},
     word: {init: () => {return null;}},
     excel: {init: () => {return null;}},
@@ -1483,7 +1479,7 @@ for (let i = 1; i <= daysum; i++) {
 }
 
 // 应用与窗口
-let other_img = ['video', 'music', 'picture', 'markdown', 'game', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
+let other_img = ['video', 'picture', 'markdown', 'game', 'sheet', 'docu', 'word', 'excel', 'powerpoint', 'pythonEditor']
 function openapp(name) {
     if ($('#taskbar>.' + name).length !== 0) {
         if ($('.window.' + name).hasClass('min')) {
@@ -2756,14 +2752,6 @@ function save_text_file(file_id, data, is_code=true) {
             }
         }
     })
-}
-
-function open_music(file_id) {
-    $('.window.music>.titbar>span>.title')[0].innerText = i18next.t('music');
-    openapp('music');
-    document.getElementsByClassName("music")[0].style.display = 'block';
-    document.getElementById("iframe_music").src = 'module/music.html?server=' + server + '&id=' + file_id;
-    $('.window.music>.titbar>div>.wbtg.red').attr("onclick", `document.getElementById("iframe_music").src = 'about:blank';hidewin('music');`);
 }
 
 function open_md(file_id) {

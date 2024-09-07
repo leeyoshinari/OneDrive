@@ -1308,6 +1308,7 @@ list>span.focs.cl {
     margin: 9px 8px 0 3px;
     height: 22px;
     width: 22px;
+    border-radius: 3px;
 }
 
 .window>.titbar>div {
@@ -1441,12 +1442,19 @@ iframe {
     width: 100%;
 }
 
+.game-center {
+    display: flex;
+    align-content: space-between;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 .game-list {
-    position: relative;
-    height: 80px;
-    float: left;
-    width: 80px;
     margin: 2%;
     cursor: pointer;
     text-align: center;
+}
+.game-list img {
+    width: 61px;
+    height: 61px;
 }

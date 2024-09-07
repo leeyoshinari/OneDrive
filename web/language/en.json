@@ -205,5 +205,17 @@
   "game.snake.result.title.wall": "Hit the Wall",
   "game.snake.result.title.yourself": "Bite Yourself",
   "game.snake.restart": "Restart",
-  "game.tetris": "Tetris"
+  "game.tetris": "Tetris",
+  "game.rings": "Ring",
+  "game.ring.click": "Click",
+  "game.ring.open.music": "OpenMusic",
+  "game.ring.playing.music": "Playing",
+  "game.ring.restart": "Restart",
+  "game.ring.success.title": "Congratulation!",
+  "game.ring.success.back": "Play again ~",
+  "game.left.text": "Left",
+  "game.right.text": "Right",
+  "game.up.text": "Up",
+  "game.down.text": "Down",
+  "game.rotate.text": "Rotate"
 }

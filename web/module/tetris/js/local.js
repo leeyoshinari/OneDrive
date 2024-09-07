@@ -8,8 +8,7 @@ var Local = function()
 	// bind key event
 	var bindKeyEvent = function()
 	{
-		document.onkeydown = function(e)
-		{
+		document.onkeydown = function(e) {
 			if(e.keyCode === 38)  // up
 			{
 				game.rotate();
@@ -29,6 +28,10 @@ var Local = function()
 				game.fall();
 			} 
 		}
+		document.getElementById('left').addEventListener('click', () => {game.left();})
+		document.getElementById('right').addEventListener('click', () => {game.right();})
+		document.getElementById('up').addEventListener('click', () => {game.rotate();})
+		document.getElementById('down').addEventListener('click', () => {game.down();})
 	}
 
 	var move = function(){

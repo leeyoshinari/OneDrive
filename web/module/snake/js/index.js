@@ -82,4 +82,8 @@ function init(){
         snakeObject.snakeBody.push(snakeObject.tds[snakeObject.headerTr][snakeObject.headertd]);//将蛇头放入蛇身
         snakeObject.createEgg(true);// 创建一个蛋
     });
+    document.getElementById('left').addEventListener('click', () => {snakeObject.turn('left');})
+    document.getElementById('right').addEventListener('click', () => {snakeObject.turn('right');})
+    document.getElementById('up').addEventListener('click', () => {snakeObject.turn('up');})
+    document.getElementById('down').addEventListener('click', () => {snakeObject.turn('down');})
 }

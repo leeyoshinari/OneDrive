@@ -20,6 +20,7 @@ function Snake(para) {
   this.timeWatch = '';  // 统计游戏持续时间
   this.direction = 'down';
   this.begin = false; // 游戏是否开始
+  this.gridNum = 20;
 }
 
 // 蛇的转向
@@ -50,7 +51,7 @@ Snake.prototype.turn = function () {
     this.headerTr += 1;
   }
 
-  if (this.headertd > 29 || this.headerTr > 29 || this.headertd < 0 || this.headerTr < 0) {   //判断点击了方向键后，下一个移动的方块，是否碰到墙壁
+  if (this.headertd > this.gridNum - 1 || this.headerTr > this.gridNum - 1 || this.headertd < 0 || this.headerTr < 0) {   //判断点击了方向键后，下一个移动的方块，是否碰到墙壁
     if (that.timer) {
       window.clearInterval(that.timer);
       that.timer = null;
@@ -101,15 +102,15 @@ Snake.prototype.createRandomBlock = function (color,init) {
 
   // 初始化时随机渲染一个黑色块作为蛇身
   if (color === 'black') {
-    horizon = init ? 15 : parseInt(Math.random() * 30);
-    vertical = init ? 15 : parseInt(Math.random() * 30);
+    horizon = init ? 10 : parseInt(Math.random() * this.gridNum);
+    vertical = init ? 10 : parseInt(Math.random() * this.gridNum);
     this.block = this.tds[horizon][vertical];
     this.block.style.backgroundColor = color;
     this.block.style.border = "3px solid " + color;
   } else {//之后会持续创建白块作为蛋
     do {
-      horizon = init ? 20 : parseInt(Math.random() * 30);
-      vertical = init ? 15 : parseInt(Math.random() * 30);
+      horizon = init ? 15 : parseInt(Math.random() * this.gridNum);
+      vertical = init ? 10 : parseInt(Math.random() * this.gridNum);
       this.block = this.tds[horizon][vertical];
       this.block.style.backgroundColor = color;
       this.block.style.border = "3px solid " + color;
@@ -153,12 +154,11 @@ Snake.prototype.biteMyself = function () {
 Snake.prototype.drawChessBoard = function () {
   /*画棋盘 把所有td装到一个二维数组里*/
   var chessboard = document.getElementById('chessboard');
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < this.gridNum; i++) {
     // 插入一个行元素，appendChild还返回插入的节点
     var thistr = chessboard.appendChild(document.createElement('tr')); //
     var thistds = [];
-    // 给行元素插入30个列元素
-    for (var k = 0; k < 30; k++) {
+    for (var k = 0; k < this.gridNum; k++) {
       thistds[k] = thistr.appendChild(document.createElement('td'));
     }
     // 这样，数组tds的每一个值，又都是一个数组。通过两层下标就可以准确的取到对应的td块
@@ -200,20 +200,20 @@ Snake.prototype.updateTime = function (close) {
 Snake.prototype.upDownAnimation = function (callback) {
   var that = this,
     trNum = -1,
-    tdNum = 30
+    tdNum = this.gridNum
 
   // 上下动画
   var upDownInter = window.setInterval(function () {
     trNum += 1;
     tdNum -= 1;
 
-    if (trNum < 30) {
-      for (var i = 0; i < 29; i = i + 2) {
+    if (trNum < that.gridNum) {
+      for (var i = 0; i < that.gridNum - 1; i = i + 2) {
         that.tds[trNum][i].style.backgroundColor = 'black';
         that.tds[trNum][i].style.border = '3px solid black';
       }
 
-      for (var t = 29; t > -1; t = t - 2) {
+      for (var t = that.gridNum - 1; t > -1; t = t - 2) {
         that.tds[tdNum][t].style.backgroundColor = 'black';
         that.tds[tdNum][t].style.border = '3px solid black';
       }
@@ -228,20 +228,20 @@ Snake.prototype.upDownAnimation = function (callback) {
 Snake.prototype.leftRightAnimation = function (callback) {
   var that = this,
     leftRightTdStart = -1,
-    leftRightTdEnd = 30;
+    leftRightTdEnd = this.gridNum;
 
   // 左右动画
   var leftRightInter = window.setInterval(function () {
     leftRightTdStart += 1;
     leftRightTdEnd -= 1;
 
-    if (leftRightTdStart < 30) {
-      for (var i = 0; i < 29; i = i + 2) {
+    if (leftRightTdStart < that.gridNum) {
+      for (var i = 0; i < that.gridNum - 1; i = i + 2) {
         that.tds[i][leftRightTdStart].style.backgroundColor = 'rgb(88, 104, 88)';
         that.tds[i][leftRightTdStart].style.border = '3px solid rgb(88, 104, 88)';
       }
 
-      for (var t = 29; t > -1; t = t - 2) {
+      for (var t = that.gridNum - 1; t > -1; t = t - 2) {
         that.tds[t][leftRightTdEnd].style.backgroundColor = 'rgb(88, 104, 88)';
         that.tds[t][leftRightTdEnd].style.border = '3px solid rgb(88, 104, 88)';
       }

@@ -2778,12 +2778,16 @@ function open_game(game_type) {
     let height = 0;
     switch (game_type) {
         case 'snake':
-            width = 850;
-            height = 700;
+            width = 700;
+            height = 650;
             break;
         case 'tetris':
             width = 430;
-            height = 510;
+            height = 558;
+            break;
+        case 'rings':
+            width = 420;
+            height = 800;
             break;
         default:
             width = 0;
@@ -2802,8 +2806,9 @@ function open_game(game_type) {
 function open_game_center() {
     $('#notice>.cnt').html(`
             <div style="height: 50px;"><p class="tit" style="margin:0;font-size: x-large; float: left;">${i18next.t('game')}</p><a class="a wbtg" onclick="closenotice();"><i class="bi bi-x-lg"></i></a></div>
-            <div><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""><p>${i18next.t('game.snake')}</p></div>
-            <div class="game-list" onclick="open_game('tetris')"><img src="img/explorer/tetris.png" alt=""><p>${i18next.t('game.tetris')}</p></div></div>
+            <div class="game-center"><div class="game-list" onclick="open_game('snake')"><img src="img/explorer/snake.png" alt=""><p>${i18next.t('game.snake')}</p></div>
+            <div class="game-list" onclick="open_game('tetris')"><img src="img/explorer/tetris.png" alt=""><p>${i18next.t('game.tetris')}</p></div>
+            <div class="game-list" onclick="open_game('rings')"><img src="img/explorer/rings.png" alt=""><p>${i18next.t('game.rings')}</p></div></div>
     `);
     $('#notice>.btns')[0].style.display = 'none';
     $('#notice-back').addClass('show');

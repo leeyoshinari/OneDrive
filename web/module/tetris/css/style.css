@@ -1,8 +1,8 @@
 .square{
 	width: 400px;
-	height: 430px;
+	height: 415px;
 	float: left;
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-left: 15px;
 }
 
@@ -170,4 +170,22 @@
     text-indent: 7px;
     width: 66px;
     overflow: hidden;
+}
+
+.bottom {
+    float: left;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    width: 100%;
+}
+.bottom button {
+    height: 38px;
+    width: 90px;
+    font-size: large;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    background-color: wheat;
 }

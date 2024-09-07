@@ -25,12 +25,12 @@ td{
     vertical-align:middle;
     display: flex;
     margin: 0 auto;
-    width: 815px;
+    width: 670px;
     border: 2px solid black;
 }
 
 .content table{
-    width: 767px;
+    width: 520px;
 }
 
 /*左侧游戏棋盘*/
@@ -42,8 +42,8 @@ td{
 /*右侧信息栏*/
 .content .right{
     /*border: 1px solid black;*/
-    height: 635px;
-    width: 180px;
+    height: 520px;
+    width: 150px;
 }
 
 .rules{
@@ -218,4 +218,19 @@ td{
     text-indent: 10px;
     width: 85px;
     overflow: hidden;
+}
+.bottom {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+.bottom button {
+    height: 38px;
+    width: 90px;
+    font-size: large;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    background-color: wheat;
 }

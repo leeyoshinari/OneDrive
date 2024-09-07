@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" href="assets/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <title>套圈圈</title>
+  </head>
+  <body>
+    <div id="boss" class="boss">
+      <div id="canvas-box" class="canvas-box"></div>
+
+      <div class="control-box">
+        <div><button class="btn i18n" id="btn_left" key="game.ring.click">按</button></div>
+        <div class="btn-box">
+          <button id="music-btn" class="btn2 music-btn i18n" key="game.ring.open.music">开音乐</button>
+          <button id="reset-btn" class="btn2 i18n" key="game.ring.restart">重来</button>
+        </div>
+        <div><button class="btn i18n" id="btn_right" key="game.ring.click">按</button></div>
+      </div>
+
+      <div class="back-box">
+        <div class="pao"></div>
+        <div class="pao"></div>
+        <img class="yu" src="assets/imgs/fish1.png" />
+        <img class="yu" src="assets/imgs/fish2.png" />
+        <img class="yu" src="assets/imgs/fish3.png" />
+      </div>
+
+      <div id="success" class="success">
+        <div class="info">
+          <div class="title i18n" key="game.ring.success.title">恭喜！</div>
+        </div>
+        <button id="new-game" class="new-game i18n" key="game.ring.success.back">带回城堡</button>
+        <img id="love" class="love-icon" src="assets/imgs/love.png" />
+      </div>
+    </div>
+
+    <audio id="sound_btn" src="assets/sound/btn.mp3" preload></audio>
+    <audio id="sound_success" src="assets/sound/success.mp3" preload></audio>
+    <audio id="sound_back" src="assets/sound/back.mp3" preload loop></audio>
+    <script src="assets/fastclick.min.js"></script>
+    <script src="assets/three.min.js"></script>
+    <script src="assets/oimo.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

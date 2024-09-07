@@ -205,5 +205,17 @@
   "game.snake.result.title.wall": "撞墙啦",
   "game.snake.result.title.yourself": "咬自己啦",
   "game.snake.restart": "再来一局",
-  "game.tetris": "俄罗斯方块"
+  "game.tetris": "俄罗斯方块",
+  "game.rings": "套圈圈",
+  "game.ring.click": "按",
+  "game.ring.open.music": "开音乐",
+  "game.ring.playing.music": "播放中",
+  "game.ring.restart": "重来",
+  "game.ring.success.title": "恭喜！",
+  "game.ring.success.back": "再来一次",
+  "game.left.text": "左移",
+  "game.right.text": "右移",
+  "game.up.text": "上移",
+  "game.down.text": "下移",
+  "game.rotate.text": "旋转"
 }

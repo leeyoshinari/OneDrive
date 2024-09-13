@@ -30,7 +30,7 @@ function login_sys(evn) {
                 this.onclick = null;
                 evn.id = 'login';
                 evn.innerText = i18next.t('login.button.text');
-                document.body.style.backgroundImage='url("img/pictures/' + $('#username')[0].value + '/background.jpg")';
+                document.body.style.backgroundImage='url("' + server + '/file/background/getImage")';
             } else {
                 $.Toast(data['msg'], 'error');
                 window.clearInterval(qwq);

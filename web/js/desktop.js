@@ -351,6 +351,7 @@ function shownotice(name) {
     });
     $('#notice>.btns').html(tmp);
     if (name === 'share') {
+        $('#notice')[0].style.top = '30%';
         $('#notice>.cnt>p')[0].style.width = '500px';
         $('#notice>.cnt>p')[0].innerText = i18next.t('explore.window.file.tool.share.window.title');
         $('#notice>.cnt>input')[0].placeholder = i18next.t('explore.window.file.tool.share.window.placeholder');
@@ -363,11 +364,13 @@ function shownotice(name) {
     }, 20);
 }
 function closenotice() {
+    $('#notice')[0].style.top = '';
     $('#notice')[0].style.width = '';
     $('#notice')[0].style.height = '';
     $('#notice>.cnt').html('');
     $('#notice>.btns').html('');
     $('#notice-back').removeClass('show');
+    $('#notice>.btns')[0].style.display = '';
 }
 // 应用
 let apps = {
@@ -654,7 +657,7 @@ let apps = {
             $('#win-explorer>.page>.main-download')[0].style.display = 'none';
             $('#win-explorer>.page>.main-share')[0].style.display = 'flex';
             $('#win-explorer>.path>.back')[0].classList.add('disabled');
-            m_tab.rename('explorer', '<img src="img/explorer/share.png" alt=""> '+i18next.t('explore.window.menu.share.title'));
+            m_tab.rename('explorer', '<img src="img/explorer/share.svg" alt="share.svg" loading="lazy"> '+i18next.t('explore.window.menu.share.title'));
             $.ajax({
                 type: 'GET',
                 url: server + '/share/list',
@@ -686,12 +689,6 @@ let apps = {
             switch (share_format) {
                 case 'md':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/md.html?server=' + server + '&id=' + share_id;
-                    break;
-                case 'sheet':
-                    share_url = '/' + window.location.href.split('/')[3] + '/module/sheet.html?server=' + server + '&id=' + share_id + '&lang=' + lang;
-                    break;
-                case 'docu':
-                    share_url = '/' + window.location.href.split('/')[3] + '/module/document.html?server=' + server + '&id=' + share_id + '&lang=' + lang;
                     break;
                 case 'py':
                     share_url = '/' + window.location.href.split('/')[3] + '/module/python.html?server=' + server + '&id=' + share_id;
@@ -1127,12 +1124,7 @@ let apps = {
     },
     markdown: {init: () => {return null;}},
     video: {init: () => {return null;}},
-    sheet: {init: () => {return null;}},
-    word: {init: () => {return null;}},
-    excel: {init: () => {return null;}},
     game: {init: () => {return null;}},
-    powerpoint: {init: () => {return null;}},
-    docu: {init: () => {return null;}},
     picture: {init: () => {return null;}},
     pythonEditor: {init: () => {return null;}},
     python: {
@@ -2617,7 +2609,7 @@ function upload_back_img() {
                         let res = JSON.parse(xhr.responseText);
                         if (res['code'] === 0) {
                             $.Toast(res['msg'], 'success');
-                            document.body.style.backgroundImage='url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/background.jpg")';
+                            document.body.style.backgroundImage='url("' + server + '/file/background/getImage")';
                         } else {
                             $.Toast(res['msg'], 'error');
                         }

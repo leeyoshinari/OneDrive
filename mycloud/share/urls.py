@@ -29,7 +29,7 @@ async def read_file(file_path, start_index=0):
 
 
 @router.get("/list", summary="Share file list (分享文件列表)")
-async def get_share_list(hh: dict = Depends(auth)):
+async def get_share_list(hh: models.SessionBase = Depends(auth)):
     result = await views.get_share_file(hh)
     return result
 
@@ -37,10 +37,10 @@ async def get_share_list(hh: dict = Depends(auth)):
 @router.get("/get/{file_id}", summary="Open share link (打开文件分享链接)")
 async def get_share_file(file_id: int, request: Request):
     try:
-        hh = {'ip': request.headers.get('x-real-ip', ''), 'lang': request.headers.get('lang', 'en')}
+        hh = models.SessionBase(ip=request.headers.get('x-real-ip', ''), lang=request.headers.get('lang', 'en'), username='')
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
-            if result["format"] in ['md', 'py']:
+            if result["format"] in ['md', 'docu', 'py']:
                 res = Result()
                 with open(result['path'], 'r', encoding='utf-8') as f:
                     res.data = f.read()
@@ -62,7 +62,7 @@ async def get_share_file(file_id: int, request: Request):
 @router.get("/export/{file_id}", summary="Export file (导出文件)")
 async def export_share_file(file_id: int, request: Request):
     try:
-        hh = {'ip': request.headers.get('x-real-ip', ''), 'lang': request.headers.get('lang', 'en')}
+        hh = models.SessionBase(ip=request.headers.get('x-real-ip', ''), lang=request.headers.get('lang', 'en'), username='')
         result = await views.open_share_file(file_id, hh)
         if result['type'] == 0:
             headers = {'Accept-Ranges': 'bytes', 'Content-Length': str(os.path.getsize(result['path'])),
@@ -76,6 +76,6 @@ async def export_share_file(file_id: int, request: Request):
 
 
 @router.post("/delete", summary="Delete share (删除文件分享)")
-async def delete_file(query: models.IsDelete, hh: dict = Depends(auth)):
+async def delete_file(query: models.IsDelete, hh: models.SessionBase = Depends(auth)):
     result = await views.delete_file(query, hh)
     return result

@@ -39,16 +39,16 @@ async def create_user(username: str, password: str, password1: str, request: Req
     try:
         if not username.isalnum():
             result.code = 1
-            result.msg = Msg.MsgUserCheckUsername[lang]
+            result.msg = Msg.UserCheckUsername.get_text(lang)
             return result
         if password != password1:
             result.code = 1
-            result.msg = Msg.MsgUserCheckPassword[lang]
+            result.msg = Msg.UserCheckPassword.get_text(lang)
             return result
         user = await models.User.filter(username=username.strip())
         if user:
             result.code = 1
-            result.msg = f"{Msg.MsgExistUserError[lang].format(username)}"
+            result.msg = f"{Msg.ExistUserError.get_text(lang).format(username)}"
             logger.error(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
             return result
         async with transactions.in_transaction():
@@ -64,37 +64,35 @@ async def create_user(username: str, password: str, password1: str, request: Req
                 user_path = os.path.join(v, user.username)
                 if not os.path.exists(user_path):
                     os.mkdir(user_path)
-            back_path = os.path.join(settings.path, 'web/img/pictures', user.username)
-            if not os.path.exists(back_path):
-                os.mkdir(back_path)
-            source_file = os.path.join(settings.path, 'web/img/pictures/undefined/background.jpg')
-            target_file = os.path.join(back_path, 'background.jpg')
+            back_path = os.path.join(settings.path, 'mycloud/static_files')
+            source_file = os.path.join(back_path, 'background.jpg')
+            target_file = os.path.join(back_path, user.username + '.jpg')
             shutil.copy(source_file, target_file)
-        result.msg = f"{Msg.MsgCreateUser[lang].format(user.username)}{Msg.Success[lang]}"
+        result.msg = f"{Msg.CreateUser.get_text(lang).format(user.username)}{Msg.Success.get_text(lang)}"
         logger.info(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
     except:
         result.code = 1
-        result.msg = f"{Msg.MsgCreateUser[lang].format(username)}{Msg.Failure[lang]}"
+        result.msg = f"{Msg.CreateUser.get_text(lang).format(username)}{Msg.Failure.get_text(lang)}"
         logger.error(traceback.format_exc())
     return result
 
 
 @router.post("/modify/pwd", summary="Modify password (修改用户密码)")
-async def modify_pwd(query: models.CreateUser, hh: dict = Depends(auth)):
+async def modify_pwd(query: models.CreateUser, hh: models.SessionBase = Depends(auth)):
     result = Result()
     try:
         if query.password != query.password1:
             result.code = 1
-            result.msg = Msg.MsgUserCheckPassword[hh['lang']]
+            result.msg = Msg.UserCheckPassword.get_text(hh.lang)
             return result
         user = await models.User.get(username=query.username)
         user.password = str_md5(parse_pwd(query.password, query.t))
         await user.save()
-        result.msg = f"{Msg.MsgModifyPwd[hh['lang']].format(user.username)}{Msg.Success[hh['lang']]}"
-        logger.info(f"{Msg.CommonLog[hh['lang']].format(result.msg, hh['u'], hh['ip'])}")
+        result.msg = f"{Msg.ModifyPwd.get_text(hh.lang).format(user.username)}{Msg.Success.get_text(hh.lang)}"
+        logger.info(f"{Msg.CommonLog.get_text(hh.lang).format(result.msg, hh.username, hh.ip)}")
     except:
         result.code = 1
-        result.msg = f"{Msg.MsgModifyPwd[hh['lang']].format(query.username)}{Msg.Failure[hh['lang']]}"
+        result.msg = f"{Msg.ModifyPwd.get_text(hh.lang).format(query.username)}{Msg.Failure.get_text(hh.lang)}"
         logger.error(traceback.format_exc())
     return result
 
@@ -122,25 +120,25 @@ async def login(query: models.UserBase, request: Request, response: Response):
             response.set_cookie('u', user.username)
             response.set_cookie('t', str(int(time.time() / 1000)))
             response.set_cookie('token', token)
-            result.msg = f"{Msg.MsgLogin[lang].format(user.username)}{Msg.Success[lang]}"
+            result.msg = f"{Msg.Login.get_text(lang).format(user.username)}{Msg.Success.get_text(lang)}"
             logger.info(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
         else:
             result.code = 1
-            result.msg = f"{Msg.MsgLoginUserOrPwdError[lang]}"
+            result.msg = f"{Msg.LoginUserOrPwdError.get_text(lang)}"
             logger.error(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
     except DoesNotExist:
         result.code = 1
-        result.msg = f"{Msg.MsgLoginUserOrPwdError[lang]}"
+        result.msg = f"{Msg.LoginUserOrPwdError.get_text(lang)}"
         logger.error(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
     except:
         result.code = 1
-        result.msg = f"{Msg.MsgLogin[lang].format(query.username)}{Msg.Failure[lang]}"
+        result.msg = f"{Msg.Login.get_text(lang).format(query.username)}{Msg.Failure.get_text(lang)}"
         logger.error(traceback.format_exc())
     return result
 
 
 @router.get("/logout", summary="Logout (退出登陆)")
-async def logout(hh: dict = Depends(auth)):
+async def logout(hh: models.SessionBase = Depends(auth)):
     settings.TOKENs.pop(hh['u'], 0)
-    logger.info(f"{Msg.MsgLogout[hh['lang']].format(hh['u'])}{Msg.Success[hh['lang']]}, IP: {hh['ip']}")
+    logger.info(f"{Msg.Logout.get_text(hh.lang).format(hh.username)}{Msg.Success.get_text(hh.lang)}, IP: {hh.ip}")
     return Result()

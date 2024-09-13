@@ -1,7 +1,7 @@
 const CACHE_NAME = 'sw-0';
 const staticFileExtensions = ['/img/', '/css/', '/js/', '.html', '.json', '/module/', 'head.js', 'sw.js'];
 const regex = new RegExp(`(${staticFileExtensions.join('|').replace(/\./g, '\\.')})`, 'i');
-const urlsToCache = ['/']
+const urlsToCache = ['']
 // 安装事件
 self.addEventListener('install', event => {
   self.skipWaiting();

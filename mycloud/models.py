@@ -101,6 +101,12 @@ class Games(Model):
         db_table = 'games'
 
 
+class SessionBase(BaseModel):
+    username: str
+    ip: str = None
+    lang: str = 'en'
+
+
 # 用户模型
 class UserBase(BaseModel):
     t: str

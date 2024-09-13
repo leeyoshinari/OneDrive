@@ -25,7 +25,7 @@ function get_status() {
                 $('#loginback').css('display', 'none');
                 $('#dock-box').css('display', 'flex');
                 $('#desktop').css('display', 'flex');
-                document.body.style.backgroundImage = 'url("img/pictures/' + document.cookie.split('u=')[1].split(';')[0] + '/background.jpg")';
+                document.body.style.backgroundImage = 'url("' + server + '/file/background/getImage")';
             } else {
                 $('#loginback').css('opacity', '1');
                 $('#loginback').css('display', 'flex');

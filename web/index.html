@@ -2,7 +2,7 @@
 <html lang="en" style="height: 100%;">
 <head>
 	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 	<meta name="mobile-web-app-capable" content="yes" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="format-detection" content="telephone=no" />
@@ -48,7 +48,7 @@
 		<div style="top:1%;left:1%;position:absolute;">
 			<select style="width:110px;border:none;background-color:var(--msg);" onchange="change_language(0);">
 				<option value="en">English</option>
-				<option value="zh-CN">简体中文</option>
+				<option value="zh_CN">简体中文</option>
 			</select>
 		</div>
 		<div class="user"></div>
@@ -91,16 +91,16 @@
 	</div>
 	<div id="desktop">
 		<div class="i18n_w" ondblclick="openapp('explorer');" ontouchstart="openapp('explorer');" win12_title="" key="computer.title" oncontextmenu="return showcm(event,'desktop.icon',['explorer',-1]);" appname="explorer">
-			<img src="img/explorer/thispc.svg" alt=""><p class="i18n" key="computer"></p>
+			<img src="img/explorer/thispc.svg" alt="thispc.svg" loading="lazy"><p class="i18n" key="computer"></p>
 		</div>
 		<div class="b i18n_w" ondblclick="openapp('setting');" ontouchstart="openapp('setting');" win12_title="" key="setting.title" oncontextmenu="return showcm(event,'desktop.icon',['setting',-1]);" appname="setting">
-			<img src="img/setting.svg" alt=""><p class="i18n" key="setting"></p>
+			<img src="img/setting.svg" alt="setting.svg" loading="lazy"><p class="i18n" key="setting"></p>
 		</div>
 		<div class="b i18n_w" ondblclick="openapp('edge');" ontouchstart="openapp('edge');" win12_title="" key="edge.title" oncontextmenu="return showcm(event,'desktop.icon',['edge',-1]);" appname="edge">
-			<img src="img/edge.svg" alt=""><p class="i18n" key="edge"></p>
+			<img src="img/edge.svg" alt="edge.svg" loading="lazy"><p class="i18n" key="edge"></p>
 		</div>
 		<div class="b i18n_w" ondblclick="open_game_center();" ontouchstart="open_game_center();" win12_title="" key="game.title" oncontextmenu="return showcm(event,'desktop.icon',['game',-1]);" appname="game">
-			<img src="img/game.png" alt=""><p class="i18n" key="game"></p>
+			<img src="img/game.png" alt="game.png" loading="lazy"><p class="i18n" key="game"></p>
 		</div>
 		<span class="choose"></span>
 		<p style="background-color: rgba(11,45,14,0);z-index:1;position: absolute;top:0;left:0;height:100%;width:100%" oncontextmenu="return showcm(event,'desktop');"></p>
@@ -122,14 +122,14 @@
 	<div class="window setting">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/setting.svg" class="icon" alt=""><span><span class="title i18n" key="setting.window.title">设置</span><span class="save-status"></span></span>
+			<img src="img/setting.svg" class="icon" alt="setting.svg" loading="lazy"><span><span class="title i18n" key="setting.window.title">设置</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('setting')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('setting')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('setting')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/setting.svg" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/setting.svg" class="icon" alt="setting.svg" loading="lazy"></div>
 		<div class="content" id="win-setting">
 			<div class="menu">
 				<a class="a user">
@@ -137,9 +137,9 @@
 					<div><p></p></div>
 				</a>
 				<list class="focs">
-					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt=""><span class="i18n" key="setting.window.account">账户</span></a>
-					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt=""><span class="i18n" key="setting.window.appearance">个性化</span></a>
-					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.png" alt=""><span class="i18n" key="setting.window.videos">视频</span></a>
+					<a class="enable user" onclick="apps.setting.page('user')"><img src="img/setting/user.png" alt="user.png" loading="lazy"><span class="i18n" key="setting.window.account">账户</span></a>
+					<a class="enable appearance" onclick="apps.setting.page('appearance')"><img src="img/setting/personal.png" alt="personal.png" loading="lazy"><span class="i18n" key="setting.window.appearance">个性化</span></a>
+					<a class="enable videos" onclick="apps.setting.page('videos')"><img src="img/files/video.svg" alt="video.svg" loading="lazy"><span class="i18n" key="setting.window.videos">视频</span></a>
 				</list>
 			</div>
 			<div class="page">
@@ -147,7 +147,7 @@
 					<p class="title i18n" key="setting.window.account">账户</p>
 					<div style="display: flex;">
 						<a class="a user" style="display:flex">
-							<svg viewBox="0,0,257,344" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 100px;height: 100px;background-color: var(--hover-b);/* box-shadow: 0 0 10px var(--sd); */width: 60px;width: 60px;height: 60px;border-radius: 50%;padding: 11px;margin-right: 15px;margin-bottom: 15px;" overflow="hidden"><defs><clipPath id="user-clip1"><rect x="382" y="195" width="257" height="344" /></clipPath><linearGradient x1="351.462" y1="233.56" x2="669.496" y2="500.422" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="user-fill3"><stop offset="0" stop-color="#A964C8" /><stop offset="0.35" stop-color="#A964C8" /><stop offset="0.87" stop-color="#2D8AD5" /><stop offset="1" stop-color="#2D8AD5" /></linearGradient><linearGradient x1="351.462" y1="233.56" x2="669.496" y2="500.422" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="user-fill4"><stop offset="0" stop-color="#A964C8" /><stop offset="0.35" stop-color="#A964C8" /><stop offset="0.87" stop-color="#2D8AD5" /><stop offset="1" stop-color="#2D8AD5" /></linearGradient></defs><g clip-path="url(#user-clip1)" transform="translate(-382 -195)"><path d="M637.755 433.872C642.215 515.221 579.577 537.983 508.011 537.983 436.444 537.983 376.676 507.833 383.513 437.11 383.109 425.234 389.59 414.133 398.634 409.891 413.82 402.768 444.753 402.936 507.484 402.997 570.214 403.058 609.164 402.279 621.521 407.947 633.878 413.614 638.011 424.609 637.755 433.872Z" fill="url(#user-fill3)" fill-rule="evenodd" /><path d="M422 285C422 235.847 461.623 196 510.5 196 559.377 196 599 235.847 599 285 599 334.153 559.377 374 510.5 374 461.623 374 422 334.153 422 285Z" fill="url(#user-fill4)" fill-rule="evenodd" /></g></svg>
+							<svg viewBox="0,0,257,344" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background-color: var(--hover-b);width: 60px;height: 60px;border-radius: 50%;padding: 11px;margin-right: 15px;margin-bottom: 15px;" overflow="hidden"><defs><clipPath id="user-clip1"><rect x="382" y="195" width="257" height="344" /></clipPath><linearGradient x1="351.462" y1="233.56" x2="669.496" y2="500.422" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="user-fill3"><stop offset="0" stop-color="#A964C8" /><stop offset="0.35" stop-color="#A964C8" /><stop offset="0.87" stop-color="#2D8AD5" /><stop offset="1" stop-color="#2D8AD5" /></linearGradient><linearGradient x1="351.462" y1="233.56" x2="669.496" y2="500.422" gradientUnits="userSpaceOnUse" spreadMethod="reflect" id="user-fill4"><stop offset="0" stop-color="#A964C8" /><stop offset="0.35" stop-color="#A964C8" /><stop offset="0.87" stop-color="#2D8AD5" /><stop offset="1" stop-color="#2D8AD5" /></linearGradient></defs><g clip-path="url(#user-clip1)" transform="translate(-382 -195)"><path d="M637.755 433.872C642.215 515.221 579.577 537.983 508.011 537.983 436.444 537.983 376.676 507.833 383.513 437.11 383.109 425.234 389.59 414.133 398.634 409.891 413.82 402.768 444.753 402.936 507.484 402.997 570.214 403.058 609.164 402.279 621.521 407.947 633.878 413.614 638.011 424.609 637.755 433.872Z" fill="url(#user-fill3)" fill-rule="evenodd" /><path d="M422 285C422 235.847 461.623 196 510.5 196 559.377 196 599 235.847 599 285 599 334.153 559.377 374 510.5 374 461.623 374 422 334.153 422 285Z" fill="url(#user-fill4)" fill-rule="evenodd" /></g></svg>
 							<div style="margin-top: 5px;"><p></p></div>
 						</a>
 					</div>
@@ -199,7 +199,7 @@
 						<div class="dp app-color lang">
 							<select style="width:190px;height:33px;background-color:var(--bar);" onchange="change_language(1);">
 								<option value="en">English</option>
-								<option value="zh-CN">简体中文</option>
+								<option value="zh_CN">简体中文</option>
 							</select>
 						</div>
 					</div>
@@ -219,7 +219,7 @@
 	<div class="window explorer tabs">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/explorer.svg" class="icon" alt=""><span style="display: none;"><span class="title i18n" key="explore.window.title">文件资源管理器</span><span class="save-status"></span></span>
+			<img src="img/explorer.svg" class="icon" alt="explorer.svg" loading="lazy"><span style="display: none;"><span class="title i18n" key="explore.window.title">文件资源管理器</span><span class="save-status"></span></span>
 			<div class="tabs"></div>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('explorer')"><i class="bi bi-x-lg"></i></a>
@@ -227,7 +227,7 @@
 				<a class="a wbtg" onclick="minwin('explorer')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/explorer.svg" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/explorer.svg" class="icon" alt="explorer.svg" loading="lazy"></div>
 		<div class="content" id="win-explorer">
 			<div class="path">
 				<a class="a btn btn-icon back"><i class="bi bi-arrow-left"></i></a>
@@ -241,18 +241,18 @@
 			<div class="page">
 				<div class="menu">
 					<div class="card pinned">
-						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png" alt=""><span class="i18n" key="explore.window.menu.card.title"> 快速访问</span></p>
+						<p class="title"><img style="width: 18px; height: 18px; margin-top: 2px; margin-right: 5px; float: left;" src="img/explorer/qa.png" alt="qa.png" loading="lazy"><span class="i18n" key="explore.window.menu.card.title"> 快速访问</span></p>
 						<list>
 							<a class="check" onclick="apps.explorer.reset();"><span style="background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/thispc.svg" alt=""><span class="i18n" key="computer">此电脑</span></a>
+								<img src="img/explorer/thispc.svg" alt="thispc.svg" loading="lazy"><span class="i18n" key="computer">此电脑</span></a>
 							<a onclick="apps.explorer.garbage();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/rb.png" alt=""><span class="i18n" key="explore.window.menu.garbage.title">回收站</span></a>
+								<img src="img/explorer/rb.png" alt="rb.png" loading="lazy"><span class="i18n" key="explore.window.menu.garbage.title">回收站</span></a>
 							<a onclick="apps.explorer.share_list();"><span style="display: none; background:linear-gradient(180deg, var(--theme-1), var(--theme-2));width:4px;height: 19px;border-radius: 10px;margin-left: -12px;margin-right: 8px;margin-top: 1px;"></span>
-								<img src="img/explorer/share.png" alt=""><span class="i18n" key="explore.window.menu.share.title">我的分享</span></a>
-							<a onclick="openapp('calc');"><img src="img/calc.svg" alt=""><span class="i18n" key="explore.window.menu.calc.title">计算器</span></a>
-							<a onclick="openapp('python');"><img src="img/python.svg" alt=""><span>Python</span></a>
-							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg" alt=""><span>Whiteboard</span></a>
-							<a onclick="openapp('setting');"><img src="img/setting.svg" alt=""><span class="i18n" key="setting">设置</span></a>
+								<img src="img/explorer/share.svg" alt="share.svg" loading="lazy"><span class="i18n" key="explore.window.menu.share.title">我的分享</span></a>
+							<a onclick="openapp('calc');"><img src="img/calc.svg" alt="calc.svg" loading="lazy"><span class="i18n" key="explore.window.menu.calc.title">计算器</span></a>
+							<a onclick="openapp('python');"><img src="img/python.svg" alt="python.svg" loading="lazy"><span>Python</span></a>
+							<a onclick="openapp('whiteboard');"><img src="img/whiteboard.svg" alt="whiteboard.svg" loading="lazy"><span>Whiteboard</span></a>
+							<a onclick="openapp('setting');"><img src="img/setting.svg" alt="etting.svg" loading="lazy"><span class="i18n" key="setting">设置</span></a>
 						</list>
 					</div>
 				</div>
@@ -266,17 +266,17 @@
 							</ul>
 						</a>
 						<a class="a b act asd i18n_t" title="新建文件夹" key="explore.window.file.tool.folder.title"
-							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="重命名" onclick="rename_selected();" key="explore.window.file.tool.rename.title"><img src="img/explorer/rename.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="移动文件/文件夹" onclick="move_files();" key="explore.window.file.tool.move.title"><img src="img/explorer/move.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="复制文件" onclick="copy_selected();" key="explore.window.file.tool.copy.title"><img src="img/explorer/new_file.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="上传本地文件" onclick="upload_file();" key="explore.window.file.tool.upload.title"><img src="img/explorer/upload.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();" key="explore.window.file.tool.export.title"><img src="img/explorer/export.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="分享文件" onclick="shownotice('share');" key="explore.window.file.tool.share.title"><img src="img/explorer/share_file.png" alt=""></a>
-						<a class="a b act dsa i18n_t" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;" key="explore.window.file.tool.restore.title"><img src="img/explorer/recovery.png" alt=""></a>
-						<a class="a b act asd i18n_t" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);" key="explore.window.file.tool.delete.title"><img src="img/explorer/delete.png" alt=""></a>
-						<a class="a b act dsa i18n_t" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;" key="explore.window.file.tool.delete1.title"><img src="img/explorer/delete.png" alt=""></a>
-						<a class="a b act dsa i18n_t" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;" key="explore.window.file.tool.clear.title"><img src="img/explorer/clear_rb.png" alt=""></a>
+							onclick="apps.explorer.add($('#win-explorer>.path>.tit')[0].id,type='folder');"><img src="img/explorer/folder.png" alt="folder.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="重命名" onclick="rename_selected();" key="explore.window.file.tool.rename.title"><img src="img/explorer/rename.png" alt="rename.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="移动文件/文件夹" onclick="move_files();" key="explore.window.file.tool.move.title"><img src="img/explorer/move.png" alt="move.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="复制文件" onclick="copy_selected();" key="explore.window.file.tool.copy.title"><img src="img/explorer/new_file.png" alt="new_file.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="上传本地文件" onclick="upload_file();" key="explore.window.file.tool.upload.title"><img src="img/explorer/upload.png" alt="upload.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="导出多个文件或一个文件夹" onclick="apps.explorer.export();" key="explore.window.file.tool.export.title"><img src="img/explorer/export.png" alt="export.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="分享文件" onclick="shownotice('share');" key="explore.window.file.tool.share.title"><img src="img/explorer/share_file.png" alt="share_file.png" loading="lazy"></a>
+						<a class="a b act dsa i18n_t" title="从回收站还原文件" onclick="delete_selected(0, 0, 0);" style="display: none;" key="explore.window.file.tool.restore.title"><img src="img/explorer/recovery.png" alt="recovery.png" loading="lazy"></a>
+						<a class="a b act asd i18n_t" title="删除文件/文件夹" onclick="delete_selected(1, 1, 0);" key="explore.window.file.tool.delete.title"><img src="img/explorer/delete.png" alt="delete.png" loading="lazy"></a>
+						<a class="a b act dsa i18n_t" title="彻底删除文件/文件夹" onclick="delete_selected(0, 0, 1);" style="display: none;" key="explore.window.file.tool.delete1.title"><img src="img/explorer/delete.png" alt="delete.png" loading="lazy"></a>
+						<a class="a b act dsa i18n_t" title="清空回收站" onclick="delete_selected(0, 0, 2);" style="display: none;" key="explore.window.file.tool.clear.title"><img src="img/explorer/clear_rb.png" alt="clear_rb.png" loading="lazy"></a>
 					</div>
 					<div class="content" onclick="" oncontextmenu="return showcm(event,'explorer.content',null);">
 						<div class="header"><input type="checkbox" id="all_files" style="float: left; padding-top: 8px;margin-right: 8px;">
@@ -322,16 +322,16 @@
 	<div class="modal_cover"><div class="modal_gif"></div><progress id="progressBar" value="0" max="100"></progress></div>
 	<div class="window calc">
 		<div class="titbar">
-			<img src="img/calc.svg" class="icon" alt=""><span><span class="title i18n" key="explore.window.menu.calc.title">计算器</span><span class="save-status"></span></span>
+			<img src="img/calc.svg" class="icon" alt="calc.svg" loading="lazy"><span><span class="title i18n" key="explore.window.menu.calc.title">计算器</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red" onclick="hidewin('calc')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" style="pointer-events: none;color: #777;"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('calc')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/calc.svg" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/calc.svg" class="icon" alt="calc.svg" loading="lazy"></div>
 		<div class="content" id="win-calc">
-			<div class="container"><input id="calc-input" readonly="true" value="0" onkeydown="
+			<div class="container"><input id="calc-input" readonly value="0" onkeydown="
 				switch (event.key) {
 					case '+':
 						appCalculator.func_key(1);
@@ -393,7 +393,7 @@
 	<div class="window notepad">
 		<div class="resize-bar"></div>
 		<div class="titbar">
-			<img src="img/notepad.svg" class="icon" alt=""><span><span class="title i18n" key="explore.window.menu.notepad.title">记事本</span><span class="save-status"></span></span>
+			<img src="img/notepad.svg" class="icon" alt="notepad.svg" loading="lazy"><span><span class="title i18n" key="explore.window.menu.notepad.title">记事本</span><span class="save-status"></span></span>
 			<input type="text" id="notepad-length" value="" name="" style="display: none;">
 			<div>
 				<a class="a wbtg red" onclick="hidewin('notepad');"><i class="bi bi-x-lg"></i></a>
@@ -402,7 +402,7 @@
 				<a class="a wbtg export i18n_t" title="转成 HTML 并下载" key="document.window.tool.download.title" onclick="$('#win-notepad>.save').attr('href', window.URL.createObjectURL(new Blob([$('#win-notepad>.text-box').html()])));$('#win-notepad>.save')[0].click();"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/notepad.svg" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/notepad.svg" class="icon" alt="notepad.svg" loading="lazy"></div>
 		<div class="content" id="win-notepad">
 			<div class="text-box" contenteditable="true" spellcheck="false"><p></p></div>
 			<a href="" download="未命名.html" style="opacity: 0;" class="save">另存为</a>
@@ -410,13 +410,13 @@
 	</div>
 	<div class="window python terminal-apps">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python 3.12.1</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt="python.svg" loading="lazy"><span><span class="title">Python 3.12.1</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('python')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('python')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('python')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/python.svg" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/python.svg" class="icon" alt="python.svg" loading="lazy"></div>
 		<div class="content" id="win-python" onmouseup="$('#win-python input').focus();" ontouchend="$('#win-python input').focus();">
             <pre>
 				Python 3.12.1 (main, Jul 26 2024, 14:03:47) [MSC v.1938 64 bit (AMD64)] on win32
@@ -428,20 +428,20 @@
 	</div>
 	<div class="window pythonEditor">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/python.svg" class="icon" alt=""><span><span class="title">Python Editor</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/python.svg" class="icon" alt="python.svg" loading="lazy"><span><span class="title">Python Editor</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('pythonEditor')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('pythonEditor')"><i class="bi bi-dash-lg"></i></a>
 				<a class="a wbtg run" onclick="document.getElementById('iframe_pythonEditor').contentWindow.run();"><i class="bi bi-play"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/python.svg" class="icon"></div>
+		<div class="loadback"><img src="img/python.svg" class="icon" alt="python.svg" loading="lazy"></div>
 		<div class="content" id="win-pythonEditor"><iframe id="iframe_pythonEditor" src=""></iframe></div>
 	</div>
 	<div class="window edge tabs" onmousemove="if(apps.edge.in_div('over-bar',event)||apps.edge.in_div('edge-path-bar',event)||apps.edge.in_div('edge-titbar',event)){null}else{if(apps.edge.fuls){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}}">
 		<div class="resize-bar"></div>
 		<div style="height:3px;width:100%;display: none;" id="over-bar" onmouseover="if(apps.edge.fuls){$('.edge>.titbar').show();$('.edge>.content>.tool').show()}" onmouseleave="if(apps.edge.fuls&&(apps.edge.b1||apps.edge.b2)){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}"></div>
-		<div class="titbar" onmouseleave="apps.edge.b1=false;" onmouseover="apps.edge.b1=true;" id="edge-titbar"><img src="img/edge.svg" class="icon" alt=""><span style="display: none;"><span class="title">Microsoft Edge</span><span class="save-status"></span></span>
+		<div class="titbar" onmouseleave="apps.edge.b1=false;" onmouseover="apps.edge.b1=true;" id="edge-titbar"><img src="img/edge.svg" class="icon" alt="edge.svg" loading="lazy"><span style="display: none;"><span class="title">Microsoft Edge</span><span class="save-status"></span></span>
 			<div class="tabs"></div>
 			<div>
 				<a class="a wbtg red" onclick="document.getElementById('iframe_edge').src = 'about:blank';hidewin('edge')"><i class="bi bi-x-lg"></i></a>
@@ -452,7 +452,7 @@
 			</div>
 		</div>
 		<div class="loadback">
-			<img src="img/edge.svg" class="icon" alt="">
+			<img src="img/edge.svg" class="icon" alt="edge.svg" loading="lazy">
 		</div>
 		<div class="content" id="win-edge">
 			<div class="tool" onmouseleave="apps.edge.b2=false;" onmouseover="apps.edge.b2=true;" id="edge-path-bar">
@@ -490,8 +490,10 @@
 		    </div>
 			<div id="save-bar" style="margin:10px;margin-top: 3px;">
 				<a onclick="apps.edge.goto('https://blog.ihuster.top')" win12_title="博客" class="save-item"><i class="bi bi-file-earmark"></i>博客</a>
+				<a onclick="apps.edge.goto('https://www.musicenc.com')" win12_title="MusicEnc" class="save-item"><i class="bi bi-file-earmark"></i>MusicEnc</a>
 				<a onclick="apps.edge.goto('https://music.txqq.pro')" win12_title="全网音乐免费下载" class="save-item"><i class="bi bi-file-earmark"></i>全网音乐免费下载</a>
 				<a onclick="apps.edge.goto('https://tool.liumingye.cn/music')" win12_title="MyFreeMP3" class="save-item"><i class="bi bi-file-earmark"></i>MyFreeMP3</a>
+				<a onclick="apps.edge.goto('https://cctrax.com')" win12_title="cctrax" class="save-item"><i class="bi bi-file-earmark"></i>free music</a>
 				<a onclick="apps.edge.goto('https://xbeibeix.com/api/bilibili')" win12_title="bilibili" class="save-item"><i class="bi bi-file-earmark"></i>B站视频下载</a>
 			</div>
 			<iframe id="iframe_edge" class="0 show" onmousemove="if(apps.edge.fuls){$('.edge>.titbar').hide();$('.edge>.content>.tool').hide()}"></iframe>
@@ -499,7 +501,7 @@
 	</div>
 	<div class="window whiteboard">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/whiteboard.svg" class="icon" alt=""><span><span class="title">Whiteboard</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/whiteboard.svg" class="icon" alt="whiteboard.svg" loading="lazy"><span><span class="title">Whiteboard</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('whiteboard')"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('whiteboard')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('whiteboard')"><i class="bi bi-dash-lg"></i></a>
@@ -507,7 +509,7 @@
 			</div>
 		</div>
 		<div class="loadback">
-			<img src="img/whiteboard.svg" class="icon" alt="">
+			<img src="img/whiteboard.svg" class="icon" alt="whiteboard.svg" loading="lazy">
 		</div>
 		<div class="content" id="win-whiteboard">
 			<a class="download" href="" download="Picture.png"></a>
@@ -581,10 +583,10 @@
 						</svg>
 					</div>
 					<div class="eraser" onclick="apps.whiteboard.changePen.call(this)" data-color="eraser">
-						<img src="img/whiteboard/marker.png" height="70" alt="">
+						<img src="img/whiteboard/marker.png" height="70" alt="marker.png" loading="lazy">
 					</div>
 					<div class="delete" onclick="apps.whiteboard.delete()">
-						<img src="img/whiteboard/delete.png" height="60" alt="">
+						<img src="img/whiteboard/delete.png" height="60" alt="delete.png" loading="lazy">
 					</div>
 				</div>
 			</div>
@@ -592,7 +594,7 @@
 	</div>
 	<div class="window markdown">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/markdown.png" class="icon" alt=""><span><span class="title">MarkDown</span><span class="save-status"></span></span>
+		<div class="titbar"><img src="img/files/markdown.svg" class="icon" alt="markdown.svg" loading="lazy"><span><span class="title">MarkDown</span><span class="save-status"></span></span>
 			<div>
 				<a class="a wbtg red"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('markdown');"><i class="bi bi-app"></i></a>
@@ -600,40 +602,40 @@
 				<a class="a wbtg export i18n_t" title="导出成HTML" key="document.window.tool.download.title"><i class="bi bi-download"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/markdown.png" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/files/markdown.svg" class="icon" alt="markdown.svg" loading="lazy"></div>
 		<div class="content"><iframe id="iframe_markdown" src=""></iframe></div>
 	</div>
 	<div class="window video" style="width: auto;">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/video.png" class="icon" alt=""><span><span class="title i18n" key="setting.window.videos">视频</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/files/video.svg" class="icon" alt="video.svg" loading="lazy"><span><span class="title i18n" key="setting.window.videos">视频</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="close_video();hidewin('video');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('video')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('video')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/video.png" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/files/video.svg" class="icon" alt="video.svg" loading="lazy"></div>
 		<div class="content" id="win-video"></div>
 	</div>
 	<div class="window picture">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/files/picture.png" class="icon" alt=""><span><span class="title i18n" key="picture">图片</span><span class="save-status"></span></span><div>
+		<div class="titbar"><img src="img/files/picture.svg" class="icon" alt="picture.svg" loading="lazy"><span><span class="title i18n" key="picture">图片</span><span class="save-status"></span></span><div>
 				<a class="a wbtg red" onclick="hidewin('picture');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('picture')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('picture')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/files/picture.png" class="icon" alt=""></div>
-		<div class="content" id="win-image"><img class="my_video" style="object-fit: contain;" src="" alt=""></div>
+		<div class="loadback"><img src="img/files/picture.svg" class="icon" alt="picture.svg" loading="lazy"></div>
+		<div class="content" id="win-image"><img class="my_video" style="object-fit: contain;" src="" alt="picture" loading="lazy"></div>
 	</div>
 	<div class="window game">
 		<div class="resize-bar"></div>
-		<div class="titbar"><img src="img/game.png" class="icon" alt=""><span><span class="title">Game Center</span></span><div>
+		<div class="titbar"><img src="img/game.png" class="icon" alt="game.png" loading="lazy"><span><span class="title">Game Center</span></span><div>
 				<a class="a wbtg red" onclick="hidewin('game');"><i class="bi bi-x-lg"></i></a>
 				<a class="a wbtg max" onclick="maxwin('game')"><i class="bi bi-app"></i></a>
 				<a class="a wbtg" onclick="minwin('game')"><i class="bi bi-dash-lg"></i></a>
 			</div>
 		</div>
-		<div class="loadback"><img src="img/game.png" class="icon" alt=""></div>
+		<div class="loadback"><img src="img/game.png" class="icon" alt="game.png" loading="lazy"></div>
 		<div class="content" id="win-game"><iframe id="iframe_game" src=""></iframe></div>
 	</div>
 	<script type="text/javascript">

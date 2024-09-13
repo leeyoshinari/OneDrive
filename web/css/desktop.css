@@ -699,6 +699,7 @@ list:not(.new)>a:active,
 #desktop>div {
     width: 88px;
     height: 87px;
+    cursor: pointer;
     text-overflow: ellipsis;
     border-radius: 5px;
     text-align: center;

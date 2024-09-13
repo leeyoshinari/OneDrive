@@ -52,6 +52,11 @@ def beauty_time(duration):
         return f"{hour:02}:{minute:02}:{second:02}"
 
 
+def beauty_mp3_time(duration):
+    minute, second = divmod(int(duration), 60)
+    return f"{minute:02}:{second:02}"
+
+
 def modify_prefix(prefix='/mycloud'):
     if os.path.exists('web/head.js'):
         with open('web/head.js', 'r', encoding='utf-8') as f:

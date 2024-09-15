@@ -139,6 +139,6 @@ async def login(query: models.UserBase, request: Request, response: Response):
 
 @router.get("/logout", summary="Logout (退出登陆)")
 async def logout(hh: models.SessionBase = Depends(auth)):
-    settings.TOKENs.pop(hh['u'], 0)
+    settings.TOKENs.pop(hh.username, 0)
     logger.info(f"{Msg.Logout.get_text(hh.lang).format(hh.username)}{Msg.Success.get_text(hh.lang)}, IP: {hh.ip}")
     return Result()

@@ -73,9 +73,13 @@ async def get_all_files(parent_id: str, query: models.SearchItems, hh: models.Se
             files = await models.Files.filter(is_delete=1).select_related('parent').order_by(order_type)
             folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789')) and f"/{hh.username}" in await f.get_all_path()]
             file_list = [models.FileList.from_orm_format(f).dict() for f in files if f"/{hh.username}" in await f.parent.get_all_path()]
-        elif parent_id == 'search':
-            folders = await models.Catalog.filter(Q(is_delete=0) & Q(name__contains=query.q)).order_by(order_type)
-            files = await models.Files.filter(Q(is_delete=0) & Q(name__contains=query.q)).select_related('parent').order_by(order_type)
+        elif query.q:
+            if parent_id == 'search':
+                folders = await models.Catalog.filter(Q(is_delete=0) & Q(name__contains=query.q)).order_by(order_type)
+                files = await models.Files.filter(Q(is_delete=0) & Q(name__contains=query.q)).select_related('parent').order_by(order_type)
+            else:
+                folders = await models.Catalog.filter(Q(parent_id=parent_id) & Q(is_delete=0) & Q(name__contains=query.q)).order_by(order_type)
+                files = await models.Files.filter(Q(parent_id=parent_id) & Q(is_delete=0) & Q(name__contains=query.q)).select_related('parent').order_by(order_type)
             folder_list = [models.FolderList.from_orm_format(f).dict() for f in folders if f.id.startswith(tuple('123456789')) and f"/{hh.username}" in await f.get_all_path()]
             file_list = [models.FileList.from_orm_format(f).dict() for f in files if f"/{hh.username}" in await f.parent.get_all_path()]
         else:

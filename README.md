@@ -8,12 +8,17 @@ Windows-style personal cloud-drive with supporting online editing.
 ## Function
 - Create, Delete, Rename, Move, and Export folders
 - Upload, Download, Create, Delete, Move, Rename, and Share files
-- Supports online editing functions of txt, markdown, xmind
+- Supports OnlyOffice (Word, Excel, PowerPoint) online editing and multi-user collaborative editing
+- Supports online editing functions of txt, markdown, xmind, sheet, and document
 - Support online editing and running of python scripts
+- Support add desktop shortcuts for files
+- Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
-- Add game center, support Snake games (plans to support more games in the future).
+- Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
+- Add game center, support Snake, tetris games (plans to support more games in the future).
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
+- Support PWA, it can be installed on the mobile
 - Multiple disks can be mounted arbitrarily
 
 View detailed page style, [Please click me.](https://github.com/leeyoshinari/OneDrive/blob/main/web/detail.md)

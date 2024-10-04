@@ -2267,12 +2267,7 @@ document.getElementById('search-file').addEventListener("keyup", function (event
                     sort_type = item.className;
                 }
             })
-            let pathIdList = $('#win-explorer>.path>.tit')[0].id.split('/')
-            let parent_id = pathIdList[pathIdList.length - 1]
-            if (!parent_id || parent_id === '' || parent_id === 'undefined') {
-                parent_id = "search";
-            }
-            let tmp = queryAllFiles(parent_id, q.trim(), sort_field, sort_type);
+            let tmp = queryAllFiles("search", q.trim(), sort_field, sort_type);
             if (tmp.length === 0) {
                 $('#win-explorer>.page>.main>.content>.header')[0].style.display = 'none';
                 $('#win-explorer>.page>.main>.content>.view')[0].innerHTML = '<p class="info">搜索结果为空。</p>';

@@ -8,8 +8,9 @@
 - Support add desktop shortcuts for files
 - Support remote connection to Linux server
 - Music player, supports playing music from this cloud-drive (Server) and local (Client)
+- Karaoke, supports building your own song library
 - Integrate aria2, and support multiple download protocols such as HTTP, FTP, BitTorrent, etc.
-- Add game center, support Snake, tetris games (plans to support more games in the future).
+- Add game center, supports Snake, tetris games (plans to support more games in the future).
 - Supports multiple languages and supports configuration of multiple languages
 - Single sign-on, data of different users is completely isolated
 - Support PWA, it can be installed on the mobile

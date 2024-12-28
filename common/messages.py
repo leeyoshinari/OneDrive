@@ -107,6 +107,10 @@ class Msg:
     ModifyPwd.zh_CN = "{} 密码修改"
     ModifyPwd.en = "{} modify password"
 
+    ModifyStr = MsgObj()
+    ModifyStr.zh_CN = "{} 修改"
+    ModifyStr.en = "{} modify"
+
     DownloadError = MsgObj()
     DownloadError.zh_CN = "文件下载失败，请重试"
     DownloadError.en = "File download failed, please try again."

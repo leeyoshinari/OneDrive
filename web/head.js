@@ -1,5 +1,6 @@
 const server = '/mycloud';
 localStorage.setItem('server', server);
+let nickName = '';
 function change_language(flag) {
     if (flag === 0){
         lang = $('#loginback>div>select')[0].value;
@@ -21,6 +22,7 @@ function get_status() {
         url: server + '/user/status',
         success: function (data) {
             if (data['code'] === 0) {
+                nickName = data['data'];
                 $('#loginback').css('opacity', '0');
                 $('#loginback').css('display', 'none');
                 $('#dock-box').css('display', 'flex');

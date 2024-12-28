@@ -34,6 +34,9 @@
   "setting.window.account.modify.pwd.tips": "修改系统登录密码",
   "setting.window.account.modify.new.pwd": "输入新密码：",
   "setting.window.account.modify.new.pwd.again": "再次输入新密码：",
+  "setting.window.account.modify.nickname": "修改昵称",
+  "setting.window.account.modify.nickname.tips": "修改账号昵称",
+  "setting.window.account.modify.new.nickname": "请输入昵称：",
   "setting.window.account.logout": "退出登录",
   "setting.window.appearance": "个性化",
   "setting.window.appearance.background.image": "设置背景图片",
@@ -192,6 +195,7 @@
   "msg.upload.file.image.error1": "只支持 jpg/jpeg 的图片 ~",
   "msg.modify.password.error1": "两次输入的密码不一样 ~",
   "msg.modify.password.error2": "请输入密码 ~",
+  "msg.modify.nickname.error": "请输入昵称 ~",
   "msg.server.add.error1": "请输入服务器信息 ~",
 
   "game": "游戏中心",

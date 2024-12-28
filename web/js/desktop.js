@@ -391,7 +391,8 @@ let apps = {
             $('#win-setting>.menu>list>a.check').removeClass('check');
             $('#win-setting>.menu>list>a.' + name).addClass('check');
             if (name === 'user') {
-                $('#win-setting>.page>.cnt.user>div>a>div>p')[0].innerText = document.cookie.split('u=')[1].split(';')[0];
+                $('#win-setting>.page>.cnt.user>div>a>div>p')[0].innerText = nickName;
+                $('#win-setting>.page>.cnt.user>div>a>div>p')[1].innerText = document.cookie.split('u=')[1].split(';')[0];
             }
         },
     },
@@ -1509,7 +1510,7 @@ function openapp(name) {
     apps[tmp].init();
     $('.window.' + name).removeClass('load');
     if (name === 'setting') {
-        $('#win-setting>.menu>.user>div>p')[0].innerText = document.cookie.split('u=')[1].split(';')[0];
+        $('#win-setting>.menu>.user>div>p')[0].innerText = nickName;
     }
 }
 // 窗口操作
@@ -2678,6 +2679,26 @@ function modify_pwd() {
         contentType: 'application/json',
         success: function (data) {
             if (data['code'] === 0) {
+                $.Toast(data['msg'], 'success');
+            } else {
+                $.Toast(data['msg'], 'error');
+            }
+        }
+    })
+}
+
+function modify_nickname() {
+    let nickname = $('#setting-nickname')[0].value.trim();
+    if (!nickname) {
+        $.Toast(i18next.t('msg.modify.nickname.error'), "error");
+        return;
+    }
+    $.ajax({
+        type: 'GET',
+        url: server + '/user/modify/nickname/' + nickname,
+        success: function (data) {
+            if (data['code'] === 0) {
+                nickName = data['data'];
                 $.Toast(data['msg'], 'success');
             } else {
                 $.Toast(data['msg'], 'error');

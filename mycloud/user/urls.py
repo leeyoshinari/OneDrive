@@ -29,11 +29,12 @@ async def get_status(request: Request):
     token = request.cookies.get("token", None)
     if not username or username not in settings.TOKENs or token != settings.TOKENs[username]:
         return Result(code=-1)
-    return Result()
+    user = await models.User.get(username=username)
+    return Result(data=user.nickname)
 
 
 @router.get("/test/createUser", summary="Create user (创建用户)")
-async def create_user(username: str, password: str, password1: str, request: Request):
+async def create_user(username: str, nickname: str, password: str, password1: str, request: Request):
     result = Result()
     lang = request.headers.get('lang', 'en')
     try:
@@ -53,7 +54,7 @@ async def create_user(username: str, password: str, password1: str, request: Req
             return result
         async with transactions.in_transaction():
             password = str_md5(password)
-            user = await models.User.create(username=username, password=password)
+            user = await models.User.create(nickname=nickname, username=username, password=password)
             for k, v in root_path.items():
                 folder = await models.Catalog.filter(id=k)
                 if not folder:
@@ -97,6 +98,23 @@ async def modify_pwd(query: models.CreateUser, hh: models.SessionBase = Depends(
     return result
 
 
+@router.get("/modify/nickname/{nickname}", summary="Modify nickname (修改昵称)")
+async def modify_pwd(nickname: str, hh: models.SessionBase = Depends(auth)):
+    result = Result()
+    try:
+        user = await models.User.get(username=hh.username)
+        user.nickname = nickname
+        await user.save()
+        result.data = nickname
+        result.msg = f"{Msg.ModifyStr.get_text(hh.lang).format(user.nickname)}{Msg.Success.get_text(hh.lang)}"
+        logger.info(Msg.CommonLog.get_text(hh.lang).format(result.msg, hh.username, hh.ip))
+    except:
+        result.code = 1
+        result.msg = f"{Msg.ModifyStr.get_text(hh.lang).format(hh.username)}{Msg.Failure.get_text(hh.lang)}"
+        logger.error(traceback.format_exc())
+    return result
+
+
 @router.post("/login", summary="Login (用户登陆)")
 async def login(query: models.UserBase, request: Request, response: Response):
     result = Result()
@@ -114,12 +132,13 @@ async def login(query: models.UserBase, request: Request, response: Response):
                 user_path = os.path.join(v, user.username)
                 if not os.path.exists(user_path):
                     os.mkdir(user_path)
-            pwd_str = f'{time.time()}_{user.username}_{int(time.time())}'
+            pwd_str = f'{time.time()}_{user.username}_{int(time.time())}_{user.nickname}'
             token = str_md5(pwd_str)
             settings.TOKENs.update({user.username: token})
             response.set_cookie('u', user.username)
             response.set_cookie('t', str(int(time.time() / 1000)))
             response.set_cookie('token', token)
+            result.data = user.nickname
             result.msg = f"{Msg.Login.get_text(lang).format(user.username)}{Msg.Success.get_text(lang)}"
             logger.info(f"{result.msg}, IP: {request.headers.get('x-real-ip', '')}")
         else:

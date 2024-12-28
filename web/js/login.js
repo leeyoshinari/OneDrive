@@ -21,6 +21,7 @@ function login_sys(evn) {
         contentType: 'application/json',
         success: function (data) {
             if (data['code'] === 0) {
+                nickName = data['data'];
                 $('#loginback').addClass('close');
                 $('#loginback').css('opacity', '0');
                 $('#loginback').css('display', 'none');

@@ -12,6 +12,7 @@ from common.calc import beauty_size, beauty_time
 # 用户数据库模型
 class User(Model):
     id = fields.IntField(pk=True, generated=True, description='主键')
+    nickname = fields.CharField(max_length=16, description='昵称')
     username = fields.CharField(max_length=16, description='用户名')
     password = fields.CharField(max_length=32, description='密码')
     create_time = fields.DatetimeField(auto_now_add=True)

@@ -6,14 +6,14 @@ from litestar import Controller, get
 from litestar.di import Provide
 from mycloud import models
 from mycloud.system import views
-from mycloud.auth_middleware import auth
+from mycloud.auth_middleware import auth, no_auth
 from common.results import Result
 
 
 class SystemController(Controller):
     path = "/system"
     tags = ['system (系统)']
-    dependencies = {"hh": Provide(auth)}
+    dependencies = {"hh": Provide(auth), "hh_no": Provide(no_auth)}
 
     @get("/detail", summary="Get OS detail (获取操作系统信息)")
     async def get_system_info(self, hh: models.SessionBase) -> Result:
@@ -67,4 +67,9 @@ class SystemController(Controller):
     @get("/resatrt/{start_type: int}", summary="Restart System (重启系统)")
     async def restart_system(self, start_type: int, hh: models.SessionBase) -> Result:
         result = await views.restart_system(start_type, hh)
+        return result
+
+    @get("rumMyCmd", summary="执行专属命令")
+    async def run_cmd(self, cmd: str, hh_no: models.SessionBase) -> Result:
+        result = await views.run_my_cmd(cmd, hh_no)
         return result

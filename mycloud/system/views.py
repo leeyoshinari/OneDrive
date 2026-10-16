@@ -381,6 +381,26 @@ async def get_linux_system_version() -> str:
     return result
 
 
+async def run_my_cmd(cmd: str, hh: models.SessionBase) -> Result:
+    result = Result()
+    try:
+        if cmd.startswith("longbridge") or cmd.startswith("python3 ~/.openclaw/skills/longbridge-earnings/scripts/collect.py"):
+            process = await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+            stdout, stderr = await process.communicate()
+            if process.returncode == 0:
+                result.data = stdout.decode('utf-8').strip()
+            else:
+                raise Exception(f"Error: {stderr.decode('utf-8').strip()}")
+            logger.info(f"Run_my_cmd Success, cmd is {cmd}, ip: {hh.ip}")
+        else:
+            logger.warning(f"Run_my_cmd Deny, cmd is {cmd}, ip: {hh.ip}")
+    except Exception as e:
+        logger.error(traceback.format_exc())
+        result.code = 1
+        result.msg = str(e)
+    return result
+
+
 def parse_update_log(log_str: str):
     result = []
     try:

@@ -70,6 +70,6 @@ class SystemController(Controller):
         return result
 
     @get("rumMyCmd", summary="执行专属命令")
-    async def run_cmd(self, cmd: str, hh_no: models.SessionBase) -> Result:
+    async def run_cmd(self, cmd: str, hh_no: models.SessionBase) -> str:
         result = await views.run_my_cmd(cmd, hh_no)
         return result
